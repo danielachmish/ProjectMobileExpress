@@ -1,0 +1,42 @@
+﻿using BLL;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Web.Http;
+
+
+
+
+
+namespace MobileExpress.controllers
+{
+	public class AdministratorsControllers : ApiController
+	{
+		public void Post(Administrators Tmp)
+		{
+			Tmp.AdminId = -1;
+			Tmp.save();
+		}
+
+		public void put(int Id, Administrators Tmp)
+		{
+			Tmp.AdminId = Id;
+			Tmp.save();
+		}
+
+		public List<Administrators> Get()
+		{
+			return Administrators.GetAll();
+		}
+
+		public string Get(int Id)
+		{
+			return JsonConvert.SerializeObject(Administrators.GetById());
+
+		}
+
+		public string Delete(int Id)
+		{
+			return $"Administrator deleted{Id}";
+		}
+	}
+}
