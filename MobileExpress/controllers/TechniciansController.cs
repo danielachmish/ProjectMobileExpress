@@ -2,61 +2,93 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+using System.Diagnostics;
 using System.Web.Http;
 
-namespace MobileExpress.controllers
+namespace MobileExpress.Controllers
 {
+    [RoutePrefix("api/v1/Technicians")]
     public class TechniciansController : ApiController
     {
-        public void Post(Technicians Tmp)
+        [HttpPost]
+        [Route("")]
+        public IHttpActionResult Post(Technicians Tmp)
         {
-            // בדוק ש-`Tmp` אינו `null` לפני גישה לפרופרטים שלו
             if (Tmp != null)
             {
-                // הגדרת מזהה חדש
                 Tmp.TecId = -1;
-                // שמירה
                 Tmp.Save();
+                return Ok(new { success = true, message = "Technician added successfully" });
             }
             else
             {
-                // טיפול במקרה בו `Tmp` הוא `null`
-                // ניתן לזרוק חריגה, לרשום שגיאה או לטפל בזה לפי הלוגיקה של היישום שלך
-                // לדוגמה: throw new ArgumentNullException("Tmp", "אובייקט Tmp הוא null");
+                Debug.WriteLine("Received null Tmp in POST method.");
+                return BadRequest("Received null Tmp");
             }
         }
-        // עדכון לקוח קיים
 
-        public void Put(int Id, Technicians Tmp)
+        [HttpPut]
+        [Route("{Id:int}")]
+        public IHttpActionResult Put(int Id, Technicians Tmp)
         {
-            // הגדרת מזהה לקוח לפי הקלט
-            Tmp.TecId = Id;
-            // שמירת לקוח
-            Tmp.Save();
+            if (Tmp != null)
+            {
+                Tmp.TecId = Id;
+                Tmp.Save();
+                return Ok(new { success = true, message = "Technician updated successfully" });
+            }
+            else
+            {
+                Debug.WriteLine("Received null Tmp in PUT method.");
+                return BadRequest("Received null Tmp");
+            }
         }
 
-        // אחזור רשימת כל הלקוחות
-        public List<Technicians> Get()
+        [HttpGet]
+        [Route("")]
+        public IHttpActionResult Get()
         {
-            return Technicians.GetAll();
-        }
-        // אחזור לקוח לפי מזהה
-        public string Get(int Id)
-        {
-            return JsonConvert.SerializeObject(Technicians.GetById(Id));
-
+            var technicians = Technicians.GetAll();
+            return Ok(technicians);
         }
 
-        // מחיקת לקוח לפי מזהה
-        public string Delete(int Id)
+        [HttpGet]
+        [Route("{Id:int}")]
+        public IHttpActionResult Get(int Id)
         {
-
-            Technicians.DeleteById(Id);
-
-            return $"Technicians deleted{Id}";
+            var technician = Technicians.GetById(Id);
+            if (technician == null)
+            {
+                return NotFound();
+            }
+            return Ok(technician);
         }
+
+        [HttpDelete]
+        [Route("{Id:int}")]
+        public IHttpActionResult Delete(int Id)
+        {
+            try
+            {
+                Debug.WriteLine($"Received DELETE request for technician ID: {Id}");
+                int result = Technicians.DeleteById(Id);
+                if (result > 0)
+                {
+                    Debug.WriteLine($"Technician with ID {Id} deleted successfully.");
+                    return Ok(new { success = true, message = $"Technician with ID {Id} deleted" });
+                }
+                else
+                {
+                    Debug.WriteLine($"Failed to delete technician with ID: {Id}");
+                    return BadRequest("Unable to delete the technician.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception in DELETE method: {ex.Message}");
+                return InternalServerError(ex);
+            }
+        }
+
     }
 }

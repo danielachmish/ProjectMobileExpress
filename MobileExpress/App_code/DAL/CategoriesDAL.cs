@@ -18,7 +18,7 @@ namespace DAL
 			if (Tmp.CatId == -1)
 			{
 				sql = "insert into T_Categories(CatName,DateAdd,Status)" +
-					$"Values(@CatName,@DateAdd,@Status,";
+					$"Values(@CatName,@DateAdd,@Status)";
 			}
 			else
 			{

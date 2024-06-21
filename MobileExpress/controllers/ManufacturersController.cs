@@ -11,6 +11,7 @@ namespace MobileExpress.controllers
 {
     public class ManufacturersController : ApiController
     {
+        [HttpPost]
         public void Post(Manufacturers Tmp)
         {
             // בדוק ש-`Tmp` אינו `null` לפני גישה לפרופרטים שלו
@@ -24,12 +25,13 @@ namespace MobileExpress.controllers
             else
             {
                 // טיפול במקרה בו `Tmp` הוא `null`
-                // ניתן לזרוק חריגה, לרשום שגיאה או לטפל בזה לפי הלוגיקה של היישום שלך
-                // לדוגמה: throw new ArgumentNullException("Tmp", "אובייקט Tmp הוא null");
+                throw new ArgumentNullException("Tmp", "אובייקט Tmp הוא null");
             }
         }
-        // עדכון לקוח קיים
 
+        // עדכון לקוח קיים
+        [HttpPut]
+        
         public void Put(int Id, Manufacturers Tmp)
         {
             // הגדרת מזהה לקוח לפי הקלט
@@ -39,24 +41,25 @@ namespace MobileExpress.controllers
         }
 
         // אחזור רשימת כל הלקוחות
+        [HttpGet]
         public List<Manufacturers> Get()
         {
             return Manufacturers.GetAll();
         }
+
         // אחזור לקוח לפי מזהה
+        [HttpGet]
         public string Get(int Id)
         {
             return JsonConvert.SerializeObject(Manufacturers.GetById(Id));
-
         }
 
         // מחיקת לקוח לפי מזהה
+        [HttpDelete]
         public string Delete(int Id)
         {
-
             Manufacturers.DeleteById(Id);
-
-            return $"Manufacturers deleted{Id}";
+            return $"Manufacturers deleted {Id}";
         }
     }
 }
