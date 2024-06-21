@@ -48,7 +48,7 @@ namespace DAL
 			Db.Close();
 		}
 		// אחזור כל המשתמשים
-		public static List<Administrators> GetAll()	
+		public static List<Administrators> GetAll()
 		{
 			List<Administrators> AdministratorsList = new List<Administrators>();
 			string sql = "Select * from T_Administrators";
@@ -70,16 +70,16 @@ namespace DAL
 						DateAdd = DateTime.Parse(Dt.Rows[i]["DateAdd"].ToString()),
 						Status = false,  // המרה בשלושה חלקים
 						Email = Dt.Rows[i]["Email"].ToString(),
-            };
+					};
 
 					// המרת ערך ה-Status לבוליאני
 					bool status;
-				if (bool.TryParse(Dt.Rows[i]["Status"].ToString(), out status))
-				{
-					Tmp.Status = status;
-				}
-				else
-				{
+					if (bool.TryParse(Dt.Rows[i]["Status"].ToString(), out status))
+					{
+						Tmp.Status = status;
+					}
+					else
+					{
 						// טיפול בכשל בהמרה - הגדרת ערך ברירת מחדל או תיעוד הבעיה
 						// Tmp.Status = false; // הגדרת ערך ברירת מחדל או טיפול בהתאם לצורך
 					}
@@ -98,7 +98,7 @@ namespace DAL
 				Db.Close();
 			}
 
-		return AdministratorsList;
+			return AdministratorsList;
 		}
 		// אחזור לפי זיהוי
 		public static Administrators GetById(int Id)
@@ -118,7 +118,7 @@ namespace DAL
 					Uname = Dt.Rows[0]["Uname"].ToString(),
 					Pass = Dt.Rows[0]["Pass"].ToString(),
 					DateAdd = DateTime.Parse(Dt.Rows[0]["DateAdd"].ToString()),
-					Status = Convert.ToBoolean(Dt.Rows[0]["Status"]), 
+					Status = Convert.ToBoolean(Dt.Rows[0]["Status"]),
 					Email = Dt.Rows[0]["Email"].ToString(),
 				};
 			}
@@ -139,7 +139,7 @@ namespace DAL
 			}
 			else
 			{
-				return -1; 
+				return -1;
 			}
 		}
 	}

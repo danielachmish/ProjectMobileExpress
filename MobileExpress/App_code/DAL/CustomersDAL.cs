@@ -21,7 +21,7 @@ namespace DAL
 			}
 			else
 			{
-				sql = $"Update T_Customers set FullName=@FullName,Phone=@Phone,Addres=@Addres,Uname=@Uname,Pass=@Pass,Status=@Status,History=@History,Nots=@Nots,CityId=@CityId where CusId=@CusId";
+				sql = $"Update T_Customers set FullName=@FullName,Phone=@Phone,Addres=@Addres,Uname=@Uname,Pass=@Pass,DateAdd=@DateAdd,Status=@Status,History=@History,Nots=@Nots,CityId=@CityId where CusId=@CusId";
 			}
 
 			DbContext Db = new DbContext();
@@ -33,6 +33,7 @@ namespace DAL
 				Addres = Tmp.Addres,
 				Uname = Tmp.Uname,
 				Pass = Tmp.Pass,
+				DateAdd = Tmp.DateAdd,
 				Status = Tmp.Status,
 				History = Tmp.History,
 				Nots = Tmp.Nots,

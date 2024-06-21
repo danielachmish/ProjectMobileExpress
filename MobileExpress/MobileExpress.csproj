@@ -43,12 +43,102 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Authentication.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authentication.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authentication.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authentication.Core.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authorization, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authorization.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authorization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authorization.Policy, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authorization.Policy.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authorization.Policy.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Server.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Extensions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Extensions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Core.2.2.5\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.ResponseCaching.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Routing.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Routing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Routing.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Routing.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.WebUtilities, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.WebUtilities.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.WebUtilities.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.DotNet.PlatformAbstractions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.DotNet.PlatformAbstractions.2.1.0\lib\net45\Microsoft.DotNet.PlatformAbstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.2.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyModel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyModel.2.1.0\lib\net451\Microsoft.Extensions.DependencyModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Hosting.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.ObjectPool, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.ObjectPool.2.2.0\lib\netstandard2.0\Microsoft.Extensions.ObjectPool.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Mvc.JQuery.DataTables, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mvc.JQuery.DataTables.1.5.56\lib\net451\Mvc.JQuery.DataTables.dll</HintPath>
+    </Reference>
+    <Reference Include="Mvc.JQuery.DataTables.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mvc.JQuery.DataTables.Common.1.5.56\lib\net451\Mvc.JQuery.DataTables.Common.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -59,8 +149,25 @@
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Common, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.Common.4.3.0\lib\net451\System.Data.Common.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.SqlClient, Version=4.6.1.6, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.8.6\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Linq.Dynamic.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=0f07ec44de6ac832, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.Core.1.0.7.5\lib\net46\System.Linq.Dynamic.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
@@ -76,6 +183,14 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -85,11 +200,30 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Http, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.3.0\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.3.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
@@ -99,8 +233,315 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\Styles.css" />
+    <Content Include="Manage\CusList.aspx" />
     <Content Include="Content\Site.css" />
+    <Content Include="assets\css\bootstrap-rtl.css" />
+    <Content Include="assets\css\bootstrap-rtl.min.css" />
+    <Content Include="assets\css\plugins\animate.css" />
+    <Content Include="assets\css\plugins\animate.min.css" />
+    <Content Include="assets\css\plugins\animate.scss\animate.css" />
+    <Content Include="assets\css\plugins\animate.scss\animate.min.css" />
+    <Content Include="assets\css\plugins\apexcharts.css" />
+    <Content Include="assets\css\plugins\apexcharts.min.css" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\bootstrap-grid.css" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\bootstrap-grid.min.css" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\bootstrap-reboot.css" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\bootstrap-reboot.min.css" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\bootstrap.css" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\bootstrap.min.css" />
+    <Content Include="assets\css\plugins\bootstrap\bootstrap-grid.css" />
+    <Content Include="assets\css\plugins\bootstrap\bootstrap-grid.min.css" />
+    <Content Include="assets\css\plugins\bootstrap\bootstrap-reboot.css" />
+    <Content Include="assets\css\plugins\bootstrap\bootstrap-reboot.min.css" />
+    <Content Include="assets\css\plugins\bootstrap\bootstrap.css" />
+    <Content Include="assets\css\plugins\bootstrap\bootstrap.min.css" />
+    <Content Include="assets\css\plugins\calendar\datepiker.min.css" />
+    <Content Include="assets\css\plugins\calendar\fullcalendar.min.css" />
+    <Content Include="assets\css\plugins\calendar\fullcalendar.print.min.css" />
+    <Content Include="assets\css\plugins\cropper.min.css" />
+    <Content Include="assets\css\plugins\datatables.min.css" />
+    <Content Include="assets\css\plugins\dropzone.min.css" />
+    <Content Include="assets\css\plugins\fontawesome-5.css" />
+    <Content Include="assets\css\plugins\fontawesome-5.min.css" />
+    <Content Include="assets\css\plugins\hopscotch.css" />
+    <Content Include="assets\css\plugins\hopscotch.min.css" />
+    <Content Include="assets\css\plugins\jstree.min.css" />
+    <Content Include="assets\css\plugins\ladda-themeless.min.css" />
+    <Content Include="assets\css\plugins\metisMenu.min.css" />
+    <Content Include="assets\css\plugins\nuslider.min.css" />
+    <Content Include="assets\css\plugins\perfect-scrollbar.css" />
+    <Content Include="assets\css\plugins\perfect-scrollbar.min.css" />
+    <Content Include="assets\css\plugins\pickadate\classic.css" />
+    <Content Include="assets\css\plugins\pickadate\classic.date.css" />
+    <Content Include="assets\css\plugins\pickadate\classic.date.min.css" />
+    <Content Include="assets\css\plugins\pickadate\classic.min.css" />
+    <Content Include="assets\css\plugins\pickadate\classic.time.css" />
+    <Content Include="assets\css\plugins\pickadate\classic.time.min.css" />
+    <Content Include="assets\css\plugins\pickadate\default.css" />
+    <Content Include="assets\css\plugins\pickadate\default.date.css" />
+    <Content Include="assets\css\plugins\pickadate\default.date.min.css" />
+    <Content Include="assets\css\plugins\pickadate\default.min.css" />
+    <Content Include="assets\css\plugins\pickadate\default.time.css" />
+    <Content Include="assets\css\plugins\pickadate\default.time.min.css" />
+    <Content Include="assets\css\plugins\pickadate\rtl.css" />
+    <Content Include="assets\css\plugins\pickadate\rtl.min.css" />
+    <Content Include="assets\css\plugins\quill.bubble.css" />
+    <Content Include="assets\css\plugins\quill.bubble.min.css" />
+    <Content Include="assets\css\plugins\quill.snow.css" />
+    <Content Include="assets\css\plugins\quill.snow.min.css" />
+    <Content Include="assets\css\plugins\smart.wizard\smart_wizard.css" />
+    <Content Include="assets\css\plugins\smart.wizard\smart_wizard.min.css" />
+    <Content Include="assets\css\plugins\smart.wizard\smart_wizard_theme_arrows.css" />
+    <Content Include="assets\css\plugins\smart.wizard\smart_wizard_theme_arrows.min.css" />
+    <Content Include="assets\css\plugins\smart.wizard\smart_wizard_theme_circles.css" />
+    <Content Include="assets\css\plugins\smart.wizard\smart_wizard_theme_circles.min.css" />
+    <Content Include="assets\css\plugins\smart.wizard\smart_wizard_theme_dots.css" />
+    <Content Include="assets\css\plugins\smart.wizard\smart_wizard_theme_dots.min.css" />
+    <Content Include="assets\css\plugins\sweetalert2.min.css" />
+    <Content Include="assets\css\plugins\toastr.css" />
+    <Content Include="assets\css\plugins\toastr.min.css" />
+    <Content Include="assets\css\themes\dark-purple.css" />
+    <Content Include="assets\css\themes\dark-purple.min.css" />
+    <Content Include="assets\css\themes\lite-blue.css" />
+    <Content Include="assets\css\themes\lite-blue.min.css" />
+    <Content Include="assets\css\themes\lite-purple.css" />
+    <Content Include="assets\css\themes\lite-purple.min.css" />
+    <Content Include="assets\css\third-party.bundle.css" />
+    <Content Include="assets\fonts\iconsmind\iconsmind.css" />
+    <Content Include="assets\fonts\iconsmind\iconsmind.svg" />
+    <Content Include="assets\images\Angular_Icon.png" />
+    <Content Include="assets\images\bg-1.png" />
+    <Content Include="assets\images\bootstrap-logo.png" />
+    <Content Include="assets\images\checkmark.svg" />
+    <Content Include="assets\images\close.svg" />
+    <Content Include="assets\images\danger.svg" />
+    <Content Include="assets\images\faces\1.jpg" />
+    <Content Include="assets\images\faces\10.jpg" />
+    <Content Include="assets\images\faces\12.jpg" />
+    <Content Include="assets\images\faces\13.jpg" />
+    <Content Include="assets\images\faces\15.jpg" />
+    <Content Include="assets\images\faces\16.jpg" />
+    <Content Include="assets\images\faces\17.jpg" />
+    <Content Include="assets\images\faces\2.jpg" />
+    <Content Include="assets\images\faces\3.jpg" />
+    <Content Include="assets\images\faces\4.jpg" />
+    <Content Include="assets\images\faces\5.jpg" />
+    <Content Include="assets\images\faces\9.jpg" />
+    <Content Include="assets\images\gull-large-sidebar.png" />
+    <Content Include="assets\images\Html_Icon.png" />
+    <Content Include="assets\images\info.svg" />
+    <Content Include="assets\images\laravel-logo.png" />
+    <Content Include="assets\images\logo-text.png" />
+    <Content Include="assets\images\logo.png" />
+    <Content Include="assets\images\mac_book.jpg" />
+    <Content Include="assets\images\master-card.png" />
+    <Content Include="assets\images\page-bg-bottom.png" />
+    <Content Include="assets\images\paypal.png" />
+    <Content Include="assets\images\photo-long-1.jpg" />
+    <Content Include="assets\images\photo-long-2.jpg" />
+    <Content Include="assets\images\photo-long-3.jpg" />
+    <Content Include="assets\images\photo-long-4.jpg" />
+    <Content Include="assets\images\photo-wide-1.jpg" />
+    <Content Include="assets\images\photo-wide-2.jpg" />
+    <Content Include="assets\images\photo-wide-3.jpg" />
+    <Content Include="assets\images\photo-wide-4.jpg" />
+    <Content Include="assets\images\photo-wide-5.jpeg" />
+    <Content Include="assets\images\products\cloud-346710_1280.png" />
+    <Content Include="assets\images\products\headphone-1.jpg" />
+    <Content Include="assets\images\products\headphone-2.jpg" />
+    <Content Include="assets\images\products\headphone-3.jpg" />
+    <Content Include="assets\images\products\headphone-4.jpg" />
+    <Content Include="assets\images\products\iphone-1.jpg" />
+    <Content Include="assets\images\products\iphone-2.jpg" />
+    <Content Include="assets\images\products\speaker-1.jpg" />
+    <Content Include="assets\images\products\speaker-2.jpg" />
+    <Content Include="assets\images\products\watch-1.jpg" />
+    <Content Include="assets\images\products\watch-2.jpg" />
+    <Content Include="assets\images\products\weather-2.jpg" />
+    <Content Include="assets\images\products\weather.jpg" />
+    <Content Include="assets\images\ps.png" />
+    <Content Include="assets\images\Sass_icon.png" />
+    <Content Include="assets\images\screenshots\dashboard.v1.png" />
+    <Content Include="assets\images\screenshots\dashboard.v2.png" />
+    <Content Include="assets\images\screenshots\gull-classic-sidebar.png" />
+    <Content Include="assets\images\screenshots\gull-compact-sidebar.png" />
+    <Content Include="assets\images\screenshots\gull-horizontal-nav.png" />
+    <Content Include="assets\images\screenshots\gull-large-sidebar.png" />
+    <Content Include="assets\images\screenshots\localhost_3000_html_layout2_dashboard1.html.png" />
+    <Content Include="assets\images\screenshots\localhost_3000_html_layout3_dashboard1.html.png" />
+    <Content Include="assets\images\screenshots\localhost_3000_html_layout4_dashboard1.html.png" />
+    <Content Include="assets\images\screenshots\tinified\dashboard.v1.png" />
+    <Content Include="assets\images\screenshots\tinified\dashboard.v2.png" />
+    <Content Include="assets\images\screenshots\tinified\gull-classic-sidebar.png" />
+    <Content Include="assets\images\screenshots\tinified\gull-compact-sidebar.png" />
+    <Content Include="assets\images\screenshots\tinified\gull-horizontal-nav.png" />
+    <Content Include="assets\images\screenshots\tinified\gull-large-sidebar.png" />
+    <Content Include="assets\images\visa.png" />
+    <Content Include="assets\js\app.js" />
+    <Content Include="assets\js\app.min.js" />
+    <Content Include="assets\js\plugins\apexcharts.dataseries.js" />
+    <Content Include="assets\js\plugins\apexcharts.dataseries.min.js" />
+    <Content Include="assets\js\plugins\apexcharts.min.js" />
+    <Content Include="assets\js\plugins\bootstrap.bundle.min.js" />
+    <Content Include="assets\js\plugins\bootstrap.js" />
+    <Content Include="assets\js\plugins\bootstrap.min.js" />
+    <Content Include="assets\js\plugins\calendar\datepicker.min.js" />
+    <Content Include="assets\js\plugins\calendar\fullcalendar.min.js" />
+    <Content Include="assets\js\plugins\calendar\jquery-ui.min.js" />
+    <Content Include="assets\js\plugins\calendar\moment.min.js" />
+    <Content Include="assets\js\plugins\cropper.min.js" />
+    <Content Include="assets\js\plugins\datatables.min.js" />
+    <Content Include="assets\js\plugins\dragula.min.js" />
+    <Content Include="assets\js\plugins\dropzone.min.js" />
+    <Content Include="assets\js\plugins\echarts.min.js" />
+    <Content Include="assets\js\plugins\feather.min.js" />
+    <Content Include="assets\js\plugins\hopscotch.min.js" />
+    <Content Include="assets\js\plugins\jquery-3.3.1.min.js" />
+    <Content Include="assets\js\plugins\jquery.smartWizard.min.js" />
+    <Content Include="assets\js\plugins\jstree.min.js" />
+    <Content Include="assets\js\plugins\ladda.js" />
+    <Content Include="assets\js\plugins\ladda.min.js" />
+    <Content Include="assets\js\plugins\metisMenu.min.js" />
+    <Content Include="assets\js\plugins\nuslider.min.js" />
+    <Content Include="assets\js\plugins\parsley.js" />
+    <Content Include="assets\js\plugins\parsley.min.js" />
+    <Content Include="assets\js\plugins\perfect-scrollbar.min.js" />
+    <Content Include="assets\js\plugins\pickadate\legacy.js" />
+    <Content Include="assets\js\plugins\pickadate\legacy.min.js" />
+    <Content Include="assets\js\plugins\pickadate\picker.date.js" />
+    <Content Include="assets\js\plugins\pickadate\picker.date.min.js" />
+    <Content Include="assets\js\plugins\pickadate\picker.js" />
+    <Content Include="assets\js\plugins\pickadate\picker.min.js" />
+    <Content Include="assets\js\plugins\pickadate\picker.time.js" />
+    <Content Include="assets\js\plugins\pickadate\picker.time.min.js" />
+    <Content Include="assets\js\plugins\popper.min.js" />
+    <Content Include="assets\js\plugins\quill.min.js" />
+    <Content Include="assets\js\plugins\spin.min.js" />
+    <Content Include="assets\js\plugins\sweetalert2.min.js" />
+    <Content Include="assets\js\plugins\tagging.min.js" />
+    <Content Include="assets\js\plugins\toastr.min.js" />
+    <Content Include="assets\js\plugins\todo-list.min.js" />
+    <Content Include="assets\js\scripts\apexAreaChart.script.js" />
+    <Content Include="assets\js\scripts\apexAreaChart.script.min.js" />
+    <Content Include="assets\js\scripts\apexBarChart.script.js" />
+    <Content Include="assets\js\scripts\apexBarChart.script.min.js" />
+    <Content Include="assets\js\scripts\apexBubbleChart.script.js" />
+    <Content Include="assets\js\scripts\apexBubbleChart.script.min.js" />
+    <Content Include="assets\js\scripts\apexCandleStickChart.script.js" />
+    <Content Include="assets\js\scripts\apexCandleStickChart.script.min.js" />
+    <Content Include="assets\js\scripts\apexChart.script.js" />
+    <Content Include="assets\js\scripts\apexChart.script.min.js" />
+    <Content Include="assets\js\scripts\apexcharts.js" />
+    <Content Include="assets\js\scripts\apexcharts.min.js" />
+    <Content Include="assets\js\scripts\apexColumnChart.script.js" />
+    <Content Include="assets\js\scripts\apexColumnChart.script.min.js" />
+    <Content Include="assets\js\scripts\apexMixChart.script.js" />
+    <Content Include="assets\js\scripts\apexMixChart.script.min.js" />
+    <Content Include="assets\js\scripts\apexPieDonutChart.script.js" />
+    <Content Include="assets\js\scripts\apexPieDonutChart.script.min.js" />
+    <Content Include="assets\js\scripts\apexRadarChart.script.js" />
+    <Content Include="assets\js\scripts\apexRadarChart.script.min.js" />
+    <Content Include="assets\js\scripts\apexRadialBarChart.script.js" />
+    <Content Include="assets\js\scripts\apexRadialBarChart.script.min.js" />
+    <Content Include="assets\js\scripts\apexScatterChart.script.js" />
+    <Content Include="assets\js\scripts\apexScatterChart.script.min.js" />
+    <Content Include="assets\js\scripts\apexSparklineChart.script.js" />
+    <Content Include="assets\js\scripts\apexSparklineChart.script.min.js" />
+    <Content Include="assets\js\scripts\board.min.js" />
+    <Content Include="assets\js\scripts\calendar.script.js" />
+    <Content Include="assets\js\scripts\calendar.script.min.js" />
+    <Content Include="assets\js\scripts\card.metrics.script.js" />
+    <Content Include="assets\js\scripts\card.metrics.script.min.js" />
+    <Content Include="assets\js\scripts\carousel.script.js" />
+    <Content Include="assets\js\scripts\carousel.script.min.js" />
+    <Content Include="assets\js\scripts\chartjs.script.js" />
+    <Content Include="assets\js\scripts\chartjs.script.min.js" />
+    <Content Include="assets\js\scripts\contact-list-table.js" />
+    <Content Include="assets\js\scripts\contact-list-table.min.js" />
+    <Content Include="assets\js\scripts\cropper.script.js" />
+    <Content Include="assets\js\scripts\cropper.script.min.js" />
+    <Content Include="assets\js\scripts\customizer.script.js" />
+    <Content Include="assets\js\scripts\customizer.script.min.js" />
+    <Content Include="assets\js\scripts\dashboard.v1.script.js" />
+    <Content Include="assets\js\scripts\dashboard.v1.script.min.js" />
+    <Content Include="assets\js\scripts\dashboard.v2.script.js" />
+    <Content Include="assets\js\scripts\dashboard.v2.script.min.js" />
+    <Content Include="assets\js\scripts\dashboard.v3.script.js" />
+    <Content Include="assets\js\scripts\dashboard.v3.script.min.js" />
+    <Content Include="assets\js\scripts\dashboard.v4.script.js" />
+    <Content Include="assets\js\scripts\dashboard.v4.script.min.js" />
+    <Content Include="assets\js\scripts\datatables.script.js" />
+    <Content Include="assets\js\scripts\datatables.script.min.js" />
+    <Content Include="assets\js\scripts\dropzone.script.js" />
+    <Content Include="assets\js\scripts\dropzone.script.min.js" />
+    <Content Include="assets\js\scripts\echart.options.js" />
+    <Content Include="assets\js\scripts\echart.options.min.js" />
+    <Content Include="assets\js\scripts\echarts.script.js" />
+    <Content Include="assets\js\scripts\echarts.script.min.js" />
+    <Content Include="assets\js\scripts\form.basic.script.js" />
+    <Content Include="assets\js\scripts\form.basic.script.min.js" />
+    <Content Include="assets\js\scripts\form.validation.script.js" />
+    <Content Include="assets\js\scripts\form.validation.script.min.js" />
+    <Content Include="assets\js\scripts\hopscotch.script.js" />
+    <Content Include="assets\js\scripts\hopscotch.script.min.js" />
+    <Content Include="assets\js\scripts\invoice.script.js" />
+    <Content Include="assets\js\scripts\invoice.script.min.js" />
+    <Content Include="assets\js\scripts\jstree.script.js" />
+    <Content Include="assets\js\scripts\jstree.script.min.js" />
+    <Content Include="assets\js\scripts\ladda.script.js" />
+    <Content Include="assets\js\scripts\ladda.script.min.js" />
+    <Content Include="assets\js\scripts\landing.script.js" />
+    <Content Include="assets\js\scripts\landing.script.min.js" />
+    <Content Include="assets\js\scripts\layout-sidebar-vertical.js" />
+    <Content Include="assets\js\scripts\layout-sidebar-vertical.min.js" />
+    <Content Include="assets\js\scripts\modal.script.js" />
+    <Content Include="assets\js\scripts\modal.script.min.js" />
+    <Content Include="assets\js\scripts\nuslider.script.js" />
+    <Content Include="assets\js\scripts\nuslider.script.min.js" />
+    <Content Include="assets\js\scripts\quill.script.js" />
+    <Content Include="assets\js\scripts\quill.script.min.js" />
+    <Content Include="assets\js\scripts\script.js" />
+    <Content Include="assets\js\scripts\script.min.js" />
+    <Content Include="assets\js\scripts\script_2.js" />
+    <Content Include="assets\js\scripts\script_2.min.js" />
+    <Content Include="assets\js\scripts\sidebar-horizontal.script.js" />
+    <Content Include="assets\js\scripts\sidebar-horizontal.script.min.js" />
+    <Content Include="assets\js\scripts\sidebar.compact.script.js" />
+    <Content Include="assets\js\scripts\sidebar.compact.script.min.js" />
+    <Content Include="assets\js\scripts\sidebar.large.script.js" />
+    <Content Include="assets\js\scripts\sidebar.large.script.min.js" />
+    <Content Include="assets\js\scripts\sidebar.script.js" />
+    <Content Include="assets\js\scripts\sidebar.script.min.js" />
+    <Content Include="assets\js\scripts\smart.wizard.script.js" />
+    <Content Include="assets\js\scripts\smart.wizard.script.min.js" />
+    <Content Include="assets\js\scripts\sweetalert.script.js" />
+    <Content Include="assets\js\scripts\sweetalert.script.min.js" />
+    <Content Include="assets\js\scripts\tagging.script.js" />
+    <Content Include="assets\js\scripts\tagging.script.min.js" />
+    <Content Include="assets\js\scripts\task-manager-list.js" />
+    <Content Include="assets\js\scripts\task-manager-list.min.js" />
+    <Content Include="assets\js\scripts\task-manager.js" />
+    <Content Include="assets\js\scripts\task-manager.min.js" />
+    <Content Include="assets\js\scripts\toastr.script.js" />
+    <Content Include="assets\js\scripts\toastr.script.min.js" />
+    <Content Include="assets\js\scripts\toastuicharts.script.js" />
+    <Content Include="assets\js\scripts\toastuicharts.script.min.js" />
+    <Content Include="assets\js\scripts\todo.script.js" />
+    <Content Include="assets\js\scripts\todo.script.min.js" />
+    <Content Include="assets\js\scripts\tooltip.script.js" />
+    <Content Include="assets\js\scripts\tooltip.script.min.js" />
+    <Content Include="assets\js\scripts\widget-list.js" />
+    <Content Include="assets\js\scripts\widget-list.min.js" />
+    <Content Include="assets\js\scripts\widgets-statistics.js" />
+    <Content Include="assets\js\scripts\widgets-statistics.min.js" />
     <Content Include="Global.asax" />
+    <Content Include="Manage\Default.aspx" />
+    <Content Include="Manage\Registration.aspx" />
+    <Content Include="Manage\TecList.aspx" />
+    <Content Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="WebForm1.aspx" />
   </ItemGroup>
@@ -127,8 +568,14 @@
     <Compile Include="App_code\DAL\ReadabilityDAL.cs" />
     <Compile Include="App_code\DAL\SerProdDAL.cs" />
     <Compile Include="App_code\DAL\TechniciansDAL.cs" />
-    <None Include="AdministratorController.cs.dfgdg" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Manage\CusList.aspx.cs">
+      <DependentUpon>CusList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\CusList.aspx.designer.cs">
+      <DependentUpon>CusList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="controllers\AdministratorController.cs" />
     <Compile Include="controllers\BidController.cs" />
     <Compile Include="controllers\CategoriesController.cs" />
@@ -144,6 +591,34 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Manage\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\MainMaster.Master.cs">
+      <DependentUpon>MainMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\MainMaster.Master.designer.cs">
+      <DependentUpon>MainMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Registration.aspx.cs">
+      <DependentUpon>Registration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Registration.aspx.designer.cs">
+      <DependentUpon>Registration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\TecList.aspx.cs">
+      <DependentUpon>TecList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\TecList.aspx.designer.cs">
+      <DependentUpon>TecList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
@@ -154,6 +629,272 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\plugins\animate.scss\animate.css.map" />
+    <Content Include="assets\css\plugins\animate.scss\animate.min.css.map" />
+    <Content Include="assets\css\plugins\animate.scss\animate.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_attention-seekers\attention-seekers.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_attention-seekers\_bounce.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_attention-seekers\_flash.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_attention-seekers\_jello.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_attention-seekers\_pulse.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_attention-seekers\_rubberBand.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_attention-seekers\_shake.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_attention-seekers\_swing.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_attention-seekers\_tada.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_attention-seekers\_wobble.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_bouncing-entrances\bouncing-entrances.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_bouncing-entrances\_bounceIn.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_bouncing-entrances\_bounceInDown.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_bouncing-entrances\_bounceInLeft.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_bouncing-entrances\_bounceInRight.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_bouncing-entrances\_bounceInUp.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_bouncing-exits\bouncing-exits.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_bouncing-exits\_bounceOut.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_bouncing-exits\_bounceOutDown.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_bouncing-exits\_bounceOutLeft.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_bouncing-exits\_bounceOutRight.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_bouncing-exits\_bounceOutUp.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-entrances\fading-entrances.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-entrances\_fadeIn.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-entrances\_fadeInDown.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-entrances\_fadeInDownBig.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-entrances\_fadeInLeft.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-entrances\_fadeInLeftBig.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-entrances\_fadeInRight.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-entrances\_fadeInRightBig.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-entrances\_fadeInUp.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-entrances\_fadeInUpBig.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-exits\fading-exits.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-exits\_fadeOut.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-exits\_fadeOutDown.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-exits\_fadeOutDownBig.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-exits\_fadeOutLeft.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-exits\_fadeOutLeftBig.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-exits\_fadeOutRight.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-exits\_fadeOutRightBig.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-exits\_fadeOutUp.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_fading-exits\_fadeOutUpBig.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_flippers\flippers.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_flippers\_flip.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_flippers\_flipInX.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_flippers\_flipInY.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_flippers\_flipOutX.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_flippers\_flipOutY.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_lightspeed\lightspeed.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_lightspeed\_lightSpeedIn.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_lightspeed\_lightSpeedOut.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_properties.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_rotating-entrances\rotating-entrances.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_rotating-entrances\_rotateIn.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_rotating-entrances\_rotateInDownLeft.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_rotating-entrances\_rotateInDownRight.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_rotating-entrances\_rotateInUpLeft.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_rotating-entrances\_rotateInUpRight.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_rotating-exits\rotating-exits.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_rotating-exits\_rotateOut.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_rotating-exits\_rotateOutDownLeft.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_rotating-exits\_rotateOutDownRight.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_rotating-exits\_rotateOutUpLeft.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_rotating-exits\_rotateOutUpRight.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_sliding-entrances\sliding-entrances.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_sliding-entrances\_slideInDown.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_sliding-entrances\_slideInLeft.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_sliding-entrances\_slideInRight.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_sliding-entrances\_slideInUp.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_sliding-exits\sliding-exits.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_sliding-exits\_slideOutDown.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_sliding-exits\_slideOutLeft.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_sliding-exits\_slideOutRight.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_sliding-exits\_slideOutUp.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_specials\specials.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_specials\_hinge.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_specials\_rollIn.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_specials\_rollOut.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_zooming-entrances\zooming-entrances.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_zooming-entrances\_zoomIn.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_zooming-entrances\_zoomInDown.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_zooming-entrances\_zoomInLeft.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_zooming-entrances\_zoomInRight.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_zooming-entrances\_zoomInUp.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_zooming-exits\zooming-exits.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_zooming-exits\_zoomOut.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_zooming-exits\_zoomOutDown.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_zooming-exits\_zoomOutLeft.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_zooming-exits\_zoomOutRight.scss" />
+    <Content Include="assets\css\plugins\animate.scss\_zooming-exits\_zoomOutUp.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\bootstrap-grid.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\bootstrap-reboot.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\bootstrap.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_alert.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_background-variant.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_badge.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_border-radius.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_box-shadow.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_breakpoints.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_buttons.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_caret.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_clearfix.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_float.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_forms.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_gradients.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_grid-framework.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_grid.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_hover.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_image.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_list-group.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_lists.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_nav-divider.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_navbar-align.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_pagination.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_reset-text.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_resize.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_screen-reader.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_size.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_table-row.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_text-emphasis.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_text-hide.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_text-truncate.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_transition.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\mixins\_visibility.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\utilities\_align.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\utilities\_background.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\utilities\_borders.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\utilities\_clearfix.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\utilities\_display.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\utilities\_embed.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\utilities\_flex.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\utilities\_float.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\utilities\_position.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\utilities\_screenreaders.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\utilities\_sizing.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\utilities\_spacing.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\utilities\_text.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\utilities\_visibility.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_alert.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_badge.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_breadcrumb.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_button-group.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_buttons.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_card.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_carousel.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_close.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_code.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_custom-forms.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_dropdown.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_forms.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_functions.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_grid.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_images.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_input-group.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_jumbotron.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_list-group.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_media.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_mixins.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_modal.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_nav.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_navbar.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_pagination.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_popover.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_print.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_progress.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_reboot.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_root.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_tables.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_tooltip.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_transitions.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_type.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_utilities.scss" />
+    <Content Include="assets\css\plugins\bootstrap-rtl\_variables.scss" />
+    <Content Include="assets\css\plugins\bootstrap\bootstrap-grid.scss" />
+    <Content Include="assets\css\plugins\bootstrap\bootstrap-reboot.scss" />
+    <Content Include="assets\css\plugins\bootstrap\bootstrap.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_alert.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_background-variant.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_badge.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_border-radius.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_box-shadow.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_breakpoints.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_buttons.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_caret.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_clearfix.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_float.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_forms.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_gradients.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_grid-framework.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_grid.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_hover.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_image.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_list-group.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_lists.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_nav-divider.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_pagination.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_reset-text.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_resize.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_screen-reader.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_size.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_table-row.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_text-emphasis.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_text-hide.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_text-truncate.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_transition.scss" />
+    <Content Include="assets\css\plugins\bootstrap\mixins\_visibility.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_align.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_background.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_borders.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_clearfix.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_display.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_embed.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_flex.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_float.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_position.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_screenreaders.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_shadows.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_sizing.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_spacing.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_text.scss" />
+    <Content Include="assets\css\plugins\bootstrap\utilities\_visibility.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_alert.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_badge.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_breadcrumb.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_button-group.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_buttons.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_card.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_carousel.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_close.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_code.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_custom-forms.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_dropdown.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_forms.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_functions.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_grid.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_images.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_input-group.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_jumbotron.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_list-group.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_media.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_mixins.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_modal.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_nav.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_navbar.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_pagination.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_popover.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_print.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_progress.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_reboot.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_root.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_tables.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_toasts.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_tooltip.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_transitions.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_type.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_utilities.scss" />
+    <Content Include="assets\css\plugins\bootstrap\_variables.scss" />
+    <Content Include="assets\fonts\iconsmind\iconsmind.eot" />
+    <Content Include="assets\fonts\iconsmind\iconsmind.ttf" />
+    <Content Include="assets\fonts\iconsmind\iconsmind.woff" />
+    <Content Include="assets\images\screenshots\tinified.zip" />
+    <Content Include="assets\js\app.js.map" />
+    <Content Include="Manage\MainMaster.Master" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
