@@ -1,0 +1,17 @@
+[33mcommit 9c292a173b12fe9f7bad974c38867693b202e3c1[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: danielachmish <151870120+danielachmish@users.noreply.github.com>
+Date:   Fri Jun 21 04:46:29 2024 +0300
+
+    Initial commit
+
+[33mcommit 4943f26a0a939f2d8a671f73c4f52acb21493a13[m
+Author: User <danielachmish@gmail.com>
+Date:   Sat Mar 30 22:57:24 2024 +0300
+
+    Add project files.
+
+[33mcommit e8ae1630e42d70c68546cc12d333d4d005749160[m
+Author: User <danielachmish@gmail.com>
+Date:   Sat Mar 30 22:57:22 2024 +0300
+
+    Add .gitignore and .gitattributes.
