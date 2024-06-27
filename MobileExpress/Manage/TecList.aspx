@@ -414,48 +414,72 @@
                 border-color: #3f2169;
             }
 
-        /*כפתורי פעולה*/
-        .action-buttons {
-            display: flex;
-            justify-content: flex-end;
-        }
+        /*כפתורי פעולה*/.action-buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+}
 
+.delete-button, .edit-button, .status-button {
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.delete-button {
+    background-color: #dc3545;
+}
 
+.edit-button {
+    background-color: #3f2169;
+}
 
-        .delete-button, .edit-button {
-            border: none;
-            border-radius: 4px;
-            padding: 7px 10px;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-            margin-right: 10px;
-        }
+.status-button.status-active {
+    background-color: #28a745;
+}
 
-        .delete-button {
-            background-color: red;
-        }
+.status-button.status-inactive {
+    background-color: #dc3545;
+}
 
-        .edit-button {
-            background-color: #3f2169;
-        }
+.delete-button:hover, .edit-button:hover, .status-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
-        .delete-button:hover {
-            background-color: white;
-            color: red;
-        }
+.delete-button:hover {
+    background-color: #c82333;
+}
 
-        .edit-button:hover {
-            background-color: white;
-            color: #3f2169;
-        }
+.edit-button:hover {
+    background-color: #2c1749;
+}
 
-        .table-row:hover {
-            background-color: lightgray;
-        }
+.status-button.status-active:hover {
+    background-color: #218838;
+}
 
+.status-button.status-inactive:hover {
+    background-color: #c82333;
+}
 
+.container-flex {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    direction: rtl;
+    gap: 8px;
+}
         /* עיצוב חלון המודאל */
         .modal {
             display: none; /* המודאל מוסתר כברירת מחדל */
@@ -674,6 +698,26 @@
             padding: 0;
             
         }
+        .form-check {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-check-label {
+    order: 2;
+    margin-right: 10px;
+}
+
+.switch {
+    order: 1;
+}
+
+.dropdown-menu {
+    left: 10PX !important;
+   
+}
 
 
         /*הוספת טכנאי*/
@@ -907,7 +951,21 @@
             $('.dropdown-toggle').on('click', function () {
                 console.log("Dropdown toggle clicked");
             });
+
+            // וודא שהתפריט נסגר כאשר לוחצים מחוץ לו
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('.dropdown').length) {
+                    $('.dropdown-menu').removeClass('show');
+                }
+            });
+
+            // הוסף לוג כדי לבדוק אם התפריט נפתח
+            $('#dropdownMenuButton').on('click', function () {
+                console.log("Dropdown button clicked");
+                $('.dropdown-menu').toggleClass('show');
+            });
         });
+
 
 
         // פונקציה ליצוא הנתונים לטבלת Excel
