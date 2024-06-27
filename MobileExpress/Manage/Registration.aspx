@@ -108,10 +108,7 @@
                                         <input type="text" class="form-control" id="type" name="Type" required>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="history">היסטוריה</label>
-                                    <textarea class="form-control" id="history" name="History"></textarea>
-                                </div>
+                               
                                 <div class="form-group">
                                     <label for="notes">הערות</label>
                                     <textarea class="form-control" id="notes" name="Nots"></textarea>
@@ -215,6 +212,7 @@
             }
         });
     });
+
 </script>
 
 

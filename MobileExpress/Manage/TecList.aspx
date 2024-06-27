@@ -4,7 +4,7 @@
     <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
     <link rel="stylesheet" href="assets/css/styles.css">
     <!-- קישורים נוספים כמו Bootstrap ו-Font Awesome -->
-  
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -26,8 +26,6 @@
                         <div class="container-flex">
                             <!-- שדה חיפוש -->
                             <input class="form-control form-control-rounded col-md-4 ml-3 mr-3" id="searchInput" type="text" placeholder="חיפוש" onkeyup="filterContacts()" style="text-align: right;" />
-                            <%-- <!-- כפתור להוספת טכנאי -->
-                            <button class="add-button" onclick="openAddTechnicianModal()">+</button>--%>
 
                             <div class="columns-button-container">
                                 <!-- כפתור יצוא ל-Excel -->
@@ -123,13 +121,7 @@
                                         </label>
                                         <label class="form-check-label ml-3">Nots</label>
                                     </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="14" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">Status</label>
-                                    </div>
+
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="12" checked>
@@ -146,25 +138,32 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="11" checked>
+                                            <input type="checkbox" class="toggle-vis" data-column="14" checked>
+                                            <span class="slider round"></span>
+                                        </label>
+                                        <label class="form-check-label ml-3">Status</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="switch">
+                                            <input type="checkbox" class="toggle-vis" data-column="15" checked>
                                             <span class="slider round"></span>
                                         </label>
                                         <label class="form-check-label ml-3">Actions</label>
                                     </div>
                                 </div>
                             </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-   
+    </div>
+
     <div class="card-body" style="height: calc(100% - 80px); direction: rtl;">
         <div class="table-responsive" style="height: 100%;">
             <form id="form1" runat="server">
                 <!-- טבלה של רשימת הטכנאים -->
-                <div class="container">
+                <div class="ontainer-fluid">
                     <table class="display table table-borderless ul-contact-list-table" id="contact_list_table" style="width: 100%; direction: rtl;">
                         <thead>
                             <tr class="border-bottom">
@@ -215,7 +214,7 @@
                                             </button>
                                             <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("TecId") %>' OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this item?');">
                                                             <i class="fas fa-trash-alt"></i>
-                                                        </asp:LinkButton>
+                                            </asp:LinkButton>
                                         </td>
                                     </tr>
                                 </ItemTemplate>
@@ -225,7 +224,9 @@
                 </div>
                 <!-- כפתור מחיקה שמופיע בתחתית הטבלה -->
                 <div id="deleteContainer" style="display: none; text-align: center; margin-top: 20px;">
-                    <button id="deleteSelected" class="delete-button" onclick="deleteSelectedRows()">מחיקת רשומות נבחרות</button>
+                    <button id="deleteSelected" class="delete-button-Multiple" onclick="deleteSelectedRows()" title="מחיקת רשומות נבחרות">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
                 </div>
                 <!-- מודל עריכה -->
                 <div id="editModal" class="modal">
@@ -293,6 +294,7 @@
             width: 100%;
             padding: 0;
             margin: 0;
+            box-sizing: border-box;
         }
         /*טבלה*/
         table {
@@ -303,42 +305,89 @@
 
         th, td {
             border: 1px solid #dddddd;
-            text-align: right;
+            text-align: center;
             padding: 8px;
         }
 
         th {
             background-color: #f2f2f2;
         }
-        /*כפתור סטטוס*/
-        .status-button {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
+
+        .card, .card-body {
+            padding: 0;
         }
 
-        .status-active {
-            background-color: green;
-            color: white;
+        .row, [class*="col-"] {
+            margin: 0;
+            padding: 0;
         }
 
-        .status-inactive {
-            background-color: red;
-            color: white;
-        }
-
-        .row-inactive {
-            background-color: lightgrey;
-        }
-
-        .container-flex {
+        /* כפתורי פעולה */
+        .action-buttons {
             display: flex;
+            justify-content: flex-start;
             align-items: center;
-            justify-content: space-between;
-            direction: rtl;
+            gap: 25px;
         }
+
+            .delete-button, .edit-button, .status-button, .action-buttons a.delete-button {
+                border: none;
+                border-radius: 20px;
+                padding: 8px 16px;
+                font-size: 14px;
+                font-weight: 600;
+                color: white;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                height: 36px;
+                width: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-decoration: none; /* מסיר את קו התחתון מה-LinkButton */
+            }
+
+            .delete-button, .action-buttons a.delete-button {
+                background-color: #dc3545;
+            }
+
+        .edit-button {
+            background-color: #3f2169;
+        }
+
+        .status-button.status-active {
+            background-color: #28a745;
+        }
+
+        .status-button.status-inactive {
+            background-color: #dc3545;
+        }
+
+        .delete-button:hover, .edit-button:hover, .status-button:hover, .action-buttons a.delete-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .delete-button:hover, .action-buttons a.delete-button:hover {
+            background-color: #c82333;
+        }
+
+        .edit-button:hover {
+            background-color: #2c1749;
+        }
+
+        .status-button.status-active:hover {
+            background-color: #218838;
+        }
+
+        .status-button.status-inactive:hover {
+            background-color: #c82333;
+        }
+
 
 
         /*מודאל עריכה*/
@@ -414,72 +463,15 @@
                 border-color: #3f2169;
             }
 
-        /*כפתורי פעולה*/.action-buttons {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 8px;
-}
 
-.delete-button, .edit-button, .status-button {
-    border: none;
-    border-radius: 20px;
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: 600;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.delete-button {
-    background-color: #dc3545;
-}
-
-.edit-button {
-    background-color: #3f2169;
-}
-
-.status-button.status-active {
-    background-color: #28a745;
-}
-
-.status-button.status-inactive {
-    background-color: #dc3545;
-}
-
-.delete-button:hover, .edit-button:hover, .status-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.delete-button:hover {
-    background-color: #c82333;
-}
-
-.edit-button:hover {
-    background-color: #2c1749;
-}
-
-.status-button.status-active:hover {
-    background-color: #218838;
-}
-
-.status-button.status-inactive:hover {
-    background-color: #c82333;
-}
-
-.container-flex {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    direction: rtl;
-    gap: 8px;
-}
+        .container-flex {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            direction: rtl;
+            gap: 8px;
+        }
         /* עיצוב חלון המודאל */
         .modal {
             display: none; /* המודאל מוסתר כברירת מחדל */
@@ -603,21 +595,6 @@
             background-color: #6c757d; /* צבע הנקודות אפור כהה במצב ריחוף */
         }
 
-        /*.export-button i {
-            font-size: 20px;*/ /* גודל האייקון */
-        /*color: white;*/ /* צבע האייקון */
-        /*transition: color 0.3s;*/ /* מעבר חלק של 0.3 שניות לשינוי הצבע */
-        /*}
-
-        .export-button:hover i {
-            color: #6c757d;*/ /* צבע האייקון אפור כהה במצב ריחוף */
-        /*}*/
-
-
-
-
-
-
 
         .switch {
             position: relative;
@@ -696,28 +673,27 @@
             background: none;
             border: none;
             padding: 0;
-            
         }
+
         .form-check {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
 
-.form-check-label {
-    order: 2;
-    margin-right: 10px;
-}
+        .form-check-label {
+            order: 2;
+            margin-right: 10px;
+        }
 
-.switch {
-    order: 1;
-}
+        .switch {
+            order: 1;
+        }
 
-.dropdown-menu {
-    left: 10PX !important;
-   
-}
+        .dropdown-menu {
+            left: 10PX !important;
+        }
 
 
         /*הוספת טכנאי*/
@@ -734,7 +710,7 @@
             align-items: center; /* יישור אנכי למרכז */
             justify-content: center; /* יישור אופקי למרכז */
             margin-right: 10px; /* ריווח ימני */
-           
+
             transition: background-color 0.3s, color 0.3s; /* מעבר חלק של 0.3 שניות לשינוי הצבע */
         }
 
@@ -749,7 +725,7 @@
                 color: #6f42c1; /* צבע טקסט סגול במצב ריחוף */
             }
 
-              
+
 
 
         .export-button {
@@ -782,21 +758,36 @@
                     color: #6f42c1; /* צבע האייקון סגול במצב ריחוף */
                 }
 
-        .delete-button {
-            background-color: red; /* צבע רקע אדום */
-            color: white; /* צבע טקסט לבן */
-            border: none; /* הסרת גבול */
-            padding: 10px 20px; /* ריווח פנימי */
-            cursor: pointer; /* שינוי סמן העכבר לידית */
-            border-radius: 5px; /* פינות מעוגלות */
-            font-size: 16px; /* גודל פונט */
+        .delete-button-Multiple {
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 36px;
+            width: 80px; /* שינוי לרוחב קבוע */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
         }
 
-        #deleteContainer {
-            display: none; /* מוסתר כברירת מחדל */
-            text-align: center; /* יישור למרכז */
-            margin-top: 20px; /* ריווח עליון */
+        .delete-button-Multiple {
+            background-color: #dc3545;
         }
+
+            .delete-button-Multiple:hover {
+                background-color: #c82333;
+                transform: translateY(-2px);
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+            .delete-button-Multiple i {
+                font-size: 18px; /* גודל האייקון */
+            }
     </style>
 
 </asp:Content>
@@ -806,7 +797,7 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="UnderFooter" runat="server">
     <!-- סקריפטים שנדרשים לעמוד -->
     <!-- טעינת סקריפטים חיצוניים -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
