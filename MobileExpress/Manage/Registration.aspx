@@ -125,36 +125,7 @@
                                         <input type="email" class="form-control" id="email" name="Email" required>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="status">סטטוס</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-toggle-on"></i></span>
-                                        </div>
-                                        <select class="form-control" id="status" name="Status" required>
-                                            <option value="1">פעיל</option>
-                                            <option value="0">לא פעיל</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="serProdId">מספר מוצר שירות</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-cogs"></i></span>
-                                        </div>
-                                        <input type="number" class="form-control" id="serProdId" name="SerProdId">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="dateAddition">תאריך הוספה</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                        </div>
-                                        <input type="datetime-local" class="form-control" id="dateAddition" name="DateAddition" required>
-                                    </div>
-                                </div>
+                              
                                 <div id="formFeedback" class="alert d-none" role="alert"></div>
                             </form>
                         </div>
@@ -170,34 +141,85 @@
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $('#saveTechnicianBtn').click(function () {
-                    if ($('#addTechnicianForm')[0].checkValidity()) {
-                        var formData = $('#addTechnicianForm').serialize();
-                        console.log(formData); // בדוק את הנתונים שנשלחים
-                        $.ajax({
-                            url: '/api/v1/Technicians', // כתובת ה-API הנכונה
-                            method: 'POST',
-                            data: formData,
-                            success: function (response) {
-                                $('#formFeedback').removeClass('d-none alert-danger').addClass('alert-success').text('הטכנאי נוסף בהצלחה!');
-                                setTimeout(function () {
-                                    $('#addTechnicianModal').modal('hide');
-                                    $('#formFeedback').addClass('d-none').text('');
-                                    $('#addTechnicianForm')[0].reset();
-                                }, 2000);
-                            },
-                            error: function () {
-                                $('#formFeedback').removeClass('d-none alert-success').addClass('alert-danger').text('שגיאה בהוספת הטכנאי.');
-                            }
-                        });
-                    } else {
-                        $('#addTechnicianForm')[0].reportValidity();
+<script>
+    $(document).ready(function () {
+        // פונקציה לטעינת רשימת הטכנאים
+        function loadTechnicians() {
+            console.log("Loading technicians...");
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:20210/api/v1/Technicians/", // כתובת ה-API המתאימה לטעינת הטכנאים
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    console.log("Technicians loaded successfully", response);
+                    // עדכון ה-HTML עם רשימת הטכנאים החדשה
+                    var html = '';
+                    response.forEach(function (technician) {
+                        html += '<div>' +
+                            'מספר טכנאי: ' + technician.TecNum + '<br>' +
+                            'שם מלא: ' + technician.FulName + '<br>' +
+                            'טלפון: ' + technician.Phone + '<br>' +
+                            'כתובת: ' + technician.Address + '<br>' +
+                            'אימייל: ' + technician.Email + '<br>' +
+                            '</div><hr>';
+                    });
+                    $('#techniciansList').html(html);
+                },
+                error: function (error) {
+                    console.error("Error loading technicians:", error);
+                    alert("אירעה שגיאה בטעינת רשימת הטכנאים.");
+                }
+            });
+        }
+
+        // קריאה ראשונית לטעינת רשימת הטכנאים כאשר העמוד נטען
+        loadTechnicians();
+
+        // קוד שיבוצע כשהמסמך מוכן
+        $('#saveTechnicianBtn').click(function () {
+            // קוד שיבוצע כאשר כפתור שמירה נלחץ
+            if ($('#addTechnicianForm')[0].checkValidity()) {
+                // בדיקה אם הטופס תקין
+                var formData = $('#addTechnicianForm').serialize();
+                // המרה של נתוני הטופס לפורמט שמיש
+                console.log("Form data to be sent:", formData); // בדוק את הנתונים שנשלחים
+                $.ajax({
+                    url: '/api/v1/Technicians', // כתובת ה-API הנכונה
+                    method: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        console.log("Technician saved successfully", response);
+                        $('#formFeedback').removeClass('d-none alert-danger').addClass('alert-success').text('הטכנאי נוסף בהצלחה!');
+                        // הודעת הצלחה
+                        loadTechnicians(); // קריאה לפונקציה לטעינת הטכנאים לאחר שמירה
+                        setTimeout(function () {
+                            $('#addTechnicianModal').modal('hide');
+                            // הסתרת המודאל אחרי 0.5 שניות
+                            location.reload(); // רענון הדף
+                            $('#formFeedback').addClass('d-none').text('');
+                            // איפוס הודעת הפידבק
+                            $('#addTechnicianForm')[0].reset();
+                            // איפוס הטופס
+                        }, 500);
+                    },
+                    error: function (error) {
+                        console.error("Error saving technician:", error);
+                        $('#formFeedback').removeClass('d-none alert-success').addClass('alert-danger').text('שגיאה בהוספת הטכנאי.');
+                        // הודעת שגיאה
                     }
                 });
-            });
-        </script>
+            } else {
+                $('#addTechnicianForm')[0].reportValidity();
+                // אם הטופס לא תקין, הצגת הודעות שגיאה
+            }
+        });
+    });
+</script>
+
+
+
+
     </body>
     </html>
 </asp:Content>

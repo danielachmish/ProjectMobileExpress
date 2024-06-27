@@ -9,51 +9,53 @@ namespace DAL
 {
     public class TechniciansDAL
 	{
-		public static void Save(Technicians Tmp)
-		{
-			string sql;
-			if (Tmp.TecId == -1)
+			public static void Save(Technicians Tmp)
+			{
+				string sql;
+				if (Tmp.TecId == -1)
 			{
 				// הוספת טכנאי חדש
-				sql = "INSERT INTO T_Technicians (TecNum, FulName, Phone, Address, Pass, UserName, Type, History, Nots, Email, Status, SerProdId, DateAddition) " +
+				sql = "INSERT INTO T_Technicians (TecNum, FulName, Phone, Address, Pass, UserName, Type, History, Nots, Email, Status, SerProdId, DateAddition ) " +
 					  "VALUES (@TecNum, @FulName, @Phone, @Address, @Pass, @UserName, @Type, @History, @Nots, @Email, @Status, @SerProdId, @DateAddition)";
+				
+				Tmp.DateAddition = DateTime.Now;
 			}
 			else
 			{
-				// עדכון טכנאי קיים
-				sql = "UPDATE T_Technicians SET TecNum = @TecNum, FulName = @FulName, Phone = @Phone, Address = @Address, Pass = @Pass, UserName = @UserName, " +
-					  "Type = @Type, History = @History, Nots = @Nots, Email = @Email, Status = @Status, SerProdId = @SerProdId, DateAddition = @DateAddition " +
-					  "WHERE TecId = @TecId";
+					// עדכון טכנאי קיים
+					sql = "UPDATE T_Technicians SET TecNum = @TecNum, FulName = @FulName, Phone = @Phone, Address = @Address, Pass = @Pass, UserName = @UserName, " +
+						  "Type = @Type, History = @History, Nots = @Nots, Email = @Email, Status = @Status, SerProdId = @SerProdId, DateAddition = @DateAddition " +
+						  "WHERE TecId = @TecId";
 			}
 
-			// הדפסת השאילתה לשם בדיקה
-			Console.WriteLine("SQL Query: " + sql);
+				// הדפסת השאילתה לשם בדיקה
+				Console.WriteLine("SQL Query: " + sql);
 
-			DbContext Db = new DbContext();
-			var Obj = new
-			{
-				Tmp.TecId,
-				Tmp.TecNum,
-				Tmp.FulName,
-				Tmp.Phone,
-				Tmp.Address,
-				Tmp.Pass,
-				Tmp.UserName,
-				Tmp.Type,
-				Tmp.Status,
-				Tmp.History,
-				Tmp.Nots,
-				Tmp.Email,
-				Tmp.SerProdId,
-				Tmp.DateAddition
-			};
+				DbContext Db = new DbContext();
+				var Obj = new
+				{
+					Tmp.TecId,
+					Tmp.TecNum,
+					Tmp.FulName,
+					Tmp.Phone,
+					Tmp.Address,
+					Tmp.Pass,
+					Tmp.UserName,
+					Tmp.Type,
+					Tmp.Status,
+					History = (object)Tmp.History ?? DBNull.Value, // טיפול בערכים null
+					Nots = (object)Tmp.Nots ?? DBNull.Value,       // טיפול בערכים null
+					Tmp.Email,
+					Tmp.SerProdId,
+					Tmp.DateAddition
+				};
 
-			var LstParma = DbContext.CreateParameters(Obj);
-			// ביצוע השאילתה והכנסת הנתונים לבסיס הנתונים
-			Db.ExecuteNonQuery(sql, LstParma);
+				var LstParma = DbContext.CreateParameters(Obj);
+				// ביצוע השאילתה והכנסת הנתונים לבסיס הנתונים
+				Db.ExecuteNonQuery(sql, LstParma);
 
-			Db.Close();
-		}
+				Db.Close();
+			}
 		//     public static void Save(BLL.Technicians Tmp)
 		//     {
 		//         // בדיקת תקינות הנתונים
