@@ -9,128 +9,188 @@ namespace DAL
 {
     public class TechniciansDAL
 	{
-			public static void Save(Technicians Tmp)
-			{
-				string sql;
-				if (Tmp.TecId == -1)
-			{
-				// הוספת טכנאי חדש
-				sql = "INSERT INTO T_Technicians (TecNum, FulName, Phone, Address, Pass, UserName, Type, History, Nots, Email, Status, SerProdId, DateAddition ) " +
-					  "VALUES (@TecNum, @FulName, @Phone, @Address, @Pass, @UserName, @Type, @History, @Nots, @Email, @Status, @SerProdId, @DateAddition)";
-				
-				Tmp.DateAddition = DateTime.Now;
-			}
-			else
-			{
-					// עדכון טכנאי קיים
-					sql = "UPDATE T_Technicians SET TecNum = @TecNum, FulName = @FulName, Phone = @Phone, Address = @Address, Pass = @Pass, UserName = @UserName, " +
-						  "Type = @Type, History = @History, Nots = @Nots, Email = @Email, Status = @Status, SerProdId = @SerProdId, DateAddition = @DateAddition " +
-						  "WHERE TecId = @TecId";
-			}
+        public static void SaveNewTechnician(Technicians Tmp)
+        {
+            try
+            {
+                string sql = "INSERT INTO T_Technicians (TecNum, FulName, Phone, Address, Pass, UserName, Type, History, Nots, Email, Status, SerProdId, DateAddition ) " +
+                             "VALUES (@TecNum, @FulName, @Phone, @Address, @Pass, @UserName, @Type, @History, @Nots, @Email, @Status, @SerProdId, @DateAddition)";
 
-				// הדפסת השאילתה לשם בדיקה
-				Console.WriteLine("SQL Query: " + sql);
+                Tmp.DateAddition = DateTime.Now;
 
-				DbContext Db = new DbContext();
-				var Obj = new
-				{
-					Tmp.TecId,
-					Tmp.TecNum,
-					Tmp.FulName,
-					Tmp.Phone,
-					Tmp.Address,
-					Tmp.Pass,
-					Tmp.UserName,
-					Tmp.Type,
-					Tmp.Status,
-					History = (object)Tmp.History ?? DBNull.Value, // טיפול בערכים null
-					Nots = (object)Tmp.Nots ?? DBNull.Value,       // טיפול בערכים null
-					Tmp.Email,
-					Tmp.SerProdId,
-					Tmp.DateAddition
-				};
+                // הדפסת השאילתה לשם בדיקה
+                System.Diagnostics.Debug.WriteLine("SQL Query (Insert): " + sql);
 
-				var LstParma = DbContext.CreateParameters(Obj);
-				// ביצוע השאילתה והכנסת הנתונים לבסיס הנתונים
-				Db.ExecuteNonQuery(sql, LstParma);
+                DbContext Db = new DbContext();
+                var Obj = new
+                {
+                    Tmp.TecNum,
+                    Tmp.FulName,
+                    Tmp.Phone,
+                    Tmp.Address,
+                    Tmp.Pass,
+                    Tmp.UserName,
+                    Tmp.Type,
+                    Tmp.Status,
+                    History = (object)Tmp.History ?? DBNull.Value, // טיפול בערכים null
+                    Nots = (object)Tmp.Nots ?? DBNull.Value,       // טיפול בערכים null
+                    Tmp.Email,
+                    Tmp.SerProdId,
+                    Tmp.DateAddition
+                };
 
-				Db.Close();
-			}
-		//     public static void Save(BLL.Technicians Tmp)
-		//     {
-		//         // בדיקת תקינות הנתונים
-		//         if (string.IsNullOrWhiteSpace(Tmp.FulName) ||
-		//             string.IsNullOrWhiteSpace(Tmp.Phone) ||
-		//             string.IsNullOrWhiteSpace(Tmp.Address) ||
-		//             string.IsNullOrWhiteSpace(Tmp.Pass) ||
-		//             string.IsNullOrWhiteSpace(Tmp.UserName) ||
-		//             string.IsNullOrWhiteSpace(Tmp.Type) ||
-		//             string.IsNullOrWhiteSpace(Tmp.Email) ||
-		//	Tmp.DateAddition == default(DateTime)) // השוואה נכונה של DateTime
-		//{
-		//             throw new ArgumentException("One or more required fields are missing or invalid");
-		//         }
-		//         string sql;
-		//         if (Tmp.TecId == -1)
-		//         {
-		//             // הוספת טכנאי חדש
-		//             sql = "INSERT INTO T_Technicians (TecNum, FulName, Phone, Address, Pass, UserName, Type, History, Nots, Email, Status, SerProdId, DateAddition) " +
-		//                   "VALUES (@TecNum, @FulName, @Phone, @Address, @Pass, @UserName, @Type, @History, @Nots, @Email, @Status, @SerProdId, @DateAddition)";
-		//         }
-		//         else
-		//         {
-		//             // עדכון טכנאי קיים
-		//             sql = "UPDATE T_Technicians SET TecNum = @TecNum, FulName = @FulName, Phone = @Phone, Address = @Address, Pass = @Pass, UserName = @UserName, " +
-		//                   "Type = @Type, History = @History, Nots = @Nots, Email = @Email, Status = @Status, SerProdId = @SerProdId, DateAddition = @DateAddition " +
-		//                   "WHERE TecId = @TecId";
-		//         }
+                var LstParma = DbContext.CreateParameters(Obj);
 
-		//         // הדפסת השאילתה לשם בדיקה
-		//         Console.WriteLine("SQL Query: " + sql);
+                // ביצוע השאילתה והכנסת הנתונים לבסיס הנתונים
+                int rowsAffected = Db.ExecuteNonQuery(sql, LstParma);
+                System.Diagnostics.Debug.WriteLine($"Rows affected (Insert): {rowsAffected}");
 
-		//         DbContext Db = new DbContext();
-		//         var Obj = new
-		//         {
-		//             Tmp.TecId,
-		//             Tmp.TecNum,
-		//             Tmp.FulName,
-		//             Tmp.Phone,
-		//             Tmp.Address,
-		//             Tmp.Pass,
-		//             Tmp.UserName,
-		//             Tmp.Type,
-		//             Tmp.Status,
-		//             Tmp.History,
-		//             Tmp.Nots,
-		//             Tmp.Email,
-		//             Tmp.SerProdId,
-		//             Tmp.DateAddition
-		//         };
+                if (rowsAffected > 0)
+                {
+                    System.Diagnostics.Debug.WriteLine("Technician inserted successfully.");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("No rows were affected. Check your insert query and parameters.");
+                }
 
-		//         var LstParma = DbContext.CreateParameters(Obj);
-		//         try
-		//         {
-		//             Db.ExecuteNonQuery(sql, LstParma);
-		//             Console.WriteLine("Technician data saved successfully");
-		//         }
-		//         catch (SqlException ex)
-		//         {
-		//             Console.WriteLine("SqlException: " + ex.Message);
-		//             throw; // זרוק את החריגה מחדש כדי שתוכל לראותה בשכבה עליונה יותר
-		//         }
-		//         catch (Exception ex)
-		//         {
-		//             Console.WriteLine("Exception: " + ex.Message);
-		//             throw; // זרוק את החריגה מחדש כדי שתוכל לראותה בשכבה עליונה יותר
-		//         }
-		//         finally
-		//         {
-		//             Db.Close();
-		//         }
-		//     }
+                Db.Close();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in SaveNewTechnician method: {ex.Message}");
+            }
+        }
 
-		// אחזור כל הלקוחות
-		public static List<Technicians> GetAll()
+        public static void UpdateTechnician(Technicians Tmp)
+        {
+            try
+            {
+                string sql = "UPDATE T_Technicians SET TecNum = @TecNum, FulName = @FulName, Phone = @Phone, Address = @Address, Pass = @Pass, UserName = @UserName, " +
+                             "Type = @Type, History = @History, Nots = @Nots, Email = @Email, Status = @Status, SerProdId = @SerProdId, DateAddition = @DateAddition " +
+                             "WHERE TecId = @TecId";
+
+                // הדפסת השאילתה לשם בדיקה
+                System.Diagnostics.Debug.WriteLine("SQL Query (Update): " + sql);
+
+                DbContext Db = new DbContext();
+                var Obj = new
+                {
+                    Tmp.TecId,
+                    Tmp.TecNum,
+                    Tmp.FulName,
+                    Tmp.Phone,
+                    Tmp.Address,
+                    Tmp.Pass,
+                    Tmp.UserName,
+                    Tmp.Type,
+                    Tmp.Status,
+                    History = (object)Tmp.History ?? DBNull.Value, // טיפול בערכים null
+                    Nots = (object)Tmp.Nots ?? DBNull.Value,       // טיפול בערכים null
+                    Tmp.Email,
+                    Tmp.SerProdId,
+                    Tmp.DateAddition
+                };
+
+                var LstParma = DbContext.CreateParameters(Obj);
+
+                // ביצוע השאילתה והכנסת הנתונים לבסיס הנתונים
+                int rowsAffected = Db.ExecuteNonQuery(sql, LstParma);
+                System.Diagnostics.Debug.WriteLine($"Rows affected (Update): {rowsAffected}");
+
+                if (rowsAffected > 0)
+                {
+                    System.Diagnostics.Debug.WriteLine("Technician updated successfully.");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("No rows were affected. Check your update query and parameters.");
+                }
+
+                Db.Close();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in UpdateTechnician method: {ex.Message}");
+            }
+        }
+
+
+        //     public static void Save(BLL.Technicians Tmp)
+        //     {
+        //         // בדיקת תקינות הנתונים
+        //         if (string.IsNullOrWhiteSpace(Tmp.FulName) ||
+        //             string.IsNullOrWhiteSpace(Tmp.Phone) ||
+        //             string.IsNullOrWhiteSpace(Tmp.Address) ||
+        //             string.IsNullOrWhiteSpace(Tmp.Pass) ||
+        //             string.IsNullOrWhiteSpace(Tmp.UserName) ||
+        //             string.IsNullOrWhiteSpace(Tmp.Type) ||
+        //             string.IsNullOrWhiteSpace(Tmp.Email) ||
+        //	Tmp.DateAddition == default(DateTime)) // השוואה נכונה של DateTime
+        //{
+        //             throw new ArgumentException("One or more required fields are missing or invalid");
+        //         }
+        //         string sql;
+        //         if (Tmp.TecId == -1)
+        //         {
+        //             // הוספת טכנאי חדש
+        //             sql = "INSERT INTO T_Technicians (TecNum, FulName, Phone, Address, Pass, UserName, Type, History, Nots, Email, Status, SerProdId, DateAddition) " +
+        //                   "VALUES (@TecNum, @FulName, @Phone, @Address, @Pass, @UserName, @Type, @History, @Nots, @Email, @Status, @SerProdId, @DateAddition)";
+        //         }
+        //         else
+        //         {
+        //             // עדכון טכנאי קיים
+        //             sql = "UPDATE T_Technicians SET TecNum = @TecNum, FulName = @FulName, Phone = @Phone, Address = @Address, Pass = @Pass, UserName = @UserName, " +
+        //                   "Type = @Type, History = @History, Nots = @Nots, Email = @Email, Status = @Status, SerProdId = @SerProdId, DateAddition = @DateAddition " +
+        //                   "WHERE TecId = @TecId";
+        //         }
+
+        //         // הדפסת השאילתה לשם בדיקה
+        //         Console.WriteLine("SQL Query: " + sql);
+
+        //         DbContext Db = new DbContext();
+        //         var Obj = new
+        //         {
+        //             Tmp.TecId,
+        //             Tmp.TecNum,
+        //             Tmp.FulName,
+        //             Tmp.Phone,
+        //             Tmp.Address,
+        //             Tmp.Pass,
+        //             Tmp.UserName,
+        //             Tmp.Type,
+        //             Tmp.Status,
+        //             Tmp.History,
+        //             Tmp.Nots,
+        //             Tmp.Email,
+        //             Tmp.SerProdId,
+        //             Tmp.DateAddition
+        //         };
+
+        //         var LstParma = DbContext.CreateParameters(Obj);
+        //         try
+        //         {
+        //             Db.ExecuteNonQuery(sql, LstParma);
+        //             Console.WriteLine("Technician data saved successfully");
+        //         }
+        //         catch (SqlException ex)
+        //         {
+        //             Console.WriteLine("SqlException: " + ex.Message);
+        //             throw; // זרוק את החריגה מחדש כדי שתוכל לראותה בשכבה עליונה יותר
+        //         }
+        //         catch (Exception ex)
+        //         {
+        //             Console.WriteLine("Exception: " + ex.Message);
+        //             throw; // זרוק את החריגה מחדש כדי שתוכל לראותה בשכבה עליונה יותר
+        //         }
+        //         finally
+        //         {
+        //             Db.Close();
+        //         }
+        //     }
+
+        // אחזור כל הלקוחות
+        public static List<Technicians> GetAll()
         {
             List<Technicians> TechniciansList = new List<Technicians>();
             string sql = "SELECT * FROM T_Technicians";

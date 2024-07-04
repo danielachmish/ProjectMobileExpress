@@ -4,8 +4,10 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Services;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using BLL;
+
 
 namespace MobileExpress.Manage
 {
@@ -63,12 +65,11 @@ namespace MobileExpress.Manage
 
 
 
-        protected void UpdateTechnician(object sender, EventArgs e)
+        protected void SaveTechnician(object sender, EventArgs e)
         {
             try
             {
-                // לוג לדיווח על תחילת התהליך
-                System.Diagnostics.Debug.WriteLine("Starting UpdateTechnician process");
+                System.Diagnostics.Debug.WriteLine("Starting SaveTechnician process");
 
                 HiddenField hfTecId = (HiddenField)form1.FindControl("hfTecId");
                 string FullName = txtFullName.Text;
@@ -80,118 +81,85 @@ namespace MobileExpress.Manage
                 string TecNum = txtTecNum.Text;
                 string Type = txtType.Text;
 
-                // ולידציה על השדות החובה עם לוגים
-                System.Diagnostics.Debug.WriteLine($"FullName: {FullName}");
-                System.Diagnostics.Debug.WriteLine($"Phone: {Phone}");
-                System.Diagnostics.Debug.WriteLine($"Address: {Address}");
-                System.Diagnostics.Debug.WriteLine($"Pass: {Pass}");
-                System.Diagnostics.Debug.WriteLine($"UserName: {UserName}");
-                System.Diagnostics.Debug.WriteLine($"Email: {Email}");
-                System.Diagnostics.Debug.WriteLine($"TecNum: {TecNum}");
-                System.Diagnostics.Debug.WriteLine($"Type: {Type}");
+                ValidateFields(FullName, Phone, Address, Pass, UserName, Email, TecNum, Type);
 
-                if (string.IsNullOrEmpty(FullName))
+                string History = string.Empty;
+
+                var technician = new Technicians
                 {
-                    System.Diagnostics.Debug.WriteLine("Validation Error: FullName is missing or invalid");
-                    throw new Exception("FullName is missing or invalid");
-                }
-                if (string.IsNullOrEmpty(Phone))
+                    TecId = hfTecId != null && !string.IsNullOrEmpty(hfTecId.Value) && int.TryParse(hfTecId.Value, out int tecId) ? tecId : -1,
+                    FulName = FullName,
+                    Phone = Phone,
+                    Address = Address,
+                    Email = Email,
+                    UserName = UserName,
+                    Pass = Pass != "****" && !string.IsNullOrEmpty(Pass) ? HashPassword(Pass) : null,
+                    TecNum = TecNum,
+                    Type = Type,
+                    History = History,
+                    DateAddition = DateTime.Now
+                };
+
+                if (technician.TecId == -1)
                 {
-                    System.Diagnostics.Debug.WriteLine("Validation Error: Phone is missing or invalid");
-                    throw new Exception("Phone is missing or invalid");
-                }
-                if (string.IsNullOrEmpty(Address))
-                {
-                    System.Diagnostics.Debug.WriteLine("Validation Error: Address is missing or invalid");
-                    throw new Exception("Address is missing or invalid");
-                }
-                if (string.IsNullOrEmpty(Pass))
-                {
-                    System.Diagnostics.Debug.WriteLine("Validation Error: Pass is missing or invalid");
-                    throw new Exception("Pass is missing or invalid");
-                }
-                if (string.IsNullOrEmpty(UserName))
-                {
-                    System.Diagnostics.Debug.WriteLine("Validation Error: UserName is missing or invalid");
-                    throw new Exception("UserName is missing or invalid");
-                }
-                if (string.IsNullOrEmpty(Email))
-                {
-                    System.Diagnostics.Debug.WriteLine("Validation Error: Email is missing or invalid");
-                    throw new Exception("Email is missing or invalid");
-                }
-                if (string.IsNullOrEmpty(TecNum))
-                {
-                    System.Diagnostics.Debug.WriteLine("Validation Error: TecNum is missing or invalid");
-                    throw new Exception("TecNum is missing or invalid");
-                }
-                if (string.IsNullOrEmpty(Type))
-                {
-                    System.Diagnostics.Debug.WriteLine("Validation Error: Type is missing or invalid");
-                    throw new Exception("Type is missing or invalid");
-                }
-
-                string History = string.Empty; // ברירת מחדל לערך ריק עבור השדה History
-
-                if (hfTecId != null && int.TryParse(hfTecId.Value, out int tecId))
-                {
-                    System.Diagnostics.Debug.WriteLine($"Editing Technician with ID: {tecId}");
-
-                    // עריכת טכנאי קיים
-                    Technicians technician = Technicians.GetById(tecId);
-                    if (technician != null)
-                    {
-                        System.Diagnostics.Debug.WriteLine("Technician found. Updating details.");
-
-                        technician.FulName = FullName;
-                        technician.Phone = Phone;
-                        technician.Address = Address;
-                        technician.Email = Email;
-                        technician.UserName = UserName;
-                        technician.TecNum = TecNum;
-                        technician.Type = Type;
-
-                        if (Pass != "****" && !string.IsNullOrEmpty(Pass))
-                        {
-                            System.Diagnostics.Debug.WriteLine("Updating password.");
-                            technician.Pass = Pass;
-                        }
-
-                        technician.History = History; // הוספת שדה History
-                        technician.DateAddition = DateTime.Now; // שמירת התאריך הנוכחי
-
-                        // לוג לפני השמירה
-                        System.Diagnostics.Debug.WriteLine("Saving technician data");
-                        technician.Save();
-                        // לוג לאחר השמירה
-                        System.Diagnostics.Debug.WriteLine("Technician data saved");
-
-                        BindTechnicians();
-
-                        System.Diagnostics.Debug.WriteLine("Technician data bound to Repeater");
-
-                        Response.Write("<script>alert('Updated Successfully');location.href='teclist.aspx';</script>");
-                        System.Diagnostics.Debug.WriteLine("Update process completed successfully");
-                    }
-                    else
-                    {
-                        System.Diagnostics.Debug.WriteLine("Technician not found");
-                        Response.Write("<script>alert('Technician not found');</script>");
-                    }
+                    System.Diagnostics.Debug.WriteLine("Adding new technician");
+                    technician.SaveNewTechnician();
+                    System.Diagnostics.Debug.WriteLine("New technician added successfully");
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine("Invalid Technician ID");
-                    Response.Write("<script>alert('Invalid Technician ID');</script>");
+                    System.Diagnostics.Debug.WriteLine($"Editing Technician with ID: {technician.TecId}");
+                    technician.UpdateTechnician();
+                    System.Diagnostics.Debug.WriteLine("Technician data saved");
                 }
+
+                BindTechnicians();
+                ScriptManager.RegisterStartupScript(this, GetType(), "closeModalScript", "closeModal();", true);
+                Response.Redirect(Request.RawUrl);
             }
             catch (Exception ex)
             {
-                // לוג לשגיאה
                 System.Diagnostics.Debug.WriteLine($"Error: {ex.Message}");
                 Response.Write($"<script>alert('Error: {ex.Message}');</script>");
             }
         }
+
+        private void ValidateFields(params string[] fields)
+        {
+            string[] fieldNames = { "FullName", "Phone", "Address", "Pass", "UserName", "Email", "TecNum", "Type" };
+            for (int i = 0; i < fields.Length; i++)
+            {
+                if (string.IsNullOrEmpty(fields[i]))
+                {
+                    System.Diagnostics.Debug.WriteLine($"Validation Error: {fieldNames[i]} is missing or invalid");
+                    throw new Exception($"{fieldNames[i]} is missing or invalid");
+                }
+            }
+        }
+
+        private string HashPassword(string password)
+        {
+            return Convert.ToBase64String(System.Security.Cryptography.SHA256.Create().ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
+        }
+
+
+        //private void LogError(Exception ex)
+        //{
+        //    // רישום שגיאות
+        //    System.Diagnostics.Debug.WriteLine($"Error: {ex.Message}");
+        //}
+
+        //private void ShowErrorMessage(string message)
+        //{
+        //    // הצגת הודעת שגיאה למשתמש
+        //    ScriptManager.RegisterStartupScript(this, GetType(), "errorScript", $"alert('{message}');", true);
+        //}
+
+        //private void BindTechnicians()
+        //{
+        //    // קוד לקישור נתוני הטכנאים ל-Repeater או אלמנט אחר ב-UI
+        //}
+
 
 
         [WebMethod]
@@ -236,6 +204,7 @@ namespace MobileExpress.Manage
                 throw;
             }
         }
+
     }
 }
 
