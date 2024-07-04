@@ -21,21 +21,49 @@ namespace BLL
         public int SerProdId { get; set; }
         public DateTime DateAddition { get; set; }
 
-        public void Save()
+        // פונקציה לשמירת טכנאי חדש
+        public void SaveNewTechnician()
         {
             try
             {
-                TechniciansDAL.Save(this);
+                TechniciansDAL.SaveNewTechnician(this); // העברת האובייקט הנוכחי ל-DAL
             }
             catch (Exception ex)
             {
-                // טיפול בשגיאות, לדוגמה: רישום ל-Log
                 Console.WriteLine("Exception: " + ex.Message);
-                throw; // זרוק את החריגה מחדש כדי שתוכל לראותה בשכבה עליונה יותר
+                throw;
             }
         }
 
-       
+        // פונקציה לעדכון טכנאי קיים
+        public void UpdateTechnician()
+        {
+            try
+            {
+                TechniciansDAL.UpdateTechnician(this); // העברת האובייקט הנוכחי ל-DAL
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: " + ex.Message);
+                throw;
+            }
+        }
+
+        // פונקציה כללית לשמירת טכנאי חדש או קיים
+        public void Save()
+        {
+            if (this.TecId == -1)
+            {
+                SaveNewTechnician();
+            }
+            else
+            {
+                UpdateTechnician();
+            }
+        }
+
+
+
 
         // אחזור כל המשתמשים
         public static List<Technicians> GetAll()

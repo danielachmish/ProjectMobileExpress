@@ -26,6 +26,7 @@
             }
         </style>
     </head>
+
     <body>
         <div class="container mt-5">
             <h2 class="text-center">רשימת טכנאים</h2>
@@ -149,10 +150,11 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    console.log("Technicians loaded successfully", response);
+                    console.log("Technicians loaded successfully", response.d);
                     // עדכון ה-HTML עם רשימת הטכנאים החדשה
                     var html = '';
-                    response.forEach(function (technician) {
+                    response.d.forEach(function (technician) {
+                        var dateAddition = new Date(technician.DateAddition).toLocaleString(); // המרת תאריך ההוספה לפורמט קריא
                         html += '<div>' +
                             'מספר טכנאי: ' + technician.TecNum + '<br>' +
                             'שם מלא: ' + technician.FulName + '<br>' +

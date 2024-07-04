@@ -12,6 +12,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <!-- כותרת העמוד ופירורי לחם -->
+
     <div class="breadcrumb" style="direction: rtl;">
         <h1>רשימת טכנאים</h1>
     </div>
@@ -33,7 +34,7 @@
                                     <i class="fas fa-file-excel"></i>
                                 </button>
                                 <!-- כפתור הוספת טכנאי -->
-                                <button class="add-button" type="button" onclick="openModal()">+</button>
+                                <button class="add-button" type="button" onclick="openModalAdd()">+</button>
 
                                 <!-- תפריט להסתיר/להציג עמודות -->
                                 <button class="columns-button" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -151,7 +152,9 @@
                                         <label class="form-check-label ml-3">Actions</label>
                                     </div>
                                 </div>
+
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -162,6 +165,7 @@
     <div class="card-body" style="height: calc(100% - 80px); direction: rtl;">
         <div class="table-responsive" style="height: 100%;">
             <form id="form1" runat="server">
+                <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
                 <!-- טבלה של רשימת הטכנאים -->
                 <div class="ontainer-fluid">
                     <table class="display table table-borderless ul-contact-list-table" id="contact_list_table" style="width: 100%; direction: rtl;">
@@ -209,12 +213,22 @@
                                             <button class="status-button"><%# Convert.ToBoolean(Eval("Status")) ? "פעיל" : "לא פעיל" %></button>
                                         </td>
                                         <td class="action-buttons">
-                                            <button type="button" class="edit-button edit-contact" data-tecid='<%# Eval("TecId") %>' data-type='<%# Eval("Type") %>' data-email='<%# Eval("Email") %>' data-address='<%# Eval("Address") %>' data-phone='<%# Eval("Phone") %>' data-fullname='<%# Eval("FulName") %>' data-tecnum='<%# Eval("TecNum") %>'>
+                                            <button type="button" class="edit-button edit-contact" onclick="openModalEdit({
+        Id: '<%# Eval("TecId") %>',
+        FullName: '<%# Eval("FulName") %>',
+        Phone: '<%# Eval("Phone") %>',
+        Address: '<%# Eval("Address") %>',
+        Email: '<%# Eval("Email") %>',
+        Username: '<%# Eval("UserName") %>',
+        Password: '<%# Eval("Pass") %>',
+        TecNum: '<%# Eval("TecNum") %>',
+        Type: '<%# Eval("Type") %>'
+    })">
                                                 <i class="fas fa-edit"></i>
                                             </button>
                                             <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("TecId") %>' OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this item?');">
-                                                            <i class="fas fa-trash-alt"></i>
-                                            </asp:LinkButton>
+        <i class="fas fa-trash-alt"></i>
+    </asp:LinkButton>
                                         </td>
                                     </tr>
                                 </ItemTemplate>
@@ -228,11 +242,12 @@
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
-                <!-- מודל עריכה -->
-                <div id="editModal" class="modal">
+
+                <!-- מודל הוספה/עריכה טכנאי -->
+                <div id="technicianModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeModal()">&times;</span>
-                        <h2>עריכת טכנאי</h2>
+                        <h2 id="modalTitle">הוספת טכנאי</h2>
                         <asp:HiddenField ID="hfTecId" runat="server" />
                         <div class="form-group">
                             <label for="fullname">שם מלא:</label>
@@ -266,10 +281,12 @@
                             <label for="type">סוג:</label>
                             <asp:TextBox ID="txtType" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
-                        <asp:Button ID="btnSave" runat="server" OnClick="UpdateTechnician" Text="שמירה" CssClass="btn btn-primary" />
+                        <asp:Button ID="btnSave" runat="server" OnClick="SaveTechnician" Text="שמירה" CssClass="btn btn-primary" />
                     </div>
                 </div>
             </form>
+
+
         </div>
     </div>
 
@@ -838,68 +855,56 @@
         }
 
 
-        // עדכון טכנאי - פתיחת מודל עם פרטי הטכנאי שנבחר לעריכה
-        document.addEventListener('DOMContentLoaded', (event) => {
-            console.log("DOMContentLoaded event fired");
 
-            const editButtons = document.querySelectorAll('.edit-contact');
-            const modal = document.getElementById('editModal');
-            const span = document.getElementsByClassName('close')[0];
+        // פונקציה לפתיחת מודאל הוספת טכנאי
+        function openModalAdd() {
+            var modal = document.getElementById('technicianModal');
+            var title = document.getElementById('modalTitle');
+            var btnSave = document.getElementById('<%= btnSave.ClientID %>');
 
-            editButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    console.log("Edit button clicked");
+            title.innerText = 'הוספת טכנאי';
+            btnSave.value = 'הוסף טכנאי';
 
-                    const TecId = button.getAttribute('data-tecid');
-                    const Type = button.getAttribute('data-type');
-                    const Email = button.getAttribute('data-email');
-                    const Address = button.getAttribute('data-address');
-                    const Phone = button.getAttribute('data-phone');
-                    const FulName = button.getAttribute('data-fullname');
-                    const TecNum = button.getAttribute('data-tecnum');
+            // clear form fields
+            document.getElementById('<%= hfTecId.ClientID %>').value = '';
+            document.getElementById('<%= txtFullName.ClientID %>').value = '';
+            document.getElementById('<%= txtPhone.ClientID %>').value = '';
+            document.getElementById('<%= txtAddress.ClientID %>').value = '';
+            document.getElementById('<%= txtEmail.ClientID %>').value = '';
+            document.getElementById('<%= txtUsername.ClientID %>').value = '';
+            document.getElementById('<%= txtPassword.ClientID %>').value = '';
+            document.getElementById('<%= txtTecNum.ClientID %>').value = '';
+            document.getElementById('<%= txtType.ClientID %>').value = '';
 
-                    console.log(`TecId: ${TecId}, Type: ${Type}, Email: ${Email}, Address: ${Address}, Phone: ${Phone}, FulName: ${FulName}, TecNum: ${TecNum}`);
+            modal.style.display = 'block';
+        }
 
-                    // עדכון השדות בטופס באמצעות ClientID
-                    document.getElementById('<%= hfTecId.ClientID %>').value = TecId;
-                    document.getElementById('<%= txtFullName.ClientID %>').value = FulName;
-                    document.getElementById('<%= txtPhone.ClientID %>').value = Phone;
-                    document.getElementById('<%= txtAddress.ClientID %>').value = Address;
-                    document.getElementById('<%= txtEmail.ClientID %>').value = Email;
-                    document.getElementById('<%= txtUsername.ClientID %>').value = Type;
-                    document.getElementById('<%= txtPassword.ClientID %>').value = "****"; // יש להחליף בנתון אמיתי אם אפשרי
-                    document.getElementById('<%= txtType.ClientID %>').value = Type;
-                    document.getElementById('<%=txtTecNum.ClientID%>').value = TecNum;
+        // פונקציה לפתיחת מודאל עריכת טכנאי
+        function openModalEdit(technician) {
+            var modal = document.getElementById('technicianModal');
+            var title = document.getElementById('modalTitle');
+            var btnSave = document.getElementById('<%= btnSave.ClientID %>');
 
-                    console.log("Form fields updated");
+            title.innerText = 'עריכת טכנאי';
+            btnSave.value = 'שמור שינויים';
 
-                    modal.style.display = 'block';
-                    console.log("Modal displayed");
-                });
-            });
+            // populate form fields with technician data
+            document.getElementById('<%= hfTecId.ClientID %>').value = technician.Id;
+            document.getElementById('<%= txtFullName.ClientID %>').value = technician.FullName;
+            document.getElementById('<%= txtPhone.ClientID %>').value = technician.Phone;
+            document.getElementById('<%= txtAddress.ClientID %>').value = technician.Address;
+            document.getElementById('<%= txtEmail.ClientID %>').value = technician.Email;
+            document.getElementById('<%= txtUsername.ClientID %>').value = technician.Username;
+            document.getElementById('<%= txtPassword.ClientID %>').value = technician.Password;
+            document.getElementById('<%= txtTecNum.ClientID %>').value = technician.TecNum;
+            document.getElementById('<%= txtType.ClientID %>').value = technician.Type;
 
-            span.onclick = function () {
-                console.log("Close button clicked");
-                modal.style.display = 'none';
-            }
-
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    console.log("Outside modal clicked");
-                    modal.style.display = 'none';
-                }
-            }
-        });
-
-        function openModal() {
-            console.log("openModal function called");
-            document.getElementById('editModal').style.display = 'block';
+            modal.style.display = 'block';
         }
 
         function closeModal() {
-            console.log("closeModal function called");
-            document.getElementById('editModal').style.display = 'none';
+            var modal = document.getElementById('technicianModal');
+            modal.style.display = 'none';
         }
 
 
@@ -1089,6 +1094,22 @@
                 });
             }
         });
+
+
+
+//            function openModalAdd() {
+//                document.getElementById('addModal').style.display = 'block';
+//}
+
+//            function closeModal() {
+//                document.getElementById('addModal').style.display = 'none';
+//}
+
+
+
+
+
+
 
 
     </script>
