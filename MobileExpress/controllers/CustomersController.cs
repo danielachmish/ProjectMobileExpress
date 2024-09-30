@@ -11,35 +11,69 @@ namespace MobileExpress.controllers
 {
     public class CustomersController : ApiController
     {
-       public void Post(Customers Tmp)
-        {
-            // בדוק ש-`Tmp` אינו `null` לפני גישה לפרופרטים שלו
-            if (Tmp != null)
-            {
-                // הגדרת מזהה חדש
-                Tmp.CusId = -1;
-                // שמירה
-                Tmp.Save();
-            }
-            else
-            {
-                // טיפול במקרה בו `Tmp` הוא `null`
-                // ניתן לזרוק חריגה, לרשום שגיאה או לטפל בזה לפי הלוגיקה של היישום שלך
-                // לדוגמה: throw new ArgumentNullException("Tmp", "אובייקט Tmp הוא null");
-            }
-        }
-        // עדכון לקוח קיים
 
-        public void Put(int Id, Customers Tmp)
-        {
-            // הגדרת מזהה לקוח לפי הקלט
-            Tmp.CusId = Id;
-            // שמירת לקוח
-            Tmp.Save();
-        }
 
-        // אחזור רשימת כל הלקוחות
-        public List<Customers> Get()
+
+		[HttpPost]
+		public IHttpActionResult Post([FromBody] Customers customer)
+		{
+			if (customer == null)
+			{
+				return BadRequest("אובייקט הלקוח הוא null");
+			}
+			customer.CusId = 0; // שונה מ -1 ל 0
+			customer.Save();
+			return CreatedAtRoute("DefaultApi", new { id = customer.CusId }, customer);
+		}
+
+		[HttpPut]
+		public IHttpActionResult Put(int id, [FromBody] Customers customer)
+		{
+			if (customer == null)
+			{
+				return BadRequest("אובייקט הלקוח הוא null");
+			}
+			var existingCustomer = Customers.GetById(id);
+			if (existingCustomer == null)
+			{
+				return NotFound();
+			}
+			customer.CusId = id;
+			customer.Save();
+			return StatusCode(HttpStatusCode.NoContent);
+		}
+
+
+
+		//public void Post(Customers Tmp)
+		// {
+		//     // בדוק ש-`Tmp` אינו `null` לפני גישה לפרופרטים שלו
+		//     if (Tmp != null)
+		//     {
+		//         // הגדרת מזהה חדש
+		//         Tmp.CusId = -1;
+		//         // שמירה
+		//         Tmp.Save();
+		//     }
+		//     else
+		//     {
+		//         // טיפול במקרה בו `Tmp` הוא `null`
+		//         // ניתן לזרוק חריגה, לרשום שגיאה או לטפל בזה לפי הלוגיקה של היישום שלך
+		//         // לדוגמה: throw new ArgumentNullException("Tmp", "אובייקט Tmp הוא null");
+		//     }
+		// }
+		// // עדכון לקוח קיים
+
+		// public void Put(int Id, Customers Tmp)
+		// {
+		//     // הגדרת מזהה לקוח לפי הקלט
+		//     Tmp.CusId = Id;
+		//     // שמירת לקוח
+		//     Tmp.Save();
+		// }
+
+		// אחזור רשימת כל הלקוחות
+		public List<Customers> Get()
         {
             return Customers.GetAll();
         }

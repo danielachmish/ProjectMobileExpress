@@ -20,10 +20,46 @@ namespace BLL
 		public string Nots { get; set; }
 		public int CityId { get; set; }
 
+		public void SaveNewCustomers()
+		{
+			try
+			{
+				CustomersDAL.SaveNewCustomers(this); // העברת האובייקט הנוכחי ל-DAL
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Exception: " + ex.Message);
+				throw;
+			}
+		}
+
+		// פונקציה לעדכון טכנאי קיים
+		public void UpdateCustomers()
+		{
+			try
+			{
+				CustomersDAL.UpdateCustomers(this); // העברת האובייקט הנוכחי ל-DAL
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Exception: " + ex.Message);
+				throw;
+			}
+		}
+
+		// פונקציה כללית לשמירת טכנאי חדש או קיים
 		public void Save()
 		{
-			CustomersDAL.Save(this);
+			if (this.CusId == -1)
+			{
+				SaveNewCustomers();
+			}
+			else
+			{
+				UpdateCustomers();
+			}
 		}
+
 		// אחזור כל המשתמשים
 		public static List<Customers> GetAll()
 		{

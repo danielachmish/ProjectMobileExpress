@@ -1,21 +1,20 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Manage/MainMaster.Master" AutoEventWireup="true" CodeBehind="CusList.aspx.cs" Inherits="MobileExpress.Manage.CusList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Manage/MainMaster.Master" AutoEventWireup="true" CodeBehind="SerProd.aspx.cs" Inherits="MobileExpress.Manage.SerProd" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
      <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
     <link rel="stylesheet" href="assets/css/styles.css">
     <!-- קישורים נוספים כמו Bootstrap ו-Font Awesome -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
-
 </asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-   <!-- כותרת העמוד ופירורי לחם -->
+  
+    <!-- כותרת העמוד ופירורי לחם -->
 
     <div class="breadcrumb" style="direction: rtl;">
-        <h1>רשימת לקוחות</h1>
+        <h1>רשימת מוצרי שירות</h1>
     </div>
     <div class="separator-breadcrumb border-top"></div>
 
@@ -31,10 +30,10 @@
 
                             <div class="columns-button-container">
                                 <!-- כפתור יצוא ל-Excel -->
-                                <button class="export-button" onclick="exportTableToExcel('contact_list_table_Customers')">
+                                <button class="export-button" onclick="exportTableToExcel('contact_list_table')">
                                     <i class="fas fa-file-excel"></i>
                                 </button>
-                                <!-- כפתור הוספת לקוח -->
+                                <!-- כפתור הוספת מוצר -->
                                 <button class="add-button" type="button" onclick="openModalAdd()">+</button>
 
                                 <!-- תפריט להסתיר/להציג עמודות -->
@@ -51,80 +50,51 @@
                                             <input type="checkbox" class="toggle-vis" data-column="1" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">CusId</label>
+                                        <label class="form-check-label ml-3">SerProdId</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="2" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">FullName</label>
+                                        <label class="form-check-label ml-3">Desc</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="3" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">Phone</label>
+                                        <label class="form-check-label ml-3">Price</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="4" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">Addres</label>
+                                        <label class="form-check-label ml-3">NameImage</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="5" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">Uname</label>
+                                        <label class="form-check-label ml-3">Status</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="6" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">Pass</label>
+                                        <label class="form-check-label ml-3">Nots</label>
                                     </div>
+                                 
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="7" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">DateAdd</label>
+                                        <label class="form-check-label ml-3">Actions</label>
                                     </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="8" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">Status</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="9" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">History</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="10" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">Nots</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="11" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">CityId</label>
-                                    </div>
-
-                                   
                                 </div>
 
                             </div>
@@ -139,65 +109,53 @@
     <div class="card-body" style="height: calc(100% - 80px); direction: rtl;">
         <div class="table-responsive" style="height: 100%;">
             <form id="form1" runat="server">
-                       <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-                        <!-- טבלה של רשימת הלקוחות -->
+                <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+                <!-- טבלה של רשימת המוצרים -->
                 <div class="ontainer-fluid">
-                    <table class="display table table-borderless ul-contact-list-table" id="contact_list_table_Customers" style="width: 100%; direction: rtl;">
+                    <table class="display table table-borderless ul-contact-list-table" id="contact_list_table" style="width: 100%; direction: rtl;">
                         <thead>
                             <tr class="border-bottom">
                                 <th>
                                     <input type="checkbox" id="selectAll"></th>
-                                <th>CusId</th>
-                                <th>FullName</th>
-                                <th>Phone</th>
-                                <th>Addres</th>
-                                <th>Uname</th>
-                                <th>Pass</th>
-                                <th>DateAdd</th>
+                                <th>SerProdId</th>
+                                <th>Desc</th>
+                                <th>Price</th>
+                                <th>NameImage</th>
                                 <th>Status</th>
-                                <th>History</th>
                                 <th>Nots</th>
-                                <th>CityId</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="customersList">
-                                 <asp:Repeater ID="Repeater1" runat="server">
+                        <tbody id="SerProdList">
+                            <asp:Repeater ID="Repeater1" runat="server">
                                 <ItemTemplate>
-                                    <tr class="row-status" data-status='<%# Eval("Status") %>' data-customers-id='<%# Eval("CusId") %>'>
+                                    <tr class="row-status" data-status='<%# Eval("Status") %>' data-SerProd-id='<%# Eval("TecId") %>'>
                                         <td>
-                                            <input type="checkbox" class="selectRow" value='<%# Eval("CusId") %>'></td>
-                                        <td><%# Eval("CusId") %></td>
-                                        <td><%# Eval("FullName") %></td>
-                                        <td><%# Eval("Phone") %></td>
-                                        <td><%# Eval("Addres") %></td>
-                                        <td><%# Eval("Uname") %></td>
-                                        <td><%# Eval("Pass") %></td>
-                                        <td><%# Eval("DateAdd") %></td>
+                                            <input type="checkbox" class="selectRow" value='<%# Eval("TecId") %>'></td>
+                                        <td><%# Eval("SerProdId") %></td>
+                                        <td><%# Eval("Desc") %></td>
+                                        <td><%# Eval("Price") %></td>
+                                        <td><%# Eval("NameImage") %></td>
                                         <td><%# Eval("Status") %></td>
-                                        <td><%# Eval("History") %></td>
                                         <td><%# Eval("Nots") %></td>
-                                        <td><%# Eval("CityId") %></td>
-  
+                                       
+
                                         <td>
                                             <button class="status-button"><%# Convert.ToBoolean(Eval("Status")) ? "פעיל" : "לא פעיל" %></button>
                                         </td>
                                         <td class="action-buttons">
                                             <button type="button" class="edit-button edit-contact" onclick="openModalEdit({
-                                                                Id: '<%# Eval("CusId") %>',
-                                                                FullName: '<%# Eval("FullName") %>',
-                                                                Phone: '<%# Eval("Phone") %>',
-                                                                Address: '<%# Eval("Addres") %>',
-                                                                Uname: '<%# Eval("Uname") %>',
-                                                                Password: '<%# Eval("Pass") %>',
-                                                                dateAdd: '<%# Eval("DateAdd") %>',
-                                                                Status: '<%# Eval("Status") %>',
-                                                                History: '<%# Eval("History") %>',
-                                                                Nots: '<%# Eval("Nots") %>',
-                                                                CityId: '<%# Eval("CityId") %>'
-                                                            })">
+                                            Id: '<%# Eval("SerProdId") %>',
+                                            FullName: '<%# Eval("Desc") %>',
+                                            Phone: '<%# Eval("Price") %>',
+                                            Address: '<%# Eval("NameImage") %>',
+                                            Email: '<%# Eval("Status") %>',
+                                            Username: '<%# Eval("Nots") %>',
+                                            
+                                        })">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                               <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("CusId") %>' OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this item?');">
+                                            <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("SerProdId") %>' OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this item?');">
                                                 <i class="fas fa-trash-alt"></i>
                                             </asp:LinkButton>
                                         </td>
@@ -206,65 +164,53 @@
                             </asp:Repeater>
                         </tbody>
                     </table>
-                 </div>
 
-                  <!-- כפתור מחיקה שמופיע בתחתית הטבלה -->
+                </div>
+
+                <!-- כפתור מחיקה שמופיע בתחתית הטבלה -->
                 <div id="deleteContainer" style="display: none; text-align: center; margin-top: 20px;">
                     <button id="deleteSelected" class="delete-button-Multiple" onclick="deleteSelectedRows()" title="מחיקת רשומות נבחרות">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
-       <%-- מודל הוספת לקוח--%>
-<div id="customersModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2 id="modalTitle">הוספת לקוח</h2>
-        <asp:HiddenField ID="hfCusId" runat="server" />
-        <div class="form-group">
-            <asp:Label AssociatedControlID="txtFullName" runat="server">שם מלא:</asp:Label>
-            <asp:TextBox ID="txtFullName" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>
-        <div class="form-group">
-            <asp:Label AssociatedControlID="txtPhone" runat="server">טלפון:</asp:Label>
-            <asp:TextBox ID="txtPhone" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>
-        <div class="form-group">
-            <asp:Label AssociatedControlID="txtAddres" runat="server">כתובת:</asp:Label>
-            <asp:TextBox ID="txtAddres" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>
-        <div class="form-group">
-            <asp:Label AssociatedControlID="txtUname" runat="server">אימייל:</asp:Label>
-            <asp:TextBox ID="txtUname" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>
-        <div class="form-group">
-            <asp:Label AssociatedControlID="txtPass" runat="server">סיסמה:</asp:Label>
-            <asp:TextBox ID="txtPass" runat="server" TextMode="Password" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>
-        <div class="form-group">
-            <asp:Label AssociatedControlID="txtDateAdd" runat="server">תאריך הוספה:</asp:Label>
-            <asp:TextBox ID="txtDateAdd" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>
-        <div class="form-group">
-            <asp:Label AssociatedControlID="txtStatus" runat="server">סטטוס:</asp:Label>
-            <asp:TextBox ID="txtStatus" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>
-        <div class="form-group">
-            <asp:Label AssociatedControlID="txtNots" runat="server">הערות:</asp:Label>
-            <asp:TextBox ID="txtNots" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>
-        <div class="form-group">
-            <asp:Label AssociatedControlID="txtCityId" runat="server">מס עיר:</asp:Label>
-            <asp:TextBox ID="txtCityId" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>
-        <asp:Button ID="btnSave" runat="server" OnClick="SaveCustomers" Text="שמירה" CssClass="btn btn-primary" />
-    </div>
-</div>
 
+                <!-- מודל הוספה/עריכה מוצר -->
+                <div id="SerProdModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <h2 id="modalTitle">הוספת מוצר</h2>
+                        <asp:HiddenField ID="hfTecId" runat="server" />
+                        <div class="form-group">
+                            <label for="Desc">תיאור:</label>
+                            <asp:TextBox ID="txtDesc" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                        </div>
+                        <div class="form-group">
+                            <label for="Price">מחיר:</label>
+                            <asp:TextBox ID="txtPrice" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                        </div>
+                        <div class="form-group">
+                            <label for="NameImage">שם תמונה:</label>
+                            <asp:TextBox ID="txtNameImage" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                        </div>
+                        <div class="form-group">
+                            <label for="Status">סטטוס:</label>
+                            <asp:TextBox ID="txtStatus" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                        </div>
+                        <div class="form-group">
+                            <label for="Nots">הערות:</label>
+                            <asp:TextBox ID="txtNots" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                        </div>
+                       
+                        <asp:Button ID="btnSave" runat="server" OnClick="SaveSerProd" Text="שמירה" CssClass="btn btn-primary" />
+                    </div>
+                </div>
             </form>
+
+
         </div>
     </div>
-    
-      <style>
+
+    <style>
         body {
             margin: 0;
             padding: 0;
@@ -419,7 +365,7 @@
                 text-decoration: none;
                 cursor: pointer;
             }
-        /*שדות עריכת לקוח*/
+        /*שדות עריכת טכנאי*/
         .form-group {
             margin-bottom: 15px;
         }
@@ -522,7 +468,7 @@
         }
 
 
-        /*שמירת עדכון טכנאי*/
+        /*שמירת עדכון מוצר */
         .btn-primary {
             background-color: #3f2169; /* צבע רקע סגול כהה לכפתור */
             border-color: #3f2169; /* צבע גבול סגול כהה */
@@ -687,7 +633,7 @@
         }
 
 
-        /*הוספת טכנאי*/
+        /*הוספת מוצר*/
         .add-button {
             width: 40px; /* רוחב הכפתור */
             height: 40px; /* גובה הכפתור */
@@ -779,14 +725,30 @@
             .delete-button-Multiple i {
                 font-size: 18px; /* גודל האייקון */
             }
+
+        .BtnNextPrev {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
     </style>
 
+
 </asp:Content>
-
-<asp:Content ID="Content3" ContentPlaceHolderID="FooterContent" runat="server"></asp:content>
-
+<asp:Content ID="Content3" ContentPlaceHolderID="FooterContent" runat="server">
+</asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="UnderFooter" runat="server">
-         <!-- סקריפטים שנדרשים לעמוד -->
+
+   
+    <!-- סקריפטים שנדרשים לעמוד -->
     <!-- טעינת סקריפטים חיצוניים -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -802,13 +764,21 @@
     <script src="/dist-assets/js/scripts/contact-list-table.min.js"></script>
     <script src="/dist-assets/js/scripts/datatables.script.min.js"></script>
 
-      <script>
-        // פונקציית חיפוש - סינון לקוחות לפי טקסט בשדה החיפוש
+
+
+    <script>
+
+
+
+
+
+
+        // פונקציית חיפוש - סינון מוצרים לפי טקסט בשדה החיפוש
         function filterContacts() {
             var input, filter, table, tr, td, i, j, txtValue;
             input = document.getElementById("searchInput");
             filter = input.value.toLowerCase();
-            table = document.getElementById("contact_list_table_Customers");
+            table = document.getElementById("contact_list_table");
             tr = table.getElementsByTagName("tr");
 
             for (i = 1; i < tr.length; i++) { // התחל מ-1 כדי לדלג על הכותרת
@@ -826,237 +796,67 @@
             }
         }
 
-          // פונקציה לפתיחת מודאל הוספת לקוח
-          function openModalAdd() {
-              var modal = document.getElementById('customersModal');
-              var title = document.getElementById('modalTitle');
-              var btnSave = document.getElementById('<%= btnSave.ClientID %>');
-    title.innerText = 'הוספת לקוח';
-    btnSave.value = 'הוסף לקוח';
-    // ניקוי שדות הטופס
-    document.getElementById('<%= hfCusId.ClientID %>').value = '';
-    document.getElementById('<%= txtFullName.ClientID %>').value = '';
-    document.getElementById('<%= txtPhone.ClientID %>').value = '';
-    document.getElementById('<%= txtAddres.ClientID %>').value = '';
-    document.getElementById('<%= txtUname.ClientID %>').value = '';
-    document.getElementById('<%= txtPass.ClientID %>').value = '';
-    document.getElementById('<%= txtDateAdd.ClientID %>').value = '';
-    document.getElementById('<%= txtStatus.ClientID %>').value = '';
-    document.getElementById('<%= txtNots.ClientID %>').value = '';
-    document.getElementById('<%= txtCityId.ClientID %>').value = '';
-              modal.style.display = 'block';
-          }
 
-          // פונקציה לפתיחת מודאל עריכת לקוח
-          function openModalEdit(customer) {
-              var modal = document.getElementById('customersModal');
-              var title = document.getElementById('modalTitle');
-              var btnSave = document.getElementById('<%= btnSave.ClientID %>');
-    title.innerText = 'עריכת לקוח';
-    btnSave.value = 'שמור שינויים';
-    // מילוי שדות הטופס בנתוני הלקוח
-    document.getElementById('<%= hfCusId.ClientID %>').value = customer.Id;
-    document.getElementById('<%= txtFullName.ClientID %>').value = customer.FullName;
-    document.getElementById('<%= txtPhone.ClientID %>').value = customer.Phone;
-    document.getElementById('<%= txtAddres.ClientID %>').value = customer.Addres;
-    document.getElementById('<%= txtUname.ClientID %>').value = customer.Uname;         
-    document.getElementById('<%= txtPass.ClientID %>').value = customer.Password;
-    document.getElementById('<%= txtDateAdd.ClientID %>').value = customer.DateAdd;
-    document.getElementById('<%= txtStatus.ClientID %>').value = customer.Status;
-    document.getElementById('<%= txtNots.ClientID %>').value = customer.Nots;
-    document.getElementById('<%= txtCityId.ClientID %>').value = customer.CityId;
-    modal.style.display = 'block';
-}
 
-function closeModal() {
-    var modal = document.getElementById('customersModal');
-    modal.style.display = 'none';
-}
-
-          function saveCustomer() {
-              console.log("פונקציית saveCustomer התחילה");
-              var data = {
-                  CusId: $('#<%= hfCusId.ClientID %>').val(),
-        FullName: $('#<%= txtFullName.ClientID %>').val(),
-        Phone: $('#<%= txtPhone.ClientID %>').val(),
-        Addres: $('#<%= txtAddres.ClientID %>').val(),
-        Uname: $('#<%= txtUname.ClientID %>').val(),
-        Pass: $('#<%= txtPass.ClientID %>').val(),
-        DateAdd: $('#<%= txtDateAdd.ClientID %>').val(),
-        Status: $('#<%= txtStatus.ClientID %>').val() === 'true',
-        Nots: $('#<%= txtNots.ClientID %>').val(),
-               CityId: parseInt($('#<%= txtCityId.ClientID %>').val())
-           };
-
-           console.log("נתונים שנאספו:", JSON.stringify(data));
-
-           var method = data.CusId === "" ? "POST" : "PUT";
-           var url = method === "POST" ? "/api/Customers" : "/api/Customers/" + data.CusId;
-
-           console.log(`שולח בקשת ${method} ל-${url}`);
-
-           $.ajax({
-               type: method,
-               url: url,
-               data: JSON.stringify(data),
-               contentType: "application/json; charset=utf-8",
-               dataType: "json",
-               success: function (response) {
-                   console.log("תגובה התקבלה בהצלחה:", response);
-                   alert("הלקוח נשמר בהצלחה");
-                   closeModal();
-                   refreshCustomersTable();
-               },
-               error: function (xhr, status, error) {
-                   console.error("שגיאה בשמירת הלקוח:", status, error);
-                   console.log("תגובת השרת:", xhr.responseText);
-                   alert("אירעה שגיאה בשמירת הלקוח: " + error);
-               }
-           });
-       }
-
-function refreshCustomersTable() {
-    $.ajax({
-        type: "GET",
-        url: "/api/Customers",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (customers) {
-            var tableBody = $("#customersTable tbody");
-            tableBody.empty();
-            for (var i = 0; i < customers.length; i++) {
-                var customer = customers[i];
-                var row = "<tr>" +
-                    "<td>" + customer.FullName + "</td>" +
-                    "<td>" + customer.Phone + "</td>" +
-                    "<td>" + customer.Addres + "</td>" +
-                    "<td>" + customer.Uname + "</td>" +
-                    "<td>" + customer.DateAdd + "</td>" +
-                    "<td>" + (customer.Status ? "פעיל" : "לא פעיל") + "</td>" +
-                    "<td>" + customer.Nots + "</td>" +
-                    "<td>" + customer.CityId + "</td>" +
-                    "<td><button onclick='editCustomer(" + customer.CusId + ")'>עריכה</button>" +
-                    "<button onclick='deleteCustomer(" + customer.CusId + ")'>מחיקה</button></td>" +
-                    "</tr>";
-                tableBody.append(row);
-            }
-        },
-        error: function (error) {
-            console.log(error);
-            alert("אירעה שגיאה בטעינת הנתונים");
-        }
-    });
-}
-
-function editCustomer(customerId) {
-    $.ajax({
-        type: "GET",
-        url: "/api/Customers/" + customerId,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (customer) {
-            $('#<%= hfCusId.ClientID %>').val(customer.CusId);
-            $('#<%= txtFullName.ClientID %>').val(customer.FullName);
-            $('#<%= txtPhone.ClientID %>').val(customer.Phone);
-            $('#<%= txtAddres.ClientID %>').val(customer.Addres);
-            $('#<%= txtUname.ClientID %>').val(customer.Uname);
-            $('#<%= txtPass.ClientID %>').val(customer.Pass);
-            $('#<%= txtDateAdd.ClientID %>').val(customer.DateAdd.split('T')[0]);
-            $('#<%= txtStatus.ClientID %>').prop('checked', customer.Status);
-            $('#<%= txtNots.ClientID %>').val(customer.Nots);
-            $('#<%= txtCityId.ClientID %>').val(customer.CityId);
-
-            $('#customersModal').show();
-        },
-        error: function (error) {
-            console.log(error);
-            alert("אירעה שגיאה בטעינת פרטי הלקוח");
-        }
-    });
-          }
-
-          //function deleteCustomer(customerId) {
-          //    if (confirm("האם אתה בטוח שברצונך למחוק לקוח זה?")) {
-          //        $.ajax({
-          //            type: "DELETE",
-          //            url: "/api/Customers/" + customerId,
-          //            success: function (response) {
-          //                alert("הלקוח נמחק בהצלחה");
-          //                refreshCustomersTable();
-          //            },
-          //            error: function (error) {
-          //                console.log(error);
-          //                alert("אירעה שגיאה במחיקת הלקוח");
-          //            }
-          //        });
-          //    }
-          //}
-
-       <%--// פונקציה לפתיחת מודאל הוספת לקוח
+        // פונקציה לפתיחת מודאל הוספת מוצר
         function openModalAdd() {
-            var modal = document.getElementById('customersModal');
+            var modal = document.getElementById('SerProdModal');
             var title = document.getElementById('modalTitle');
             var btnSave = document.getElementById('<%= btnSave.ClientID %>');
 
-            title.innerText = 'הוספת טכנאי';
-            btnSave.value = 'הוסף טכנאי';
+            title.innerText = 'הוספת מוצר';
+            btnSave.value = 'הוסף מוצר';
 
             // clear form fields
-            document.getElementById('<%= hfCusId.ClientID %>').value = '';
-            document.getElementById('<%= txtFullName.ClientID %>').value = '';
-            document.getElementById('<%= txtPhone.ClientID %>').value = '';
-            document.getElementById('<%= txtAddres.ClientID %>').value = '';
-            document.getElementById('<%= txtUname.ClientID %>').value = '';
-            document.getElementById('<%= txtPassword.ClientID %>').value = '';            
-            document.getElementById('<%= txtDateAdd.ClientID %>').value = '';
-            document.getElementById('<%= txtStatus.ClientID %>').value = '';          
+            document.getElementById('<%= hfTecId.ClientID %>').value = '';
+            document.getElementById('<%= txtDesc.ClientID %>').value = '';
+            document.getElementById('<%= txtPrice.ClientID %>').value = '';
+            document.getElementById('<%= txtNameImage.ClientID %>').value = '';
+            document.getElementById('<%= txtStatus.ClientID %>').value = '';
             document.getElementById('<%= txtNots.ClientID %>').value = '';
-            document.getElementById('<%= txtCityId.ClientID %>').value = '';     
+            
             modal.style.display = 'block';
         }
 
-      // פונקציה לפתיחת מודאל עריכת לקוח
-          function openModalEdit(Customers) {
-            var modal = document.getElementById('customersModal');
+        // פונקציה לפתיחת מודאל עריכת מוצר
+        function openModalEdit(SerProd) {
+            var modal = document.getElementById('SerProdModal');
             var title = document.getElementById('modalTitle');
             var btnSave = document.getElementById('<%= btnSave.ClientID %>');
 
-            title.innerText = 'עריכת לקוח';
+            title.innerText = 'עריכת מוצר';
             btnSave.value = 'שמור שינויים';
 
-            // populate form fields with customers data
-            document.getElementById('<%= hfCusId.ClientID %>').value = customers.Id;
-            document.getElementById('<%= txtFullName.ClientID %>').value = customers.FullName;
-              document.getElementById('<%= txtPhone.ClientID %>').value = customers.Phone;
-              document.getElementById('<%= txtAddres.ClientID %>').value = customers.Addres;
-              document.getElementById('<%= txtUname.ClientID %>').value = customers.Uname;         
-              document.getElementById('<%= txtPassword.ClientID %>').value = customers.Password;
-              document.getElementById('<%= txtDateAdd.ClientID %>').value = customers.DateAdd;
-              document.getElementById('<%= txtStatus.ClientID %>').value = customers.Status;
-              document.getElementById('<%= txtNots.ClientID %>').value = customers.Nots;
-              document.getElementById('<%= txtCityId.ClientID %>').value = customers.CityId;
+            // populate form fields with SerProd data
+            document.getElementById('<%= hfTecId.ClientID %>').value = SerProd.SerProdId;
+            document.getElementById('<%= txtDesc.ClientID %>').value = SerProd.Desc;
+            document.getElementById('<%= txtPrice.ClientID %>').value = SerProd.Price;
+            document.getElementById('<%= txtNameImage.ClientID %>').value = SerProd.NameImage;
+            document.getElementById('<%= txtStatus.ClientID %>').value = SerProd.Status;
+            document.getElementById('<%= txtNots.ClientID %>').value = SerProd.Nots;
+           
 
             modal.style.display = 'block';
         }
 
         function closeModal() {
-            var modal = document.getElementById('customersModal');
+            var modal = document.getElementById('SerProdModal');
             modal.style.display = 'none';
-        }--%>
+        }
 
 
         // פונקציית מחיקה
-        function deleteCustomers(CusId) {
-            if (confirm('Are you sure you want to delete this customers?')) {
-                // קריאה לשרת למחיקת הלקוח (AJAX או POSTBACK)
-                console.log('Deleting customers with ID:', cusId);
+        function deleteSerProd(SerProdId) {
+            if (confirm('Are you sure you want to delete this SerProd?')) {
+                // קריאה לשרת למחיקת המוצר (AJAX או POSTBACK)
+                console.log('Deleting SerProd with ID:', SerProdId);
             }
         }
 
         $(document).ready(function () {
             console.log("Document is ready");
 
-            var table = $('#contact_list_table_Customers').DataTable({
+            var table = $('#contact_list_table').DataTable({
                 "dom": '<"top">rt<"bottom"><"clear">', // הסרת "search" ו-"length"
                 "paging": false, // ביטול פאגינציה
                 "info": false // הסרת המידע בתחתית הטבלה
@@ -1148,16 +948,16 @@ function editCustomer(customerId) {
                     // קריאה לשרת למחיקת הרשומות (AJAX)
                     $.ajax({
                         type: "POST",
-                        url: "CusList.aspx/DeleteCustomers",
+                        url: "SerProd.aspx/DeleteSerProd",
                         data: JSON.stringify({ ids: selectedIds }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response) {
-                            alert('Customers deleted successfully');
+                            alert('SerProd deleted successfully');
                             location.reload(); // רענון הדף לאחר המחיקה
                         },
                         error: function (response) {
-                            alert('Error deleting customers');
+                            alert('Error deleting SerProd');
                             console.error('Error response:', response); // הודעת שגיאה
                             console.error('JSON data sent:', JSON.stringify({ ids: selectedIds })); // JSON שנשלח
 
@@ -1182,7 +982,7 @@ function editCustomer(customerId) {
 
             rows.forEach(row => {
                 const status = row.getAttribute('data-status');
-                const technicianId = row.getAttribute('data-customers-id');
+                const technicianId = row.getAttribute('data-SerProd-id');
                 const button = row.querySelector('.status-button');
 
                 if (status === 'True' || status === 'true') {
@@ -1209,17 +1009,17 @@ function editCustomer(customerId) {
                         row.classList.add('row-inactive');
                     }
 
-                    updateStatusInDatabase(cutomersId, newStatus);
+                    updateStatusInDatabase(SerProdId, newStatus);// האם תקין השורה הזאת??
                 });
             });
 
-            function updateStatusInDatabase(CusId, Status) {
-                console.log("Updating status for CusId: " + CusId + " to Status: " + Status); // הדפסה לצורכי דיבוג
+            function updateStatusInDatabase(SerProdId, Status) {
+                console.log("Updating status for TecId: " + TecId + " to Status: " + Status); // הדפסה לצורכי דיבוג
 
                 $.ajax({
                     type: "POST",
-                    url: "CusList.aspx/UpdateCustomersStatus",
-                    data: JSON.stringify({ CusId: CusId, Status: Status }),
+                    url: "SerProd.aspx/UpdateSerProdStatus",
+                    data: JSON.stringify({ SerProdId: SerProdId, Status: Status }),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
@@ -1249,5 +1049,6 @@ function editCustomer(customerId) {
 
 
 
-      </script>
-</asp:content>
+    </script>
+
+</asp:Content>

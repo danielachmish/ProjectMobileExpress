@@ -10,18 +10,18 @@ namespace DAL
 {
 	public class CustomersDAL
 	{
-		public static void Save(Customers Tmp)
+		public static void SaveNewCustomers(Customers Tmp)
 		{
 			// בדיקה אם הלקוח קיים - עדכון, אחרת הוספת לקוח חדש
 			string sql;
 			if (Tmp.CusId == -1)
 			{
-				sql = "insert into T_Customers(FullName,Phone,Addres,Uname,Pass,DateAdd,Status,History,Nots,CityId)" +
-					$"Values(@FullName,@Phone,@Addres,@Uname,@Pass,@DateAdd,@Status,@History,@Nots,@CityId)";
+				sql = "insert into T_Customers(FullName,Phone,Addres,Uname,Pass,DateAdd,Status,,Nots,CityId)" +
+					$"Values(@FullName,@Phone,@Addres,@Uname,@Pass,@DateAdd,@Status,,@Nots,@CityId)";
 			}
 			else
 			{
-				sql = $"Update T_Customers set FullName=@FullName,Phone=@Phone,Addres=@Addres,Uname=@Uname,Pass=@Pass,DateAdd=@DateAdd,Status=@Status,History=@History,Nots=@Nots,CityId=@CityId where CusId=@CusId";
+				sql = $"Update T_Customers set FullName=@FullName,Phone=@Phone,Addres=@Addres,Uname=@Uname,Pass=@Pass,DateAdd=@DateAdd,Status=@Status,Nots=@Nots,CityId=@CityId where CusId=@CusId";
 			}
 
 			DbContext Db = new DbContext();
@@ -35,7 +35,7 @@ namespace DAL
 				Pass = Tmp.Pass,
 				DateAdd = Tmp.DateAdd,
 				Status = Tmp.Status,
-				History = Tmp.History,
+				
 				Nots = Tmp.Nots,
 				CityId = Tmp.CityId,
 			};
@@ -46,6 +46,58 @@ namespace DAL
 
 			Db.Close();
 		}
+
+		public static void UpdateCustomers(Customers Tmp)
+		{
+			try
+			{
+				string sql = "UPDATE T_Customers SET  FullName = @FullName, Phone = @Phone, Addres = @Addres, Pass = @Pass, Uname = @Uname, " +
+							 "DateAdd = @DateAdd, Status = @Status, Nots = @Nots,  CityId = @CityId," +
+							 "WHERE CusId = @CusId";
+
+				// הדפסת השאילתה לשם בדיקה
+				System.Diagnostics.Debug.WriteLine("SQL Query (Update): " + sql);
+
+				DbContext Db = new DbContext();
+				var Obj = new
+				{
+					Tmp.CusId,
+					
+					Tmp.FullName,
+					Tmp.Phone,
+					Tmp.Addres,
+					Tmp.Uname,
+					Tmp.Pass,
+					Tmp.DateAdd,
+					Tmp.Status,				
+					Nots = (object)Tmp.Nots ?? DBNull.Value,       // טיפול בערכים null					
+					Tmp.CityId,
+					
+				};
+
+				var LstParma = DbContext.CreateParameters(Obj);
+
+				// ביצוע השאילתה והכנסת הנתונים לבסיס הנתונים
+				int rowsAffected = Db.ExecuteNonQuery(sql, LstParma);
+				System.Diagnostics.Debug.WriteLine($"Rows affected (Update): {rowsAffected}");
+
+				if (rowsAffected > 0)
+				{
+					System.Diagnostics.Debug.WriteLine("Customers updated successfully.");
+				}
+				else
+				{
+					System.Diagnostics.Debug.WriteLine("No rows were affected. Check your update query and parameters.");
+				}
+
+				Db.Close();
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Error in UpdateCustomers method: {ex.Message}");
+			}
+		} 
+
 		// אחזור כל הלקוחות
 		public static List<Customers> GetAll()
 		{
