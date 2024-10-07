@@ -82,7 +82,7 @@ namespace Data
 			return Parameters;
 		}
 		// ביצוע פקודת Scalar והחזרת הערך היחיד
-		public Object ExecuteScalar(string sql)
+		public Object ExecuteScalar(string sql, List<SqlParameter> lstParma)
 		{
 		
 			Open();// פתיחת החיבור

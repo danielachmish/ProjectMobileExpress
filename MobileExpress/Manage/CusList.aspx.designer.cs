@@ -33,13 +33,13 @@ namespace MobileExpress.Manage
 		protected global::System.Web.UI.ScriptManager ScriptManager1;
 
 		/// <summary>
-		/// Repeater1 control.
+		/// Repeater2 control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.Repeater Repeater1;
+		protected global::System.Web.UI.WebControls.Repeater Repeater2;
 
 		/// <summary>
 		/// hfCusId control.
@@ -94,24 +94,6 @@ namespace MobileExpress.Manage
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.TextBox txtPass;
-
-		/// <summary>
-		/// txtDateAdd control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtDateAdd;
-
-		/// <summary>
-		/// txtStatus control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtStatus;
 
 		/// <summary>
 		/// txtNots control.
