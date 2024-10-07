@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -17,12 +18,31 @@ namespace MobileExpress.controllers
 		[HttpPost]
 		public IHttpActionResult Post([FromBody] Customers customer)
 		{
+			Debug.WriteLine("נכנס לפונקציית Post");
+
 			if (customer == null)
 			{
+				Debug.WriteLine("שגיאה: אובייקט הלקוח הוא null");
 				return BadRequest("אובייקט הלקוח הוא null");
 			}
+
+			Debug.WriteLine($"התקבל לקוח: {customer.FullName}, טלפון: {customer.Phone}");
+
 			customer.CusId = 0; // שונה מ -1 ל 0
-			customer.Save();
+			Debug.WriteLine($"הוגדר CusId = {customer.CusId}");
+
+			try
+			{
+				customer.Save();
+				Debug.WriteLine($"הלקוח נשמר בהצלחה. CusId חדש: {customer.CusId}");
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"שגיאה בשמירת הלקוח: {ex.Message}");
+				return InternalServerError(ex);
+			}
+
+			Debug.WriteLine("מסיים פונקציית Post בהצלחה");
 			return CreatedAtRoute("DefaultApi", new { id = customer.CusId }, customer);
 		}
 

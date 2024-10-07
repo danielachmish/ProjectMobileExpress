@@ -25,8 +25,8 @@ namespace MobileExpress.Manage
         private void BindCustomers()
         {
             List<Customers> customersList = Customers.GetAll();
-            Repeater1.DataSource = customersList;
-            Repeater1.DataBind();
+            Repeater2.DataSource = customersList;
+            Repeater2.DataBind();
         }
 
         public void Delete(int CusId)
@@ -79,13 +79,9 @@ namespace MobileExpress.Manage
 				string Addres = txtAddres.Text;
 				string Uname = txtUname.Text;
 				string Pass = txtPass.Text;
-				string DateAdd = txtDateAdd.Text;
+				//string DateAdd = txtDateAdd.Text;
 				bool Status;
-				if (!bool.TryParse(txtStatus.Text, out Status))
-				{
-					System.Diagnostics.Debug.WriteLine($"שגיאה בהמרת סטטוס: {txtStatus.Text}");
-					throw new Exception("ערך לא תקין עבור שדה הסטטוס");
-				}
+				
 				string Nots = txtNots.Text;
 				int CityId;
 				if (!int.TryParse(txtCityId.Text, out CityId))
@@ -94,10 +90,10 @@ namespace MobileExpress.Manage
 					throw new Exception("ערך לא תקין עבור שדה מספר עיר");
 				}
 
-				System.Diagnostics.Debug.WriteLine($"נתונים שהתקבלו: CusId={hfCusId?.Value}, FullName={FullName}, Phone={Phone}, Addres={Addres}, Uname={Uname}, DateAdd={DateAdd}, Status={Status}, CityId={CityId}, Nots={Nots}");
+				System.Diagnostics.Debug.WriteLine($"נתונים שהתקבלו: CusId={hfCusId?.Value}, FullName={FullName}, Phone={Phone}, Addres={Addres}, Uname={Uname},   CityId={CityId}, Nots={Nots}");
 
 				System.Diagnostics.Debug.WriteLine("מתחיל תהליך אימות שדות");
-				ValidateFields(FullName, Phone, Addres, Uname, Pass, DateAdd, Status.ToString(), Nots, CityId.ToString());
+				ValidateFields(FullName, Phone, Addres, Uname, Pass,  Nots, CityId.ToString());
 				System.Diagnostics.Debug.WriteLine("אימות שדות הסתיים בהצלחה");
 
 				var customers = new Customers
@@ -109,7 +105,7 @@ namespace MobileExpress.Manage
 					Uname = Uname,
 					Pass = Pass != "****" && !string.IsNullOrEmpty(Pass) ? HashPassword(Pass) : null,
 					DateAdd = DateTime.Now,
-					Status = Status,
+					
 					Nots = Nots,
 					CityId = CityId
 				};
@@ -137,7 +133,13 @@ namespace MobileExpress.Manage
 				ScriptManager.RegisterStartupScript(this, GetType(), "closeModalScript", "closeModal(); console.log('Modal closed after save');", true);
 
 				System.Diagnostics.Debug.WriteLine("מבצע Redirect");
-				Response.Redirect(Request.RawUrl);
+				//Response.Redirect(Request.RawUrl);
+				if (!Response.IsRequestBeingRedirected)
+				{
+					Response.Redirect(Request.RawUrl, false);
+					Context.ApplicationInstance.CompleteRequest();
+				}
+				return;
 			}
 			catch (Exception ex)
 			{

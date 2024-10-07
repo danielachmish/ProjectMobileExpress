@@ -1,10 +1,6 @@
-﻿using System;
+﻿using DAL;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using DAL;
-using Data;
-using System.Data;
 
 
 namespace BLL
@@ -50,5 +46,5 @@ namespace BLL
 
 	}
 
-	
+
 }

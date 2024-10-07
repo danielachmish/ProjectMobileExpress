@@ -1,59 +1,82 @@
 ﻿using BLL;
 using Data;
 using System;
+
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
 namespace DAL
 {
 	public class CustomersDAL
+
 	{
 		public static void SaveNewCustomers(Customers Tmp)
 		{
-			// בדיקה אם הלקוח קיים - עדכון, אחרת הוספת לקוח חדש
+			Debug.WriteLine("נכנס לפונקציית SaveNewCustomers");
+			Debug.WriteLine($"פרטי הלקוח: CusId={Tmp.CusId}, FullName={Tmp.FullName}, Phone={Tmp.Phone}");
+
 			string sql;
-			if (Tmp.CusId == -1)
+			if (Tmp.CusId == -1 || Tmp.CusId == 0)
 			{
-				sql = "insert into T_Customers(FullName,Phone,Addres,Uname,Pass,DateAdd,Status,,Nots,CityId)" +
-					$"Values(@FullName,@Phone,@Addres,@Uname,@Pass,@DateAdd,@Status,,@Nots,@CityId)";
+				Debug.WriteLine("מבצע הכנסה של לקוח חדש");
+				sql = "INSERT INTO T_Customers(FullName,Phone,Addres,Uname,Pass,DateAdd,Status,Nots,CityId) " +
+					  "VALUES(@FullName,@Phone,@Addres,@Uname,@Pass,@DateAdd,@Status,@Nots,@CityId)";
 			}
 			else
 			{
-				sql = $"Update T_Customers set FullName=@FullName,Phone=@Phone,Addres=@Addres,Uname=@Uname,Pass=@Pass,DateAdd=@DateAdd,Status=@Status,Nots=@Nots,CityId=@CityId where CusId=@CusId";
+				Debug.WriteLine($"מבצע עדכון של לקוח קיים עם CusId={Tmp.CusId}");
+				sql = "UPDATE T_Customers SET FullName=@FullName,Phone=@Phone,Addres=@Addres,Uname=@Uname," +
+					  "Pass=@Pass,DateAdd=@DateAdd,Status=@Status,Nots=@Nots,CityId=@CityId WHERE CusId=@CusId";
 			}
 
+			Debug.WriteLine($"SQL Query: {sql}");
+
 			DbContext Db = new DbContext();
-			var Obj = new
+			try
 			{
-				CusId = Tmp.CusId,
-				FullName = Tmp.FullName,
-				Phone = Tmp.Phone,
-				Addres = Tmp.Addres,
-				Uname = Tmp.Uname,
-				Pass = Tmp.Pass,
-				DateAdd = Tmp.DateAdd,
-				Status = Tmp.Status,
-				
-				Nots = Tmp.Nots,
-				CityId = Tmp.CityId,
-			};
+				var Obj = new
+				{
+					CusId = Tmp.CusId,
+					FullName = Tmp.FullName,
+					Phone = Tmp.Phone,
+					Addres = Tmp.Addres,
+					Uname = Tmp.Uname,
+					Pass = Tmp.Pass,
+					DateAdd = Tmp.DateAdd,
+					Status = Tmp.Status,
+					Nots = Tmp.Nots,
+					CityId = Tmp.CityId,
+				};
 
-			var LstParma = DbContext.CreateParameters(Obj);
-			// ביצוע השאילתה והכנסת הנתונים לבסיס הנתונים
-			Db.ExecuteNonQuery(sql, LstParma);
+				var LstParma = DbContext.CreateParameters(Obj);
+				Debug.WriteLine($"מספר פרמטרים שנוצרו: {LstParma.Count}");
 
-			Db.Close();
+				Debug.WriteLine("מבצע את השאילתה");
+				Db.ExecuteNonQuery(sql, LstParma);
+				Debug.WriteLine("השאילתה בוצעה בהצלחה");
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"שגיאה בביצוע השאילתה: {ex.Message}");
+				throw; // זורק את החריגה מחדש כדי לאפשר טיפול ברמה גבוהה יותר
+			}
+			finally
+			{
+				Db.Close();
+				Debug.WriteLine("החיבור לבסיס הנתונים נסגר");
+			}
+
+			Debug.WriteLine("סיום פונקציית SaveNewCustomers");
 		}
 
 		public static void UpdateCustomers(Customers Tmp)
 		{
 			try
 			{
-				string sql = "UPDATE T_Customers SET  FullName = @FullName, Phone = @Phone, Addres = @Addres, Pass = @Pass, Uname = @Uname, " +
-							 "DateAdd = @DateAdd, Status = @Status, Nots = @Nots,  CityId = @CityId," +
-							 "WHERE CusId = @CusId";
+				string sql = "UPDATE T_Customers SET FullName = @FullName,	Phone = @Phone,	Addres = @Addres,	Pass = @Pass,	Uname = @Uname,	DateAdd = @DateAdd,	Status = @Status,	Nots = @Nots,	CityId = @CityId WHERE CusId = @CusId";
 
 				// הדפסת השאילתה לשם בדיקה
 				System.Diagnostics.Debug.WriteLine("SQL Query (Update): " + sql);
@@ -157,6 +180,7 @@ namespace DAL
 		public static Customers GetById(int Id)
 		{
 			Customers Tmp = null;
+
 			string sql = $"Select * from T_Customers Where CusId ={Id}";
 			DbContext Db = new DbContext();
 			DataTable Dt = Db.Execute(sql);

@@ -31,7 +31,7 @@
 
                             <div class="columns-button-container">
                                 <!-- כפתור יצוא ל-Excel -->
-                                <button class="export-button" onclick="exportTableToExcel('contact_list_table_Customers')">
+                                <button class="export-button" onclick="exportTableToExcel('contact_list_table')">
                                     <i class="fas fa-file-excel"></i>
                                 </button>
                                 <!-- כפתור הוספת לקוח -->
@@ -123,6 +123,13 @@
                                         </label>
                                         <label class="form-check-label ml-3">CityId</label>
                                     </div>
+                                      <div class="form-check">
+      <label class="switch">
+          <input type="checkbox" class="toggle-vis" data-column="12" checked>
+          <span class="slider round"></span>
+      </label>
+      <label class="form-check-label ml-3">Actions</label>
+  </div>
 
                                    
                                 </div>
@@ -142,7 +149,7 @@
                        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
                         <!-- טבלה של רשימת הלקוחות -->
                 <div class="ontainer-fluid">
-                    <table class="display table table-borderless ul-contact-list-table" id="contact_list_table_Customers" style="width: 100%; direction: rtl;">
+                    <table class="display table table-borderless ul-contact-list-table" id="contact_list_table" style="width: 100%; direction: rtl;">
                         <thead>
                             <tr class="border-bottom">
                                 <th>
@@ -154,14 +161,16 @@
                                 <th>Uname</th>
                                 <th>Pass</th>
                                 <th>DateAdd</th>
-                                <th>Status</th>
+                    
                                 <th>History</th>
                                 <th>Nots</th>
                                 <th>CityId</th>
+                                 <th>Status</th>
+                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="customersList">
-                                 <asp:Repeater ID="Repeater1" runat="server">
+                                 <asp:Repeater ID="Repeater2" runat="server">
                                 <ItemTemplate>
                                     <tr class="row-status" data-status='<%# Eval("Status") %>' data-customers-id='<%# Eval("CusId") %>'>
                                         <td>
@@ -173,11 +182,11 @@
                                         <td><%# Eval("Uname") %></td>
                                         <td><%# Eval("Pass") %></td>
                                         <td><%# Eval("DateAdd") %></td>
-                                        <td><%# Eval("Status") %></td>
+                                      
                                         <td><%# Eval("History") %></td>
                                         <td><%# Eval("Nots") %></td>
                                         <td><%# Eval("CityId") %></td>
-  
+                                       
                                         <td>
                                             <button class="status-button"><%# Convert.ToBoolean(Eval("Status")) ? "פעיל" : "לא פעיל" %></button>
                                         </td>
@@ -186,11 +195,11 @@
                                                                 Id: '<%# Eval("CusId") %>',
                                                                 FullName: '<%# Eval("FullName") %>',
                                                                 Phone: '<%# Eval("Phone") %>',
-                                                                Address: '<%# Eval("Addres") %>',
+                                                                Addres: '<%# Eval("Addres") %>',
                                                                 Uname: '<%# Eval("Uname") %>',
                                                                 Password: '<%# Eval("Pass") %>',
                                                                 dateAdd: '<%# Eval("DateAdd") %>',
-                                                                Status: '<%# Eval("Status") %>',
+                                                              
                                                                 History: '<%# Eval("History") %>',
                                                                 Nots: '<%# Eval("Nots") %>',
                                                                 CityId: '<%# Eval("CityId") %>'
@@ -240,14 +249,10 @@
             <asp:Label AssociatedControlID="txtPass" runat="server">סיסמה:</asp:Label>
             <asp:TextBox ID="txtPass" runat="server" TextMode="Password" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
         </div>
-        <div class="form-group">
+      <%--  <div class="form-group">
             <asp:Label AssociatedControlID="txtDateAdd" runat="server">תאריך הוספה:</asp:Label>
             <asp:TextBox ID="txtDateAdd" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>
-        <div class="form-group">
-            <asp:Label AssociatedControlID="txtStatus" runat="server">סטטוס:</asp:Label>
-            <asp:TextBox ID="txtStatus" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>
+        </div>--%>
         <div class="form-group">
             <asp:Label AssociatedControlID="txtNots" runat="server">הערות:</asp:Label>
             <asp:TextBox ID="txtNots" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
@@ -808,7 +813,7 @@
             var input, filter, table, tr, td, i, j, txtValue;
             input = document.getElementById("searchInput");
             filter = input.value.toLowerCase();
-            table = document.getElementById("contact_list_table_Customers");
+            table = document.getElementById("contact_list_table");
             tr = table.getElementsByTagName("tr");
 
             for (i = 1; i < tr.length; i++) { // התחל מ-1 כדי לדלג על הכותרת
@@ -840,8 +845,8 @@
     document.getElementById('<%= txtAddres.ClientID %>').value = '';
     document.getElementById('<%= txtUname.ClientID %>').value = '';
     document.getElementById('<%= txtPass.ClientID %>').value = '';
-    document.getElementById('<%= txtDateAdd.ClientID %>').value = '';
-    document.getElementById('<%= txtStatus.ClientID %>').value = '';
+ <%--   document.getElementById('<%= txtDateAdd.ClientID %>').value = '';--%>
+  
     document.getElementById('<%= txtNots.ClientID %>').value = '';
     document.getElementById('<%= txtCityId.ClientID %>').value = '';
               modal.style.display = 'block';
@@ -861,8 +866,8 @@
     document.getElementById('<%= txtAddres.ClientID %>').value = customer.Addres;
     document.getElementById('<%= txtUname.ClientID %>').value = customer.Uname;         
     document.getElementById('<%= txtPass.ClientID %>').value = customer.Password;
-    document.getElementById('<%= txtDateAdd.ClientID %>').value = customer.DateAdd;
-    document.getElementById('<%= txtStatus.ClientID %>').value = customer.Status;
+    <%--document.getElementById('<%= txtDateAdd.ClientID %>').value = customer.DateAdd;--%>
+ 
     document.getElementById('<%= txtNots.ClientID %>').value = customer.Nots;
     document.getElementById('<%= txtCityId.ClientID %>').value = customer.CityId;
     modal.style.display = 'block';
@@ -882,8 +887,8 @@ function closeModal() {
         Addres: $('#<%= txtAddres.ClientID %>').val(),
         Uname: $('#<%= txtUname.ClientID %>').val(),
         Pass: $('#<%= txtPass.ClientID %>').val(),
-        DateAdd: $('#<%= txtDateAdd.ClientID %>').val(),
-        Status: $('#<%= txtStatus.ClientID %>').val() === 'true',
+     <%--   DateAdd: $('#<%= txtDateAdd.ClientID %>').val(),--%>
+      
         Nots: $('#<%= txtNots.ClientID %>').val(),
                CityId: parseInt($('#<%= txtCityId.ClientID %>').val())
            };
@@ -895,24 +900,24 @@ function closeModal() {
 
            console.log(`שולח בקשת ${method} ל-${url}`);
 
-           $.ajax({
-               type: method,
-               url: url,
-               data: JSON.stringify(data),
-               contentType: "application/json; charset=utf-8",
-               dataType: "json",
-               success: function (response) {
-                   console.log("תגובה התקבלה בהצלחה:", response);
-                   alert("הלקוח נשמר בהצלחה");
-                   closeModal();
-                   refreshCustomersTable();
-               },
-               error: function (xhr, status, error) {
-                   console.error("שגיאה בשמירת הלקוח:", status, error);
-                   console.log("תגובת השרת:", xhr.responseText);
-                   alert("אירעה שגיאה בשמירת הלקוח: " + error);
-               }
-           });
+              $.ajax({
+                  type: "POST",
+                  url: "/api/CustomersController/Post", 
+                  data: JSON.stringify({ customerData: data }),
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+                  success: function (response) {
+                      console.log("תגובה התקבלה בהצלחה:", response);
+                      alert("הלקוח נשמר בהצלחה");
+                      closeModal();
+                      refreshCustomersTable();
+                  },
+                  error: function (xhr, status, error) {
+                      console.error("שגיאה בשמירת הלקוח:", status, error);
+                      console.log("תגובת השרת:", xhr.responseText);
+                      alert("אירעה שגיאה בשמירת הלקוח: " + error);
+                  }
+              });
        }
 
 function refreshCustomersTable() {
@@ -948,32 +953,57 @@ function refreshCustomersTable() {
     });
 }
 
-function editCustomer(customerId) {
-    $.ajax({
-        type: "GET",
-        url: "/api/Customers/" + customerId,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (customer) {
-            $('#<%= hfCusId.ClientID %>').val(customer.CusId);
+          function editCustomer(customerId) {
+              console.log('נכנס לפונקציית editCustomer');
+              console.log('מזהה לקוח:', customerId);
+
+              $.ajax({
+                  type: "GET",
+                  url: "/api/CustomersController/Put" + customerId,
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+                  success: function (customer) {
+                      console.log('נתוני הלקוח התקבלו בהצלחה:', customer);
+
+                      $('#<%= hfCusId.ClientID %>').val(customer.CusId);
+            console.log('CusId הוגדר:', customer.CusId);
+
             $('#<%= txtFullName.ClientID %>').val(customer.FullName);
+            console.log('FullName הוגדר:', customer.FullName);
+
             $('#<%= txtPhone.ClientID %>').val(customer.Phone);
+            console.log('Phone הוגדר:', customer.Phone);
+
             $('#<%= txtAddres.ClientID %>').val(customer.Addres);
+            console.log('Addres הוגדר:', customer.Addres);
+
             $('#<%= txtUname.ClientID %>').val(customer.Uname);
+            console.log('Uname הוגדר:', customer.Uname);
+
             $('#<%= txtPass.ClientID %>').val(customer.Pass);
-            $('#<%= txtDateAdd.ClientID %>').val(customer.DateAdd.split('T')[0]);
-            $('#<%= txtStatus.ClientID %>').prop('checked', customer.Status);
+            console.log('Pass הוגדר:', customer.Pass);
+
+            // DateAdd נמחק או הוסתר
+            // console.log('DateAdd הוגדר:', customer.DateAdd);
+
             $('#<%= txtNots.ClientID %>').val(customer.Nots);
+            console.log('Nots הוגדר:', customer.Nots);
+
             $('#<%= txtCityId.ClientID %>').val(customer.CityId);
+            console.log('CityId הוגדר:', customer.CityId);
 
             $('#customersModal').show();
+            console.log('מודל הלקוחות נפתח');
         },
-        error: function (error) {
-            console.log(error);
+        error: function (xhr, status, error) {
+            console.error('שגיאה בטעינת פרטי הלקוח:', status, error);
+            console.log('תגובת השרת:', xhr.responseText);
             alert("אירעה שגיאה בטעינת פרטי הלקוח");
         }
     });
-          }
+
+    console.log('סיום פונקציית editCustomer');
+}
 
           //function deleteCustomer(customerId) {
           //    if (confirm("האם אתה בטוח שברצונך למחוק לקוח זה?")) {
@@ -1056,7 +1086,7 @@ function editCustomer(customerId) {
         $(document).ready(function () {
             console.log("Document is ready");
 
-            var table = $('#contact_list_table_Customers').DataTable({
+            var table = $('#contact_list_table').DataTable({
                 "dom": '<"top">rt<"bottom"><"clear">', // הסרת "search" ו-"length"
                 "paging": false, // ביטול פאגינציה
                 "info": false // הסרת המידע בתחתית הטבלה
