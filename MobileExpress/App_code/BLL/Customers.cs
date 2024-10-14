@@ -33,7 +33,7 @@ namespace BLL
 			}
 		}
 
-		// פונקציה לעדכון טכנאי קיים
+		// פונקציה לעדכון לקוח קיים
 		public void UpdateCustomers()
 		{
 			try
@@ -47,7 +47,7 @@ namespace BLL
 			}
 		}
 
-		// פונקציה כללית לשמירת טכנאי חדש או קיים
+		// פונקציה כללית לשמירת לקוח חדש או קיים
 		public void Save()
 		{
 			if (this.CusId == -1)

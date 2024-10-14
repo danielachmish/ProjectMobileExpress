@@ -239,6 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\Styles.css" />
+    <Content Include="Manage\AdminiList.aspx" />
     <Content Include="Manage\CusList.aspx" />
     <Content Include="Content\Site.css" />
     <Content Include="assets\css\bootstrap-rtl.css" />
@@ -542,7 +543,6 @@
     <Content Include="assets\js\scripts\widgets-statistics.min.js" />
     <Content Include="Global.asax" />
     <Content Include="Manage\Default.aspx" />
-    <Content Include="Manage\Registration.aspx" />
     <Content Include="Manage\TecList.aspx" />
     <Content Include="..\.editorconfig">
       <Link>.editorconfig</Link>
@@ -574,6 +574,13 @@
     <Compile Include="App_code\DAL\SerProdDAL.cs" />
     <Compile Include="App_code\DAL\TechniciansDAL.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Manage\AdminiList.aspx.cs">
+      <DependentUpon>AdminiList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\AdminiList.aspx.designer.cs">
+      <DependentUpon>AdminiList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Manage\CusList.aspx.cs">
       <DependentUpon>CusList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -609,13 +616,6 @@
     </Compile>
     <Compile Include="Manage\MainMaster.Master.designer.cs">
       <DependentUpon>MainMaster.Master</DependentUpon>
-    </Compile>
-    <Compile Include="Manage\Registration.aspx.cs">
-      <DependentUpon>Registration.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Manage\Registration.aspx.designer.cs">
-      <DependentUpon>Registration.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\TecList.aspx.cs">
       <DependentUpon>TecList.aspx</DependentUpon>
