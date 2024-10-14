@@ -95,9 +95,9 @@
                                     <li class="item-name"><a href="weather-card.html"><i class="nav-icon i-Receipt-4"></i><span class="item-name">Weather App </span></a></li>
                                 </ul>
                             </li>
-                            <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-File-Clipboard-File--Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">Charts</span></a>
+                            <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-File-Clipboard-File--Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">מנהלים</span></a>
                                 <ul class="mm-collapse">
-                                    <li class="item-name"><a href="charts.echarts.html"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">echarts</span></a></li>
+                                    <li class="item-name"><a href="AdminiList.aspx"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">כל המנהלים</span></a></li>
                                     <li class="item-name"><a href="charts.chartsjs.html"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">ChartJs</span></a></li>
                                     <li class="item-name"><a class="has-arrow cursor-pointer"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Apex Charts</span></a>
                                         <ul class="mm-collapse">

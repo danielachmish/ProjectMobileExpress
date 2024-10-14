@@ -19,10 +19,37 @@ namespace BLL
 		public string Email { get; set; }
 
 		// בדיקה אם המשתמש קיים - עדכון, אחרת הוספת משתמש חדש
-		public void Save()
+		public void SaveNewAdministrators()
 		{
 			AdministratorsDAL.Save(this);
 		}
+		// פונקציה לעדכון מנהל קיים
+		public void UpdateAdministrators()
+		{
+			try
+			{
+				AdministratorsDAL.UpdateAdministrators(this); // העברת האובייקט הנוכחי ל-DAL
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Exception: " + ex.Message);
+				throw;
+			}
+		}
+
+		// פונקציה כללית לשמירת לקוח חדש או קיים
+		public void Save()
+		{
+			if (this.AdminId == -1)
+			{
+				SaveNewAdministrators();
+			}
+			else
+			{
+				UpdateAdministrators();
+			}
+		}
+
 		// אחזור כל המשתמשים
 		public static List<Administrators> GetAll()
 		{

@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace MobileExpress.Manage
 {
-	public partial class Registration : System.Web.UI.Page
+	public partial class AdminList : System.Web.UI.Page
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
