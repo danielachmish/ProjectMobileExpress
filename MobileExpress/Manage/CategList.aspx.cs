@@ -11,39 +11,39 @@ using System.Web.UI.WebControls;
 
 namespace MobileExpress.Manage
 {
-	public partial class AdminiList : System.Web.UI.Page
+	public partial class CategList : System.Web.UI.Page
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
 
 			if (!IsPostBack)
 			{
-				Bindadministrators();
+				Bindcategories();
 			}
 		}
 
-		private void Bindadministrators()
+		private void Bindcategories()
 		{
-			List<Administrators> AdminiList = Administrators.GetAll();
-			Repeater2.DataSource = AdminiList;
+			List<Categories> CategList = Categories.GetAll();
+			Repeater2.DataSource = CategList;
 			Repeater2.DataBind();
 		}
 
-		public void Delete(int AdminId)
+		public void Delete(int CatId)
 		{
-			Administrators.DeleteById(AdminId);
+			Categories.DeleteById(CatId);
 		}
 
 		protected void btnDelete_Click(object sender, EventArgs e)
 		{
 			LinkButton btn = (LinkButton)sender;
-			int adminID = Convert.ToInt32(btn.CommandArgument);
-			Delete(adminID);
-			Bindadministrators(); // רענון הרשימה לאחר המחיקה
+			int catID = Convert.ToInt32(btn.CommandArgument);
+			Delete(catID);
+			Bindcategories(); // רענון הרשימה לאחר המחיקה
 		}
 
 		[WebMethod]
-		public static void Deleteadministrators(List<int> ids)
+		public static void Deletecategories(List<int> ids)
 		{
 			if (ids == null || !ids.Any())
 			{
@@ -54,75 +54,64 @@ namespace MobileExpress.Manage
 			{
 				foreach (int id in ids)
 				{
-					Administrators.DeleteById(id);
+					Categories.DeleteById(id);
 				}
 			}
 			catch (Exception ex)
 			{
-				throw new Exception("An error occurred while deleting administrators.", ex);
+				throw new Exception("An error occurred while deleting categories.", ex);
 			}
 		}
 
 
 
 
-		protected void Saveadministrators(object sender, EventArgs e)
+		protected void SaveCategories(object sender, EventArgs e)
 		{
 			try
 			{
-				System.Diagnostics.Debug.WriteLine("------------- התחלת תהליך שמירת לקוחות -------------");
-				HiddenField hfAdminId = (HiddenField)form1.FindControl("hfAdminId");
-				System.Diagnostics.Debug.WriteLine($"hfAdminId נמצא: {hfAdminId != null}, ערך: {hfAdminId?.Value}");
+				System.Diagnostics.Debug.WriteLine("------------- התחלת תהליך שמירת קטגוריות -------------");
+				HiddenField hfCatId = (HiddenField)form1.FindControl("hfCatId");
+				System.Diagnostics.Debug.WriteLine($"hfCatId נמצא: {hfCatId != null}, ערך: {hfCatId?.Value}");
 
-				string FullName = txtFullName.Text;
-				string Phone = txtPhone.Text;
-				string Addres = txtAddres.Text;
-				string Uname = txtUname.Text;
-				string Pass = txtPass.Text;
-
-				//string DateAdd = txtDateAdd.Text;
+				string CatName = txtCatName.Text;
+				
 				bool Status;
-				string Email = txtEmail.Text;
+				
 
 
-				System.Diagnostics.Debug.WriteLine($"נתונים שהתקבלו: AdminId={hfAdminId?.Value}, FullName={FullName}, Phone={Phone}, Addres={Addres}, Uname={Uname},    Email={Email}");
+				System.Diagnostics.Debug.WriteLine($"נתונים שהתקבלו: CatId={hfCatId?.Value}, CatName={CatName}");
 
 				System.Diagnostics.Debug.WriteLine("מתחיל תהליך אימות שדות");
-				ValidateFields(FullName, Phone, Addres, Uname, Pass, Email);
+				ValidateFields(CatName);
 				System.Diagnostics.Debug.WriteLine("אימות שדות הסתיים בהצלחה");
 
-				var administrators = new Administrators
+				var categories = new Categories
 				{
-					AdminId = hfAdminId != null && !string.IsNullOrEmpty(hfAdminId.Value) && int.TryParse(hfAdminId.Value, out int AdminId) ? AdminId : 0,
-					FullName = FullName,
-					Phone = Phone,
-					Addres = Addres,
-					Uname = Uname,
-					Pass = Pass != "****" && !string.IsNullOrEmpty(Pass) ? HashPassword(Pass) : null,
+					CatId = hfCatId != null && !string.IsNullOrEmpty(hfCatId.Value) && int.TryParse(hfCatId.Value, out int CatId) ? CatId : 0,
+					CatName = CatName,
 					DateAdd = DateTime.Now,
 
-					Email = Email,
-					
 				};
 
-				System.Diagnostics.Debug.WriteLine($"אובייקט administrators נוצר: AdminId={administrators.AdminId}, FullName={administrators.FullName}, Phone={administrators.Phone}, Addres={administrators.Addres}, Uname={administrators.Uname}, DateAdd={administrators.DateAdd}, Status={administrators.Status},Email={administrators.Email}");
+				System.Diagnostics.Debug.WriteLine($"אובייקט categories נוצר: CatId={categories.CatId}, CatName={categories.CatName},  DateAdd={categories.DateAdd}, Status={categories.Status}");
 
-				if (administrators.AdminId == 0)
+				if (categories.CatId == 0)
 				{
-					System.Diagnostics.Debug.WriteLine("מוסיף מנהל חדש");
-					administrators.SaveNewAdministrators();
-					System.Diagnostics.Debug.WriteLine("מנהל חדש נוסף בהצלחה");
+					System.Diagnostics.Debug.WriteLine("מוסיף קטגוריה חדשה");
+					categories.SaveNewCategories();
+					System.Diagnostics.Debug.WriteLine("קטגוריה חדשה נוסף בהצלחה");
 				}
 				else
 				{
-					System.Diagnostics.Debug.WriteLine($"עורך מנהל קיים עם מזהה: {administrators.AdminId}");
-					administrators.UpdateAdministrators();
-					System.Diagnostics.Debug.WriteLine("נתוני המנהל עודכנו בהצלחה");
+					System.Diagnostics.Debug.WriteLine($"עורך קטגוריה קיים עם מזהה: {categories.CatId}");
+					categories.UpdateCategories();
+					System.Diagnostics.Debug.WriteLine("נתוני הקטגוריה עודכנו בהצלחה");
 				}
 
-				System.Diagnostics.Debug.WriteLine("מתחיל Bindadministrators");
-				Bindadministrators();
-				System.Diagnostics.Debug.WriteLine("Bindadministrators הסתיים");
+				System.Diagnostics.Debug.WriteLine("מתחיל Bindcategories");
+				Bindcategories();
+				System.Diagnostics.Debug.WriteLine("Bindcategories הסתיים");
 
 				System.Diagnostics.Debug.WriteLine("רושם סקריפט JavaScript לסגירת המודל");
 				ScriptManager.RegisterStartupScript(this, GetType(), "closeModalScript", "closeModal(); console.log('Modal closed after save');", true);
@@ -138,8 +127,8 @@ namespace MobileExpress.Manage
 			}
 			catch (Exception ex)
 			{
-				System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת לקוח: {ex.Message}");
-				System.Diagnostics.Debug.WriteLine($"סוג השגיאה: {ex.GetType().FullName}");
+				System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת קטגוריה: {ex.Message}");
+				System.Diagnostics.Debug.WriteLine( $"סוג השגיאה: {ex.GetType().Name}");
 				System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
 				Response.Write($"<script>console.error('שגיאה בשמירת לקוח: {ex.Message}'); alert('שגיאה בשמירת לקוח: {ex.Message}');</script>");
 			}
@@ -151,7 +140,7 @@ namespace MobileExpress.Manage
 
 		private void ValidateFields(params string[] fields)
 		{
-			string[] fieldNames = { "FullName", "Phone", "Addres", "Uname", "Pass", "DateAdd", "Status", "Email" };
+			string[] fieldNames = { "CatName", "DateAdd", "Status" };
 			for (int i = 0; i < fields.Length; i++)
 			{
 				System.Diagnostics.Debug.WriteLine($"בודק שדה: {fieldNames[i]}, ערך: {fields[i]}");
@@ -164,18 +153,12 @@ namespace MobileExpress.Manage
 			System.Diagnostics.Debug.WriteLine("כל השדות עברו אימות בהצלחה");
 		}
 
-		private string HashPassword(string password)
-		{
-			System.Diagnostics.Debug.WriteLine("מתחיל תהליך הצפנת סיסמה");
-			var hashedPassword = Convert.ToBase64String(System.Security.Cryptography.SHA256.Create().ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
-			System.Diagnostics.Debug.WriteLine("סיסמה הוצפנה בהצלחה");
-			return hashedPassword;
-		}
-		
+	
+
 
 
 		[WebMethod]
-		public static void UpdateadministratorsStatus(int AdminId, bool Status)
+		public static void UpdatecategoriesStatus(int CatId, bool Status)
 		{
 			try
 			{
@@ -189,9 +172,9 @@ namespace MobileExpress.Manage
 					System.Diagnostics.Debug.WriteLine("Attempting to open connection to database.");
 
 					// יצירת פקודת SQL
-					using (SqlCommand cmd = new SqlCommand("UPDATE T_administrators SET Status = @Status WHERE AdminId = @AdminId", conn))
+					using (SqlCommand cmd = new SqlCommand("UPDATE T_Categories SET Status = @Status WHERE CatId = @CatId", conn))
 					{
-						cmd.Parameters.AddWithValue("@AdminId", AdminId);
+						cmd.Parameters.AddWithValue("@CatId", CatId);
 						cmd.Parameters.AddWithValue("@Status", Status);
 						System.Diagnostics.Debug.WriteLine("Prepared SQL command with parameters.");
 
