@@ -240,6 +240,7 @@
   <ItemGroup>
     <Content Include="assets\css\Styles.css" />
     <Content Include="Manage\AdminiList.aspx" />
+    <Content Include="Manage\CategList.aspx" />
     <Content Include="Manage\CusList.aspx" />
     <Content Include="Content\Site.css" />
     <Content Include="assets\css\bootstrap-rtl.css" />
@@ -580,6 +581,13 @@
     </Compile>
     <Compile Include="Manage\AdminiList.aspx.designer.cs">
       <DependentUpon>AdminiList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\CategList.aspx.cs">
+      <DependentUpon>CategList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\CategList.aspx.designer.cs">
+      <DependentUpon>CategList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\CusList.aspx.cs">
       <DependentUpon>CusList.aspx</DependentUpon>
