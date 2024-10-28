@@ -18,40 +18,47 @@ namespace BLL
 		public bool Status { get; set; }
 		public string Email { get; set; }
 
-		// בדיקה אם המשתמש קיים - עדכון, אחרת הוספת משתמש חדש
-		public void SaveNewAdministrators()
-		{
-			AdministratorsDAL.Save(this);
-		}
-		// פונקציה לעדכון מנהל קיים
-		public void UpdateAdministrators()
-		{
-			try
-			{
-				AdministratorsDAL.UpdateAdministrators(this); // העברת האובייקט הנוכחי ל-DAL
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine("Exception: " + ex.Message);
-				throw;
-			}
-		}
+        // בדיקה אם המשתמש קיים - עדכון, אחרת הוספת משתמש חדש
+        public void SaveNewAdministrators()
+        {
+            try
+            {
+                AdministratorsDAL.Save(this);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת מנהל חדש: {ex.Message}");
+                throw;
+            }
+        }
 
-		// פונקציה כללית לשמירת לקוח חדש או קיים
-		public void Save()
-		{
-			if (this.AdminId == -1)
-			{
-				SaveNewAdministrators();
-			}
-			else
-			{
-				UpdateAdministrators();
-			}
-		}
+        public void UpdateAdministrators()
+        {
+            try
+            {
+                AdministratorsDAL.UpdateAdministrators(this);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"שגיאה בעדכון מנהל: {ex.Message}");
+                throw;
+            }
+        }
 
-		// אחזור כל המשתמשים
-		public static List<Administrators> GetAll()
+        public void Save()
+        {
+            if (this.AdminId <= 0)
+            {
+                SaveNewAdministrators();
+            }
+            else
+            {
+                UpdateAdministrators();
+            }
+        }
+
+        // אחזור כל המשתמשים
+        public static List<Administrators> GetAll()
 		{
 			return AdministratorsDAL.GetAll();
 		}
