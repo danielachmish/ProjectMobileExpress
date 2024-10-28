@@ -1,4 +1,5 @@
 ﻿using BLL;
+using Data;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -64,114 +65,202 @@ namespace MobileExpress.Manage
 		}
 
 
-
-
 		protected void Saveadministrators(object sender, EventArgs e)
 		{
 			try
 			{
-				System.Diagnostics.Debug.WriteLine("------------- התחלת תהליך שמירת לקוחות -------------");
-				HiddenField hfAdminId = (HiddenField)form1.FindControl("hfAdminId");
-				System.Diagnostics.Debug.WriteLine($"hfAdminId נמצא: {hfAdminId != null}, ערך: {hfAdminId?.Value}");
+				System.Diagnostics.Debug.WriteLine("------------- התחלת תהליך שמירת מנהל -------------");
 
+				// קריאת הנתונים מהטופס
 				string FullName = txtFullName.Text;
 				string Phone = txtPhone.Text;
 				string Addres = txtAddres.Text;
 				string Uname = txtUname.Text;
 				string Pass = txtPass.Text;
-
-				//string DateAdd = txtDateAdd.Text;
-				bool Status;
 				string Email = txtEmail.Text;
 
+				// אתחול Status לברירת מחדל true
+				bool Status = true;  // או false, תלוי בלוגיקה העסקית שלך
 
-				System.Diagnostics.Debug.WriteLine($"נתונים שהתקבלו: AdminId={hfAdminId?.Value}, FullName={FullName}, Phone={Phone}, Addres={Addres}, Uname={Uname},    Email={Email}");
-
-				System.Diagnostics.Debug.WriteLine("מתחיל תהליך אימות שדות");
+				// בדיקת תקינות השדות
 				ValidateFields(FullName, Phone, Addres, Uname, Pass, Email);
-				System.Diagnostics.Debug.WriteLine("אימות שדות הסתיים בהצלחה");
+
+				HiddenField hfAdminId = (HiddenField)form1.FindControl("hfAdminId");
 
 				var administrators = new Administrators
 				{
-					AdminId = hfAdminId != null && !string.IsNullOrEmpty(hfAdminId.Value) && int.TryParse(hfAdminId.Value, out int AdminId) ? AdminId : 0,
+					AdminId = hfAdminId != null && !string.IsNullOrEmpty(hfAdminId.Value) &&
+							 int.TryParse(hfAdminId.Value, out int AdminId) ? AdminId : 0,
 					FullName = FullName,
 					Phone = Phone,
 					Addres = Addres,
 					Uname = Uname,
 					Pass = Pass != "****" && !string.IsNullOrEmpty(Pass) ? HashPassword(Pass) : null,
 					DateAdd = DateTime.Now,
-
-					Email = Email,
-					
+					Status = Status,  // הוספת השדה Status
+					Email = Email
 				};
-
-				System.Diagnostics.Debug.WriteLine($"אובייקט administrators נוצר: AdminId={administrators.AdminId}, FullName={administrators.FullName}, Phone={administrators.Phone}, Addres={administrators.Addres}, Uname={administrators.Uname}, DateAdd={administrators.DateAdd}, Status={administrators.Status},Email={administrators.Email}");
 
 				if (administrators.AdminId == 0)
 				{
-					System.Diagnostics.Debug.WriteLine("מוסיף מנהל חדש");
 					administrators.SaveNewAdministrators();
 					System.Diagnostics.Debug.WriteLine("מנהל חדש נוסף בהצלחה");
 				}
 				else
 				{
-					System.Diagnostics.Debug.WriteLine($"עורך מנהל קיים עם מזהה: {administrators.AdminId}");
 					administrators.UpdateAdministrators();
 					System.Diagnostics.Debug.WriteLine("נתוני המנהל עודכנו בהצלחה");
 				}
 
-				System.Diagnostics.Debug.WriteLine("מתחיל Bindadministrators");
+				// רענון הטבלה
 				Bindadministrators();
-				System.Diagnostics.Debug.WriteLine("Bindadministrators הסתיים");
 
-				System.Diagnostics.Debug.WriteLine("רושם סקריפט JavaScript לסגירת המודל");
-				ScriptManager.RegisterStartupScript(this, GetType(), "closeModalScript", "closeModal(); console.log('Modal closed after save');", true);
+				// סגירת המודל ורענון העמוד
+				ScriptManager.RegisterStartupScript(this, GetType(), "closeModalScript",
+					"closeModal(); console.log('Modal closed after save');", true);
 
-				System.Diagnostics.Debug.WriteLine("מבצע Redirect");
-				//Response.Redirect(Request.RawUrl);
 				if (!Response.IsRequestBeingRedirected)
 				{
 					Response.Redirect(Request.RawUrl, false);
 					Context.ApplicationInstance.CompleteRequest();
 				}
-				return;
 			}
 			catch (Exception ex)
 			{
-				System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת לקוח: {ex.Message}");
-				System.Diagnostics.Debug.WriteLine($"סוג השגיאה: {ex.GetType().FullName}");
+				System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת מנהל: {ex.Message}");
 				System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
-				Response.Write($"<script>console.error('שגיאה בשמירת לקוח: {ex.Message}'); alert('שגיאה בשמירת לקוח: {ex.Message}');</script>");
-			}
-			finally
-			{
-				System.Diagnostics.Debug.WriteLine("------------- סיום תהליך שמירת לקוחות -------------");
+				throw;  // חשוב לזרוק את השגיאה כדי שנוכל לראות אותה
 			}
 		}
 
 		private void ValidateFields(params string[] fields)
 		{
-			string[] fieldNames = { "FullName", "Phone", "Addres", "Uname", "Pass", "DateAdd", "Status", "Email" };
+			string[] fieldNames = { "FullName", "Phone", "Addres", "Uname", "Pass", "Email" };
 			for (int i = 0; i < fields.Length; i++)
 			{
-				System.Diagnostics.Debug.WriteLine($"בודק שדה: {fieldNames[i]}, ערך: {fields[i]}");
 				if (string.IsNullOrEmpty(fields[i]))
 				{
-					System.Diagnostics.Debug.WriteLine($"Validation Error: {fieldNames[i]} is missing or invalid");
-					throw new Exception($"{fieldNames[i]} is missing or invalid");
+					throw new ArgumentException($"השדה {fieldNames[i]} הוא חובה");
 				}
 			}
-			System.Diagnostics.Debug.WriteLine("כל השדות עברו אימות בהצלחה");
 		}
 
 		private string HashPassword(string password)
 		{
 			System.Diagnostics.Debug.WriteLine("מתחיל תהליך הצפנת סיסמה");
-			var hashedPassword = Convert.ToBase64String(System.Security.Cryptography.SHA256.Create().ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
+			var hashedPassword = Convert.ToBase64String(System.Security.Cryptography.SHA256.Create()
+				.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
 			System.Diagnostics.Debug.WriteLine("סיסמה הוצפנה בהצלחה");
 			return hashedPassword;
 		}
-		
+
+		//protected void Saveadministrators(object sender, EventArgs e)
+		//{
+		//	try
+		//	{
+		//		System.Diagnostics.Debug.WriteLine("------------- התחלת תהליך שמירת לקוחות -------------");
+		//		HiddenField hfAdminId = (HiddenField)form1.FindControl("hfAdminId");
+		//		System.Diagnostics.Debug.WriteLine($"hfAdminId נמצא: {hfAdminId != null}, ערך: {hfAdminId?.Value}");
+
+		//		string FullName = txtFullName.Text;
+		//		string Phone = txtPhone.Text;
+		//		string Addres = txtAddres.Text;
+		//		string Uname = txtUname.Text;
+		//		string Pass = txtPass.Text;
+
+		//		//string DateAdd = txtDateAdd.Text;
+		//		bool Status = true;
+
+		//		string Email = txtEmail.Text;
+
+
+		//		System.Diagnostics.Debug.WriteLine($"נתונים שהתקבלו: AdminId={hfAdminId?.Value}, FullName={FullName}, Phone={Phone}, Addres={Addres}, Uname={Uname},    Email={Email}");
+
+		//		System.Diagnostics.Debug.WriteLine("מתחיל תהליך אימות שדות");
+		//		ValidateFields(FullName, Phone, Addres, Uname, Pass, Email);
+		//		System.Diagnostics.Debug.WriteLine("אימות שדות הסתיים בהצלחה");
+
+		//		var administrators = new Administrators
+		//		{
+		//			AdminId = hfAdminId != null && !string.IsNullOrEmpty(hfAdminId.Value) && int.TryParse(hfAdminId.Value, out int AdminId) ? AdminId : 0,
+		//			FullName = FullName,
+		//			Phone = Phone,
+		//			Addres = Addres,
+		//			Uname = Uname,
+		//			Pass = Pass != "****" && !string.IsNullOrEmpty(Pass) ? HashPassword(Pass) : null,
+		//			DateAdd = DateTime.Now,
+
+		//			Email = Email,
+
+		//		};
+
+		//		System.Diagnostics.Debug.WriteLine($"אובייקט administrators נוצר: AdminId={administrators.AdminId}, FullName={administrators.FullName}, Phone={administrators.Phone}, Addres={administrators.Addres}, Uname={administrators.Uname}, DateAdd={administrators.DateAdd}, Status={administrators.Status},Email={administrators.Email}");
+
+		//		if (administrators.AdminId == 0)
+		//		{
+		//			System.Diagnostics.Debug.WriteLine("מוסיף מנהל חדש");
+		//			administrators.SaveNewAdministrators();
+		//			System.Diagnostics.Debug.WriteLine("מנהל חדש נוסף בהצלחה");
+		//		}
+		//		else
+		//		{
+		//			System.Diagnostics.Debug.WriteLine($"עורך מנהל קיים עם מזהה: {administrators.AdminId}");
+		//			administrators.UpdateAdministrators();
+		//			System.Diagnostics.Debug.WriteLine("נתוני המנהל עודכנו בהצלחה");
+		//		}
+
+		//		System.Diagnostics.Debug.WriteLine("מתחיל Bindadministrators");
+		//		Bindadministrators();
+		//		System.Diagnostics.Debug.WriteLine("Bindadministrators הסתיים");
+
+		//		System.Diagnostics.Debug.WriteLine("רושם סקריפט JavaScript לסגירת המודל");
+		//		ScriptManager.RegisterStartupScript(this, GetType(), "closeModalScript", "closeModal(); console.log('Modal closed after save');", true);
+
+		//		System.Diagnostics.Debug.WriteLine("מבצע Redirect");
+		//		//Response.Redirect(Request.RawUrl);
+		//		if (!Response.IsRequestBeingRedirected)
+		//		{
+		//			Response.Redirect(Request.RawUrl, false);
+		//			Context.ApplicationInstance.CompleteRequest();
+		//		}
+		//		return;
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת לקוח: {ex.Message}");
+		//		System.Diagnostics.Debug.WriteLine($"סוג השגיאה: {ex.GetType().FullName}");
+		//		System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
+		//		Response.Write($"<script>console.error('שגיאה בשמירת לקוח: {ex.Message}'); alert('שגיאה בשמירת לקוח: {ex.Message}');</script>");
+		//	}
+		//	finally
+		//	{
+		//		System.Diagnostics.Debug.WriteLine("------------- סיום תהליך שמירת לקוחות -------------");
+		//	}
+		//}
+
+		//private void ValidateFields(params string[] fields)
+		//{
+		//	string[] fieldNames = { "FullName", "Phone", "Addres", "Uname", "Pass", "DateAdd", "Status", "Email" };
+		//	for (int i = 0; i < fields.Length; i++)
+		//	{
+		//		System.Diagnostics.Debug.WriteLine($"בודק שדה: {fieldNames[i]}, ערך: {fields[i]}");
+		//		if (string.IsNullOrEmpty(fields[i]))
+		//		{
+		//			System.Diagnostics.Debug.WriteLine($"Validation Error: {fieldNames[i]} is missing or invalid");
+		//			throw new Exception($"{fieldNames[i]} is missing or invalid");
+		//		}
+		//	}
+		//	System.Diagnostics.Debug.WriteLine("כל השדות עברו אימות בהצלחה");
+		//}
+
+		//private string HashPassword(string password)
+		//{
+		//	System.Diagnostics.Debug.WriteLine("מתחיל תהליך הצפנת סיסמה");
+		//	var hashedPassword = Convert.ToBase64String(System.Security.Cryptography.SHA256.Create().ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
+		//	System.Diagnostics.Debug.WriteLine("סיסמה הוצפנה בהצלחה");
+		//	return hashedPassword;
+		//}
+
 
 
 		[WebMethod]
@@ -179,40 +268,44 @@ namespace MobileExpress.Manage
 		{
 			try
 			{
-				// מקבל את מחרוזת החיבור מקובץ web.config
-				string connectionString = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
-				System.Diagnostics.Debug.WriteLine("Connection string: " + connectionString);
+				System.Diagnostics.Debug.WriteLine("מתחיל עדכון סטטוס מנהל...");
 
-				// יצירת חיבור למסד הנתונים
-				using (SqlConnection conn = new SqlConnection(connectionString))
+				string sql = "UPDATE T_Administrators SET Status = @Status WHERE AdminId = @AdminId";
+				System.Diagnostics.Debug.WriteLine($"SQL Query: {sql}");
+
+				DbContext Db = new DbContext();
+				try
 				{
-					System.Diagnostics.Debug.WriteLine("Attempting to open connection to database.");
-
-					// יצירת פקודת SQL
-					using (SqlCommand cmd = new SqlCommand("UPDATE T_administrators SET Status = @Status WHERE AdminId = @AdminId", conn))
+					var Obj = new
 					{
-						cmd.Parameters.AddWithValue("@AdminId", AdminId);
-						cmd.Parameters.AddWithValue("@Status", Status);
-						System.Diagnostics.Debug.WriteLine("Prepared SQL command with parameters.");
+						AdminId = AdminId,
+						Status = Convert.ToInt32(Status)  // המרה ל-TINYINT
+					};
 
-						// פתיחת חיבור למסד הנתונים
-						conn.Open();
-						System.Diagnostics.Debug.WriteLine("Connection to database opened successfully.");
+					var LstParma = DbContext.CreateParameters(Obj);
+					int rowsAffected = Db.ExecuteNonQuery(sql, LstParma);
 
-						// ביצוע הפקודה ועדכון השורות
-						int rowsAffected = cmd.ExecuteNonQuery();
-						System.Diagnostics.Debug.WriteLine("Rows affected: " + rowsAffected);
+					System.Diagnostics.Debug.WriteLine($"מספר שורות שהושפעו: {rowsAffected}");
 
-						// סגירת החיבור למסד הנתונים
-						conn.Close();
-						System.Diagnostics.Debug.WriteLine("Connection to database closed successfully.");
+					if (rowsAffected > 0)
+					{
+						System.Diagnostics.Debug.WriteLine($"הסטטוס של מנהל {AdminId} עודכן בהצלחה ל-{Status}");
 					}
+					else
+					{
+						System.Diagnostics.Debug.WriteLine($"לא נמצא מנהל עם מזהה {AdminId}");
+					}
+				}
+				finally
+				{
+					Db.Close(); // סגירת החיבור
+					System.Diagnostics.Debug.WriteLine("החיבור לדאטאבייס נסגר");
 				}
 			}
 			catch (Exception ex)
 			{
-				// טיפול בשגיאה והדפסתה לצורכי דיבוג
-				System.Diagnostics.Debug.WriteLine("Error: " + ex.Message);
+				System.Diagnostics.Debug.WriteLine($"שגיאה בעדכון סטטוס מנהל: {ex.Message}");
+				System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
 				throw;
 			}
 		}

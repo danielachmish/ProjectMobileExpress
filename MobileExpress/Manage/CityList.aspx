@@ -1,7 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Manage/MainMaster.Master" AutoEventWireup="true" CodeBehind="CusList.aspx.cs" Inherits="MobileExpress.Manage.CusList" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Manage/MainMaster.Master" AutoEventWireup="true" CodeBehind="CityList.aspx.cs" Inherits="MobileExpress.Manage.CityList" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
-    <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
+      <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
     <link rel="stylesheet" href="assets/css/styles.css">
     <!-- קישורים נוספים כמו Bootstrap ו-Font Awesome -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -10,12 +9,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
 </asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <!-- כותרת העמוד ופירורי לחם -->
+      <!-- כותרת העמוד ופירורי לחם -->
 
     <div class="breadcrumb" style="direction: rtl;">
-        <h1>רשימת לקוחות</h1>
+        <h1>רשימת מנהלים</h1>
     </div>
     <div class="separator-breadcrumb border-top"></div>
 
@@ -34,7 +32,7 @@
                                 <button class="export-button" onclick="exportTableToExcel('contact_list_table')">
                                     <i class="fas fa-file-excel"></i>
                                 </button>
-                                <!-- כפתור הוספת לקוח -->
+                                <!-- כפתור הוספת עיר -->
                                 <button class="add-button" type="button" onclick="openModalAdd()">+</button>
 
                                 <!-- תפריט להסתיר/להציג עמודות -->
@@ -51,89 +49,18 @@
                                             <input type="checkbox" class="toggle-vis" data-column="1" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">CusId</label>
+                                        <label class="form-check-label ml-3">CityId</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="2" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">FullName</label>
+                                        <label class="form-check-label ml-3">CityName</label>
                                     </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="3" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">Phone</label>
+                                   
                                     </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="4" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">Addres</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="5" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">Uname</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="6" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">Pass</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="7" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">DateAdd</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="8" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">Status</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="9" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">History</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="10" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">Nots</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="11" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">CityId</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="12" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">Actions</label>
-                                    </div>
-
-
-                                </div>
-
+                             
                             </div>
 
                         </div>
@@ -147,66 +74,38 @@
         <div class="table-responsive" style="height: 100%;">
             <form id="form1" runat="server">
                 <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-                <!-- טבלה של רשימת הלקוחות -->
+                <!-- טבלה של רשימת הערים -->
                 <div class="ontainer-fluid">
                     <table class="display table table-borderless ul-contact-list-table" id="contact_list_table" style="width: 100%; direction: rtl;">
                         <thead>
                             <tr class="border-bottom">
                                 <th>
                                     <input type="checkbox" id="selectAll"></th>
-                                <th>CusId</th>
-                                <th>FullName</th>
-                                <th>Phone</th>
-                                <th>Addres</th>
-                                <th>Uname</th>
-                                <th>Pass</th>
-                                <th>DateAdd</th>
-
-                                <th>History</th>
-                                <th>Nots</th>
                                 <th>CityId</th>
-                                <th>Status</th>
+                                <th>CityName</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="customersList">
+                        <tbody id="CityList">
                             <asp:Repeater ID="Repeater2" runat="server">
                                 <ItemTemplate>
-                                    <tr class="row-status" data-status='<%# Eval("Status") %>' data-customers-id='<%# Eval("CusId") %>'>
+                                  
                                         <td>
-                                            <input type="checkbox" class="selectRow" value='<%# Eval("CusId") %>'></td>
-                                        <td><%# Eval("CusId") %></td>
-                                        <td><%# Eval("FullName") %></td>
-                                        <td><%# Eval("Phone") %></td>
-                                        <td><%# Eval("Addres") %></td>
-                                        <td><%# Eval("Uname") %></td>
-                                        <td><%# Eval("Pass") %></td>
-                                        <td><%# Eval("DateAdd") %></td>
-
-                                        <td><%# Eval("History") %></td>
-                                        <td><%# Eval("Nots") %></td>
+                                            <input type="checkbox" class="selectRow" value='<%# Eval("CityId") %>'></td>
                                         <td><%# Eval("CityId") %></td>
+                                        <td><%# Eval("CityName") %></td>
+                                        
+                                       
 
-                                        <td>
-                                            <button class="status-button"><%# Convert.ToBoolean(Eval("Status")) ? "פעיל" : "לא פעיל" %></button>
-                                        </td>
                                         <td class="action-buttons">
                                             <button type="button" class="edit-button edit-contact" onclick="openModalEdit({
-                                                                Id: '<%# Eval("CusId") %>',
-                                                                FullName: '<%# Eval("FullName") %>',
-                                                                Phone: '<%# Eval("Phone") %>',
-                                                                Addres: '<%# Eval("Addres") %>',
-                                                                Uname: '<%# Eval("Uname") %>',
-                                                                Password: '<%# Eval("Pass") %>',
-                                                                dateAdd: '<%# Eval("DateAdd") %>',
-                                                              
-                                                                History: '<%# Eval("History") %>',
-                                                                Nots: '<%# Eval("Nots") %>',
-                                                                CityId: '<%# Eval("CityId") %>'
+                                                                Id: '<%# Eval("CityId") %>',
+                                                                CityName: '<%# Eval("CityName") %>',
+                                                                
                                                             })">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("CusId") %>' OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this item?');">
+                                            <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("CityId") %>' OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this item?');">
                                                 <i class="fas fa-trash-alt"></i>
                                             </asp:LinkButton>
                                         </td>
@@ -223,45 +122,19 @@
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
-                <%-- מודל הוספת לקוח--%>
-                <div id="customersModal" class="modal">
+                <%-- מודל הוספת ערים--%>
+                <div id="CityModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeModal()">&times;</span>
-                        <h2 id="modalTitle">הוספת לקוח</h2>
-                        <asp:HiddenField ID="hfCusId" runat="server" />
+                        <h2 id="modalTitle">הוספת עיר</h2>
+                        <asp:HiddenField ID="hfCityId" runat="server" />
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtFullName" runat="server">שם מלא:</asp:Label>
-                            <asp:TextBox ID="txtFullName" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                            <asp:Label AssociatedControlID="txtCityName" runat="server">שם :</asp:Label>
+                            <asp:TextBox ID="txtCityName" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
-                        <div class="form-group">
-                            <asp:Label AssociatedControlID="txtPhone" runat="server">טלפון:</asp:Label>
-                            <asp:TextBox ID="txtPhone" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-                        </div>
-                        <div class="form-group">
-                            <asp:Label AssociatedControlID="txtAddres" runat="server">כתובת:</asp:Label>
-                            <asp:TextBox ID="txtAddres" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-                        </div>
-                        <div class="form-group">
-                            <asp:Label AssociatedControlID="txtUname" runat="server">אימייל:</asp:Label>
-                            <asp:TextBox ID="txtUname" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-                        </div>
-                        <div class="form-group">
-                            <asp:Label AssociatedControlID="txtPass" runat="server">סיסמה:</asp:Label>
-                            <asp:TextBox ID="txtPass" runat="server" TextMode="Password" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-                        </div>
-                        <%--  <div class="form-group">
-            <asp:Label AssociatedControlID="txtDateAdd" runat="server">תאריך הוספה:</asp:Label>
-            <asp:TextBox ID="txtDateAdd" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>--%>
-                        <div class="form-group">
-                            <asp:Label AssociatedControlID="txtNots" runat="server">הערות:</asp:Label>
-                            <asp:TextBox ID="txtNots" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-                        </div>
-                        <div class="form-group">
-                            <asp:Label AssociatedControlID="txtCityId" runat="server">מס עיר:</asp:Label>
-                            <asp:TextBox ID="txtCityId" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-                        </div>
-                        <asp:Button ID="btnSave" runat="server" OnClick="SaveCustomers" Text="שמירה" CssClass="btn btn-primary" />
+                      
+
+                        <asp:Button ID="btnSave" runat="server" OnClick=" SaveCity" Text="שמירה" CssClass="btn btn-primary" />
                     </div>
                 </div>
 
@@ -388,7 +261,7 @@
 
         /*מודאל עריכה*/
         .modal {
-            display: none;
+            display: block;
             position: fixed;
             z-index: 1;
             left: 0;
@@ -470,7 +343,7 @@
         }
         /* עיצוב חלון המודאל */
         .modal {
-            display: none; /* המודאל מוסתר כברירת מחדל */
+            display:none; /* המודאל מוסתר כברירת מחדל */
             position: fixed; /* מיקום קבוע בחלון הדפדפן */
             z-index: 1; /* סדר גובה גבוה */
             left: 0; /* מיקום משמאל */
@@ -785,13 +658,11 @@
                 font-size: 18px; /* גודל האייקון */
             }
     </style>
-
 </asp:Content>
-
-<asp:Content ID="Content3" ContentPlaceHolderID="FooterContent" runat="server"></asp:Content>
-
+<asp:Content ID="Content3" ContentPlaceHolderID="FooterContent" runat="server">
+</asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="UnderFooter" runat="server">
-    <!-- סקריפטים שנדרשים לעמוד -->
+      <!-- סקריפטים שנדרשים לעמוד -->
     <!-- טעינת סקריפטים חיצוניים -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -831,84 +702,63 @@
             }
         }
 
-        // פונקציה לפתיחת מודאל הוספת לקוח
+        // פונקציה לפתיחת מודאל הוספת מנהל
         function openModalAdd() {
-            var modal = document.getElementById('customersModal');
+            var modal = document.getElementById('CityModal');
             var title = document.getElementById('modalTitle');
             var btnSave = document.getElementById('<%= btnSave.ClientID %>');
-            title.innerText = 'הוספת לקוח';
-            btnSave.value = 'הוסף לקוח';
+            title.innerText = 'הוספת עיר';
+            btnSave.value = 'הוסף עיר';
             // ניקוי שדות הטופס
-            document.getElementById('<%= hfCusId.ClientID %>').value = '';
-            document.getElementById('<%= txtFullName.ClientID %>').value = '';
-            document.getElementById('<%= txtPhone.ClientID %>').value = '';
-            document.getElementById('<%= txtAddres.ClientID %>').value = '';
-            document.getElementById('<%= txtUname.ClientID %>').value = '';
-            document.getElementById('<%= txtPass.ClientID %>').value = '';
-            document.getElementById('<%= txtNots.ClientID %>').value = '';
-            document.getElementById('<%= txtCityId.ClientID %>').value = '';
-            modal.style.display = 'block';
+            document.getElementById('<%= hfCityId.ClientID %>').value = '';
+            document.getElementById('<%= txtCityName.ClientID %>').value = '';
+            modal.style.display='block'
         }
 
         // פונקציה לפתיחת מודאל עריכת לקוח
-        function openModalEdit(customer) {
-            var modal = document.getElementById('customersModal');
+        function openModalEdit(City) {
+            var modal = document.getElementById('CityModal');
             var title = document.getElementById('modalTitle');
             var btnSave = document.getElementById('<%= btnSave.ClientID %>');
-            title.innerText = 'עריכת לקוח';
+            title.innerText = 'עריכת עיר';
             btnSave.value = 'שמור שינויים';
             // מילוי שדות הטופס בנתוני הלקוח
-            document.getElementById('<%= hfCusId.ClientID %>').value = customer.Id;
-            document.getElementById('<%= txtFullName.ClientID %>').value = customer.FullName;
-            document.getElementById('<%= txtPhone.ClientID %>').value = customer.Phone;
-            document.getElementById('<%= txtAddres.ClientID %>').value = customer.Addres;
-            document.getElementById('<%= txtUname.ClientID %>').value = customer.Uname;
-            document.getElementById('<%= txtPass.ClientID %>').value = customer.Password;
-    <%--document.getElementById('<%= txtDateAdd.ClientID %>').value = customer.DateAdd;--%>
-
-            document.getElementById('<%= txtNots.ClientID %>').value = customer.Nots;
-            document.getElementById('<%= txtCityId.ClientID %>').value = customer.CityId;
+            document.getElementById('<%= hfCityId.ClientID %>').value = City.Id;
+            document.getElementById('<%= txtCityName.ClientID %>').value = City.CityName;
             modal.style.display = 'block';
         }
 
         function closeModal() {
-            var modal = document.getElementById('customersModal');
+            var modal = document.getElementById('CityModal');
             modal.style.display = 'none';
         }
 
-        function saveCustomer() {
-            console.log("פונקציית saveCustomer התחילה");
+        function saveCity() {
+            console.log("פונקציית saveCity התחילה");
             var data = {
-                CusId: $('#<%= hfCusId.ClientID %>').val(),
-                FullName: $('#<%= txtFullName.ClientID %>').val(),
-                Phone: $('#<%= txtPhone.ClientID %>').val(),
-                Addres: $('#<%= txtAddres.ClientID %>').val(),
-                Uname: $('#<%= txtUname.ClientID %>').val(),
-                Pass: $('#<%= txtPass.ClientID %>').val(),
-     <%--   DateAdd: $('#<%= txtDateAdd.ClientID %>').val(),--%>
-
-                Nots: $('#<%= txtNots.ClientID %>').val(),
-                CityId: parseInt($('#<%= txtCityId.ClientID %>').val())
+                CityId: $('#<%= hfCityId.ClientID %>').val(),
+                CityName: $('#<%= txtCityName.ClientID %>').val(),
+                
             };
 
             console.log("נתונים שנאספו:", JSON.stringify(data));
 
-            var method = data.CusId === "" ? "POST" : "PUT";
-            var url = method === "POST" ? "/api/Customers" : "/api/Customers/" + data.CusId;
+            var method = data.CityId === "" ? "POST" : "PUT";
+            var url = method === "POST" ? "/api/City" : "/api/City/" + data.CityId;
 
             console.log(`שולח בקשת ${method} ל-${url}`);
 
             $.ajax({
                 type: "POST",
-                url: "/api/CustomersController/Post",
-                data: JSON.stringify({ customerData: data }),
+                url: "/api/CityController/Post",
+                data: JSON.stringify({ CityData: data }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
                     console.log("תגובה התקבלה בהצלחה:", response);
                     alert("הלקוח נשמר בהצלחה");
                     closeModal();
-                    refreshCustomersTable();
+                    refreshCityTable();
                 },
                 error: function (xhr, status, error) {
                     console.error("שגיאה בשמירת הלקוח:", status, error);
@@ -918,28 +768,22 @@
             });
         }
 
-        function refreshCustomersTable() {
+        function refreshCityTable() {
             $.ajax({
                 type: "GET",
-                url: "/api/Customers",
+                url: "/api/City",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (customers) {
-                    var tableBody = $("#customersTable tbody");
+                success: function (City) {
+                    var tableBody = $("#CityTable tbody");
                     tableBody.empty();
-                    for (var i = 0; i < customers.length; i++) {
-                        var customer = customers[i];
+                    for (var i = 0; i < City.length; i++) {
+                        var City = city[i];
                         var row = "<tr>" +
-                            "<td>" + customer.FullName + "</td>" +
-                            "<td>" + customer.Phone + "</td>" +
-                            "<td>" + customer.Addres + "</td>" +
-                            "<td>" + customer.Uname + "</td>" +
-                            "<td>" + customer.DateAdd + "</td>" +
-                            "<td>" + (customer.Status ? "פעיל" : "לא פעיל") + "</td>" +
-                            "<td>" + customer.Nots + "</td>" +
-                            "<td>" + customer.CityId + "</td>" +
-                            "<td><button onclick='editCustomer(" + customer.CusId + ")'>עריכה</button>" +
-                            "<button onclick='deleteCustomer(" + customer.CusId + ")'>מחיקה</button></td>" +
+                            "<td>" + City.CityName + "</td>" +
+                            
+                            "<td><button onclick='editCity(" + City.CityId + ")'>עריכה</button>" +
+                            "<button onclick='deleteCity(" + City.CityId + ")'>מחיקה</button></td>" +
                             "</tr>";
                         tableBody.append(row);
                     }
@@ -948,136 +792,47 @@
                     console.log(error);
                     alert("אירעה שגיאה בטעינת הנתונים");
                 }
-            });
+            }); 
         }
 
-        function editCustomer(customerId) {
-            console.log('נכנס לפונקציית editCustomer');
-            console.log('מזהה לקוח:', customerId);
+        function editCity(CityId) {
+            console.log('נכנס לפונקציית editCity');
+            console.log('מזהה לקוח:', CityId);
 
             $.ajax({
                 type: "GET",
-                url: "/api/CustomersController/Put" + customerId,
+                url: "/api/CityController/Put" + CityId,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (customer) {
-                    console.log('נתוני הלקוח התקבלו בהצלחה:', customer);
+                success: function (City) {
+                    console.log('נתוני הלקוח התקבלו בהצלחה:', City);
 
-                    $('#<%= hfCusId.ClientID %>').val(customer.CusId);
-                    console.log('CusId הוגדר:', customer.CusId);
+                    $('#<%= hfCityId.ClientID %>').val(City.CityId);
+                    console.log('CityId הוגדר:', City.CityId);
 
-                    $('#<%= txtFullName.ClientID %>').val(customer.FullName);
-                    console.log('FullName הוגדר:', customer.FullName);
+                    $('#<%= txtCityName.ClientID %>').val(City.CityName);
+                    console.log('CityName הוגדר:', City.CityName);
 
-                    $('#<%= txtPhone.ClientID %>').val(customer.Phone);
-                    console.log('Phone הוגדר:', customer.Phone);
-
-                    $('#<%= txtAddres.ClientID %>').val(customer.Addres);
-                    console.log('Addres הוגדר:', customer.Addres);
-
-                    $('#<%= txtUname.ClientID %>').val(customer.Uname);
-                    console.log('Uname הוגדר:', customer.Uname);
-
-                    $('#<%= txtPass.ClientID %>').val(customer.Pass);
-                    console.log('Pass הוגדר:', customer.Pass);
-
-                    // DateAdd נמחק או הוסתר
-                    // console.log('DateAdd הוגדר:', customer.DateAdd);
-
-                    $('#<%= txtNots.ClientID %>').val(customer.Nots);
-                    console.log('Nots הוגדר:', customer.Nots);
-
-                    $('#<%= txtCityId.ClientID %>').val(customer.CityId);
-                    console.log('CityId הוגדר:', customer.CityId);
-
-                    $('#customersModal').show();
-                    console.log('מודל הלקוחות נפתח');
+                    $('#CityModal').show();
+                    console.log('מודל הערים נפתח');
                 },
                 error: function (xhr, status, error) {
-                    console.error('שגיאה בטעינת פרטי הלקוח:', status, error);
+                    console.error('שגיאה בטעינת פרטי העיר:', status, error);
                     console.log('תגובת השרת:', xhr.responseText);
-                    alert("אירעה שגיאה בטעינת פרטי הלקוח");
+                    alert("אירעה שגיאה בטעינת פרטי המנהל");
                 }
             });
 
-            console.log('סיום פונקציית editCustomer');
+            console.log('סיום פונקציית editCity');
         }
 
-        //function deleteCustomer(customerId) {
-        //    if (confirm("האם אתה בטוח שברצונך למחוק לקוח זה?")) {
-        //        $.ajax({
-        //            type: "DELETE",
-        //            url: "/api/Customers/" + customerId,
-        //            success: function (response) {
-        //                alert("הלקוח נמחק בהצלחה");
-        //                refreshCustomersTable();
-        //            },
-        //            error: function (error) {
-        //                console.log(error);
-        //                alert("אירעה שגיאה במחיקת הלקוח");
-        //            }
-        //        });
-        //    }
-        //}
-
-       <%--// פונקציה לפתיחת מודאל הוספת לקוח
-        function openModalAdd() {
-            var modal = document.getElementById('customersModal');
-            var title = document.getElementById('modalTitle');
-            var btnSave = document.getElementById('<%= btnSave.ClientID %>');
-
-            title.innerText = 'הוספת טכנאי';
-            btnSave.value = 'הוסף טכנאי';
-
-            // clear form fields
-            document.getElementById('<%= hfCusId.ClientID %>').value = '';
-            document.getElementById('<%= txtFullName.ClientID %>').value = '';
-            document.getElementById('<%= txtPhone.ClientID %>').value = '';
-            document.getElementById('<%= txtAddres.ClientID %>').value = '';
-            document.getElementById('<%= txtUname.ClientID %>').value = '';
-            document.getElementById('<%= txtPassword.ClientID %>').value = '';            
-            document.getElementById('<%= txtDateAdd.ClientID %>').value = '';
-            document.getElementById('<%= txtStatus.ClientID %>').value = '';          
-            document.getElementById('<%= txtNots.ClientID %>').value = '';
-            document.getElementById('<%= txtCityId.ClientID %>').value = '';     
-            modal.style.display = 'block';
-        }
-
-      // פונקציה לפתיחת מודאל עריכת לקוח
-          function openModalEdit(Customers) {
-            var modal = document.getElementById('customersModal');
-            var title = document.getElementById('modalTitle');
-            var btnSave = document.getElementById('<%= btnSave.ClientID %>');
-
-            title.innerText = 'עריכת לקוח';
-            btnSave.value = 'שמור שינויים';
-
-            // populate form fields with customers data
-            document.getElementById('<%= hfCusId.ClientID %>').value = customers.Id;
-            document.getElementById('<%= txtFullName.ClientID %>').value = customers.FullName;
-              document.getElementById('<%= txtPhone.ClientID %>').value = customers.Phone;
-              document.getElementById('<%= txtAddres.ClientID %>').value = customers.Addres;
-              document.getElementById('<%= txtUname.ClientID %>').value = customers.Uname;         
-              document.getElementById('<%= txtPassword.ClientID %>').value = customers.Password;
-              document.getElementById('<%= txtDateAdd.ClientID %>').value = customers.DateAdd;
-              document.getElementById('<%= txtStatus.ClientID %>').value = customers.Status;
-              document.getElementById('<%= txtNots.ClientID %>').value = customers.Nots;
-              document.getElementById('<%= txtCityId.ClientID %>').value = customers.CityId;
-
-            modal.style.display = 'block';
-        }
-
-        function closeModal() {
-            var modal = document.getElementById('customersModal');
-            modal.style.display = 'none';
-        }--%>
 
 
         // פונקציית מחיקה
-        function deleteCustomers(CusId) {
-            if (confirm('Are you sure you want to delete this customers?')) {
+        function deleteCity(CityId) {
+            if (confirm('Are you sure you want to delete this City?')) {
                 // קריאה לשרת למחיקת הלקוח (AJAX או POSTBACK)
-                console.log('Deleting customers with ID:', cusId);
+                console.log('Deleting City with ID:',CityId);
             }
         }
 
@@ -1176,16 +931,16 @@
                     // קריאה לשרת למחיקת הרשומות (AJAX)
                     $.ajax({
                         type: "POST",
-                        url: "CusList.aspx/DeleteCustomers",
+                        url: "CityList.aspx/DeleteCity",
                         data: JSON.stringify({ ids: selectedIds }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response) {
-                            alert('Customers deleted successfully');
+                            alert('city deleted successfully');
                             location.reload(); // רענון הדף לאחר המחיקה
                         },
                         error: function (response) {
-                            alert('Error deleting customers');
+                            alert('Error deleting city');
                             console.error('Error response:', response); // הודעת שגיאה
                             console.error('JSON data sent:', JSON.stringify({ ids: selectedIds })); // JSON שנשלח
 
@@ -1204,61 +959,9 @@
 
 
 
-        // זהו קוד שמנהל את הייצוג החזותי של מעמד הטכנאי (פעיל/לא פעיל) ומסנכרן אותו עם מסד הנתונים דרך שיחות AJAX כאשר מתבצעת החלפת המעמד.
-        document.addEventListener('DOMContentLoaded', function () {
-            const rows = document.querySelectorAll('.row-status');
+      
 
-            rows.forEach(row => {
-                const status = row.getAttribute('data-status');
-                const CusId = row.getAttribute('data-customers-id');
-                const button = row.querySelector('.status-button');
-
-                if (status === 'True' || status === 'true') {
-                    button.classList.add('status-active');
-                    button.textContent = 'פעיל';
-                } else {
-                    button.classList.add('status-inactive');
-                    button.textContent = 'לא פעיל';
-                    row.classList.add('row-inactive');
-                }
-
-                button.addEventListener('click', function () {
-                    const newStatus = !button.classList.contains('status-active');
-
-                    if (newStatus) {
-                        button.classList.remove('status-inactive');
-                        button.classList.add('status-active');
-                        button.textContent = 'פעיל';
-                        row.classList.remove('row-inactive');
-                    } else {
-                        button.classList.remove('status-active');
-                        button.classList.add('status-inactive');
-                        button.textContent = 'לא פעיל';
-                        row.classList.add('row-inactive');
-                    }
-
-                    updateStatusInDatabase(cutomersId, newStatus);
-                });
-            });
-
-            function updateStatusInDatabase(CusId, Status) {
-                console.log("Updating status for CusId: " + CusId + " to Status: " + Status); // הדפסה לצורכי דיבוג
-
-                $.ajax({
-                    type: "POST",
-                    url: "CusList.aspx/UpdateCustomersStatus",
-                    data: JSON.stringify({ CusId: CusId, Status: Status }),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                        console.log('Success:', response);
-                    },
-                    error: function (error) {
-                        console.error('Error:', error);
-                    }
-                });
-            }
-        });
+           
 
 
     </script>

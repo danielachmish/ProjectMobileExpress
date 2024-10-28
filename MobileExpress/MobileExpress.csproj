@@ -43,6 +43,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExcelDataReader, Version=3.7.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.7.0\lib\net462\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.7.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.DataSet.3.7.0\lib\net462\ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
     <Reference Include="Fluent.Infrastructure, Version=1.2.2.0, Culture=neutral, PublicKeyToken=fc0859e40caf6c5d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Bin\Fluent.Infrastructure.dll</HintPath>
@@ -169,6 +175,7 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Linq.Dynamic.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=0f07ec44de6ac832, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Linq.Dynamic.Core.1.0.7.5\lib\net46\System.Linq.Dynamic.Core.dll</HintPath>
     </Reference>
@@ -240,7 +247,9 @@
   <ItemGroup>
     <Content Include="assets\css\Styles.css" />
     <Content Include="Manage\AdminiList.aspx" />
+    <Content Include="Manage\BidList.aspx" />
     <Content Include="Manage\CategList.aspx" />
+    <Content Include="Manage\CityList.aspx" />
     <Content Include="Manage\CusList.aspx" />
     <Content Include="Content\Site.css" />
     <Content Include="assets\css\bootstrap-rtl.css" />
@@ -544,6 +553,7 @@
     <Content Include="assets\js\scripts\widgets-statistics.min.js" />
     <Content Include="Global.asax" />
     <Content Include="Manage\Default.aspx" />
+    <Content Include="Manage\ManuList.aspx" />
     <Content Include="Manage\TecList.aspx" />
     <Content Include="..\.editorconfig">
       <Link>.editorconfig</Link>
@@ -582,12 +592,26 @@
     <Compile Include="Manage\AdminiList.aspx.designer.cs">
       <DependentUpon>AdminiList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Manage\BidList.aspx.cs">
+      <DependentUpon>BidList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\BidList.aspx.designer.cs">
+      <DependentUpon>BidList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Manage\CategList.aspx.cs">
       <DependentUpon>CategList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Manage\CategList.aspx.designer.cs">
       <DependentUpon>CategList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\CityList.aspx.cs">
+      <DependentUpon>CityList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\CityList.aspx.designer.cs">
+      <DependentUpon>CityList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\CusList.aspx.cs">
       <DependentUpon>CusList.aspx</DependentUpon>
@@ -624,6 +648,13 @@
     </Compile>
     <Compile Include="Manage\MainMaster.Master.designer.cs">
       <DependentUpon>MainMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\ManuList.aspx.cs">
+      <DependentUpon>ManuList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\ManuList.aspx.designer.cs">
+      <DependentUpon>ManuList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\TecList.aspx.cs">
       <DependentUpon>TecList.aspx</DependentUpon>

@@ -118,9 +118,9 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-File-Clipboard-File--Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">Forms</span></a>
+                            <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-File-Clipboard-File--Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">קטגוריות</span></a>
                                 <ul class="mm-collapse">
-                                    <li class="item-name"><a href="form.basic.html"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Basic Elements</span></a></li>
+                                    <li class="item-name"><a href="CategList.aspx"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">כל הקטגוריות</span></a></li>
                                     <li class="item-name"><a href="basic-action-bar.html"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Basic action bar </span></a></li>
                                     <li class="item-name"><a href="form.layouts.html"><i class="nav-icon i-Split-Vertical"></i><span class="item-name">Form Layouts</span></a></li>
                                     <li class="item-name"><a href="multi-column-forms.html"><i class="nav-icon i-Split-Vertical"></i><span class="item-name">Multi column forms</span></a></li>
@@ -131,7 +131,7 @@
                                     <li class="item-name"><a href="editor.html"><i class="nav-icon i-Pen-2"></i><span class="item-name">Rich Editor</span></a></li>
                                 </ul>
                             </li>
-                            <li class="Ul_li--hover"><a href="datatables.html"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">Datatables</span></a></li>
+                            <li class="Ul_li--hover"><a href="CityList.aspx"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">ערים</span></a></li>
                             <li class="Ul_li--hover"><a class="has-arrow"><i class="i-Administrator text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">Sessions</span></a>
                                 <ul class="mm-collapse">
                                     <li class="item-name"><a href="../sessions/signin.html"><i class="nav-icon i-Checked-User"></i><span class="item-name">Sign in</span></a></li>

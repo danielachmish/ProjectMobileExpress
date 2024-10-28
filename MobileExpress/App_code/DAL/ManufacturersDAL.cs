@@ -14,14 +14,14 @@ namespace DAL
         {
             // בדיקה אם הלקוח קיים - עדכון, אחרת הוספת לקוח חדש
             string sql;
-            if (Tmp.ManuId == -1)
+            if (Tmp.ManuId == -1||Tmp.ManuId == 0)
             {
                 sql = "INSERT INTO T_Manufacturers (ManuName, [Desc], NameImage, [Date]) " +
                       "VALUES (@ManuName, @Desc, @NameImage, @Date)";
             }
             else
             {
-                sql = "UPDATE T_Manufacturers SET ManuName=@ManuName, [Desc]=@Desc, NameImage=@NameImage, [Date]=@Date WHERE ManuId=@ManuId";
+                sql = "UPDATE T_Manufacturers SET ManuName = @ManuName, [Desc] = @Desc, NameImage = @NameImage, Date = @Date WHERE ManuId = @ManuId";
             }
 
             DbContext Db = new DbContext();
@@ -39,6 +39,48 @@ namespace DAL
             Db.ExecuteNonQuery(sql, LstParma);
 
             Db.Close();
+        }
+
+        public static void UpdateManufacturers(Manufacturers Tmp)
+        {
+            try
+            {
+                string sql = "UPDATE T_Manufacturers SET ManuName = @ManuName,	Desc = @Desc,	NameImage = @NameImage,	Date = @Date WHERE ManuId = @ManuId";
+
+                // הדפסת השאילתה לשם בדיקה
+                System.Diagnostics.Debug.WriteLine("SQL Query (Update): " + sql);
+
+                DbContext Db = new DbContext();
+                var Obj = new
+                {
+                    Tmp.ManuId,
+                    Tmp.ManuName,
+                    Tmp.Desc,
+                    Tmp.NameImage,     
+                    Tmp.Date         
+                };
+
+                var LstParma = DbContext.CreateParameters(Obj);
+
+                // ביצוע השאילתה והכנסת הנתונים לבסיס הנתונים
+                int rowsAffected = Db.ExecuteNonQuery(sql, LstParma);
+                System.Diagnostics.Debug.WriteLine($"Rows affected (Update): {rowsAffected}");
+
+                if (rowsAffected > 0)
+                {
+                    System.Diagnostics.Debug.WriteLine("Manufacturers updated successfully.");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("No rows were affected. Check your update query and parameters.");
+                }
+
+                Db.Close();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in UpdateManufacturers method: {ex.Message}");
+            }
         }
 
         // אחזור כל הלקוחות
