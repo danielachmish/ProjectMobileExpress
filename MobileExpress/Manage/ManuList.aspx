@@ -79,7 +79,7 @@
                                             <span class="slider round"></span>
                                         </label>
                                         <label class="form-check-label ml-3">Date</label>
-                                    </div>                                   
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -108,37 +108,37 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="manuList">
+                        <tbody id="ManuList">
                             <asp:Repeater ID="Repeater2" runat="server">
                                 <ItemTemplate>
-                                    <%--<tr class="row-status" data-status='<%# Eval("Status") %>' data-administrator-id='<%# Eval("AdminId") %>'>--%>
-                                        <td>
-                                            <input type="checkbox" class="selectRow" value='<%# Eval("ManuId") %>'></td>
-                                        <td><%# Eval("ManuId") %></td>
-                                        <td><%# Eval("ManuName") %></td>
-                                        <td><%# Eval("Desc") %></td>
-                                        <td><%# Eval("NameImage") %></td>
-                                        <td><%# Eval("Date") %></td>
-                                        <td>
-                                            <%--<button class="status-button"><%# Convert.ToBoolean(Eval("Status")) ? "פעיל" : "לא פעיל" %></button>--%>
-                                        </td>
+                               
+                                    <td>
+                                        <input type="checkbox" class="selectRow" value='<%# Eval("ManuId") %>'></td>
+                                    <td><%# Eval("ManuId") %></td>
+                                    <td><%# Eval("ManuName") %></td>
+                                    <td><%# Eval("Desc") %></td>
+                                    <td><%# Eval("NameImage") %></td>
+                                    <td><%# Eval("Date") %></td>
+                                    <td>
+                                     
+                                    </td>
 
-                                        <td class="action-buttons">
-                                            <button type="button" class="edit-button edit-contact" onclick="openModalEdit({
+                                    <td class="action-buttons">
+                                        <button type="button" class="edit-button edit-contact" onclick="openModalEdit({
                                                                 ManuId: '<%# Eval("ManuId") %>',
                                                                 ManuName: '<%# Eval("ManuName") %>',
                                                                 Desc: '<%# Eval("Desc") %>',
                                                                 NameImage: '<%# Eval("NameImage") %>',
-                                                                Date: '<%# Eval("Date") %>',
+                                                                Date: '<%# Eval("Date") %>'
                                                                
                                                             })">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("ManuId") %>' OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this item?');">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("ManuId") %>' OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this item?');">
                                                 <i class="fas fa-trash-alt"></i>
-                                            </asp:LinkButton>
-                                        </td>
-                                    </tr>
+                                        </asp:LinkButton>
+                                    </td>
+                                    
                                 </ItemTemplate>
                             </asp:Repeater>
                         </tbody>
@@ -168,13 +168,13 @@
                         <div class="form-group">
                             <asp:Label AssociatedControlID="txtNameImage" runat="server">תמונה:</asp:Label>
                             <asp:TextBox ID="txtNameImage" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-                        </div>                      
-                          <div class="form-group">
+                        </div>
+                        <%-- <div class="form-group">
             <asp:Label AssociatedControlID="txtDate" runat="server">תאריך הוספה:</asp:Label>
             <asp:TextBox ID="txtDate" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>
-                        
-                        <asp:Button ID="btnSave" runat="server" OnClick=" Savemanufacturers" Text="שמירה" CssClass="btn btn-primary" />
+        </div>--%>
+
+                        <asp:Button ID="btnSave" runat="server" OnClick=" SaveManufacturers" Text="שמירה" CssClass="btn btn-primary" />
                     </div>
                 </div>
 
@@ -383,7 +383,7 @@
         }
         /* עיצוב חלון המודאל */
         .modal {
-            display:none; /* המודאל מוסתר כברירת מחדל */
+            display: none; /* המודאל מוסתר כברירת מחדל */
             position: fixed; /* מיקום קבוע בחלון הדפדפן */
             z-index: 1; /* סדר גובה גבוה */
             left: 0; /* מיקום משמאל */
@@ -717,6 +717,365 @@
     <script src="/dist-assets/js/plugins/datatables.min.js"></script>
     <script src="/dist-assets/js/scripts/contact-list-table.min.js"></script>
     <script src="/dist-assets/js/scripts/datatables.script.min.js"></script>
+    <script>
+        // פונקציית חיפוש - סינון לקוחות לפי טקסט בשדה החיפוש
+        function filterContacts() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toLowerCase();
+            table = document.getElementById("contact_list_table");
+            tr = table.getElementsByTagName("tr");
 
-  
+            for (i = 1; i < tr.length; i++) { // התחל מ-1 כדי לדלג על הכותרת
+                tr[i].style.display = "none"; // הסתר את כל השורות תחילה
+                td = tr[i].getElementsByTagName("td");
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                            tr[i].style.display = ""; // הצג את השורה אם נמצא טקסט תואם
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // פונקציה לפתיחת מודאל הוספת מנהל
+        function openModalAdd() {
+            var modal = document.getElementById('ManuModal');
+            var title = document.getElementById('modalTitle');
+            var btnSave = document.getElementById('<%= btnSave.ClientID %>');
+             title.innerText = 'הוספת מנהל';
+             btnSave.value = 'הוסף מנהל';
+             // ניקוי שדות הטופס
+             document.getElementById('<%= hfManuId.ClientID %>').value = '';
+             document.getElementById('<%= txtManuName.ClientID %>').value = '';
+             document.getElementById('<%= txtDesc.ClientID %>').value = '';
+             document.getElementById('<%= txtNameImage.ClientID %>').value = '';
+
+            modal.style.display = 'block'
+        }
+
+        // פונקציה לפתיחת מודאל עריכת לקוח
+        function openModalEdit(manufacturers) {
+            var modal = document.getElementById('ManuModal');
+            var title = document.getElementById('modalTitle');
+            var btnSave = document.getElementById('<%= btnSave.ClientID %>');
+             title.innerText = 'עריכת מנהל';
+             btnSave.value = 'שמור שינויים';
+             // מילוי שדות הטופס בנתוני הלקוח
+             document.getElementById('<%= hfManuId.ClientID %>').value = manufacturers.ManuId;
+             document.getElementById('<%= txtManuName.ClientID %>').value = manufacturers.ManuName;
+             document.getElementById('<%= txtDesc.ClientID %>').value = manufacturers.Desc;
+             document.getElementById('<%= txtNameImage.ClientID %>').value = manufacturers.NameImage;
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            var modal = document.getElementById('ManuModal');
+            modal.style.display = 'none';
+        }
+
+        function SaveManufacturers() {
+            console.log("פונקציית SaveManufacturers התחילה");
+            var data = {
+                AdminId: $('#<%= hfManuId.ClientID %>').val(),
+                FullName: $('#<%= txtManuName.ClientID %>').val(),
+                Phone: $('#<%= txtDesc.ClientID %>').val(),
+                Addres: $('#<%= txtNameImage.ClientID %>').val()
+
+            };
+
+            console.log("נתונים שנאספו:", JSON.stringify(data));
+
+            var method = data.ManuId === "" ? "POST" : "PUT";
+            var url = method === "POST" ? "/api/Manufacturers" : "/api/Manufacturers/" + data.ManuId;
+
+            console.log(`שולח בקשת ${method} ל-${url}`);
+
+            $.ajax({
+                type: "POST",
+                url: "/api/ManufacturersController/Post",
+                data: JSON.stringify({ manufacturersData: data }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    console.log("תגובה התקבלה בהצלחה:", response);
+                    alert("הלקוח נשמר בהצלחה");
+                    closeModal();
+                    refreshmanufacturersTable();
+                },
+                error: function (xhr, status, error) {
+                    console.error("שגיאה בשמירת הלקוח:", status, error);
+                    console.log("תגובת השרת:", xhr.responseText);
+                    alert("אירעה שגיאה בשמירת הלקוח: " + error);
+                }
+            });
+        }
+
+        function refreshmanufacturersTable() {
+            $.ajax({
+                type: "GET",
+                url: "/api/manufacturers",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (manufacturers) {
+                    var tableBody = $("#manufacturersTable tbody");
+                    tableBody.empty();
+                    for (var i = 0; i < manufacturers.length; i++) {
+                        var manufacturer = manufacturers[i];
+                        var row = "<tr>" +
+                            "<td>" + manufacturer.ManuName + "</td>" +
+                            "<td>" + manufacturer.Desc + "</td>" +
+                            "<td>" + manufacturer.NameImage + "</td>" +
+                            "<td>" + manufacturer.Date + "</td>" +
+
+                            "<td><button onclick='editmanufacturer(" + manufacturer.ManuId + ")'>עריכה</button>" +
+                            "<button onclick='deletemanufacturer(" + manufacturer.ManuId + ")'>מחיקה</button></td>" +
+                            "</tr>";
+                        tableBody.append(row);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                    alert("אירעה שגיאה בטעינת הנתונים");
+                }
+            });
+        }
+
+        function editmanufacturer(manufacturerId) {
+            console.log('נכנס לפונקציית editmanufacturer');
+            console.log('מזהה לקוח:', manufacturerId);
+
+            $.ajax({
+                type: "GET",
+                url: "/api/ManufacturersController/Put" + manufacturerId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (manufacturer) {
+                    console.log('נתוני הלקוח התקבלו בהצלחה:', manufacturer);
+
+                    $('#<%= hfManuId.ClientID %>').val(manufacturer.ManuId);
+                    console.log('ManuId הוגדר:', manufacturer.ManuId);
+
+                    $('#<%= txtManuName.ClientID %>').val(manufacturer.ManuName);
+                    console.log('ManuName הוגדר:', manufacturer.ManuName);
+
+                    $('#<%= txtDesc.ClientID %>').val(manufacturer.Desc);
+                    console.log('Desc הוגדר:', manufacturer.Desc);
+
+                    $('#<%= txtNameImage.ClientID %>').val(manufacturer.NameImage);
+                    console.log('NameImage הוגדר:', manufacturer.NameImage);
+
+
+                    /* DateAdd נמחק או הוסתר*/
+                    console.log('DateAdd הוגדר:', customer.DateAdd);
+
+
+
+                    $('#ManuModal').show();
+                    console.log('מודל המנהלים נפתח');
+                },
+                error: function (xhr, status, error) {
+                    console.error('שגיאה בטעינת פרטי המנהל:', status, error);
+                    console.log('תגובת השרת:', xhr.responseText);
+                    alert("אירעה שגיאה בטעינת פרטי המנהל");
+                }
+            });
+
+            console.log('סיום פונקציית editmanufacturer');
+        }
+
+
+
+        // פונקציית מחיקה
+        function deletemanufacturer(ManuId) {
+            if (confirm('Are you sure you want to delete this manufacturer?')) {
+                // קריאה לשרת למחיקת הלקוח (AJAX או POSTBACK)
+                console.log('Deleting manufacturer with ID:', ManuId);
+            }
+        }
+
+        $(document).ready(function () {
+            console.log("Document is ready");
+
+            var table = $('#contact_list_table').DataTable({
+                "dom": '<"top">rt<"bottom"><"clear">', // הסרת "search" ו-"length"
+                "paging": false, // ביטול פאגינציה
+                "info": false // הסרת המידע בתחתית הטבלה
+            });
+            console.log("DataTable initialized");
+
+            $('.toggle-vis').on('change', function (e) {
+                console.log("Checkbox changed");
+                var column = table.column($(this).attr('data-column'));
+                console.log("Toggling visibility for column: " + $(this).attr('data-column'));
+                column.visible(!column.visible());
+                e.stopPropagation(); // מניעת התפשטות האירוע כדי למנוע סגירת הדרופדאון
+            });
+
+            // מניעת סגירת הדרופדאון כאשר לוחצים על הסליידר
+            $('.dropdown-menu').on('click', function (e) {
+                console.log("Dropdown menu clicked");
+                e.stopPropagation();
+            });
+
+            $('#dropdownMenuButton').on('click', function () {
+                console.log("Dropdown button clicked");
+            });
+
+            $('.dropdown-toggle').on('click', function () {
+                console.log("Dropdown toggle clicked");
+            });
+
+            // וודא שהתפריט נסגר כאשר לוחצים מחוץ לו
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('.dropdown').length) {
+                    $('.dropdown-menu').removeClass('show');
+                }
+            });
+
+            // הוסף לוג כדי לבדוק אם התפריט נפתח
+            $('#dropdownMenuButton').on('click', function () {
+                console.log("Dropdown button clicked");
+                $('.dropdown-menu').toggleClass('show');
+            });
+        });
+
+
+        // פונקציה ליצוא הנתונים לטבלת Excel
+        function exportTableToExcel(tableID, filename = '') {
+            var table = document.getElementById(tableID);
+            var workbook = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+            filename = filename ? filename + '.xlsx' : 'excel_data.xlsx';
+            XLSX.writeFile(workbook, filename);
+        }
+        // פונקציה לסימון כל השורות כאשר לוחצים על תיבת הסימון הכללית
+        $(document).ready(function () {
+
+            $('#selectAll').on('click', function () {
+                $('.selectRow').prop('checked', this.checked);
+                toggleDeleteButton();
+            });
+
+            // פונקציה לבדיקת תיבת הסימון הכללית כאשר כל השורות מסומנות או לא
+            $('.selectRow').on('click', function () {
+                if ($('.selectRow:checked').length === $('.selectRow').length) {
+                    $('#selectAll').prop('checked', true);
+                } else {
+                    $('#selectAll').prop('checked', false);
+                }
+                toggleDeleteButton();
+            });
+        });
+
+        // פונקציה להציג או להסתיר את כפתור המחיקה
+        function toggleDeleteButton() {
+            if ($('.selectRow:checked').length > 1) {
+                $('#deleteContainer').show();
+            } else {
+                $('#deleteContainer').hide();
+            }
+        }
+
+        // פונקציה למחיקת כל השורות הנבחרות
+        function deleteSelectedRows() {
+            var selectedIds = [];
+            $('.selectRow:checked').each(function () {
+                selectedIds.push(parseInt($(this).val()));
+            });
+
+            if (selectedIds.length > 0) {
+                if (confirm('Are you sure you want to delete the selected items?')) {
+                    // קריאה לשרת למחיקת הרשומות (AJAX)
+                    $.ajax({
+                        type: "POST",
+                        url: "ManuList.aspx/Deletemanufacturer",
+                        data: JSON.stringify({ ids: selectedIds }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            alert('manufacturer deleted successfully');
+                            location.reload(); // רענון הדף לאחר המחיקה
+                        },
+                        error: function (response) {
+                            alert('Error deleting manufacturer');
+                            console.error('Error response:', response); // הודעת שגיאה
+                            console.error('JSON data sent:', JSON.stringify({ ids: selectedIds })); // JSON שנשלח
+
+                            // הדפסת תוכן התגובה מהשרת
+                            if (response.responseText) {
+                                console.error('Server response text:', response.responseText);
+                            }
+                        }
+                    });
+                }
+            } else {
+                alert('Please select at least one item to delete.');
+            }
+        }
+
+
+
+
+        // זהו קוד שמנהל את הייצוג החזותי של מעמד הטכנאי (פעיל/לא פעיל) ומסנכרן אותו עם מסד הנתונים דרך שיחות AJAX כאשר מתבצעת החלפת המעמד.
+        //document.addEventListener('DOMContentLoaded', function () {
+        //    const rows = document.querySelectorAll('.row-status');
+
+        //    rows.forEach(row => {
+        //        const status = row.getAttribute('data-status');
+        //        const AdminId = row.getAttribute('data-manufacturer-id');
+        //        const button = row.querySelector('.status-button');
+
+        //        if (status === 'True' || status === 'true') {
+        //            button.classList.add('status-active');
+        //            button.textContent = 'פעיל';
+        //        } else {
+        //            button.classList.add('status-inactive');
+        //            button.textContent = 'לא פעיל';
+        //            row.classList.add('row-inactive');
+        //        }
+
+        //        button.addEventListener('click', function () {
+        //            const newStatus = !button.classList.contains('status-active');
+
+        //            if (newStatus) {
+        //                button.classList.remove('status-inactive');
+        //                button.classList.add('status-active');
+        //                button.textContent = 'פעיל';
+        //                row.classList.remove('row-inactive');
+        //            } else {
+        //                button.classList.remove('status-active');
+        //                button.classList.add('status-inactive');
+        //                button.textContent = 'לא פעיל';
+        //                row.classList.add('row-inactive');
+        //            }
+
+        //            updateStatusInDatabase(manufacturerId, newStatus);
+        //        });
+        //    });
+
+        //    function updateStatusInDatabase(ManuId, Status) {
+        //        console.log("Updating status for ManuId: " + AdminId + " to Status: " + Status); // הדפסה לצורכי דיבוג
+
+        //        $.ajax({
+        //            type: "POST",
+        //            url: "ManuList.aspx/UpdatemanufacturerStatus",
+        //            data: JSON.stringify({ ManuId: ManuId, Status: Status }),
+        //            contentType: "application/json; charset=utf-8",
+        //            dataType: "json",
+        //            success: function (response) {
+        //                console.log('Success:', response);
+        //            },
+        //            error: function (error) {
+        //                console.error('Error:', error);
+        //            }
+        //        });
+        //    }
+        //});
+
+
+    </script>
+
 </asp:Content>

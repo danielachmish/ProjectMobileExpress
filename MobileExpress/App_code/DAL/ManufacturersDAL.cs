@@ -12,40 +12,65 @@ namespace DAL
     {
         public static void Save(Manufacturers Tmp)
         {
-            // בדיקה אם הלקוח קיים - עדכון, אחרת הוספת לקוח חדש
-            string sql;
-            if (Tmp.ManuId == -1||Tmp.ManuId == 0)
+            try
             {
-                sql = "INSERT INTO T_Manufacturers (ManuName, [Desc], NameImage, [Date]) " +
-                      "VALUES (@ManuName, @Desc, @NameImage, @Date)";
+                Console.WriteLine("=== מתחיל תהליך שמירה ===");
+                Console.WriteLine($"ManuId: {Tmp.ManuId}");
+                Console.WriteLine($"ManuName: {Tmp.ManuName}");
+                Console.WriteLine($"Desc: {Tmp.Desc}");
+                Console.WriteLine($"NameImage: {Tmp.NameImage}");
+                Console.WriteLine($"Date: {Tmp.Date}");
+
+                string sql;
+                if (Tmp.ManuId <= 0)
+                {
+                    sql = "INSERT INTO T_Manufacturers (ManuName, [Desc], NameImage, [Date]) " +
+                          "VALUES (@ManuName, @Desc, @NameImage, @Date)";
+                    Console.WriteLine("מבצע INSERT");
+                }
+                else
+                {
+                    sql = "UPDATE T_Manufacturers SET ManuName = @ManuName, [Desc] = @Desc, " +
+                          "NameImage = @NameImage, [Date] = @Date WHERE ManuId = @ManuId";
+                    Console.WriteLine("מבצע UPDATE");
+                }
+
+                Console.WriteLine($"SQL Query: {sql}");
+
+                DbContext Db = new DbContext();
+                var Obj = new
+                {
+                    ManuId = Tmp.ManuId,
+                    ManuName = Tmp.ManuName,
+                    Desc = Tmp.Desc,
+                    NameImage = Tmp.NameImage,
+                    Date = Tmp.Date
+                };
+                var LstParma = DbContext.CreateParameters(Obj);
+                Console.WriteLine("Parameters:");
+                foreach (var param in LstParma)
+                {
+                    Console.WriteLine($"{param.ParameterName} = {param.Value}");
+                }
+
+                int rowsAffected = Db.ExecuteNonQuery(sql, LstParma);
+                Console.WriteLine($"מספר שורות שהושפעו: {rowsAffected}");
+                Db.Close();
+                Console.WriteLine("=== סיום תהליך שמירה בהצלחה ===");
             }
-            else
+            catch (Exception ex)
             {
-                sql = "UPDATE T_Manufacturers SET ManuName = @ManuName, [Desc] = @Desc, NameImage = @NameImage, Date = @Date WHERE ManuId = @ManuId";
+                Console.WriteLine($"!!! שגיאה בשמירה !!!: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                throw;
             }
-
-            DbContext Db = new DbContext();
-            var Obj = new
-            {
-                ManuId = Tmp.ManuId,
-                ManuName = Tmp.ManuName,
-                Desc = Tmp.Desc,
-                NameImage = Tmp.NameImage,
-                Date = Tmp.Date
-            };
-
-            var LstParma = DbContext.CreateParameters(Obj);
-            // ביצוע השאילתה והכנסת הנתונים לבסיס הנתונים
-            Db.ExecuteNonQuery(sql, LstParma);
-
-            Db.Close();
         }
 
         public static void UpdateManufacturers(Manufacturers Tmp)
         {
             try
             {
-                string sql = "UPDATE T_Manufacturers SET ManuName = @ManuName,	Desc = @Desc,	NameImage = @NameImage,	Date = @Date WHERE ManuId = @ManuId";
+                string sql = "UPDATE T_Manufacturers SET ManuName = @ManuName,	[Desc] = @Desc,	NameImage = @NameImage,	[Date] = @Date WHERE ManuId = @ManuId";
 
                 // הדפסת השאילתה לשם בדיקה
                 System.Diagnostics.Debug.WriteLine("SQL Query (Update): " + sql);
