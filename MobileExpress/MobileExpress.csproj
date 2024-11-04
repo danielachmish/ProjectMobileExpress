@@ -554,6 +554,8 @@
     <Content Include="Global.asax" />
     <Content Include="Manage\Default.aspx" />
     <Content Include="Manage\ManuList.aspx" />
+    <Content Include="Manage\ModelsList.aspx" />
+    <Content Include="Manage\ReadList.aspx" />
     <Content Include="Manage\TecList.aspx" />
     <Content Include="..\.editorconfig">
       <Link>.editorconfig</Link>
@@ -655,6 +657,20 @@
     </Compile>
     <Compile Include="Manage\ManuList.aspx.designer.cs">
       <DependentUpon>ManuList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\ModelsList.aspx.cs">
+      <DependentUpon>ModelsList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\ModelsList.aspx.designer.cs">
+      <DependentUpon>ModelsList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\ReadList.aspx.cs">
+      <DependentUpon>ReadList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\ReadList.aspx.designer.cs">
+      <DependentUpon>ReadList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\TecList.aspx.cs">
       <DependentUpon>TecList.aspx</DependentUpon>

@@ -1,9 +1,6 @@
 ﻿using BLL;
-using Data;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
@@ -12,39 +9,39 @@ using System.Web.UI.WebControls;
 
 namespace MobileExpress.Manage
 {
-	public partial class BidList : System.Web.UI.Page
+	public partial class ModelsList : System.Web.UI.Page
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
 
 			if (!IsPostBack)
 			{
-				Bindbid();
+				Bindmodels();
 			}
 		}
 
-		private void Bindbid()
+		private void Bindmodels()
 		{
-			List<Bid> BidList = Bid.GetAll();
-			Repeater2.DataSource = BidList;
+			List<Models> ModelsList = Models.GetAll();
+			Repeater2.DataSource = ModelsList;
 			Repeater2.DataBind();
 		}
 
-		public void Delete(int BidId)
+		public void Delete(int ModelId)
 		{
-			Bid.DeleteById(BidId);
+			Models.DeleteById(ModelId);
 		}
 
 		protected void btnDelete_Click(object sender, EventArgs e)
 		{
 			LinkButton btn = (LinkButton)sender;
-			int bidID = Convert.ToInt32(btn.CommandArgument);
-			Delete(bidID);
-			Bindbid(); // רענון הרשימה לאחר המחיקה
+			int modelID = Convert.ToInt32(btn.CommandArgument);
+			Delete(modelID);
+			Bindmodels(); // רענון הרשימה לאחר המחיקה
 		}
 
 		[WebMethod]
-		public static void Deletebid(List<int> ids)
+		public static void Deletemodels(List<int> ids)
 		{
 			if (ids == null || !ids.Any())
 			{
@@ -55,63 +52,59 @@ namespace MobileExpress.Manage
 			{
 				foreach (int id in ids)
 				{
-					Bid.DeleteById(id);
+					Models.DeleteById(id);
 				}
 			}
 			catch (Exception ex)
 			{
-				throw new Exception("An error occurred while deleting bid.", ex);
+				throw new Exception("An error occurred while deleting models.", ex);
 			}
 		}
 
 
-		protected void Savebid(object sender, EventArgs e)
+		protected void SaveModels(object sender, EventArgs e)
 		{
 			try
 			{
 				System.Diagnostics.Debug.WriteLine("------------- התחלת תהליך שמירת מנהל -------------");
 
 				// קריאת הנתונים מהטופס
-				string Desc = txtDesc.Text;
-				int Price = int.Parse(txtPrice.Text);
-				int TecId = int.Parse(txtTecId.Text);
-				int ReadId = int.Parse(txtReadId.Text);
+				string ModelName = txtModelName.Text;
+				int manuId = int.Parse(txtmanuId.Text);
+				string Image = txtImage.Text;
 				
 				// אתחול Status לברירת מחדל true
-				bool Status = true;  // או false, תלוי בלוגיקה העסקית שלך
+				//bool Status = true;  // או false, תלוי בלוגיקה העסקית שלך
 
 				// בדיקת תקינות השדות
-				ValidateFields(Desc, Price.ToString(), TecId.ToString(), ReadId.ToString());
+				ValidateFields(ModelName, manuId.ToString(), Image);
 
-				HiddenField hfBidId= (HiddenField)form1.FindControl("hfBidId");
+				HiddenField hfModelId = (HiddenField)form1.FindControl("hfModelId");
 
-				var bid = new Bid
+				var models = new Models
 				{
-					BidId = hfBidId!= null && !string.IsNullOrEmpty(hfBidId.Value) &&
-							 int.TryParse(hfBidId.Value, out int BidId) ? BidId : 0,
-					Desc = Desc,
-					Price = Price,
-					TecId = TecId,
-					ReadId = ReadId,
-				
+					ModelId = hfModelId != null && !string.IsNullOrEmpty(hfModelId.Value) &&
+							 int.TryParse(hfModelId.Value, out int ModelId) ? ModelId : 0,
+					ModelName = ModelName,
+					manuId = manuId,
+					Image = Image,
 					Date = DateTime.Now,
-					Status = Status  // הוספת השדה Status
-				
+					
 				};
 
-				if (bid.BidId == 0)
+				if (models.ModelId <=0)
 				{
-					bid.SaveNewBid();
+					models.SaveNewModels();
 					System.Diagnostics.Debug.WriteLine("מנהל חדש נוסף בהצלחה");
 				}
 				else
 				{
-					bid.UpdateBid();
+					models.UpdateModels();
 					System.Diagnostics.Debug.WriteLine("נתוני המנהל עודכנו בהצלחה");
 				}
 
 				// רענון הטבלה
-				Bindbid();
+				Bindmodels();
 
 				// סגירת המודל ורענון העמוד
 				ScriptManager.RegisterStartupScript(this, GetType(), "closeModalScript",
@@ -133,7 +126,7 @@ namespace MobileExpress.Manage
 
 		private void ValidateFields(params string[] fields)
 		{
-			string[] fieldNames = { "Desc", "Price", "TecId", "ReadId" };
+			string[] fieldNames = { "ModelName", "manuId", "Image" };
 			for (int i = 0; i < fields.Length; i++)
 			{
 				if (string.IsNullOrEmpty(fields[i]))
@@ -261,51 +254,51 @@ namespace MobileExpress.Manage
 
 
 
-		[WebMethod]
-		public static void UpdatebidStatus(int bidId, bool Status)
-		{
-			try
-			{
-				System.Diagnostics.Debug.WriteLine("מתחיל עדכון סטטוס מנהל...");
+		//[WebMethod]
+		//public static void UpdateadministratorsStatus(int AdminId, bool Status)
+		//{
+		//	try
+		//	{
+		//		System.Diagnostics.Debug.WriteLine("מתחיל עדכון סטטוס מנהל...");
 
-				string sql = "UPDATE T_Bid SET Status = @Status WHERE BidId = @BidId";
-				System.Diagnostics.Debug.WriteLine($"SQL Query: {sql}");
+		//		string sql = "UPDATE T_Administrators SET Status = @Status WHERE AdminId = @AdminId";
+		//		System.Diagnostics.Debug.WriteLine($"SQL Query: {sql}");
 
-				DbContext Db = new DbContext();
-				try
-				{
-					var Obj = new
-					{
-						BidId = bidId,
-						Status = Convert.ToInt32(Status)  // המרה ל-TINYINT
-					};
+		//		DbContext Db = new DbContext();
+		//		try
+		//		{
+		//			var Obj = new
+		//			{
+		//				AdminId = AdminId,
+		//				Status = Convert.ToInt32(Status)  // המרה ל-TINYINT
+		//			};
 
-					var LstParma = DbContext.CreateParameters(Obj);
-					int rowsAffected = Db.ExecuteNonQuery(sql, LstParma);
+		//			var LstParma = DbContext.CreateParameters(Obj);
+		//			int rowsAffected = Db.ExecuteNonQuery(sql, LstParma);
 
-					System.Diagnostics.Debug.WriteLine($"מספר שורות שהושפעו: {rowsAffected}");
+		//			System.Diagnostics.Debug.WriteLine($"מספר שורות שהושפעו: {rowsAffected}");
 
-					if (rowsAffected > 0)
-					{
-						System.Diagnostics.Debug.WriteLine($"הסטטוס של מנהל {bidId} עודכן בהצלחה ל-{Status}");
-					}
-					else
-					{
-						System.Diagnostics.Debug.WriteLine($"לא נמצא מנהל עם מזהה {bidId}");
-					}
-				}
-				finally
-				{
-					Db.Close(); // סגירת החיבור
-					System.Diagnostics.Debug.WriteLine("החיבור לדאטאבייס נסגר");
-				}
-			}
-			catch (Exception ex)
-			{
-				System.Diagnostics.Debug.WriteLine($"שגיאה בעדכון סטטוס מנהל: {ex.Message}");
-				System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
-				throw;
-			}
-		}
+		//			if (rowsAffected > 0)
+		//			{
+		//				System.Diagnostics.Debug.WriteLine($"הסטטוס של מנהל {AdminId} עודכן בהצלחה ל-{Status}");
+		//			}
+		//			else
+		//			{
+		//				System.Diagnostics.Debug.WriteLine($"לא נמצא מנהל עם מזהה {AdminId}");
+		//			}
+		//		}
+		//		finally
+		//		{
+		//			Db.Close(); // סגירת החיבור
+		//			System.Diagnostics.Debug.WriteLine("החיבור לדאטאבייס נסגר");
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		System.Diagnostics.Debug.WriteLine($"שגיאה בעדכון סטטוס מנהל: {ex.Message}");
+		//		System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
+		//		throw;
+		//	}
+		//}
 	}
 }
