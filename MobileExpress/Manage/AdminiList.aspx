@@ -820,7 +820,7 @@
             title.innerText = 'עריכת מנהל';
             btnSave.value = 'שמור שינויים';
             // מילוי שדות הטופס בנתוני הלקוח
-            document.getElementById('<%= hfAdminId.ClientID %>').value = administrator.Id;
+           document.getElementById('<%= hfAdminId.ClientID %>').value = administrator.Id;
             document.getElementById('<%= txtFullName.ClientID %>').value = administrator.FullName;
             document.getElementById('<%= txtPhone.ClientID %>').value = administrator.Phone;
             document.getElementById('<%= txtAddres.ClientID %>').value = administrator.Addres;

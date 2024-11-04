@@ -17,9 +17,41 @@ namespace BLL
         public DateTime Date { get; set; } // תאריך הביד
 
         // שמירת הביד
+        public void SaveNewBid()
+        {
+            try
+            {
+                BidDAL.Save(this);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת מנהל חדש: {ex.Message}");
+                throw;
+            }
+        }
+
+        public void UpdateBid()
+        {
+            try
+            {
+                BidDAL.UpdateBid(this);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"שגיאה בעדכון מנהל: {ex.Message}");
+                throw;
+            }
+        }
         public void Save()
         {
-            BidDAL.Save(this);
+            if (this.BidId <= 0)
+            {
+                SaveNewBid();
+            }
+            else
+            {
+                UpdateBid();
+            }
         }
 
         // אחזור כל הבידים

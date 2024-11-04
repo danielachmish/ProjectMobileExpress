@@ -11,7 +11,7 @@ namespace MobileExpress.Manage
 {
 
 
-	public partial class BidList
+	public partial class ModelsList
 	{
 
 		/// <summary>
@@ -42,58 +42,40 @@ namespace MobileExpress.Manage
 		protected global::System.Web.UI.WebControls.Repeater Repeater2;
 
 		/// <summary>
-		/// hfBidId control.
+		/// hfModelId control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.HiddenField hfBidId;
+		protected global::System.Web.UI.WebControls.HiddenField hfModelId;
 
 		/// <summary>
-		/// txtDesc control.
+		/// txtModelName control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtDesc;
+		protected global::System.Web.UI.WebControls.TextBox txtModelName;
 
 		/// <summary>
-		/// txtPrice control.
+		/// txtmanuId control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtPrice;
+		protected global::System.Web.UI.WebControls.TextBox txtmanuId;
 
 		/// <summary>
-		/// txtStatus control.
+		/// txtImage control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtStatus;
-
-		/// <summary>
-		/// txtTecId control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtTecId;
-
-		/// <summary>
-		/// txtReadId control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtReadId;
+		protected global::System.Web.UI.WebControls.TextBox txtImage;
 
 		/// <summary>
 		/// btnSave control.

@@ -15,7 +15,7 @@ namespace DAL
         public static void Save(Bid Tmp)
         {
             string Sql;
-            if (Tmp.BidId == -1) // במקרה של יצירת ביד חדש
+            if (Tmp.BidId == -1||Tmp.BidId==0) // במקרה של יצירת ביד חדש
             {
                 // שאילתת INSERT עם סוגריים מרובעים סביב השדות
                 Sql = "INSERT INTO T_Bid ([Desc], [Price], [Status], [TecId], [ReadId], [Date])" +
@@ -50,6 +50,57 @@ namespace DAL
 
             // סגירת חיבור לבסיס הנתונים
             Db.Close();
+        }
+        public static void UpdateBid(Bid Tmp)
+        {
+            try
+            {
+                string sql = @"UPDATE T_bid 
+                      SET [Desc] = @Desc,
+                          Price = @Price,
+                          TecId = @TecId,
+                          ReadId = @ReadId,
+                          [Date] = @Date
+                           WHERE BidId = @BidId";
+
+                System.Diagnostics.Debug.WriteLine("SQL Query (Update): " + sql);
+
+                DbContext Db = new DbContext();
+                try
+                {
+                    var Obj = new
+                    {
+                        Tmp.BidId,
+                        Tmp.Desc,
+                        Tmp.Price,
+                        Tmp.TecId,
+                        Tmp.ReadId,
+                        Tmp.Date
+                    };
+
+                    var LstParma = DbContext.CreateParameters(Obj);
+                    int rowsAffected = Db.ExecuteNonQuery(sql, LstParma);
+                    System.Diagnostics.Debug.WriteLine($"Rows affected (Update): {rowsAffected}");
+
+                    if (rowsAffected > 0)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Models updated successfully.");
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("No rows were affected. Check your update query and parameters.");
+                    }
+                }
+                finally
+                {
+                    Db.Close(); // סגירת החיבור
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in UpdateModels method: {ex.Message}");
+                throw;
+            }
         }
 
         // אחזור כל הבידים

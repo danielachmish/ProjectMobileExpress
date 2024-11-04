@@ -1,6 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Manage/MainMaster.Master" AutoEventWireup="true" CodeBehind="BidList.aspx.cs" Inherits="MobileExpress.Manage.BidList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Manage/MainMaster.Master" AutoEventWireup="true" CodeBehind="ModelsList.aspx.cs" Inherits="MobileExpress.Manage.ModelsList" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
-      <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
+    <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
     <link rel="stylesheet" href="assets/css/styles.css">
     <!-- קישורים נוספים כמו Bootstrap ו-Font Awesome -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -8,13 +9,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
-
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-        <!-- כותרת העמוד ופירורי לחם -->
+    <!-- כותרת העמוד ופירורי לחם -->
 
     <div class="breadcrumb" style="direction: rtl;">
-        <h1>רשימת הצעות מחיר</h1>
+        <h1>רשימת מודלים</h1>
     </div>
     <div class="separator-breadcrumb border-top"></div>
 
@@ -50,51 +50,37 @@
                                             <input type="checkbox" class="toggle-vis" data-column="1" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">BidId</label>
+                                        <label class="form-check-label ml-3">ModelId</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="2" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">Desc</label>
+                                        <label class="form-check-label ml-3">ModelName</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="3" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">Price</label>
+                                        <label class="form-check-label ml-3">ManuId</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="4" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">Status</label>
+                                        <label class="form-check-label ml-3">Image</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="5" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">TecId</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="6" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">ReadId</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="7" checked>
-                                            <span class="slider round"></span>
-                                        </label>
                                         <label class="form-check-label ml-3">Date</label>
                                     </div>
-                                   
+
                                 </div>
 
                             </div>
@@ -117,54 +103,46 @@
                             <tr class="border-bottom">
                                 <th>
                                     <input type="checkbox" id="selectAll"></th>
-                                <th>BidId</th>
-                                <th>Desc</th>
-                                <th>Price</th>
-                                <th>Status</th>
-                                <th>TecId</th>
-                                <th>ReadId</th>
+                                <th>ModelId</th>
+                                <th>ModelName</th>
+                                <th>manuId</th>
+                                <th>Image</th>
                                 <th>Date</th>
-                               
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="bidList">
+                        <tbody id="modelsList">
                             <asp:Repeater ID="Repeater2" runat="server">
                                 <ItemTemplate>
-                                    <tr class="row-status" data-status='<%# Eval("Status") %>' data-bid-id='<%# Eval("BidId") %>'>
+                                    <tr>
+                                        <!-- חסר לך תגית TR שמתחילה שורה חדשה -->
                                         <td>
-                                            <input type="checkbox" class="selectRow" value='<%# Eval("BidId") %>'></td>
-                                        <td><%# Eval("BidId") %></td>
-                                        <td><%# Eval("Desc") %></td>
-                                        <td><%# Eval("Price") %></td>
-                                        <td><%# Eval("Status") %></td>
-                                        <td><%# Eval("TecId") %></td>
-                                        <td><%# Eval("ReadId") %></td>
-                                        <td><%# Eval("Date") %></td>
-                                    
-                                        <td>
-                                            <button class="status-button"><%# Convert.ToBoolean(Eval("Status")) ? "פעיל" : "לא פעיל" %></button>
+                                            <input type="checkbox" class="selectRow" value='<%# Eval("ModelId") %>' />
                                         </td>
-
+                                        <td><%# Eval("ModelId") %></td>
+                                        <td><%# Eval("ModelName") %></td>
+                                        <td><%# Eval("manuId") %></td>
+                                        <td><%# Eval("Image") %></td>
+                                        <td><%# Eval("Date") %></td>
                                         <td class="action-buttons">
                                             <button type="button" class="edit-button edit-contact" onclick="openModalEdit({
-                                                                BidId: '<%# Eval("BidId") %>',
-                                                                Desc: '<%# Eval("Desc") %>',
-                                                                Price: '<%# Eval("Price") %>',
-                                                                Status: '<%# Eval("Status") %>',
-                                                                TecId: '<%# Eval("TecId") %>',
-                                                                ReadId: '<%# Eval("ReadId") %>',
-                                                                Date: '<%# Eval("Date") %>',   
-                                                               
-                                                             
-                                                            })">
+                                                    ModelId: '<%# Eval("ModelId") %>',
+                                                    ModelName: '<%# Eval("ModelName") %>',
+                                                    manuId: '<%# Eval("manuId") %>',
+                                                    Image: '<%# Eval("Image") %>',
+                                                    Date: '<%# Eval("Date") %>'
+                                                })">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("BidId") %>' OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this item?');">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </asp:LinkButton>
+                                            <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server"
+                                                CommandArgument='<%# Eval("ModelId") %>'
+                                                OnClick="btnDelete_Click"
+                                                OnClientClick="return confirm('Are you sure you want to delete this item?');">
+                <i class="fas fa-trash-alt"></i>
+            </asp:LinkButton>
                                         </td>
                                     </tr>
+                                    <!-- סוגר את השורה -->
                                 </ItemTemplate>
                             </asp:Repeater>
                         </tbody>
@@ -178,38 +156,30 @@
                     </button>
                 </div>
                 <%-- מודל הוספת מנהל--%>
-                <div id="BidModal" class="modal">
+                <div id="ModelsModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeModal()">&times;</span>
-                        <h2 id="modalTitle">הוספת הצעת מחיר</h2>
-                        <asp:HiddenField ID="hfBidId" runat="server" />
+                        <h2 id="modalTitle">הוספת מנהל</h2>
+                        <asp:HiddenField ID="hfModelId" runat="server" />
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtDesc" runat="server">תיאור:</asp:Label>
-                            <asp:TextBox ID="txtDesc" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                            <asp:Label AssociatedControlID="txtModelName" runat="server">שם מודל:</asp:Label>
+                            <asp:TextBox ID="txtModelName" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtPrice" runat="server">מחיר:</asp:Label>
-                            <asp:TextBox ID="txtPrice" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                            <asp:Label AssociatedControlID="txtmanuId" runat="server">קוד יצרן:</asp:Label>
+                            <asp:TextBox ID="txtmanuId" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtStatus" runat="server">סטטוס הצעה:</asp:Label>
-                            <asp:TextBox ID="txtStatus" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                            <asp:Label AssociatedControlID="txtImage" runat="server">שם תמונה:</asp:Label>
+                            <asp:TextBox ID="txtImage" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
-                        <div class="form-group">
-                            <asp:Label AssociatedControlID="txtTecId" runat="server">מס טכנאי:</asp:Label>
-                            <asp:TextBox ID="txtTecId" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-                        </div>
-                        <div class="form-group">
-                            <asp:Label AssociatedControlID="txtReadId" runat="server">מס קריאה:</asp:Label>
-                            <asp:TextBox ID="txtReadId" runat="server"  required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-                        </div>
-                        <%--  <div class="form-group">
+
+                        <%-- <div class="form-group">
             <asp:Label AssociatedControlID="txtDate" runat="server">תאריך הוספה:</asp:Label>
             <asp:TextBox ID="txtDate" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
         </div>--%>
-                       
 
-                        <asp:Button ID="btnSave" runat="server" OnClick=" Savebid" Text="שמירה" CssClass="btn btn-primary" />
+                        <asp:Button ID="btnSave" runat="server" OnClick=" SaveModels" Text="שמירה" CssClass="btn btn-primary" />
                     </div>
                 </div>
 
@@ -418,7 +388,7 @@
         }
         /* עיצוב חלון המודאל */
         .modal {
-            display:none; /* המודאל מוסתר כברירת מחדל */
+            display: none; /* המודאל מוסתר כברירת מחדל */
             position: fixed; /* מיקום קבוע בחלון הדפדפן */
             z-index: 1; /* סדר גובה גבוה */
             left: 0; /* מיקום משמאל */
@@ -737,7 +707,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="FooterContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="UnderFooter" runat="server">
-      <!-- סקריפטים שנדרשים לעמוד -->
+    <!-- סקריפטים שנדרשים לעמוד -->
     <!-- טעינת סקריפטים חיצוניים -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -779,76 +749,67 @@
 
         // פונקציה לפתיחת מודאל הוספת מנהל
         function openModalAdd() {
-            var modal = document.getElementById('BidModal');
+            var modal = document.getElementById('ModelsModal');
             var title = document.getElementById('modalTitle');
             var btnSave = document.getElementById('<%= btnSave.ClientID %>');
             title.innerText = 'הוספת מנהל';
             btnSave.value = 'הוסף מנהל';
             // ניקוי שדות הטופס
-            document.getElementById('<%= hfBidId.ClientID %>').value = '';
-            document.getElementById('<%= txtDesc.ClientID %>').value = '';
-            document.getElementById('<%= txtPrice.ClientID %>').value = '';
-            document.getElementById('<%= txtStatus.ClientID %>').value = '';
-            document.getElementById('<%= txtTecId.ClientID %>').value = '';
-            document.getElementById('<%= txtReadId.ClientID %>').value = '';
-           
-            modal.style.display='block'
+            document.getElementById('<%= hfModelId.ClientID %>').value = '';
+            document.getElementById('<%= txtModelName.ClientID %>').value = '';
+            document.getElementById('<%= txtmanuId.ClientID %>').value = '';
+            document.getElementById('<%= txtImage.ClientID %>').value = '';
+            modal.style.display = 'block'
         }
 
         // פונקציה לפתיחת מודאל עריכת לקוח
-        function openModalEdit(bid) {
-            var modal = document.getElementById('BidModal');
+        function openModalEdit(models) {
+            var modal = document.getElementById('ModelsModal');
             var title = document.getElementById('modalTitle');
             var btnSave = document.getElementById('<%= btnSave.ClientID %>');
             title.innerText = 'עריכת מנהל';
             btnSave.value = 'שמור שינויים';
             // מילוי שדות הטופס בנתוני הלקוח
-            document.getElementById('<%= hfBidId.ClientID %>').value = bid.BidId;
-            document.getElementById('<%= txtDesc.ClientID %>').value = bid.Desc;
-            document.getElementById('<%= txtPrice.ClientID %>').value = bid.Price;
-            document.getElementById('<%= txtStatus.ClientID %>').value = bid.Status;
-            document.getElementById('<%= txtTecId.ClientID %>').value = bid.TecId;
-            document.getElementById('<%= txtReadId.ClientID %>').value = bid.ReadId;
-           
+            document.getElementById('<%= hfModelId.ClientID %>').value = models.ModelId;
+            document.getElementById('<%= txtModelName.ClientID %>').value = models.ModelName;
+            document.getElementById('<%= txtmanuId.ClientID %>').value = models.ManuId;
+            document.getElementById('<%= txtImage.ClientID %>').value = models.Image;
             modal.style.display = 'block';
         }
 
         function closeModal() {
-            var modal = document.getElementById('BidModal');
+            var modal = document.getElementById('ModelsModal');
             modal.style.display = 'none';
         }
 
-        function savebid() {
-            console.log("פונקציית savebid התחילה");
+        function SaveModels() {
+            console.log("פונקציית SaveModels התחילה");
             var data = {
-                BidId: $('#<%= hfBidId.ClientID %>').val(),
-                Desc: $('#<%= txtDesc.ClientID %>').val(),
-                Price: $('#<%= txtPrice.ClientID %>').val(),
-                Status: $('#<%= txtStatus.ClientID %>').val(),
-                TecId: $('#<%= txtTecId.ClientID %>').val(),
-                ReadId: $('#<%= txtReadId.ClientID %>').val(),
-              
+                ModelId: $('#<%= hfModelId.ClientID %>').val(),
+                ModelName: $('#<%= txtModelName.ClientID %>').val(),
+                manuId: $('#<%= txtmanuId.ClientID %>').val(),
+                Image: $('#<%= txtImage.ClientID %>').val(),
 
             };
 
             console.log("נתונים שנאספו:", JSON.stringify(data));
 
-            var method = data.BidId === "" ? "POST" : "PUT";
-            var url = method === "POST" ? "/api/Bid" : "/api/Bid/" + data.BidId;
+            var method = data.ModelId === "" ? "POST" : "PUT";
+            var url = method === "POST" ? "/api/Models" : "/api/Models/" + data.ModelId;
 
             console.log(`שולח בקשת ${method} ל-${url}`);
 
             $.ajax({
                 type: "POST",
-                url: "/api/BidController/Post",
-                data: JSON.stringify({ bidData: data }),
+                url: "/api/ModelsController/Post",
+                data: JSON.stringify({ modelData: data }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
                     console.log("תגובה התקבלה בהצלחה:", response);
                     alert("הלקוח נשמר בהצלחה");
                     closeModal();
-                    refreshbidTable();
+                    refreshmodelTable();
                 },
                 error: function (xhr, status, error) {
                     console.error("שגיאה בשמירת הלקוח:", status, error);
@@ -858,28 +819,27 @@
             });
         }
 
-        function refreshbidTable() {
+        function refreshmodelTable() {
             $.ajax({
                 type: "GET",
-                url: "/api/bid",
+                url: "/api/models",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (bid) {
-                    var tableBody = $("#bidTable tbody");
+                success: function (model) {
+                    var tableBody = $("#administratorsTable tbody");
                     tableBody.empty();
-                    for (var i = 0; i < bid.length; i++) {
-                        var Bid = bid[i];
+                    for (var i = 0; i < model.length; i++) {
+                        var model = models[i];
                         var row = "<tr>" +
-                            "<td>" + bid.Desc + "</td>" +
-                            "<td>" + bid.Price + "</td>" +
-                            "<td>" + (bid.Status ? "פעיל" : "לא פעיל") + "</td>" +
-                            "<td>" + bid.TecId + "</td>" +
-                            "<td>" + bid.Date + "</td>" +
-                           
-                           
+                            "<td>" + model.ModelName + "</td>" +
+                            "<td>" + model.ManuId + "</td>" +
+                            "<td>" + model.Image + "</td>" +
 
-                            "<td><button onclick='editbid(" + bid.BidId + ")'>עריכה</button>" +
-                            "<button onclick='deletebid(" + bid.BidId + ")'>מחיקה</button></td>" +
+                            "<td>" + model.Date + "</td>" +
+
+
+                            "<td><button onclick='editmodels(" + model.ModelId + ")'>עריכה</button>" +
+                            "<button onclick='deletemodels(" + model.ModelId + ")'>מחיקה</button></td>" +
                             "</tr>";
                         tableBody.append(row);
                     }
@@ -891,42 +851,34 @@
             });
         }
 
-        function editbid(bidId) {
-            console.log('נכנס לפונקציית editbid');
-            console.log('מזהה לקוח:', bidId);
+        function editmodels(modelId) {
+            console.log('נכנס לפונקציית editmodels');
+            console.log('מזהה לקוח:', modelId);
 
             $.ajax({
                 type: "GET",
-                url: "/api/bidController/Put" + bidId,
+                url: "/api/ModelsController/Put" + modelId,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (bid) {
-                    console.log('נתוני הלקוח התקבלו בהצלחה:', bid);
+                success: function (models) {
+                    console.log('נתוני הלקוח התקבלו בהצלחה:', models);
 
-                    $('#<%= hfBidId.ClientID %>').val(bid.bidId);
-                    console.log('BidId הוגדר:', bid.bidId);
+                    $('#<%= hfModelId.ClientID %>').val(models.ModelId);
+                    console.log('ModelId הוגדר:', models.ModelId);
 
-                    $('#<%= txtDesc.ClientID %>').val(bid.Desc);
-                    console.log('Desc הוגדר:', bid.Desc);
+                    $('#<%= txtModelName.ClientID %>').val(models.ModelName);
+                    console.log('ModelName הוגדר:', models.ModelName);
 
-                    $('#<%= txtPrice.ClientID %>').val(bid.Price);
-                    console.log('Price הוגדר:', bid.Price);
+                    $('#<%= txtmanuId.ClientID %>').val(models.ManuId);
+                    console.log('ManuId הוגדר:', models.ManuId);
 
-                    $('#<%= txtStatus.ClientID %>').val(bid.Status);
-                    console.log('Status הוגדר:', bid.Status);
+                    $('#<%= txtImage.ClientID %>').val(models.Image);
+                    console.log('Image הוגדר:', models.Image);
 
-                    $('#<%= txtTecId.ClientID %>').val(bid.TecId);
-                    console.log('TecId הוגדר:', bid.TecId);
+                    // DateAdd נמחק או הוסתר
+                    console.log('DateAdd הוגדר:', customer.DateAdd);
 
-                    $('#<%= txtReadId.ClientID %>').val(bid.ReadId);
-                    console.log('ReadId הוגדר:', bid.ReadId);
-
-                    // Date נמחק או הוסתר
-                    // console.log('Date הוגדר:', customer.Date);
-
-                   
-
-                    $('#BidModal').show();
+                    $('#ModelsModal').show();
                     console.log('מודל המנהלים נפתח');
                 },
                 error: function (xhr, status, error) {
@@ -936,16 +888,16 @@
                 }
             });
 
-            console.log('סיום פונקציית editbid');
+            console.log('סיום פונקציית editmodels');
         }
 
 
 
         // פונקציית מחיקה
-        function deletebid(bidid) {
-            if (confirm('Are you sure you want to delete this bid?')) {
+        function deletemodels(ModelId) {
+            if (confirm('Are you sure you want to delete this models?')) {
                 // קריאה לשרת למחיקת הלקוח (AJAX או POSTBACK)
-                console.log('Deleting bid with ID:', bidid);
+                console.log('Deleting models with ID:', ModelId);
             }
         }
 
@@ -1044,16 +996,16 @@
                     // קריאה לשרת למחיקת הרשומות (AJAX)
                     $.ajax({
                         type: "POST",
-                        url: "BidList.aspx/Deletebid",
+                        url: "ModelsList.aspx/Deletemodels",
                         data: JSON.stringify({ ids: selectedIds }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response) {
-                            alert('bid deleted successfully');
+                            alert('models deleted successfully');
                             location.reload(); // רענון הדף לאחר המחיקה
                         },
                         error: function (response) {
-                            alert('Error deleting bid');
+                            alert('Error deleting models');
                             console.error('Error response:', response); // הודעת שגיאה
                             console.error('JSON data sent:', JSON.stringify({ ids: selectedIds })); // JSON שנשלח
 
@@ -1073,60 +1025,60 @@
 
 
         // זהו קוד שמנהל את הייצוג החזותי של מעמד הטכנאי (פעיל/לא פעיל) ומסנכרן אותו עם מסד הנתונים דרך שיחות AJAX כאשר מתבצעת החלפת המעמד.
-        document.addEventListener('DOMContentLoaded', function () {
-            const rows = document.querySelectorAll('.row-status');
+        //document.addEventListener('DOMContentLoaded', function () {
+        //    const rows = document.querySelectorAll('.row-status');
 
-            rows.forEach(row => {
-                const status = row.getAttribute('data-status');
-                const BidId = row.getAttribute('data-bid-id');
-                const button = row.querySelector('.status-button');
+        //    rows.forEach(row => {
+        //        const status = row.getAttribute('data-status');
+        //        const AdminId = row.getAttribute('data-administrator-id');
+        //        const button = row.querySelector('.status-button');
 
-                if (status === 'True' || status === 'true') {
-                    button.classList.add('status-active');
-                    button.textContent = 'פעיל';
-                } else {
-                    button.classList.add('status-inactive');
-                    button.textContent = 'לא פעיל';
-                    row.classList.add('row-inactive');
-                }
+        //        if (status === 'True' || status === 'true') {
+        //            button.classList.add('status-active');
+        //            button.textContent = 'פעיל';
+        //        } else {
+        //            button.classList.add('status-inactive');
+        //            button.textContent = 'לא פעיל';
+        //            row.classList.add('row-inactive');
+        //        }
 
-                button.addEventListener('click', function () {
-                    const newStatus = !button.classList.contains('status-active');
+        //        button.addEventListener('click', function () {
+        //            const newStatus = !button.classList.contains('status-active');
 
-                    if (newStatus) {
-                        button.classList.remove('status-inactive');
-                        button.classList.add('status-active');
-                        button.textContent = 'פעיל';
-                        row.classList.remove('row-inactive');
-                    } else {
-                        button.classList.remove('status-active');
-                        button.classList.add('status-inactive');
-                        button.textContent = 'לא פעיל';
-                        row.classList.add('row-inactive');
-                    }
+        //            if (newStatus) {
+        //                button.classList.remove('status-inactive');
+        //                button.classList.add('status-active');
+        //                button.textContent = 'פעיל';
+        //                row.classList.remove('row-inactive');
+        //            } else {
+        //                button.classList.remove('status-active');
+        //                button.classList.add('status-inactive');
+        //                button.textContent = 'לא פעיל';
+        //                row.classList.add('row-inactive');
+        //            }
 
-                    updateStatusInDatabase(bidId, newStatus);
-                });
-            });
+        //            updateStatusInDatabase(administratorsId, newStatus);
+        //        });
+        //    });
 
-            function updateStatusInDatabase(BidId, Status) {
-                console.log("Updating status for BidId: " + BidId + " to Status: " + Status); // הדפסה לצורכי דיבוג
+        //    function updateStatusInDatabase(AdminId, Status) {
+        //        console.log("Updating status for AdminId: " + AdminId + " to Status: " + Status); // הדפסה לצורכי דיבוג
 
-                $.ajax({
-                    type: "POST",
-                    url: "BidList.aspx/Updatebidtatus",
-                    data: JSON.stringify({ BidId: BidId, Status: Status }),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                        console.log('Success:', response);
-                    },
-                    error: function (error) {
-                        console.error('Error:', error);
-                    }
-                });
-            }
-        });
+        //        $.ajax({
+        //            type: "POST",
+        //            url: "adminiList.aspx/UpdateadministratorsStatus",
+        //            data: JSON.stringify({ AdminId: AdminId, Status: Status }),
+        //            contentType: "application/json; charset=utf-8",
+        //            dataType: "json",
+        //            success: function (response) {
+        //                console.log('Success:', response);
+        //            },
+        //            error: function (error) {
+        //                console.error('Error:', error);
+        //            }
+        //        });
+        //    }
+        //});
 
 
     </script>
