@@ -17,9 +17,9 @@ namespace MobileExpress.controllers
             if (Tmp != null)
             {
                 // הגדרת מזהה חדש
-                Tmp.ReadiId = -1;
+                Tmp.ReadId = -1;
                 // שמירה
-                Tmp.Save();
+                Tmp.SaveNewRead();
             }
             else
             {
@@ -33,9 +33,9 @@ namespace MobileExpress.controllers
         public void Put(int Id, Readability Tmp)
         {
             // הגדרת מזהה לקוח לפי הקלט
-            Tmp.ReadiId = Id;
+            Tmp.ReadId = Id;
             // שמירת לקוח
-            Tmp.Save();
+            Tmp.SaveNewRead();
         }
 
         // אחזור רשימת כל הלקוחות

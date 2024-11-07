@@ -10,18 +10,18 @@ namespace DAL
 {
 	public class RatingDAL
 	{
-		public static void Save(Rating Tmp)
+		public static void SaveNewRating(Rating Tmp)
 		{
 			// בדיקה אם הלקוח קיים - עדכון, אחרת הוספת לקוח חדש
 			string sql;
-			if (Tmp.RatingId == -1)
+			if (Tmp.RatingId <=0)
 			{
-				sql = "insert into T_Rating(Date,Grade,Description,TecId,CusId,Comment)" +
+				sql = "insert into T_Rating([Date],Grade,Description,TecId,CusId,Comment)" +
 					$"Values(@Date,@Grade,@Description,@TecId,@CusId,@Comment)";
 			}
 			else
 			{
-				sql = $"Update Rating set Date=@Date,Grade=@Grade,Description=@Description,TecId=@TecId,CusId=@CusId,Comment=@Comment where RatingId=@RatingId";
+				sql = $"Update T_Rating set [Date]=@Date,Grade=@Grade,Description=@Description,TecId=@TecId,CusId=@CusId,Comment=@Comment where RatingId=@RatingId";
 			}
 
 			DbContext Db = new DbContext();
@@ -33,7 +33,7 @@ namespace DAL
 				Description = Tmp.Description,
 				TecId = Tmp.TecId,
 				CusId = Tmp.CusId,
-				Comment = Tmp.Comment,
+				Comment = Tmp.Comment
 			};
 
 			var LstParma = DbContext.CreateParameters(Obj);
@@ -41,6 +41,51 @@ namespace DAL
 			Db.ExecuteNonQuery(sql, LstParma);
 
 			Db.Close();
+		}
+		public static void UpdateRating(Rating Tmp)
+		{
+			try
+			{
+				string sql = "UPDATE T_Rating SET Date = @Date,	Grade = @Grade,	Description = @Description,	TecId = @TecId,	CusId = @CusId,	Comment = @Comment WHERE CusId = @CusId";
+
+				// הדפסת השאילתה לשם בדיקה
+				System.Diagnostics.Debug.WriteLine("SQL Query (Update): " + sql);
+
+				DbContext Db = new DbContext();
+				var Obj = new
+				{
+					Tmp.RatingId,
+
+					Tmp.Date,
+					Tmp.Grade,
+					Tmp.Description,
+					Tmp.TecId,
+					Tmp.CusId,
+					Tmp.Comment
+
+				};
+
+				var LstParma = DbContext.CreateParameters(Obj);
+
+				// ביצוע השאילתה והכנסת הנתונים לבסיס הנתונים
+				int rowsAffected = Db.ExecuteNonQuery(sql, LstParma);
+				System.Diagnostics.Debug.WriteLine($"Rows affected (Update): {rowsAffected}");
+
+				if (rowsAffected > 0)
+				{
+					System.Diagnostics.Debug.WriteLine("Customers updated successfully.");
+				}
+				else
+				{
+					System.Diagnostics.Debug.WriteLine("No rows were affected. Check your update query and parameters.");
+				}
+
+				Db.Close();
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Error in UpdateCustomers method: {ex.Message}");
+			}
 		}
 		// אחזור כל הלקוחות
 		public static List<Rating> GetAll()
@@ -57,7 +102,7 @@ namespace DAL
 					Rating Tmp = new Rating()
 					{
 						RatingId = int.Parse(Dt.Rows[i]["RatingId"].ToString()),
-						Date = Dt.Rows[i]["Date"].ToString(),
+						Date = DateTime.Parse(Dt.Rows[i]["Date"].ToString()),
 						Grade = Dt.Rows[i]["Grade"].ToString(),
 						Description = Dt.Rows[i]["Description"].ToString(),
 						TecId = int.Parse(Dt.Rows[0]["TecId"].ToString()),
@@ -93,7 +138,7 @@ namespace DAL
 				Tmp = new Rating()
 				{
 					RatingId = int.Parse(Dt.Rows[0]["RatingId"].ToString()),
-					Date = Dt.Rows[0]["Date"].ToString(),
+					Date = DateTime.Parse(Dt.Rows[0]["Date"].ToString()),
 					Grade = Dt.Rows[0]["Grade"].ToString(),
 					Description = Dt.Rows[0]["Description"].ToString(),
 					TecId = int.Parse(Dt.Rows[0]["TecId"].ToString()),

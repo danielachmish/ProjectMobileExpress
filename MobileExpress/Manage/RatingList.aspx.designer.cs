@@ -11,7 +11,7 @@ namespace MobileExpress.Manage
 {
 
 
-	public partial class ReadList
+	public partial class RatingList
 	{
 
 		/// <summary>
@@ -42,49 +42,40 @@ namespace MobileExpress.Manage
 		protected global::System.Web.UI.WebControls.Repeater Repeater2;
 
 		/// <summary>
-		/// hfReadId control.
+		/// hfRatingId control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.HiddenField hfReadId;
+		protected global::System.Web.UI.WebControls.HiddenField hfRatingId;
 
 		/// <summary>
-		/// txtDesc control.
+		/// txtGrade control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtDesc;
+		protected global::System.Web.UI.WebControls.TextBox txtGrade;
 
 		/// <summary>
-		/// txtFullName control.
+		/// txtDescription control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtFullName;
+		protected global::System.Web.UI.WebControls.TextBox txtDescription;
 
 		/// <summary>
-		/// txtPhone control.
+		/// txtTecId control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtPhone;
-
-		/// <summary>
-		/// txtNots control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtNots;
+		protected global::System.Web.UI.WebControls.TextBox txtTecId;
 
 		/// <summary>
 		/// txtCusId control.
@@ -96,40 +87,13 @@ namespace MobileExpress.Manage
 		protected global::System.Web.UI.WebControls.TextBox txtCusId;
 
 		/// <summary>
-		/// txtModelId control.
+		/// txtComment control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtModelId;
-
-		/// <summary>
-		/// txtNameImage control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtNameImage;
-
-		/// <summary>
-		/// txtUrgency control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtUrgency;
-
-		/// <summary>
-		/// txtSerProdId control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtSerProdId;
+		protected global::System.Web.UI.WebControls.TextBox txtComment;
 
 		/// <summary>
 		/// btnSave control.

@@ -555,6 +555,7 @@
     <Content Include="Manage\Default.aspx" />
     <Content Include="Manage\ManuList.aspx" />
     <Content Include="Manage\ModelsList.aspx" />
+    <Content Include="Manage\RatingList.aspx" />
     <Content Include="Manage\ReadList.aspx" />
     <Content Include="Manage\TecList.aspx" />
     <Content Include="..\.editorconfig">
@@ -664,6 +665,13 @@
     </Compile>
     <Compile Include="Manage\ModelsList.aspx.designer.cs">
       <DependentUpon>ModelsList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\RatingList.aspx.cs">
+      <DependentUpon>RatingList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\RatingList.aspx.designer.cs">
+      <DependentUpon>RatingList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\ReadList.aspx.cs">
       <DependentUpon>ReadList.aspx</DependentUpon>

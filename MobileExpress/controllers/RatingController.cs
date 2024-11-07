@@ -19,7 +19,7 @@ namespace MobileExpress.controllers
                 // הגדרת מזהה חדש
                 Tmp.RatingId = -1;
                 // שמירה
-                Tmp.Save();
+                Tmp.SaveNewRating();
             }
             else
             {
@@ -35,7 +35,7 @@ namespace MobileExpress.controllers
             // הגדרת מזהה לקוח לפי הקלט
             Tmp.RatingId = Id;
             // שמירת לקוח
-            Tmp.Save();
+            Tmp.SaveNewRating();
         }
 
         // אחזור רשימת כל הלקוחות
