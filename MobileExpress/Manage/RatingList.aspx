@@ -1,7 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Manage/MainMaster.Master" AutoEventWireup="true" CodeBehind="AdminiList.aspx.cs" Inherits="MobileExpress.Manage.AdminiList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Manage/MainMaster.Master" AutoEventWireup="true" CodeBehind="RatingList.aspx.cs" Inherits="MobileExpress.Manage.RatingList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
-    <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
+     <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
     <link rel="stylesheet" href="assets/css/styles.css">
     <!-- קישורים נוספים כמו Bootstrap ו-Font Awesome -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <!-- כותרת העמוד ופירורי לחם -->
+      <!-- כותרת העמוד ופירורי לחם -->
 
     <div class="breadcrumb" style="direction: rtl;">
         <h1>רשימת מנהלים</h1>
@@ -50,64 +50,51 @@
                                             <input type="checkbox" class="toggle-vis" data-column="1" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">AdminId</label>
+                                        <label class="form-check-label ml-3">RatingId</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="2" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">FullName</label>
+                                        <label class="form-check-label ml-3">Date</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="3" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">Phone</label>
+                                        <label class="form-check-label ml-3">Grade</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="4" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">Addres</label>
+                                        <label class="form-check-label ml-3">Description</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="5" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">Uname</label>
+                                        <label class="form-check-label ml-3">TecId</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="6" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">Pass</label>
+                                        <label class="form-check-label ml-3">CusId</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-vis" data-column="7" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">DateAdd</label>
+                                        <label class="form-check-label ml-3">Comment</label>
                                     </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="8" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">Status</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <label class="switch">
-                                            <input type="checkbox" class="toggle-vis" data-column="9" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                        <label class="form-check-label ml-3">Email</label>
-                                    </div>
+                                    
                                 </div>
 
                             </div>
@@ -130,51 +117,48 @@
                             <tr class="border-bottom">
                                 <th>
                                     <input type="checkbox" id="selectAll"></th>
-                                <th>AdminId</th>
-                                <th>FullName</th>
-                                <th>Phone</th>
-                                <th>Addres</th>
-                                <th>Uname</th>
-                                <th>Pass</th>
-                                <th>DateAdd</th>
-                                <th>Email</th>
-                                <th>Status</th>
+                                <th>RatingId</th>
+                                <th>Date</th>
+                                <th>Grade</th>
+                                <th>Description</th>
+                                <th>TecId</th>
+                                <th>CusId</th>
+                                <th>Comment</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="administratorList">
+                        <tbody id="ratingList">
                             <asp:Repeater ID="Repeater2" runat="server">
                                 <ItemTemplate>
-                                    <tr class="row-status" data-status='<%# Eval("Status") %>' data-administrator-id='<%# Eval("AdminId") %>'>
+                               <%--     <tr class="row-status" data-status='<%# Eval("Status") %>' data-rating-id='<%# Eval("RatingId") %>'>--%>
                                         <td>
-                                            <input type="checkbox" class="selectRow" value='<%# Eval("AdminId") %>'></td>
-                                        <td><%# Eval("AdminId") %></td>
-                                        <td><%# Eval("FullName") %></td>
-                                        <td><%# Eval("Phone") %></td>
-                                        <td><%# Eval("Addres") %></td>
-                                        <td><%# Eval("Uname") %></td>
-                                        <td><%# Eval("Pass") %></td>
-                                        <td><%# Eval("DateAdd") %></td>
-                                        <td><%# Eval("Email") %></td>
-                                        <td>
+                                            <input type="checkbox" class="selectRow" value='<%# Eval("RatingId") %>'></td>
+                                        <td><%# Eval("RatingId") %></td>
+                                        <td><%# Eval("Date") %></td>
+                                        <td><%# Eval("Grade") %></td>
+                                        <td><%# Eval("Description") %></td>
+                                        <td><%# Eval("TecId") %></td>
+                                        <td><%# Eval("CusId") %></td>
+                                        <td><%# Eval("Comment") %></td>
+                                        
+                                      <%--  <td>
                                             <button class="status-button"><%# Convert.ToBoolean(Eval("Status")) ? "פעיל" : "לא פעיל" %></button>
-                                        </td>
+                                        </td>--%>
 
                                         <td class="action-buttons">
                                             <button type="button" class="edit-button edit-contact" onclick="openModalEdit({
-                                                                Id: '<%# Eval("AdminId") %>',
-                                                                FullName: '<%# Eval("FullName") %>',
-                                                                Phone: '<%# Eval("Phone") %>',
-                                                                Addres: '<%# Eval("Addres") %>',
-                                                                Uname: '<%# Eval("Uname") %>',
-                                                                Password: '<%# Eval("Pass") %>',
-                                                                dateAdd: '<%# Eval("DateAdd") %>',   
-                                                                Email: '<%# Eval("Email") %>',
-                                                             
+                                                                RatingId: '<%# Eval("RatingId") %>',
+                                                                Date: '<%# Eval("Date") %>',
+                                                                Grade: '<%# Eval("Grade") %>',
+                                                                Description: '<%# Eval("Description") %>',
+                                                                TecId: '<%# Eval("TecId") %>',
+                                                                CusId: '<%# Eval("CusId") %>',
+                                                                Comment: '<%# Eval("Comment") %>',   
+                                                              
                                                             })">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("AdminId") %>' OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this item?');">
+                                            <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("RatingId") %>' OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this item?');">
                                                 <i class="fas fa-trash-alt"></i>
                                             </asp:LinkButton>
                                         </td>
@@ -192,41 +176,41 @@
                     </button>
                 </div>
                 <%-- מודל הוספת מנהל--%>
-                <div id="AdministratorModal" class="modal">
+                <div id="RatingModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeModal()">&times;</span>
                         <h2 id="modalTitle">הוספת מנהל</h2>
-                        <asp:HiddenField ID="hfAdminId" runat="server" />
+                        <asp:HiddenField ID="hfRatingId" runat="server" />
+                        <%--<div class="form-group">
+                            <asp:Label AssociatedControlID="txtDate" runat="server">תאריך:</asp:Label>
+                            <asp:TextBox ID="txtDate" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                        </div>--%>
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtFullName" runat="server">שם מלא:</asp:Label>
-                            <asp:TextBox ID="txtFullName" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                            <asp:Label AssociatedControlID="txtGrade" runat="server">ציון:</asp:Label>
+                            <asp:TextBox ID="txtGrade" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtPhone" runat="server">טלפון:</asp:Label>
-                            <asp:TextBox ID="txtPhone" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                            <asp:Label AssociatedControlID="txtDescription" runat="server">תיאור:</asp:Label>
+                            <asp:TextBox ID="txtDescription" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtAddres" runat="server">כתובת:</asp:Label>
-                            <asp:TextBox ID="txtAddres" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                            <asp:Label AssociatedControlID="txtTecId" runat="server">מס טכנאי:</asp:Label>
+                            <asp:TextBox ID="txtTecId" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtUname" runat="server">אימייל:</asp:Label>
-                            <asp:TextBox ID="txtUname" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-                        </div>
-                        <div class="form-group">
-                            <asp:Label AssociatedControlID="txtPass" runat="server">סיסמה:</asp:Label>
-                            <asp:TextBox ID="txtPass" runat="server" TextMode="Password" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                            <asp:Label AssociatedControlID="txtCusId" runat="server">מס לקוח:</asp:Label>
+                            <asp:TextBox ID="txtCusId" runat="server" TextMode="Password" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
                         <%--  <div class="form-group">
             <asp:Label AssociatedControlID="txtDateAdd" runat="server">תאריך הוספה:</asp:Label>
             <asp:TextBox ID="txtDateAdd" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
         </div>--%>
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtEmail" runat="server">מייל:</asp:Label>
-                            <asp:TextBox ID="txtEmail" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                            <asp:Label AssociatedControlID="txtComment" runat="server">הערה:</asp:Label>
+                            <asp:TextBox ID="txtComment" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
 
-                        <asp:Button ID="btnSave" runat="server" OnClick=" Saveadministrators" Text="שמירה" CssClass="btn btn-primary" />
+                        <asp:Button ID="btnSave" runat="server" OnClick=" Saverating" Text="שמירה" CssClass="btn btn-primary" />
                     </div>
                 </div>
 
@@ -750,11 +734,12 @@
                 font-size: 18px; /* גודל האייקון */
             }
     </style>
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="FooterContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="UnderFooter" runat="server">
-    <!-- סקריפטים שנדרשים לעמוד -->
+     <!-- סקריפטים שנדרשים לעמוד -->
     <!-- טעינת סקריפטים חיצוניים -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -796,76 +781,75 @@
 
         // פונקציה לפתיחת מודאל הוספת מנהל
         function openModalAdd() {
-            var modal = document.getElementById('AdministratorModal');
+            var modal = document.getElementById('RatingModal');
             var title = document.getElementById('modalTitle');
             var btnSave = document.getElementById('<%= btnSave.ClientID %>');
             title.innerText = 'הוספת מנהל';
             btnSave.value = 'הוסף מנהל';
             // ניקוי שדות הטופס
-            document.getElementById('<%= hfAdminId.ClientID %>').value = '';
-            document.getElementById('<%= txtFullName.ClientID %>').value = '';
-            document.getElementById('<%= txtPhone.ClientID %>').value = '';
-            document.getElementById('<%= txtAddres.ClientID %>').value = '';
-            document.getElementById('<%= txtUname.ClientID %>').value = '';
-            document.getElementById('<%= txtPass.ClientID %>').value = '';
-            document.getElementById('<%= txtEmail.ClientID %>').value = '';
-            modal.style.display='block'
+            document.getElementById('<%= hfRatingId.ClientID %>').value = '';
+            document.getElementById('<%= txtGrade.ClientID %>').value = '';
+            document.getElementById('<%= txtDescription.ClientID %>').value = '';
+            document.getElementById('<%= txtTecId.ClientID %>').value = '';
+            document.getElementById('<%= txtCusId.ClientID %>').value = '';
+            document.getElementById('<%= txtComment.ClientID %>').value = '';
+            modal.style.display = 'block'
         }
 
         // פונקציה לפתיחת מודאל עריכת לקוח
-        function openModalEdit(administrator) {
-            var modal = document.getElementById('AdministratorModal');
+        function openModalEdit(rating) {
+            var modal = document.getElementById('RatingModal');
             var title = document.getElementById('modalTitle');
             var btnSave = document.getElementById('<%= btnSave.ClientID %>');
             title.innerText = 'עריכת מנהל';
             btnSave.value = 'שמור שינויים';
             // מילוי שדות הטופס בנתוני הלקוח
-           document.getElementById('<%= hfAdminId.ClientID %>').value = administrator.Id;
-            document.getElementById('<%= txtFullName.ClientID %>').value = administrator.FullName;
-            document.getElementById('<%= txtPhone.ClientID %>').value = administrator.Phone;
-            document.getElementById('<%= txtAddres.ClientID %>').value = administrator.Addres;
-            document.getElementById('<%= txtUname.ClientID %>').value = administrator.Uname;
-            document.getElementById('<%= txtPass.ClientID %>').value = administrator.Password;
-            document.getElementById('<%= txtEmail.ClientID %>').value = administrator.Email;
+            document.getElementById('<%= hfRatingId.ClientID %>').value = rating.RatingId;
+            
+            document.getElementById('<%= txtGrade.ClientID %>').value = rating.Grade;
+            document.getElementById('<%= txtDescription.ClientID %>').value = rating.Description;
+            document.getElementById('<%= txtTecId.ClientID %>').value = rating.TecId;
+            document.getElementById('<%= txtCusId.ClientID %>').value = rating.CusId;
+            document.getElementById('<%= txtComment.ClientID %>').value = rating.Comment;
             modal.style.display = 'block';
         }
 
         function closeModal() {
-            var modal = document.getElementById('AdministratorModal');
+            var modal = document.getElementById('RatingModal');
             modal.style.display = 'none';
         }
 
-        function saveadministrator() {
-            console.log("פונקציית saveadministrator התחילה");
+        function saverating() {
+            console.log("פונקציית saverating התחילה");
             var data = {
-                AdminId: $('#<%= hfAdminId.ClientID %>').val(),
-                FullName: $('#<%= txtFullName.ClientID %>').val(),
-                Phone: $('#<%= txtPhone.ClientID %>').val(),
-                Addres: $('#<%= txtAddres.ClientID %>').val(),
-                Uname: $('#<%= txtUname.ClientID %>').val(),
-                Pass: $('#<%= txtPass.ClientID %>').val(),
-                Email: $('#<%= txtEmail.ClientID %>').val(),
+                RatingId: $('#<%= hfRatingId.ClientID %>').val(),
+              
+                Grade: $('#<%= txtGrade.ClientID %>').val(),
+                Description: $('#<%= txtDescription.ClientID %>').val(),
+                TecId: $('#<%= txtTecId.ClientID %>').val(),
+                CusId: $('#<%= txtCusId.ClientID %>').val(),
+                Comment: $('#<%= txtComment.ClientID %>').val(),
 
             };
 
             console.log("נתונים שנאספו:", JSON.stringify(data));
 
-            var method = data.AdminId === "" ? "POST" : "PUT";
-            var url = method === "POST" ? "/api/Administrators" : "/api/Administrators/" + data.AdminId;
+            var method = data.RatingId === "" ? "POST" : "PUT";
+            var url = method === "POST" ? "/api/Rating" : "/api/Rating/" + data.RatingId;
 
             console.log(`שולח בקשת ${method} ל-${url}`);
 
             $.ajax({
                 type: "POST",
-                url: "/api/AdministratorController/Post",
-                data: JSON.stringify({ administratorData: data }),
+                url: "/api/RatingController/Post",
+                data: JSON.stringify({ ratingData: data }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
                     console.log("תגובה התקבלה בהצלחה:", response);
                     alert("הלקוח נשמר בהצלחה");
                     closeModal();
-                    refreshadministratorTable();
+                    refreshratingTable();
                 },
                 error: function (xhr, status, error) {
                     console.error("שגיאה בשמירת הלקוח:", status, error);
@@ -875,28 +859,27 @@
             });
         }
 
-        function refreshadministratorTable() {
+        function refreshratingTable() {
             $.ajax({
                 type: "GET",
-                url: "/api/administrators",
+                url: "/api/rating",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (administrator) {
-                    var tableBody = $("#administratorsTable tbody");
+                success: function (rating) {
+                    var tableBody = $("#ratingTable tbody");
                     tableBody.empty();
-                    for (var i = 0; i < administrators.length; i++) {
-                        var administrator = administrators[i];
+                    for (var i = 0; i < rating.length; i++) {
+                        var rating = Rating[i];
                         var row = "<tr>" +
-                            "<td>" + administrator.FullName + "</td>" +
-                            "<td>" + administrator.Phone + "</td>" +
-                            "<td>" + administrator.Addres + "</td>" +
-                            "<td>" + administrator.Uname + "</td>" +
-                            "<td>" + administrator.DateAdd + "</td>" +
-                            "<td>" + (administrator.Status ? "פעיל" : "לא פעיל") + "</td>" +
-                            "<td>" + administrator.Email + "</td>" +
+                            "<td>" + rating.Date + "</td>" +
+                            "<td>" + rating.Grade + "</td>" +
+                            "<td>" + rating.Description + "</td>" +
+                            "<td>" + rating.TecId + "</td>" +
+                            "<td>" + rating.CusId + "</td>" +
+                            "<td>" + rating.Comment + "</td>" +
 
-                            "<td><button onclick='editadministrator(" + administrator.AdminId + ")'>עריכה</button>" +
-                            "<button onclick='deleteadministrator(" + administrator.AdminId + ")'>מחיקה</button></td>" +
+                            "<td><button onclick='editrating(" + rating.ratingId + ")'>עריכה</button>" +
+                            "<button onclick='deleterating(" + rating.ratingId + ")'>מחיקה</button></td>" +
                             "</tr>";
                         tableBody.append(row);
                     }
@@ -908,43 +891,41 @@
             });
         }
 
-        function editadministrator(administratorId) {
-            console.log('נכנס לפונקציית editadministrator');
-            console.log('מזהה לקוח:', administratorId);
+        function editrating(ratingId) {
+            console.log('נכנס לפונקציית editrating');
+            console.log('מזהה לקוח:', ratingId);
 
             $.ajax({
                 type: "GET",
-                url: "/api/administratorController/Put" + administratorId,
+                url: "/api/ratingController/Put" + ratingId,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (administrator) {
-                    console.log('נתוני הלקוח התקבלו בהצלחה:', administrator);
+                success: function (rating) {
+                    console.log('נתוני הלקוח התקבלו בהצלחה:', rating);
 
-                    $('#<%= hfAdminId.ClientID %>').val(administrator.AdminId);
-                    console.log('CusId הוגדר:', administrator.AdminId);
+                    $('#<%= hfRatingId.ClientID %>').val(rating.RatingId);
+                    console.log('RatingId הוגדר:', rating.RatingId);
 
-                    $('#<%= txtFullName.ClientID %>').val(administrator.FullName);
-                    console.log('FullName הוגדר:', administrator.FullName);
+                    $('#<%= txtGrade.ClientID %>').val(rating.Grade);
+                    console.log('Grade הוגדר:', rating.Grade);
 
-                    $('#<%= txtPhone.ClientID %>').val(administrator.Phone);
-                    console.log('Phone הוגדר:', administrator.Phone);
+                    $('#<%= txtDescription.ClientID %>').val(rating.Description);
+                    console.log('Description הוגדר:', rating.Description);
 
-                    $('#<%= txtAddres.ClientID %>').val(administrator.Addres);
-                    console.log('Addres הוגדר:', administrator.Addres);
+                    $('#<%= txtTecId.ClientID %>').val(rating.TecId);
+                    console.log('TecId הוגדר:', rating.TecId);
 
-                    $('#<%= txtUname.ClientID %>').val(administrator.Uname);
-                    console.log('Uname הוגדר:', administrator.Uname);
+                    $('#<%= txtCusId.ClientID %>').val(rating.CusId);
+                    console.log('CusId הוגדר:', rating.CusId);
 
-                    $('#<%= txtPass.ClientID %>').val(administrator.Pass);
-                    console.log('Pass הוגדר:', administrator.Pass);
+                    $('#<%= txtComment.ClientID %>').val(rating.Comment);
+                    console.log('Comment הוגדר:', rating.Comment);
 
                     // DateAdd נמחק או הוסתר
                     // console.log('DateAdd הוגדר:', customer.DateAdd);
 
-                    $('#<%= txtEmail.ClientID %>').val(administrator.Email);
-                    console.log('Email הוגדר:', administrator.Email);
-
-                    $('#administratorsModal').show();
+                    
+                    $('#RatinModal').show();
                     console.log('מודל המנהלים נפתח');
                 },
                 error: function (xhr, status, error) {
@@ -954,16 +935,16 @@
                 }
             });
 
-            console.log('סיום פונקציית editadministrator');
+            console.log('סיום פונקציית editrating');
         }
 
 
 
         // פונקציית מחיקה
-        function deleteadministrators(AdminId) {
-            if (confirm('Are you sure you want to delete this administrators?')) {
+        function deleterating(RatingId) {
+            if (confirm('Are you sure you want to delete this rating?')) {
                 // קריאה לשרת למחיקת הלקוח (AJAX או POSTBACK)
-                console.log('Deleting administrators with ID:', AdminId);
+                console.log('Deleting rating with ID:', RatingId);
             }
         }
 
@@ -1062,16 +1043,16 @@
                     // קריאה לשרת למחיקת הרשומות (AJAX)
                     $.ajax({
                         type: "POST",
-                        url: "AdminiList.aspx/Deleteadministrators",
+                        url: "RatingList.aspx/Deleterating",
                         data: JSON.stringify({ ids: selectedIds }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response) {
-                            alert('administrators deleted successfully');
+                            alert('rating deleted successfully');
                             location.reload(); // רענון הדף לאחר המחיקה
                         },
                         error: function (response) {
-                            alert('Error deleting administrators');
+                            alert('Error deleting rating');
                             console.error('Error response:', response); // הודעת שגיאה
                             console.error('JSON data sent:', JSON.stringify({ ids: selectedIds })); // JSON שנשלח
 
@@ -1090,62 +1071,63 @@
 
 
 
-        // זהו קוד שמנהל את הייצוג החזותי של מעמד הטכנאי (פעיל/לא פעיל) ומסנכרן אותו עם מסד הנתונים דרך שיחות AJAX כאשר מתבצעת החלפת המעמד.
-        document.addEventListener('DOMContentLoaded', function () {
-            const rows = document.querySelectorAll('.row-status');
+        //// זהו קוד שמנהל את הייצוג החזותי של מעמד הטכנאי (פעיל/לא פעיל) ומסנכרן אותו עם מסד הנתונים דרך שיחות AJAX כאשר מתבצעת החלפת המעמד.
+        //document.addEventListener('DOMContentLoaded', function () {
+        //    const rows = document.querySelectorAll('.row-status');
 
-            rows.forEach(row => {
-                const status = row.getAttribute('data-status');
-                const AdminId = row.getAttribute('data-administrator-id');
-                const button = row.querySelector('.status-button');
+        //    rows.forEach(row => {
+        //        const status = row.getAttribute('data-status');
+        //        const RatingId = row.getAttribute('data-rating-id');
+        //        const button = row.querySelector('.status-button');
 
-                if (status === 'True' || status === 'true') {
-                    button.classList.add('status-active');
-                    button.textContent = 'פעיל';
-                } else {
-                    button.classList.add('status-inactive');
-                    button.textContent = 'לא פעיל';
-                    row.classList.add('row-inactive');
-                }
+        //        if (status === 'True' || status === 'true') {
+        //            button.classList.add('status-active');
+        //            button.textContent = 'פעיל';
+        //        } else {
+        //            button.classList.add('status-inactive');
+        //            button.textContent = 'לא פעיל';
+        //            row.classList.add('row-inactive');
+        //        }
 
-                button.addEventListener('click', function () {
-                    const newStatus = !button.classList.contains('status-active');
+        //        button.addEventListener('click', function () {
+        //            const newStatus = !button.classList.contains('status-active');
 
-                    if (newStatus) {
-                        button.classList.remove('status-inactive');
-                        button.classList.add('status-active');
-                        button.textContent = 'פעיל';
-                        row.classList.remove('row-inactive');
-                    } else {
-                        button.classList.remove('status-active');
-                        button.classList.add('status-inactive');
-                        button.textContent = 'לא פעיל';
-                        row.classList.add('row-inactive');
-                    }
+        //            if (newStatus) {
+        //                button.classList.remove('status-inactive');
+        //                button.classList.add('status-active');
+        //                button.textContent = 'פעיל';
+        //                row.classList.remove('row-inactive');
+        //            } else {
+        //                button.classList.remove('status-active');
+        //                button.classList.add('status-inactive');
+        //                button.textContent = 'לא פעיל';
+        //                row.classList.add('row-inactive');
+        //            }
 
-                    updateStatusInDatabase(administratorsId, newStatus);
-                });
-            });
+        //            updateStatusInDatabase(ratingId, newStatus);
+        //        });
+        //    });
 
-            function updateStatusInDatabase(AdminId, Status) {
-                console.log("Updating status for AdminId: " + AdminId + " to Status: " + Status); // הדפסה לצורכי דיבוג
+        //    function updateStatusInDatabase(RatingId, Status) {
+        //        console.log("Updating status for RatingId: " + RatingId + " to Status: " + Status); // הדפסה לצורכי דיבוג
 
-                $.ajax({
-                    type: "POST",
-                    url: "adminiList.aspx/UpdateadministratorsStatus",
-                    data: JSON.stringify({ AdminId: AdminId, Status: Status }),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                        console.log('Success:', response);
-                    },
-                    error: function (error) {
-                        console.error('Error:', error);
-                    }
-                });
-            }
-        });
+        //        $.ajax({
+        //            type: "POST",
+        //            url: "ratingList.aspx/UpdateRatingStatus",
+        //            data: JSON.stringify({ RatingId: RatingId, Status: Status }),
+        //            contentType: "application/json; charset=utf-8",
+        //            dataType: "json",
+        //            success: function (response) {
+        //                console.log('Success:', response);
+        //            },
+        //            error: function (error) {
+        //                console.error('Error:', error);
+        //            }
+        //        });
+        //    }
+        //});
 
 
     </script>
+
 </asp:Content>

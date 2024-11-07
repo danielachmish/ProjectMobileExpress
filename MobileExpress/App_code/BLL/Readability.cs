@@ -8,7 +8,7 @@ namespace BLL
 {
 	public class Readability
 	{
-		public int ReadiId { get; set; }
+		public int ReadId { get; set; }
 		public DateTime DateRead { get; set; }
 		public string Desc { get; set; }
 		public string FullName { get; set; }
@@ -21,9 +21,30 @@ namespace BLL
 		public string Urgency { get; set; }
 		public int SerProdId { get; set; }
 
-		public void Save()
+		public void SaveNewRead()
 		{
-			ReadabilityDAL.Save(this);
+			try
+			{
+				ReadabilityDAL.Save(this);
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת מנהל חדש: {ex.Message}");
+				throw;
+			}
+		}
+
+		public void UpdateReadability()
+		{
+			try
+			{
+				ReadabilityDAL.UpdateReadability(this);
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"שגיאה בעדכון מנהל: {ex.Message}");
+				throw;
+			}
 		}
 		// אחזור כל המשתמשים
 		public static List<Readability> GetAll()
