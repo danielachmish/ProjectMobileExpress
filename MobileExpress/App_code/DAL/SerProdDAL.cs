@@ -14,14 +14,14 @@ namespace DAL
 		{
 			// בדיקה אם הלקוח קיים - עדכון, אחרת הוספת לקוח חדש
 			string sql;
-			if (Tmp.SerProdId == -1)
+			if (Tmp.SerProdId <=0)
 			{
-				sql = "insert into T_SerProd(Desc,Price,NameImage,Status,Nots)" +
+				sql = "insert into T_SerProd([Desc],Price,NameImage,Status,Nots)" +
 					$"Values(@Desc,@Price,@NameImage,@Status,@Nots)";
 			}
 			else
 			{
-				sql = $"Update SerProd set Desc=@Desc,Price=@Price,NameImage=@NameImage,Status=@Status,Nots=@Nots where SerProdId=@SerProdId";
+				sql = $"Update T_SerProd set [Desc]=@Desc,Price=@Price,NameImage=@NameImage,Status=@Status,Nots=@Nots WHERE SerProdId=@SerProdId";
 			}
 
 			DbContext Db = new DbContext();
@@ -40,6 +40,59 @@ namespace DAL
 			Db.ExecuteNonQuery(sql, LstParma);
 
 			Db.Close();
+		}
+		public static void UpdateSerProd(SerProd Tmp)
+		{
+			try
+			{
+				string sql = @"UPDATE T_SerProd
+                      SET [Desc]= @Desc,
+                          Price = @Price,
+                          NameImage = @NameImage,
+                          Nots = @Nots,                       
+                          Status = @Status
+                         
+                      WHERE SerProdId = @SerProdId";
+
+				System.Diagnostics.Debug.WriteLine("SQL Query (Update): " + sql);
+
+				DbContext Db = new DbContext();
+				try
+				{
+					var Obj = new
+					{
+						Tmp.SerProdId,
+						Tmp.Desc,
+						Tmp.Price,
+						Tmp.NameImage,
+						Tmp.Nots,
+						Status = Convert.ToInt32(Tmp.Status)
+						
+					};
+
+					var LstParma = DbContext.CreateParameters(Obj);
+					int rowsAffected = Db.ExecuteNonQuery(sql, LstParma);
+					System.Diagnostics.Debug.WriteLine($"Rows affected (Update): {rowsAffected}");
+
+					if (rowsAffected > 0)
+					{
+						System.Diagnostics.Debug.WriteLine("SerProd updated successfully.");
+					}
+					else
+					{
+						System.Diagnostics.Debug.WriteLine("No rows were affected. Check your update query and parameters.");
+					}
+				}
+				finally
+				{
+					Db.Close(); // סגירת החיבור
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Error in UpdateSerProd method: {ex.Message}");
+				throw;
+			}
 		}
 		// אחזור כל הלקוחות
 		public static List<SerProd> GetAll()

@@ -88,12 +88,28 @@
                             <!--  <p class="main-menu-title text-muted ml-3 font-weight-700 text-13 mt-4 mb-2">UI Elements</p> -->
                             <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-Computer-Secure text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">קריאות</span></a>
                                 <ul class="mm-collapse">
-                                    <li class="item-name"><a href="widget-card.html"><i class="nav-icon i-Receipt-4"></i><span class="item-name">widget card</span></a></li>
-                                    <li class="item-name"><a href="widget-statistics.html"><i class="nav-icon i-Receipt-4"></i><span class="item-name">widget statistics</span></a></li>
-                                    <li class="item-name"><a href="widget-list.html"><i class="nav-icon i-Receipt-4"></i><span class="item-name">Widget List</span></a></li>
-                                    <li class="item-name"><a href="widget-app.html"><i class="nav-icon i-Receipt-4"></i><span class="item-name">Widget App </span></a></li>
-                                    <li class="item-name"><a href="weather-card.html"><i class="nav-icon i-Receipt-4"></i><span class="item-name">Weather App </span></a></li>
-                                </ul>
+                                    <li class="item-name"><a href="ReadList.aspx"><i class="nav-icon i-Receipt-4"></i><span class="item-name">כל הקריאות</span></a></li>
+                                     </ul>
+                            </li>
+                             <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-Computer-Secure text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">הצעות מחיר</span></a>
+                                <ul class="mm-collapse">
+                                    <li class="item-name"><a href="BidList.aspx"><i class="nav-icon i-Receipt-4"></i><span class="item-name">כל הצעות מחיר</span></a></li>
+                                     </ul>
+                            </li>
+                             <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-Computer-Secure text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">יצרנים</span></a>
+                                <ul class="mm-collapse">
+                                    <li class="item-name"><a href="ManuList.aspx"><i class="nav-icon i-Receipt-4"></i><span class="item-name">כל היצרנים</span></a></li>
+                                     </ul>
+                            </li>
+                             <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-Computer-Secure text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">רייטינג</span></a>
+                                <ul class="mm-collapse">
+                                    <li class="item-name"><a href="RatingList.aspx"><i class="nav-icon i-Receipt-4"></i><span class="item-name">כל הרייטינג</span></a></li>
+                                     </ul>
+                            </li>
+                             <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-Computer-Secure text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">מוצרי שירות</span></a>
+                                <ul class="mm-collapse">
+                                    <li class="item-name"><a href="SerProdList.aspx"><i class="nav-icon i-Receipt-4"></i><span class="item-name">כל המוצרי שירות</span></a></li>
+                                     </ul>
                             </li>
                             <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-File-Clipboard-File--Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">מנהלים</span></a>
                                 <ul class="mm-collapse">

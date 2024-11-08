@@ -557,10 +557,15 @@
     <Content Include="Manage\ModelsList.aspx" />
     <Content Include="Manage\RatingList.aspx" />
     <Content Include="Manage\ReadList.aspx" />
+    <Content Include="Manage\SerProdList.aspx" />
     <Content Include="Manage\TecList.aspx" />
     <Content Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </Content>
+    <Content Include="Users\Default.aspx" />
+    <Content Include="Users\Main.aspx" />
+    <Content Include="Users\SingIn.aspx" />
+    <Content Include="Users\SingUp.aspx" />
     <Content Include="Web.config" />
     <Content Include="WebForm1.aspx" />
   </ItemGroup>
@@ -680,6 +685,13 @@
     <Compile Include="Manage\ReadList.aspx.designer.cs">
       <DependentUpon>ReadList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Manage\SerProdList.aspx.cs">
+      <DependentUpon>SerProdList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\SerProdList.aspx.designer.cs">
+      <DependentUpon>SerProdList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Manage\TecList.aspx.cs">
       <DependentUpon>TecList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -688,6 +700,41 @@
       <DependentUpon>TecList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Users\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Users\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Users\Main.aspx.cs">
+      <DependentUpon>Main.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Users\Main.aspx.designer.cs">
+      <DependentUpon>Main.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Users\MainMaster.Master.cs">
+      <DependentUpon>MainMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Users\MainMaster.Master.designer.cs">
+      <DependentUpon>MainMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Users\SingIn.aspx.cs">
+      <DependentUpon>SingIn.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Users\SingIn.aspx.designer.cs">
+      <DependentUpon>SingIn.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Users\SingUp.aspx.cs">
+      <DependentUpon>SingUp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Users\SingUp.aspx.designer.cs">
+      <DependentUpon>SingUp.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -964,6 +1011,7 @@
     <Content Include="assets\js\app.js.map" />
     <Content Include="Manage\MainMaster.Master" />
     <None Include="packages.config" />
+    <Content Include="Users\MainMaster.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
