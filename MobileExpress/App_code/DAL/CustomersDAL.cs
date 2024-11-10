@@ -4,6 +4,7 @@ using System;
 
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
@@ -11,8 +12,142 @@ using System.Web;
 namespace DAL
 {
 	public class CustomersDAL
-
 	{
+
+		//public static Customers GetByEmail(string email)
+		//{
+		//	Debug.WriteLine($"מחפש לקוח לפי אימייל: {email}");
+
+		//	Customers customer = null;
+		//	string sql = "SELECT * FROM T_Customers WHERE Email = @Email";
+		//	DbContext db = new DbContext();
+
+		//	try
+		//	{
+		//		var parameters = DbContext.CreateParameters(new { Email = email });
+		//		DataTable dt = db.Execute(sql, parameters);
+
+		//		if (dt.Rows.Count > 0)
+		//		{
+		//			customer = new Customers
+		//			{
+		//				CusId = int.Parse(dt.Rows[0]["CusId"].ToString()),
+		//				FullName = dt.Rows[0]["FullName"].ToString(),
+		//				Email = dt.Rows[0]["Email"].ToString(),
+		//				Phone = dt.Rows[0]["Phone"].ToString(),
+		//				Addres = dt.Rows[0]["Addres"].ToString(),
+		//				Uname = dt.Rows[0]["Uname"].ToString(),
+		//				Pass = dt.Rows[0]["Pass"].ToString(),
+		//				DateAdd = DateTime.Parse(dt.Rows[0]["DateAdd"].ToString()),
+		//				Status = Convert.ToBoolean(dt.Rows[0]["Status"]),
+		//				History = dt.Rows[0]["History"].ToString(),
+		//				Nots = dt.Rows[0]["Nots"].ToString(),
+		//				CityId = int.Parse(dt.Rows[0]["CityId"].ToString()),
+		//				GoogleId = dt.Rows[0]["GoogleId"].ToString()
+		//			};
+
+		//			Debug.WriteLine($"נמצא לקוח: {customer.FullName}");
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		Debug.WriteLine($"שגיאה בחיפוש לקוח לפי אימייל: {ex.Message}");
+		//		throw;
+		//	}
+		//	finally
+		//	{
+		//		db.Close();
+		//	}
+
+		//	return customer;
+		//}
+		public static Customers GetByEmail(string email)
+		{
+			Debug.WriteLine($"מחפש לקוח לפי אימייל: {email}");
+
+			Customers customer = null;
+			string sql = "SELECT * FROM T_Customers WHERE Email = @Email";
+			DbContext db = new DbContext();
+
+			try
+			{
+				SqlParameter parameter = new SqlParameter("@Email", email);
+				// העברת מערך של פרמטר אחד
+				DataTable dt = db.Execute(sql, new SqlParameter[] { parameter });
+				if (dt.Rows.Count > 0)
+				{
+					customer = new Customers
+					{
+						CusId = int.Parse(dt.Rows[0]["CusId"].ToString()),
+						FullName = dt.Rows[0]["FullName"].ToString(),
+						Email = dt.Rows[0]["Email"].ToString(),
+						Phone = dt.Rows[0]["Phone"].ToString(),
+						Addres = dt.Rows[0]["Addres"].ToString(),
+						Uname = dt.Rows[0]["Uname"].ToString(),
+						Pass = dt.Rows[0]["Pass"].ToString(),
+						DateAdd = DateTime.Parse(dt.Rows[0]["DateAdd"].ToString()),
+						Status = Convert.ToBoolean(dt.Rows[0]["Status"]),
+						History = dt.Rows[0]["History"].ToString(),
+						Nots = dt.Rows[0]["Nots"].ToString(),
+						CityId = int.Parse(dt.Rows[0]["CityId"].ToString()),
+						GoogleId = dt.Rows[0]["GoogleId"].ToString()
+					};
+
+					Debug.WriteLine($"נמצא לקוח: {customer.FullName}");
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"שגיאה בחיפוש לקוח לפי אימייל: {ex.Message}");
+				throw;
+			}
+			finally
+			{
+				db.Close();
+			}
+
+			return customer;
+		}
+
+		//// עדכן את הפונקציות הקיימות כך שיתמכו בשדות החדשים
+		//public static void SaveNewCustomers(Customers Tmp)
+		//{
+		//	string sql = "INSERT INTO T_Customers(FullName,Phone,Addres,Uname,Pass,DateAdd,Status,Nots,CityId,Email,GoogleId) " +
+		//			  "VALUES(@FullName,@Phone,@Addres,@Uname,@Pass,@DateAdd,@Status,@Nots,@CityId,@Email,@GoogleId)";
+
+		//	// שאר הקוד נשאר אותו דבר, רק צריך להוסיף את הפרמטרים החדשים
+		//	DbContext Db = new DbContext();
+		//	try
+		//	{
+		//		var Obj = new
+		//		{
+		//			Tmp.CusId,
+		//			Tmp.FullName,
+		//			Tmp.Phone,
+		//			Tmp.Addres,
+		//			Tmp.Uname,
+		//			Tmp.Pass,
+		//			Tmp.DateAdd,
+		//			Tmp.Status,
+		//			Tmp.Nots,
+		//			Tmp.CityId,
+		//			Tmp.Email,
+		//			Tmp.GoogleId
+		//		};
+
+		//		var LstParma = DbContext.CreateParameters(Obj);
+		//		Db.ExecuteNonQuery(sql, LstParma);
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		Debug.WriteLine($"שגיאה בשמירת לקוח חדש: {ex.Message}");
+		//		throw;
+		//	}
+		//	finally
+		//	{
+		//		Db.Close();
+		//	}
+		//}
 		public static void SaveNewCustomers(Customers Tmp)
 		{
 			Debug.WriteLine("נכנס לפונקציית SaveNewCustomers");
@@ -22,14 +157,14 @@ namespace DAL
 			if (Tmp.CusId == -1 || Tmp.CusId == 0)
 			{
 				Debug.WriteLine("מבצע הכנסה של לקוח חדש");
-				sql = "INSERT INTO T_Customers(FullName,Phone,Addres,Uname,Pass,DateAdd,Status,Nots,CityId) " +
-					  "VALUES(@FullName,@Phone,@Addres,@Uname,@Pass,@DateAdd,@Status,@Nots,@CityId)";
+				sql = "INSERT INTO T_Customers(FullName,Phone,Addres,Uname,Pass,DateAdd,Status,Nots,CityId,Email,GoogleId) " +
+					  "VALUES(@FullName,@Phone,@Addres,@Uname,@Pass,@DateAdd,@Status,@Nots,@CityId,@Email,@GoogleId)";
 			}
 			else
 			{
 				Debug.WriteLine($"מבצע עדכון של לקוח קיים עם CusId={Tmp.CusId}");
 				sql = "UPDATE T_Customers SET FullName=@FullName,Phone=@Phone,Addres=@Addres,Uname=@Uname," +
-					  "Pass=@Pass,DateAdd=@DateAdd,Status=@Status,Nots=@Nots,CityId=@CityId WHERE CusId=@CusId";
+					  "Pass=@Pass,DateAdd=@DateAdd,Status=@Status,Nots=@Nots,CityId=@CityId,Email=@Email,GoogleId=@GoogleId WHERE CusId=@CusId";
 			}
 
 			Debug.WriteLine($"SQL Query: {sql}");
@@ -49,6 +184,8 @@ namespace DAL
 					Status = Tmp.Status,
 					Nots = Tmp.Nots,
 					CityId = Tmp.CityId,
+					Email = Tmp.Email,
+					GoogleId = Tmp.GoogleId
 				};
 
 				var LstParma = DbContext.CreateParameters(Obj);
@@ -76,7 +213,7 @@ namespace DAL
 		{
 			try
 			{
-				string sql = "UPDATE T_Customers SET FullName = @FullName,	Phone = @Phone,	Addres = @Addres,	Pass = @Pass,	Uname = @Uname,	DateAdd = @DateAdd,	Status = @Status,	Nots = @Nots,	CityId = @CityId WHERE CusId = @CusId";
+				string sql = "UPDATE T_Customers SET FullName = @FullName,	Phone = @Phone,	Addres = @Addres,	Pass = @Pass,	Uname = @Uname,	DateAdd = @DateAdd,	Status = @Status,	Nots = @Nots,	CityId = @CityId,Email=@Email,GoogleId=@GoogleId WHERE CusId = @CusId";
 
 				// הדפסת השאילתה לשם בדיקה
 				System.Diagnostics.Debug.WriteLine("SQL Query (Update): " + sql);
@@ -95,7 +232,9 @@ namespace DAL
 					Tmp.Status,				
 					Nots = (object)Tmp.Nots ?? DBNull.Value,       // טיפול בערכים null					
 					Tmp.CityId,
-					
+					Tmp.Email,
+					Tmp.GoogleId
+
 				};
 
 				var LstParma = DbContext.CreateParameters(Obj);
@@ -145,7 +284,9 @@ namespace DAL
 						History = Dt.Rows[i]["History"].ToString(),
 						Nots = Dt.Rows[i]["Nots"].ToString(),
 						CityId = int.Parse(Dt.Rows[i]["CityId"].ToString()),
-						Status = false  // המרה בשלושה חלקים
+						Status = false , // המרה בשלושה חלקים
+						Email =  Dt.Rows[i]["Email"].ToString(),
+						GoogleId = Dt.Rows[i]["GoogleId"].ToString(),
 					};
 
 					// המרת ערך ה-Status לבוליאני
@@ -198,7 +339,9 @@ namespace DAL
 					History = Dt.Rows[0]["History"].ToString(),
 					Nots = Dt.Rows[0]["Nots"].ToString(),
 					CityId = int.Parse(Dt.Rows[0]["CityId"].ToString()),
-					Status = Convert.ToBoolean(Dt.Rows[0]["Status"])
+					Status = Convert.ToBoolean(Dt.Rows[0]["Status"]),
+					GoogleId = Dt.Rows[0]["GoogleId"].ToString(),
+					Email = Dt.Rows[0]["Email"].ToString()
 				};
 			}
 			Db.Close();

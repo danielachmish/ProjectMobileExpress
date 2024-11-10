@@ -5,12 +5,65 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace MobileExpress.controllers
 {
     public class CityController : ApiController
     {
+        [HttpPost]
+        [Route("api/city/import")]
+        public IHttpActionResult ImportCities(string filePath)
+        {
+            try
+            {
+                var result = ExcelImporter.ImportCitiesFromExcel(filePath);
+
+                if (result.IsSuccess)
+                {
+                    return Ok(new
+                    {
+                        message = "Cities imported successfully!",
+                        successCount = result.SuccessCount
+                    });
+                }
+
+                return Ok(new
+                {
+                    message = "Import completed with errors",
+                    successCount = result.SuccessCount,
+                    failureCount = result.FailureCount,
+                    errors = result.Errors
+                });
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(new Exception($"Error importing cities: {ex.Message}"));
+            }
+        }
+
+
+        [HttpPost]
+        [Route("api/city/upload")]
+        public IHttpActionResult UploadFile()
+        {
+            var httpRequest = HttpContext.Current.Request;
+            if (httpRequest.Files.Count > 0)
+            {
+                var postedFile = httpRequest.Files[0];
+                string filePath = @"C:\Users\User\OneDrive\שולחן העבודה\ProjectMobileExpress\MobileExpress\Uploads\" + postedFile.FileName;
+
+                postedFile.SaveAs(filePath);
+
+                // העברת הנתיב לפונקציה `ImportCities`
+                return ImportCities(filePath);
+            }
+            return BadRequest("No file uploaded.");
+        }
+
+
+
         public void Post(City Tmp)
         {
             // בדוק ש-`Tmp` אינו `null` לפני גישה לפרופרטים שלו

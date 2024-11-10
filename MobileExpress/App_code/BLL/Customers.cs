@@ -19,6 +19,9 @@ namespace BLL
 		public string History { get; set; }
 		public string Nots { get; set; }
 		public int CityId { get; set; }
+		public string Email { get; set; }
+		public string GoogleId { get; set; }
+
 
 		public void SaveNewCustomers()
 		{
@@ -74,6 +77,10 @@ namespace BLL
 		public static int DeleteById(int Id)
 		{
 			return CustomersDAL.DeleteById(Id);
+		}
+		public static Customers GetByEmail(string email)
+		{
+			return CustomersDAL.GetByEmail(email);
 		}
 	}
 }
