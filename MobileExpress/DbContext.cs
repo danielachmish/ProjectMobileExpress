@@ -132,6 +132,47 @@ namespace Data
                 throw;
             }
         }
+        // הוספת פונקציה חדשה ל-DbContext
+        public DataTable Execute(string sql, SqlParameter[] parameters, int CmdType = 1)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine("=== מתחיל ביצוע Execute ===");
+                System.Diagnostics.Debug.WriteLine($"SQL Query: {sql}");
+                System.Diagnostics.Debug.WriteLine($"Command Type: {(CmdType == 2 ? "StoredProcedure" : "Text")}");
+                Open();
+                Cmd.CommandText = sql;
+                Cmd.Parameters.Clear(); // נקה פרמטרים קודמים
+                if (parameters != null)
+                {
+                    Cmd.Parameters.AddRange(parameters); // הוסף את הפרמטרים החדשים
+                }
+                DataTable Dt = new DataTable();
+                SqlDataAdapter Da = new SqlDataAdapter();
+                if (CmdType == 2)
+                {
+                    Cmd.CommandType = CommandType.StoredProcedure;
+                    System.Diagnostics.Debug.WriteLine("הוגדר כ-Stored Procedure");
+                }
+                Da.SelectCommand = Cmd;
+                Da.Fill(Dt);
+                System.Diagnostics.Debug.WriteLine($"מספר שורות שהוחזרו: {Dt.Rows.Count}");
+                System.Diagnostics.Debug.WriteLine($"מספר עמודות: {Dt.Columns.Count}");
+                Cmd.Dispose();
+                Close();
+                System.Diagnostics.Debug.WriteLine("=== סיום ביצוע Execute ===");
+                return Dt;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(
+                    $"!!! שגיאה בביצוע Execute !!!\n" +
+                    $"שגיאה: {ex.Message}\n" +
+                    $"SQL: {sql}\n" +
+                    $"Stack Trace: {ex.StackTrace}");
+                throw;
+            }
+        }
 
         public static List<SqlParameter> CreateParameters(object ParametersObject)
         {
@@ -150,9 +191,10 @@ namespace Data
                 for (int i = 0; i < arr.Length; i++)
                 {
                     var value = arr[i].GetValue(ParametersObject, null);
+          
                     Parameters.Add(new SqlParameter(arr[i].Name, value));
                     System.Diagnostics.Debug.WriteLine($"נוסף פרמטר: {arr[i].Name} = {value}");
-                }
+                }      
 
                 Db.Close();
 
