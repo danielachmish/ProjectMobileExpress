@@ -52,7 +52,7 @@ namespace BLL
         // פונקציה כללית לשמירת טכנאי חדש או קיים
         public void Save()
         {
-            if (this.TecId == -1)
+            if (this.TecId <=0)
             {
                 SaveNewTechnician();
             }

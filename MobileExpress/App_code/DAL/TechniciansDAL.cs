@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IdentityModel.Protocols.WSTrust;
 
 namespace DAL
 {
@@ -201,7 +202,7 @@ namespace DAL
             {
                 foreach (DataRow row in Dt.Rows)
                 {
-					DateTime dateAddition = default;
+					//DateTime dateAddition = default;
 					Technicians Tmp = new Technicians
                     {
                         TecId = int.Parse(row["TecId"].ToString()),
@@ -216,7 +217,7 @@ namespace DAL
                         Nots = row["Nots"].ToString(),
                         Email = row["Email"].ToString(),
                         SerProdId = int.Parse(row["SerProdId"].ToString()),
-                        DateAddition = dateAddition,
+                        DateAddition = DateTime.Parse(row["DateAddition"].ToString()),
                         Status = Convert.ToBoolean(row["Status"])
                     };
                     TechniciansList.Add(Tmp);

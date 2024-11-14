@@ -1,8 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Users/MainMaster.Master" AutoEventWireup="true" CodeBehind="SingUp.aspx.cs" Inherits="MobileExpress.Users.SingUp" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/TechniciansFolder/MainMaster.Master" AutoEventWireup="true" CodeBehind="SingUpTechnicians.aspx.cs" Inherits="MobileExpress.TechniciansFolder.SingUpTechnicians" %>
 
-
-<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent1" runat="server">
-    <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="assets/css/styles.css">
     <!-- קישורים נוספים כמו Bootstrap ו-Font Awesome -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -11,12 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
 </asp:Content>
-
-
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
-
-
-
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
         * {
             margin: 0;
@@ -246,20 +239,22 @@
     </style>
 
 
-    <form id="form1" runat="server">
-        <div class="modal-card" id="customersModal">
+    
+        <div class="modal-card" id="techniciansModal">
             <div class="image-side"></div>
             <div class="form-side">
-
-
-
                 <h2 id="modalTitle">הרשמה</h2>
 
-                <asp:HiddenField ID="hfCusId" runat="server" />
+                <asp:HiddenField ID="hfTecId" runat="server" />
 
                 <div class="form-group">
-                    <asp:Label AssociatedControlID="txtFullName" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtFullName" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="שם מלא"></asp:TextBox>
+                    <asp:Label AssociatedControlID="txtFulName" runat="server"></asp:Label>
+                    <asp:TextBox ID="txtFulName" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="שם מלא"></asp:TextBox>
+                </div>
+
+                <div class="form-group">
+                    <asp:Label AssociatedControlID="txtTecNum" runat="server"></asp:Label>
+                    <asp:TextBox ID="txtTecNum" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="ח.פ/ת.ז"></asp:TextBox>
                 </div>
 
                 <div class="form-group">
@@ -268,13 +263,8 @@
                 </div>
 
                 <div class="form-group">
-                    <asp:Label AssociatedControlID="txtAddres" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtAddres" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="כתובת"></asp:TextBox>
-                </div>
-
-                <div class="form-group">
-                    <asp:Label AssociatedControlID="txtUname" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtUname" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="אימייל"></asp:TextBox>
+                    <asp:Label AssociatedControlID="txtAddress" runat="server"></asp:Label>
+                    <asp:TextBox ID="txtAddress" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="כתובת"></asp:TextBox>
                 </div>
 
                 <div class="form-group">
@@ -283,51 +273,50 @@
                 </div>
 
                 <div class="form-group">
-                    <asp:Label AssociatedControlID="txtNots" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtNots" runat="server" CssClass="form-control form-control-rounded" placeholder="הערות"></asp:TextBox>
+                    <asp:Label AssociatedControlID="txtUserName" runat="server"></asp:Label>
+                    <asp:TextBox ID="txtUserName" runat="server" CssClass="form-control form-control-rounded" placeholder="שם משתמש"></asp:TextBox>
+                </div>
+                <div class="form-group">
+                    <asp:Label AssociatedControlID="txtType" runat="server"></asp:Label>
+                    <asp:TextBox ID="txtType" runat="server" CssClass="form-control form-control-rounded" placeholder="סוג טכנאי"></asp:TextBox>
+                </div>
+                <div class="form-group">
+                    <asp:Label AssociatedControlID="txtEmail" runat="server"></asp:Label>
+                    <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control form-control-rounded" placeholder="כתובת מייל"></asp:TextBox>
+                </div>
+                <asp:Button ID="btnSave" runat="server" OnClick="SaveTechnicians" Text="שמירה" CssClass="btn btn-primary" />
+
+
+
+                <!-- כפתורי ההתחברות החברתית -->
+                <div class="social-buttons">
+                    <asp:LinkButton ID="emailButton" runat="server" CssClass="social-button email" OnClick="EmailSignUp">
+                        <i class="fas fa-envelope"></i>
+                        התחברות באמצעות אימייל
+                    </asp:LinkButton>
+
+                    <div class="google-container">
+                        <asp:LinkButton ID="googleButton" runat="server" CssClass="social-button google">
+                            <i class="fab fa-google"></i>
+                            התחברות באמצעות Google
+                        </asp:LinkButton>
+                    </div>
+
+                   <%-- <asp:LinkButton ID="facebookButton" runat="server" CssClass="social-button facebook" OnClick="FacebookSignUp">
+                        <i class="fab fa-facebook"></i>
+                        התחברות באמצעות Facebook
+                    </asp:LinkButton>--%>
                 </div>
 
-                <%-- <div class="form-group">
-                <asp:Label AssociatedControlID="txtCityId" runat="server"> עיר:</asp:Label>
-                <asp:TextBox ID="txtCityId" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-            </div>--%>
-
-                <asp:Button ID="btnSave" runat="server" OnClick="SaveCustomers" Text="שמירה" CssClass="btn btn-primary" />
             </div>
         </div>
-        <div class="social-buttons">
-            <!-- כפתור אימייל -->
-            <button class="social-button email">
-                <i class="fas fa-envelope"></i>
-                התחברות באמצעות אימייל
-            </button>
+   
 
 
-            <!-- כפתור גוגל -->
-            <div class="google-container">
-                <button class="social-button google">
-                    <i class="fab fa-google"></i>
-                    התחברות באמצעות Google
-       
-                </button>
-                <div class="g-signUp2" data-onsuccess="onsignUp"></div>
-            </div>
-
-
-            <!-- כפתור פייסבוק -->
-            <button class="social-button facebook">
-                <i class="fab fa-facebook"></i>
-                התחברות באמצעות Facebook
-            </button>
-        </div>
-
-
-
-    </form>
 </asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 </asp:Content>
-<asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">
+<asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
     <!-- סקריפטים שנדרשים לעמוד -->
     <!-- טעינת סקריפטים חיצוניים -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -348,7 +337,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth.js"></script>
 
     <!-- Google Sign In -->
-    <meta name="google-signUp-client_id" content="AIzaSyAKp-Y7v2FtSV7yOS8ACVQnmag6Z5nAc4U.apps.googleusercontent.com">
+    <meta name="google-signUn-client_id" content="AIzaSyAKp-Y7v2FtSV7yOS8ACVQnmag6Z5nAc4U.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 
@@ -356,39 +345,37 @@
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 
     <script>
-        function saveCustomer() {
-            console.log("פונקציית saveCustomer התחילה");
+        function SaveTechnicians() {
+            console.log("פונקציית SaveTechnicians התחילה");
             var data = {
-                CusId: $('#<%= hfCusId.ClientID %>').val(),
-                FullName: $('#<%= txtFullName.ClientID %>').val(),
+                TecId: $('#<%= hfTecId.ClientID %>').val(),
+                FulName: $('#<%= txtFulName.ClientID %>').val(),
+                TecNum: $('#<%= txtTecNum.ClientID %>').val(),
                 Phone: $('#<%= txtPhone.ClientID %>').val(),
-                Addres: $('#<%= txtAddres.ClientID %>').val(),
-                Uname: $('#<%= txtUname.ClientID %>').val(),
-                Pass: $('#<%= txtPass.ClientID %>').val(),
-     <%--   DateAdd: $('#<%= txtDateAdd.ClientID %>').val(),--%>
+                Address: $('#<%= txtAddress.ClientID %>').val(),
+                UserName: $('#<%= txtUserName.ClientID %>').val(),
+                Type: $('#<%= txtType.ClientID %>').val(),
+                Email: $('#<%= txtEmail.ClientID %>').val(),
 
-                Nots: $('#<%= txtNots.ClientID %>').val(),
-               <%-- CityId: parseInt($('#<%= txtCityId.ClientID %>').val())--%>
             };
 
             console.log("נתונים שנאספו:", JSON.stringify(data));
 
-            var method = data.CusId === "" ? "POST" : "PUT";
-            var url = method === "POST" ? "/api/Customers" : "/api/Customers/" + data.CusId;
+            var method = data.TecId === "" ? "POST" : "PUT";
+            var url = method === "POST" ? "/api/Technicians" : "/api/Technicians/" + data.TecId;
 
             console.log(`שולח בקשת ${method} ל-${url}`);
 
             $.ajax({
                 type: "POST",
-                url: "/api/CustomersController/Post",
-                data: JSON.stringify({ customerData: data }),
+                url: "/api/TechniciansController/Post",
+                data: JSON.stringify({ techniciansData: data }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
                     console.log("תגובה התקבלה בהצלחה:", response);
-                    alert("הלקוח נשמר בהצלחה");
-                    closeModal();
-                    refreshCustomersTable();
+                    alert("ההרשמה בוצעה בהצלחה!");
+                    window.location.href = "/MainTechniciand.aspx";
                 },
                 error: function (xhr, status, error) {
                     console.error("שגיאה בשמירת הלקוח:", status, error);
@@ -407,7 +394,7 @@
             console.log('Got ID Token:', id_token);
 
             // שינוי הנתיב ל-signup
-            fetch('/api/customers/google-signup', {
+            fetch('/api/Technicians/google-signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -423,7 +410,7 @@
                     if (data.success) {
                         // אפשר להוסיף הודעת הצלחה
                         alert('ההרשמה בוצעה בהצלחה!');
-                        window.location.href = '/Main.aspx';
+                        window.location.href = '/MainTechnicians.aspx';
                     } else {
                         alert('שגיאה בהרשמה: ' + (data.message || 'אירעה שגיאה לא ידועה'));
                     }
@@ -434,6 +421,31 @@
                 });
         }
 
+      <%--  // פונקציה להתחברות
+        function initFacebookLogin() {
+            FB.login(function (response) {
+                if (response.authResponse) {
+                    // שליחת הטוקן לשרת
+                    document.getElementById('<%= facebookButton.ClientID %>').click();
+                    // הוספת שדה נסתר עם הטוקן
+                    var form = document.forms[0];
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'fbToken';
+                    input.value = response.authResponse.accessToken;
+                    form.appendChild(input);
+                }
+            }, { scope: 'email' });
+        }
+
+        // קישור הפונקציה לכפתור
+        document.querySelector('.facebook').addEventListener('click', function (e) {
+            e.preventDefault();
+            initFacebookLogin();
+        });--%>
+
 
     </script>
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">
 </asp:Content>

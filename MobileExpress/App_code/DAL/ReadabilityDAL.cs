@@ -141,8 +141,8 @@ namespace DAL
 						DateRead = DateTime.Parse(Dt.Rows[i]["DateRead"].ToString()),
 						Desc = Dt.Rows[i]["Desc"].ToString(),
 						FullName = Dt.Rows[i]["FullName"].ToString(),
-						Phone = Dt.Rows[0]["Phone"].ToString(),
-						Nots = Dt.Rows[0]["Nots"].ToString(),
+						Phone = Dt.Rows[i]["Phone"].ToString(),
+						Nots = Dt.Rows[i]["Nots"].ToString(),
 						CusId = int.Parse(Dt.Rows[i]["CusId"].ToString()),
 						ModelId = int.Parse(Dt.Rows[i]["ModelId"].ToString()),
 						Status = false,// המרה בשלושה חלקים

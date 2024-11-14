@@ -16,7 +16,7 @@ namespace MobileExpress.controllers
     {
 		[HttpPost]
 		[Route("api/customers/google-signup")]
-		public async Task<IHttpActionResult> GoogleSignUp([FromBody] GoogleSignInRequest request)
+		public async Task<IHttpActionResult> GoogleSignUp([FromBody] GooglesignUpRequest request)
 		{
 			try
 			{
@@ -74,7 +74,7 @@ namespace MobileExpress.controllers
 			}
 		}
 
-		public class GoogleSignInRequest
+		public class GooglesignUpRequest
 		{
 			public string IdToken { get; set; }
 		}

@@ -61,17 +61,17 @@ namespace DAL
 
 		//	return customer;
 		//}
-		public static Customers GetByEmail(string email)
+		public static Customers GetByEmail(string uname)
 		{
-			Debug.WriteLine($"מחפש לקוח לפי אימייל: {email}");
+			Debug.WriteLine($"מחפש לקוח לפי אימייל: {uname}");
 
 			Customers customer = null;
-			string sql = "SELECT * FROM T_Customers WHERE Email = @Email";
+			string sql = "SELECT * FROM T_Customers WHERE Uname = @Uname";
 			DbContext db = new DbContext();
 
 			try
 			{
-				SqlParameter parameter = new SqlParameter("@Email", email);
+				SqlParameter parameter = new SqlParameter("@Uname", uname);
 				// העברת מערך של פרמטר אחד
 				DataTable dt = db.Execute(sql, new SqlParameter[] { parameter });
 				if (dt.Rows.Count > 0)
@@ -80,7 +80,7 @@ namespace DAL
 					{
 						CusId = int.Parse(dt.Rows[0]["CusId"].ToString()),
 						FullName = dt.Rows[0]["FullName"].ToString(),
-						Email = dt.Rows[0]["Email"].ToString(),
+						
 						Phone = dt.Rows[0]["Phone"].ToString(),
 						Addres = dt.Rows[0]["Addres"].ToString(),
 						Uname = dt.Rows[0]["Uname"].ToString(),
@@ -157,14 +157,14 @@ namespace DAL
 			if (Tmp.CusId == -1 || Tmp.CusId == 0)
 			{
 				Debug.WriteLine("מבצע הכנסה של לקוח חדש");
-				sql = "INSERT INTO T_Customers(FullName,Phone,Addres,Uname,Pass,DateAdd,Status,Nots,CityId,Email,GoogleId) " +
-					  "VALUES(@FullName,@Phone,@Addres,@Uname,@Pass,@DateAdd,@Status,@Nots,@CityId,@Email,@GoogleId)";
+				sql = "INSERT INTO T_Customers(FullName,Phone,Addres,Uname,Pass,DateAdd,Status,Nots,CityId,GoogleId) " +
+					  "VALUES(@FullName,@Phone,@Addres,@Uname,@Pass,@DateAdd,@Status,@Nots,@CityId,@GoogleId)";
 			}
 			else
 			{
 				Debug.WriteLine($"מבצע עדכון של לקוח קיים עם CusId={Tmp.CusId}");
 				sql = "UPDATE T_Customers SET FullName=@FullName,Phone=@Phone,Addres=@Addres,Uname=@Uname," +
-					  "Pass=@Pass,DateAdd=@DateAdd,Status=@Status,Nots=@Nots,CityId=@CityId,Email=@Email,GoogleId=@GoogleId WHERE CusId=@CusId";
+					  "Pass=@Pass,DateAdd=@DateAdd,Status=@Status,Nots=@Nots,CityId=@CityId,GoogleId=@GoogleId WHERE CusId=@CusId";
 			}
 
 			Debug.WriteLine($"SQL Query: {sql}");
@@ -184,7 +184,7 @@ namespace DAL
 					Status = Tmp.Status,
 					Nots = Tmp.Nots,
 					CityId = Tmp.CityId,
-					Email = Tmp.Email,
+					
 					GoogleId = Tmp.GoogleId
 				};
 
@@ -213,7 +213,7 @@ namespace DAL
 		{
 			try
 			{
-				string sql = "UPDATE T_Customers SET FullName = @FullName,	Phone = @Phone,	Addres = @Addres,	Pass = @Pass,	Uname = @Uname,	DateAdd = @DateAdd,	Status = @Status,	Nots = @Nots,	CityId = @CityId,Email=@Email,GoogleId=@GoogleId WHERE CusId = @CusId";
+				string sql = "UPDATE T_Customers SET FullName = @FullName,	Phone = @Phone,	Addres = @Addres,	Pass = @Pass,	Uname = @Uname,	DateAdd = @DateAdd,	Status = @Status,	Nots = @Nots,	CityId = @CityId,GoogleId=@GoogleId WHERE CusId = @CusId";
 
 				// הדפסת השאילתה לשם בדיקה
 				System.Diagnostics.Debug.WriteLine("SQL Query (Update): " + sql);
@@ -232,7 +232,7 @@ namespace DAL
 					Tmp.Status,				
 					Nots = (object)Tmp.Nots ?? DBNull.Value,       // טיפול בערכים null					
 					Tmp.CityId,
-					Tmp.Email,
+					
 					Tmp.GoogleId
 
 				};
@@ -285,7 +285,7 @@ namespace DAL
 						Nots = Dt.Rows[i]["Nots"].ToString(),
 						CityId = int.Parse(Dt.Rows[i]["CityId"].ToString()),
 						Status = false , // המרה בשלושה חלקים
-						Email =  Dt.Rows[i]["Email"].ToString(),
+						
 						GoogleId = Dt.Rows[i]["GoogleId"].ToString(),
 					};
 
@@ -341,7 +341,7 @@ namespace DAL
 					CityId = int.Parse(Dt.Rows[0]["CityId"].ToString()),
 					Status = Convert.ToBoolean(Dt.Rows[0]["Status"]),
 					GoogleId = Dt.Rows[0]["GoogleId"].ToString(),
-					Email = Dt.Rows[0]["Email"].ToString()
+					
 				};
 			}
 			Db.Close();
