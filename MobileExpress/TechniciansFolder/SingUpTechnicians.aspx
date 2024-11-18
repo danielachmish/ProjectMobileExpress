@@ -137,45 +137,67 @@
             }
 
 
-        /* Google */
+        /* CSS מעודכן */
         .google-container {
             width: 100%;
             position: relative;
-            transition: all 0.2s; /* הוספת transition */
+            margin: 10px 0;
         }
-
-            .google-container:hover {
-                transform: translateY(-2px); /* הוספת אפקט hover */
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
 
         .social-button.google {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 12px 20px;
             background: #4285F4;
             background: linear-gradient(135deg, #4285F4, #34A853);
-            pointer-events: none; /* מונע את האפקט המקורי */
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
         }
 
-            .social-button.google:hover {
-                background: linear-gradient(135deg, #3367D6, #2E8B47);
-                transform: none; /* ביטול התזוזה */
-                box-shadow: none; /* ביטול הצל */
+            .social-button.google i {
+                margin-right: 10px;
+                font-size: 18px;
             }
 
-        .g-signUp2 {
+        /* אפקט Hover */
+        .google-container:hover .social-button.google {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+            background: linear-gradient(135deg, #3367D6, #2E8B47);
+        }
+
+        /* הכפתור המקורי של Google */
+        .google-overlay {
             position: absolute !important;
             top: 0 !important;
             left: 0 !important;
             width: 100% !important;
             height: 100% !important;
-            cursor: pointer !important; /* הוספת סמן יד */
+            opacity: 0 !important; /* שקיפות מלאה */
+            z-index: 2; /* מעל הכפתור המעוצב */
+            cursor: pointer !important;
         }
 
-            .g-signUp2 > div,
-            .g-signUp2 iframe {
+            /* הסתרת הסגנון המקורי של Google */
+            .google-overlay > div,
+            .google-overlay iframe {
                 width: 100% !important;
                 height: 100% !important;
                 opacity: 0 !important;
             }
+
+        /* אפקט לחיצה */
+        .google-container:active .social-button.google {
+            transform: translateY(1px);
+            box-shadow: 0 2px 6px rgba(66, 133, 244, 0.2);
+        }
         /* Email */
         .social-button.email {
             background: linear-gradient(135deg, #EA4335, #FBBC05);
@@ -239,7 +261,7 @@
     </style>
 
 
-    
+
         <div class="modal-card" id="techniciansModal">
             <div class="image-side"></div>
             <div class="form-side">
@@ -290,27 +312,30 @@
 
                 <!-- כפתורי ההתחברות החברתית -->
                 <div class="social-buttons">
-                    <asp:LinkButton ID="emailButton" runat="server" CssClass="social-button email" OnClick="EmailSignUp">
-                        <i class="fas fa-envelope"></i>
-                        התחברות באמצעות אימייל
-                    </asp:LinkButton>
+                    <%-- <asp:LinkButton ID="emailButton" runat="server" CssClass="social-button email" OnClick="EmailSignUp">
+                            <i class="fas fa-envelope"></i>
+                            התחברות באמצעות אימייל
+                    </asp:LinkButton>--%>
 
                     <div class="google-container">
+                        <!-- הכפתור המעוצב -->
                         <asp:LinkButton ID="googleButton" runat="server" CssClass="social-button google">
-                            <i class="fab fa-google"></i>
-                            התחברות באמצעות Google
-                        </asp:LinkButton>
+            <i class="fab fa-google"></i>
+            התחברות באמצעות Google
+        </asp:LinkButton>
+                        <!-- הכפתור המקורי של Google מעל הכפתור המעוצב -->
+                        <div class="g-signin2 google-overlay" data-onsuccess="onGoogleSignUp"></div>
                     </div>
 
-                   <%-- <asp:LinkButton ID="facebookButton" runat="server" CssClass="social-button facebook" OnClick="FacebookSignUp">
-                        <i class="fab fa-facebook"></i>
-                        התחברות באמצעות Facebook
-                    </asp:LinkButton>--%>
+                    <%-- <asp:LinkButton ID="facebookButton" runat="server" CssClass="social-button facebook" OnClick="FacebookSignUp">
+                            <i class="fab fa-facebook"></i>
+                            התחברות באמצעות Facebook
+                        </asp:LinkButton>--%>
                 </div>
 
             </div>
         </div>
-   
+
 
 
 </asp:Content>
@@ -341,8 +366,8 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 
-    <!-- Facebook SDK -->
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <%-- <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>--%>
 
     <script>
         function SaveTechnicians() {
@@ -375,7 +400,7 @@
                 success: function (response) {
                     console.log("תגובה התקבלה בהצלחה:", response);
                     alert("ההרשמה בוצעה בהצלחה!");
-                    window.location.href = "/MainTechniciand.aspx";
+                    window.location.href = 'MainTechnicians.aspx';
                 },
                 error: function (xhr, status, error) {
                     console.error("שגיאה בשמירת הלקוח:", status, error);
@@ -385,41 +410,101 @@
             });
 
         }
-
-
         function onGoogleSignUp(googleUser) {
             console.log('Google Sign-Up successful');
+            var profile = googleUser.getBasicProfile();
 
+            const googleContainer = document.querySelector('.google-container');
+            googleContainer.classList.add('success');
+
+
+            // מילוי השדות המידיים מ-Google
+            $('#<%= txtEmail.ClientID %>').val(profile.getEmail());
+            $('#<%= txtFulName.ClientID %>').val(profile.getName());
+            $('#<%= txtUserName.ClientID %>').val(profile.getEmail().split('@')[0]);
+
+            // קבלת הטוקן
             var id_token = googleUser.getAuthResponse().id_token;
-            console.log('Got ID Token:', id_token);
 
-            // שינוי הנתיב ל-signup
+            // שליחה לשרת
             fetch('/api/Technicians/google-signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ idToken: id_token })
+                body: JSON.stringify({
+                    idToken: id_token,
+                    TecId: $('#<%= hfTecId.ClientID %>').val(),
+                    FulName: profile.getName(),
+                    Email: profile.getEmail(),
+                    UserName: profile.getEmail().split('@')[0],
+                    Phone: $('#<%= txtPhone.ClientID %>').val(),
+                    Address: $('#<%= txtAddress.ClientID %>').val(),
+                    TecNum: $('#<%= txtTecNum.ClientID %>').val(),
+                    Type: $('#<%= txtType.ClientID %>').val()
+                })
             })
                 .then(response => {
-                    console.log('Server Response:', response);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Server Data:', data);
                     if (data.success) {
-                        // אפשר להוסיף הודעת הצלחה
-                        alert('ההרשמה בוצעה בהצלחה!');
-                        window.location.href = '/MainTechnicians.aspx';
+                        // עדכון שאר השדות אם קיבלנו מידע נוסף מהשרת
+                        if (data.technician) {
+                            $('#<%= txtPhone.ClientID %>').val(data.technician.Phone || '');
+                            $('#<%= txtAddress.ClientID %>').val(data.technician.Address || '');
+                            $('#<%= txtType.ClientID %>').val(data.technician.Type || '');
+                            $('#<%= txtTecNum.ClientID %>').val(data.technician.TecNum || '');
+                            $('#<%= hfTecId.ClientID %>').val(data.technician.TecId || '');
+                        }
+
+                        alert('הפרטים נטענו בהצלחה!');
                     } else {
-                        alert('שגיאה בהרשמה: ' + (data.message || 'אירעה שגיאה לא ידועה'));
+                        throw new Error(data.message || 'אירעה שגיאה לא ידועה');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('שגיאה בהרשמה עם גוגל');
+                    alert('שגיאה בטעינת הפרטים: ' + error.message);
                 });
         }
+
+        //function onGoogleSignUp(googleUser) {
+        //    console.log('Google Sign-Up successful');
+        //    var id_token = googleUser.getAuthResponse().id_token;
+
+        //    fetch('/api/Technicians/google-signup', {
+        //        method: 'POST',
+        //        headers: {
+        //            'Content-Type': 'application/json'
+        //        },
+        //        body: JSON.stringify({ idToken: id_token })
+        //    })
+        //        .then(response => {
+        //            console.log('Server Response:', response);
+        //            // בדיקה אם התגובה תקינה
+        //            if (!response.ok) {
+        //                throw new Error(`HTTP error! status: ${response.status}`);
+        //            }
+        //            return response.json();
+        //        })
+        //        .then(data => {
+        //            console.log('Server Data:', data);
+        //            if (data.success) {
+        //                alert('ההרשמה בוצעה בהצלחה!');
+        //                window.location.href = 'MainTechnicians.aspx';
+        //            } else {
+        //                throw new Error(data.message || 'אירעה שגיאה לא ידועה');
+        //            }
+        //        })
+        //        .catch(error => {
+        //            console.error('Error:', error);
+        //            alert('שגיאה בהרשמה עם גוגל: ' + error.message);
+        //        });
+        //}
 
       <%--  // פונקציה להתחברות
         function initFacebookLogin() {

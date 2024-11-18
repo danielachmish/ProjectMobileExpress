@@ -63,6 +63,28 @@ namespace DAL
             }
         }
 
+        public static bool IsEmailExists(string email)
+        {
+            string sql = "SELECT COUNT(*) FROM T_Technicians WHERE Email = @Email";
+            DbContext Db = new DbContext();
+
+            try
+            {
+                var parameters = DbContext.CreateParameters(new { Email = email });
+                object result = Db.ExecuteScalar(sql, parameters);
+                return Convert.ToInt32(result) > 0;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error checking email existence: {ex.Message}");
+                throw;
+            }
+            finally
+            {
+                Db.Close();
+            }
+        }
+
         public static void UpdateTechnician(Technicians Tmp)
         {
             try

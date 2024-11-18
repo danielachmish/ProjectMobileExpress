@@ -27,6 +27,7 @@ namespace MobileExpress.Controllers
             }
         }
 
+
         [HttpPut]
         [Route("{Id:int}")]
         public IHttpActionResult Put(int Id, Technicians Tmp)
@@ -89,6 +90,68 @@ namespace MobileExpress.Controllers
                 return InternalServerError(ex);
             }
         }
+        [HttpPost]
+        [Route("google-signup")]
+        public IHttpActionResult GoogleSignUp([FromBody] GoogleSignUpModel model)
+        {
+            try
+            {
+                // בדיקה אם המייל קיים
+                if (Technicians.IsEmailExists(model.Email))
+                {
+                    return Ok(new
+                    {
+                        success = false,
+                        redirectToSignIn = true,
+                        message = "משתמש עם מייל זה כבר קיים במערכת. מועבר לדף התחברות."
+                    });
+                }
 
+                // אם המייל לא קיים, ממשיכים בתהליך ההרשמה
+                var technician = Technicians.CreateFromGoogle(
+                    model.IdToken,
+                    model.Email,
+                    model.FulName
+                );
+
+                technician.Save();
+
+                return Ok(new
+                {
+                    success = true,
+                    redirectToSignIn = false,
+                    message = "הפרטים נטענו בהצלחה",
+                    technician = new
+                    {
+                        TecId = technician.TecId,
+                        TecNum = technician.TecNum,
+                        FulName = technician.FulName,
+                        Phone = technician.Phone,
+                        Address = technician.Address,
+                        UserName = technician.UserName,
+                        Type = technician.Type,
+                        Email = technician.Email
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = ex.Message });
+            }
+        }
+        // הוסף את המודל בסוף הקובץ
+        public class GoogleSignUpModel
+        {
+            public string IdToken { get; set; }
+            public string Email { get; set; }
+            public string FulName { get; set; }
+            public string Phone { get; set; }
+            public string Address { get; set; }
+            public string TecNum { get; set; }
+            public string Type { get; set; }
+            public string UserName { get; set; }
+        }
     }
 }
+
+

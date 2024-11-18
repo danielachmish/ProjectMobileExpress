@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.9.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.9.0\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="ExcelDataReader, Version=3.7.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.3.7.0\lib\net462\ExcelDataReader.dll</HintPath>
     </Reference>
@@ -594,7 +597,9 @@
       <Link>.editorconfig</Link>
     </Content>
     <Content Include="TechniciansFolder\MainTechnicians.aspx" />
+    <Content Include="TechniciansFolder\SingInTechnicians.aspx" />
     <Content Include="TechniciansFolder\SingUpTechnicians.aspx" />
+    <Content Include="TechniciansFolder\TechnicianProfile.aspx" />
     <Content Include="Users\Default.aspx" />
     <Content Include="Users\Main.aspx" />
     <Content Include="Users\SingIn.aspx" />
@@ -747,12 +752,26 @@
     <Compile Include="TechniciansFolder\MainTechnicians.aspx.designer.cs">
       <DependentUpon>MainTechnicians.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TechniciansFolder\SingInTechnicians.aspx.cs">
+      <DependentUpon>SingInTechnicians.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TechniciansFolder\SingInTechnicians.aspx.designer.cs">
+      <DependentUpon>SingInTechnicians.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TechniciansFolder\SingUpTechnicians.aspx.cs">
       <DependentUpon>SingUpTechnicians.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TechniciansFolder\SingUpTechnicians.aspx.designer.cs">
       <DependentUpon>SingUpTechnicians.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TechniciansFolder\TechnicianProfile.aspx.cs">
+      <DependentUpon>TechnicianProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TechniciansFolder\TechnicianProfile.aspx.designer.cs">
+      <DependentUpon>TechnicianProfile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Users\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
