@@ -34,6 +34,38 @@ namespace BLL
                 throw;
             }
         }
+        public static string HashPassword(string password)
+        {
+            System.Diagnostics.Debug.WriteLine("מתחיל תהליך הצפנת סיסמה");
+            var hashedPassword = Convert.ToBase64String(
+                System.Security.Cryptography.SHA256.Create()
+                .ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
+            System.Diagnostics.Debug.WriteLine("סיסמה הוצפנה בהצלחה");
+            return hashedPassword;
+        }
+
+        public static Technicians CreateFromGoogle(string idToken, string email, string fullName)
+        {
+            var technician = new Technicians
+            {
+                TecNum = "",
+                FulName = fullName,
+                Phone = "",
+                Address = "",
+                Pass = HashPassword(Guid.NewGuid().ToString()), // השתמש בפונקציית ההצפנה הקיימת שלך
+                UserName = email.Split('@')[0],
+                Type = "",
+                Email = email,
+                DateAddition = DateTime.Now,
+            };
+
+            return technician;
+        }
+
+        public static bool IsEmailExists(string email)
+        {
+            return TechniciansDAL.IsEmailExists(email);
+        }
 
         // פונקציה לעדכון טכנאי קיים
         public void UpdateTechnician()

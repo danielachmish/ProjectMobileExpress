@@ -5,6 +5,10 @@
 <html>
 <head runat="server">
     <title></title>
+    <!--הרשמה גוגל-->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com">
+
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -13,11 +17,11 @@
         <div>
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
-             <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
             </asp:ContentPlaceHolder>
-             <asp:ContentPlaceHolder ID="ContentPlaceHolder3" runat="server">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder3" runat="server">
             </asp:ContentPlaceHolder>
-             <asp:ContentPlaceHolder ID="ContentPlaceHolder4" runat="server">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder4" runat="server">
             </asp:ContentPlaceHolder>
 
         </div>

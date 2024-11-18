@@ -124,7 +124,7 @@
         <img src="/api/placeholder/120/40" alt="Logo" class="logo">
         <div class="top-nav">       
             <a href="#"><i class="fas fa-truck"></i> עקבו אחרינו</a>         
-            <a href="#"><i class="fas fa-user"></i> התחבר לחשבון</a>
+            <a href="SingInTechnicians.aspx"><i class="fas fa-user"></i> התחבר לחשבון</a>
         </div>
     </div>
 
