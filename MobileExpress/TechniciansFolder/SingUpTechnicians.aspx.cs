@@ -66,6 +66,7 @@ namespace MobileExpress.TechniciansFolder
 				if (technicians.TecId <= 0)
 				{
 					technicians.Save();
+
 					ScriptManager.RegisterStartupScript(this, GetType(), "successScript", @"
                 alert('הנתונים נשמרו בהצלחה!');
                 window.location = 'MainTechnicians.aspx';",

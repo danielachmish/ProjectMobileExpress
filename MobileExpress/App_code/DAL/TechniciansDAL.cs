@@ -90,7 +90,7 @@ namespace DAL
             try
             {
                 string sql = "UPDATE T_Technicians SET TecNum = @TecNum, FulName = @FulName, Phone = @Phone, Address = @Address, Pass = @Pass, UserName = @UserName, " +
-                             "Type = @Type, History = @History, Nots = @Nots, Email = @Email, Status = @Status, SerProdId = @SerProdId, DateAddition = @DateAddition " +
+                             "Type = @Type, History = @History, Nots = @Nots, Email = @Email, Status = @Status, SerProdId = @SerProdId " +
                              "WHERE TecId = @TecId";
 
                 // הדפסת השאילתה לשם בדיקה
@@ -111,8 +111,8 @@ namespace DAL
                     History = (object)Tmp.History ?? DBNull.Value, // טיפול בערכים null
                     Nots = (object)Tmp.Nots ?? DBNull.Value,       // טיפול בערכים null
                     Tmp.Email,
-                    Tmp.SerProdId,
-                    Tmp.DateAddition
+                    Tmp.SerProdId
+                    //Tmp.DateAddition
                 };
 
                 var LstParma = DbContext.CreateParameters(Obj);

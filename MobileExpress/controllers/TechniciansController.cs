@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Web;
 using System.Web.Http;
 
 namespace MobileExpress.Controllers
@@ -115,7 +116,7 @@ namespace MobileExpress.Controllers
                 );
 
                 technician.Save();
-
+                HttpContext.Current.Session["TechnicianId"] = technician.TecId;
                 return Ok(new
                 {
                     success = true,
@@ -133,6 +134,8 @@ namespace MobileExpress.Controllers
                         Email = technician.Email
                     }
                 });
+
+
             }
             catch (Exception ex)
             {

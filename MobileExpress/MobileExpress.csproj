@@ -280,6 +280,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\Styles.css" />
+    <Content Include="MainMobileExpress.aspx" />
     <Content Include="Manage\AdminiList.aspx" />
     <Content Include="Manage\BidList.aspx" />
     <Content Include="Manage\CategList.aspx" />
@@ -605,7 +606,6 @@
     <Content Include="Users\SingIn.aspx" />
     <Content Include="Users\SingUp.aspx" />
     <Content Include="Web.config" />
-    <Content Include="WebForm1.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_code\BLL\Readability.cs" />
@@ -631,6 +631,13 @@
     <Compile Include="App_code\DAL\SerProdDAL.cs" />
     <Compile Include="App_code\DAL\TechniciansDAL.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="MainMobileExpress.aspx.cs">
+      <DependentUpon>MainMobileExpress.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MainMobileExpress.aspx.designer.cs">
+      <DependentUpon>MainMobileExpress.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Manage\AdminiList.aspx.cs">
       <DependentUpon>AdminiList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -807,13 +814,6 @@
     </Compile>
     <Compile Include="Users\SingUp.aspx.designer.cs">
       <DependentUpon>SingUp.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

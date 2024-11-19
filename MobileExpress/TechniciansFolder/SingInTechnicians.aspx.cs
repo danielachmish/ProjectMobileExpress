@@ -56,7 +56,7 @@ namespace MobileExpress.TechniciansFolder
                     ShowError("סיסמה שגויה");
                     return;
                 }
-
+                HttpContext.Current.Session["TechnicianId"] = technician.TecId;
                 // התחברות מוצלחת
                 LoginUser(technician);
             }
@@ -78,7 +78,7 @@ namespace MobileExpress.TechniciansFolder
             Session["UserName"] = technician.UserName;
             Session["Type"] = technician.Type;
             Session["Email"] = technician.Email;
-
+           
             // הפניה לדף הבית
             Response.Redirect("MainTechnicians.aspx");
         }
@@ -98,33 +98,27 @@ namespace MobileExpress.TechniciansFolder
                 {
                     Audience = new[] { "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com" }
                 };
-
                 var payload = GoogleJsonWebSignature.ValidateAsync(idToken, settings).Result;
-
-                // בדיקה אם המשתמש קיים במערכת
                 var technicians = Technicians.GetAll();
                 var existingTechnician = technicians.FirstOrDefault(t =>
                     t.Email.Equals(payload.Email, StringComparison.OrdinalIgnoreCase));
 
                 if (existingTechnician != null)
                 {
-                    // יצירת חיבור למשתמש קיים
                     FormsAuthentication.SetAuthCookie(payload.Email, false);
-
                     HttpContext.Current.Session["TecId"] = existingTechnician.TecId;
                     HttpContext.Current.Session["FulName"] = existingTechnician.FulName;
                     HttpContext.Current.Session["UserName"] = existingTechnician.UserName;
                     HttpContext.Current.Session["Type"] = existingTechnician.Type;
                     HttpContext.Current.Session["Email"] = existingTechnician.Email;
 
-                    return new { success = true };
+                    return new
+                    {
+                        success = true,
+                        redirectUrl = "~/TechniciansFolder/MainTechnicians.aspx"
+                    };
                 }
-
-                return new
-                {
-                    success = false,
-                    message = "משתמש לא קיים במערכת. אנא הירשם תחילה."
-                };
+                return new { success = false, message = "משתמש לא קיים במערכת. אנא הירשם תחילה." };
             }
             catch (Exception ex)
             {
