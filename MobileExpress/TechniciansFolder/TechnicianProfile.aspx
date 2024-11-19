@@ -15,14 +15,14 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
      <div class="page-container" dir="rtl">
     <!-- Back Button -->
-  <div class="back-button-container">
+  <%--<div class="back-button-container">
     <button onclick="window.location.href='MainTechnicians.aspx'" class="back-button">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path d="M19 12H5M12 19l-7-7 7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         חזרה
     </button>
-</div>
+</div>--%>
 
     <!-- Main Content -->
     <div class="main-content">

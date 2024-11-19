@@ -331,8 +331,10 @@
                             <i class="fab fa-facebook"></i>
                             התחברות באמצעות Facebook
                         </asp:LinkButton>--%>
+                    <div class="login-link" style="text-align: center; margin-top: 15px;">
+        <a href="SingInTechnicians.aspx" style="color: #666; text-decoration: none;">יש לך חשבון? היכנס</a>
+    </div>
                 </div>
-
             </div>
         </div>
 
