@@ -597,7 +597,9 @@
     <Content Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </Content>
+    <Content Include="TechniciansFolder\AlertsUpdates.aspx" />
     <Content Include="TechniciansFolder\MainTechnicians.aspx" />
+    <Content Include="TechniciansFolder\MapOrientation.aspx" />
     <Content Include="TechniciansFolder\SingInTechnicians.aspx" />
     <Content Include="TechniciansFolder\SingUpTechnicians.aspx" />
     <Content Include="TechniciansFolder\TechnicianProfile.aspx" />
@@ -745,6 +747,13 @@
       <DependentUpon>TecList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TechniciansFolder\AlertsUpdates.aspx.cs">
+      <DependentUpon>AlertsUpdates.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TechniciansFolder\AlertsUpdates.aspx.designer.cs">
+      <DependentUpon>AlertsUpdates.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TechniciansFolder\MainMaster.Master.cs">
       <DependentUpon>MainMaster.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -758,6 +767,13 @@
     </Compile>
     <Compile Include="TechniciansFolder\MainTechnicians.aspx.designer.cs">
       <DependentUpon>MainTechnicians.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TechniciansFolder\MapOrientation.aspx.cs">
+      <DependentUpon>MapOrientation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TechniciansFolder\MapOrientation.aspx.designer.cs">
+      <DependentUpon>MapOrientation.aspx</DependentUpon>
     </Compile>
     <Compile Include="TechniciansFolder\SingInTechnicians.aspx.cs">
       <DependentUpon>SingInTechnicians.aspx</DependentUpon>
