@@ -1,6 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/TechniciansFolder/MainMaster.Master" AutoEventWireup="true" CodeBehind="MainTechnicians.aspx.cs" Inherits="MobileExpress.TechniciansFolder.MainTechnicians" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+       <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- קישורים נוספים כמו Bootstrap ו-Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <input type="hidden" id="hdnTecId" runat="server" />
@@ -136,7 +143,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
     </style>
-  
+
     <style>
         /* Basic Styles */
         body, html {
@@ -481,6 +488,351 @@
             }
         }
     </style>
+    <%--ניהול זמינות--%>
+    <style>
+        .availability-management {
+            margin-top: 20px;
+        }
+
+        .availability-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .working-hours, .breaks-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .days-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .day-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+        }
+
+        .hours-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .time-input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 110px;
+        }
+
+        .day-toggle {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+            .toggle-slider:before {
+                position: absolute;
+                content: "";
+                height: 18px;
+                width: 18px;
+                left: 3px;
+                bottom: 3px;
+                background-color: white;
+                transition: .4s;
+                border-radius: 50%;
+            }
+
+        input:checked + .toggle-slider {
+            background-color: #2196F3;
+        }
+
+            input:checked + .toggle-slider:before {
+                transform: translateX(24px);
+            }
+
+        .breaks-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .break-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .add-break-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .remove-break {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 6px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .break-time-input {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 110px;
+        }
+
+        .break-duration {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+    <%--היסטוריית עבודות--%>
+    <style>
+        .work-history {
+            margin-top: 20px;
+        }
+
+        .monthly-summary {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .summary-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .month-nav {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .summary-stats {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        .summary-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .stat-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .list-filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .search-input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        .work-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .work-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .work-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .work-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .work-date {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .work-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+            .work-status.completed {
+                background: #e8f5e9;
+                color: #2e7d32;
+            }
+
+        .work-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .work-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .work-location {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .work-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .price-rating {
+            display: flex;
+            gap: 15px;
+        }
+
+        .work-price {
+            font-weight: bold;
+            color: #2196F3;
+        }
+
+        .work-rating {
+            color: #ffc107;
+        }
+
+        .view-details-btn {
+            background: transparent;
+            border: 1px solid #2196F3;
+            color: #2196F3;
+            padding: 5px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .page-numbers {
+            display: flex;
+            gap: 5px;
+        }
+
+        .page-number {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            .page-number.active {
+                background: #2196F3;
+                color: white;
+                border-color: #2196F3;
+            }
+
+        .page-nav {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- תפריט עליון -->
@@ -507,7 +859,7 @@
                 <i class="fas fa-plug"></i>
                 <span>קריאות</span>
             </a>
-            <a href="#" class="circle-button">
+            <a href="MapOrientation.aspx" class="circle-button">
                 <i class="fas fa-search"></i>
                 <span>מפה והתמצאות</span>
             </a>
@@ -515,10 +867,10 @@
                 <i class="fas fa-dollar-sign"></i>
                 <span>התראות ועדכונים</span>
             </a>
-            <a href="#" class="circle-button">
+           <%-- <a href="#" class="circle-button">
                 <i class="fas fa-bell"></i>
                 <span>ניהול משימות</span>
-            </a>
+            </a>--%>
             <a href="#" class="circle-button">
                 <i class="fas fa-bell"></i>
                 <span>מעקב ביצועים</span>
@@ -649,9 +1001,261 @@
 
                 </div>
             </div>
+            <div class="details-card availability-management">
+                <h2>ניהול זמינות</h2>
+                <div class="availability-container">
+                    <!-- שעות פעילות -->
+                    <div class="working-hours">
+                        <h3>שעות פעילות</h3>
+                        <div class="days-grid">
+                            <div class="day-row">
+                                <div class="day-label">ראשון</div>
+                                <div class="hours-input">
+                                    <input type="time" class="time-input" id="SundayStart">
+                                    <span>עד</span>
+                                    <input type="time" class="time-input" id="SundayEnd">
+                                    <label class="day-toggle">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="day-row">
+                                <div class="day-label">שני</div>
+                                <div class="hours-input">
+                                    <input type="time" class="time-input" id="MondayStart">
+                                    <span>עד</span>
+                                    <input type="time" class="time-input" id="MondayEnd">
+                                    <label class="day-toggle">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="day-row">
+                                <div class="day-label">שלישי</div>
+                                <div class="hours-input">
+                                    <input type="time" class="time-input" id="TuesdayStart">
+                                    <span>עד</span>
+                                    <input type="time" class="time-input" id="TuesdayEnd">
+                                    <label class="day-toggle">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="day-row">
+                                <div class="day-label">רביעי</div>
+                                <div class="hours-input">
+                                    <input type="time" class="time-input" id="WednesdayStart">
+                                    <span>עד</span>
+                                    <input type="time" class="time-input" id="WednesdayEnd">
+                                    <label class="day-toggle">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="day-row">
+                                <div class="day-label">חמישי</div>
+                                <div class="hours-input">
+                                    <input type="time" class="time-input" id="ThursdayStart">
+                                    <span>עד</span>
+                                    <input type="time" class="time-input" id="ThursdayEnd">
+                                    <label class="day-toggle">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="day-row">
+                                <div class="day-label">שישי</div>
+                                <div class="hours-input">
+                                    <input type="time" class="time-input" id="FridayStart">
+                                    <span>עד</span>
+                                    <input type="time" class="time-input" id="FridayEnd">
+                                    <label class="day-toggle">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="day-row">
+                                <div class="day-label">שבת</div>
+                                <div class="hours-input">
+                                    <input type="time" class="time-input" id="SaturdayStart">
+                                    <span>עד</span>
+                                    <input type="time" class="time-input" id="SaturdayEnd">
+                                    <label class="day-toggle">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- שאר הימים באותו פורמט -->
+                        </div>
+                    </div>
+
+                    <!-- הפסקות -->
+                    <div class="breaks-section">
+                        <h3>הפסקות קבועות</h3>
+                        <div class="breaks-container">
+                            <button class="add-break-btn">
+                                <i class="fas fa-plus"></i>
+                                הוסף הפסקה
+                            </button>
+                            <div class="break-item">
+                                <input type="time" class="break-time-input">
+                                <span>למשך</span>
+                                <select class="break-duration">
+                                    <option value="30">30 דקות</option>
+                                    <option value="60">שעה</option>
+                                    <option value="90">שעה וחצי</option>
+                                </select>
+                                <button class="remove-break">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- היסטוריית עבודות -->
+            <div class="details-card work-history">
+                <h2>היסטוריית עבודות</h2>
+
+                <!-- סיכום חודשי -->
+                <%-- <div class="monthly-summary">
+        <div class="summary-header">
+            <h3>סיכום חודשי - מרץ 2024</h3>
+            <div class="summary-controls">
+                <button class="month-nav prev-month">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <button class="month-nav next-month">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+        </div>
+        <div class="summary-stats">
+            <div class="summary-stat">
+                <span class="stat-label">סה"כ עבודות</span>
+                <span class="stat-value">24</span>
+            </div>
+            <div class="summary-stat">
+                <span class="stat-label">הכנסות</span>
+                <span class="stat-value">₪4,850</span>
+            </div>
+            <div class="summary-stat">
+                <span class="stat-label">דירוג ממוצע</span>
+                <span class="stat-value">4.8 <i class="fas fa-star"></i></span>
+            </div>
+        </div>
+    </div>--%>
+
+                <!-- רשימת העבודות -->
+                <div class="work-list">
+                    <div class="list-filters">
+                        <div class="filter-group">
+                            <label>סינון לפי:</label>
+                            <select class="filter-select">
+                                <option value="all">הכל</option>
+                                <option value="completed">הושלמו</option>
+                                <option value="pending">בתהליך</option>
+                                <option value="cancelled">בוטלו</option>
+                            </select>
+                            <select class="filter-select">
+                                <option value="all">כל הסוגים</option>
+                                <option value="ac">מזגנים</option>
+                                <option value="plumbing">אינסטלציה</option>
+                                <option value="electricity">חשמל</option>
+                            </select>
+                        </div>
+                        <div class="search-group">
+                            <input type="search" placeholder="חיפוש..." class="search-input">
+                        </div>
+                    </div>
+
+                    <div class="work-items">
+                        <div class="work-item">
+                            <div class="work-header">
+                                <div class="work-title">
+                                    <h4>תיקון מזגן תדיראן</h4>
+                                    <span class="work-date">15.03.2024</span>
+                                </div>
+                                <span class="work-status completed">הושלם</span>
+                            </div>
+                            <div class="work-details">
+                                <div class="work-info">
+                                    <p class="work-description">החלפת קבל והשלמת גז</p>
+                                    <span class="work-location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        תל אביב, דיזנגוף 123
+                                    </span>
+                                </div>
+                                <div class="work-meta">
+                                    <div class="price-rating">
+                                        <span class="work-price">₪450</span>
+                                        <span class="work-rating">
+                                            <i class="fas fa-star"></i>
+                                            4.8
+                                        </span>
+                                    </div>
+                                    <button class="view-details-btn">פרטים נוספים</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="work-item">
+                            <div class="work-header">
+                                <div class="work-title">
+                                    <h4>התקנת מזגן אלקטרה</h4>
+                                    <span class="work-date">10.03.2024</span>
+                                </div>
+                                <span class="work-status completed">הושלם</span>
+                            </div>
+                            <div class="work-details">
+                                <div class="work-info">
+                                    <p class="work-description">התקנה מלאה כולל תשתיות</p>
+                                    <span class="work-location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        רמת גן, ביאליק 45
+                                    </span>
+                                </div>
+                                <div class="work-meta">
+                                    <div class="price-rating">
+                                        <span class="work-price">₪1,200</span>
+                                        <span class="work-rating">
+                                            <i class="fas fa-star"></i>
+                                            5.0
+                                        </span>
+                                    </div>
+                                    <button class="view-details-btn">פרטים נוספים</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pagination">
+                        <button class="page-nav prev-page">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <div class="page-numbers">
+                            <span class="page-number active">1</span>
+                            <span class="page-number">2</span>
+                            <span class="page-number">3</span>
+                        </div>
+                        <button class="page-nav next-page">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
- 
+
+
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 </asp:Content>
@@ -688,7 +1292,7 @@
             }
         });
 
-     
+
         let isEditMode = false;
 
         // פונקציה לפתיחת המודאל
