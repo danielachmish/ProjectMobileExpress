@@ -855,7 +855,7 @@
         <%--      <input type="search" class="search-box" placeholder="חיפוש...">--%>
 
         <div class="circles-container">
-            <a href="#" class="circle-button">
+            <a href="AllRead.aspx" class="circle-button">
                 <i class="fas fa-plug"></i>
                 <span>קריאות</span>
             </a>
