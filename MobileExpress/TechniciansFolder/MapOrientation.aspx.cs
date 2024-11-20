@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,86 +10,111 @@ using System.Web.UI.WebControls;
 
 namespace MobileExpress.TechniciansFolder
 {
-	public partial class MapOrientation : System.Web.UI.Page
-	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
+    public partial class MapOrientation : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
             if (!IsPostBack)
             {
-
-				//בדיקה אם המשתמש מחובר
-
-				//if (Session["TecId"] == null || !User.Identity.IsAuthenticated)
-				//{
-				//	Response.Redirect("~/TechniciansFolder/SingInTechnicians.aspx");
-				//	return;
-				//}
-			}
-        }
-
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public static object GetServiceCalls()
-        {
-            try
-            {
-                // בדיקת התחברות גם בקריאת השירות
-                if (HttpContext.Current.Session["TecId"] == null)
-                {
-                    return new { success = false, message = "משתמש לא מחובר" };
-                }
-
-                int technicianId = Convert.ToInt32(HttpContext.Current.Session["TecId"]);
-
-                // כאן תהיה הלוגיקה לשליפת קריאות השירות הרלוונטיות לטכנאי
-                // לדוגמה:
-                return new
-                {
-                    success = true,
-                    data = new[] {
-                        new {
-                            id = 1,
-                            type = "תיקון מזגן",
-                            status = "חדש",
-                            address = "רחוב דיזנגוף 123, תל אביב",
-                            description = "מזגן לא מקרר",
-                            customerName = "ישראל ישראלי",
-                            phone = "050-1234567",
-                            coordinates = new double[] { 34.7747, 32.0853 },
-                            timeCreated = DateTime.Now.ToString("yyyy-MM-dd HH:mm")
-                        }
-                        // הוסף עוד קריאות שירות לפי הצורך
-                    }
-                };
-            }
-            catch (Exception ex)
-            {
-                return new { success = false, message = ex.Message };
+                LoadServiceCalls();
             }
         }
 
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public static object AcceptServiceCall(int callId)
+        private void LoadServiceCalls()
         {
             try
             {
-                if (HttpContext.Current.Session["TecId"] == null)
+                List<Readability> serviceCalls = Readability.GetAll();
+
+                // אם יש פילטר סטטוס
+                string statusFilter = StatusFilter.SelectedValue;
+                if (!string.IsNullOrEmpty(statusFilter))
                 {
-                    return new { success = false, message = "משתמש לא מחובר" };
+                    bool statusValue = Convert.ToBoolean(statusFilter);
+                    serviceCalls = serviceCalls.Where(call => call.Status == statusValue).ToList();
                 }
 
-                int technicianId = Convert.ToInt32(HttpContext.Current.Session["TecId"]);
+                // מיון לפי תאריך - מהחדש לישן
+                serviceCalls = serviceCalls.OrderByDescending(call => call.DateRead).ToList();
 
-                // כאן תהיה הלוגיקה לעדכון קריאת השירות
-                // לדוגמה:
-                // ServiceCallsDAL.UpdateCallStatus(callId, technicianId, "בטיפול");
-
-                return new { success = true, message = "הקריאה התקבלה בהצלחה" };
+                ServiceCallsRepeater.DataSource = serviceCalls;
+                ServiceCallsRepeater.DataBind();
             }
             catch (Exception ex)
             {
-                return new { success = false, message = ex.Message };
+                // Log the error
+                System.Diagnostics.Debug.WriteLine($"Error loading service calls: {ex.Message}");
+                // You might want to show an error message to the user
+                ScriptManager.RegisterStartupScript(this, GetType(), "alert",
+                    "alert('אירעה שגיאה בטעינת הנתונים. אנא נסה שנית מאוחר יותר.');", true);
+            }
+        }
+
+        protected string GetStatusText(bool status)
+        {
+            return status ? "קריאה פתוחה" : "קריאה סגורה";
+        }
+
+        protected string GetUrgencyClass(string urgency)
+        {
+            switch (urgency.ToLower())
+            {
+                case "high":
+                case "גבוה":
+                    return "urgency-high";
+                case "medium":
+                case "בינוני":
+                    return "urgency-medium";
+                default:
+                    return "urgency-low";
+            }
+        }
+
+        protected string GetUrgencyText(string urgency)
+        {
+            // התאם את הטקסט לפי הערכים בדאטאבייס שלך
+            return urgency;
+        }
+
+        protected string GetModelName(int modelId)
+        {
+            // כאן תוכל להוסיף לוגיקה לשליפת שם המודל מטבלת המודלים
+            // לדוגמה:
+            // return ModelsDAL.GetModelName(modelId);
+            return modelId.ToString();
+        }
+
+        protected void StatusFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadServiceCalls();
+        }
+        [WebMethod]
+        public static List<object> GetServiceCalls()
+        {
+            try
+            {
+                List<Readability> serviceCalls = Readability.GetAll();
+
+                // המרה של הנתונים לפורמט המתאים למפה
+                var result = serviceCalls.Select(call => new
+                {
+                    call.ReadId,
+                    call.DateRead,
+                    call.Desc,
+                    call.FullName,
+                    call.Phone,
+                    call.Nots,
+                    call.Status,
+                    call.Urgency,
+				
+				}).ToList<object>();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in GetServiceCalls: {ex.Message}");
+                throw;
             }
         }
     }

@@ -597,7 +597,7 @@
     <Content Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </Content>
-    <Content Include="TechniciansFolder\AlertsUpdates.aspx" />
+    <Content Include="TechniciansFolder\AllRead.aspx" />
     <Content Include="TechniciansFolder\MainTechnicians.aspx" />
     <Content Include="TechniciansFolder\MapOrientation.aspx" />
     <Content Include="TechniciansFolder\SingInTechnicians.aspx" />
@@ -747,12 +747,12 @@
       <DependentUpon>TecList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TechniciansFolder\AlertsUpdates.aspx.cs">
-      <DependentUpon>AlertsUpdates.aspx</DependentUpon>
+    <Compile Include="TechniciansFolder\AllRead.aspx.cs">
+      <DependentUpon>AllRead.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="TechniciansFolder\AlertsUpdates.aspx.designer.cs">
-      <DependentUpon>AlertsUpdates.aspx</DependentUpon>
+    <Compile Include="TechniciansFolder\AllRead.aspx.designer.cs">
+      <DependentUpon>AllRead.aspx</DependentUpon>
     </Compile>
     <Compile Include="TechniciansFolder\MainMaster.Master.cs">
       <DependentUpon>MainMaster.Master</DependentUpon>
