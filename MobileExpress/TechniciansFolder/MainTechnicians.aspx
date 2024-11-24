@@ -875,6 +875,10 @@
                 <i class="fas fa-bell"></i>
                 <span>מעקב ביצועים</span>
             </a>
+              <a href="Tasks.aspx" class="circle-button">
+                <i class="fas fa-bell"></i>
+                <span>יומן ומשימות</span>
+            </a>
         </div>
     </div>
 

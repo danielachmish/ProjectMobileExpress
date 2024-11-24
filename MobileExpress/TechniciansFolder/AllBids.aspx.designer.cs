@@ -11,53 +11,8 @@ namespace MobileExpress.TechniciansFolder
 {
 
 
-	public partial class AllRead
+	public partial class AllBids
 	{
-
-		/// <summary>
-		/// ScriptManager1 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.ScriptManager ScriptManager1;
-
-		/// <summary>
-		/// UpdatePanel1 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-
-		/// <summary>
-		/// callsContainer control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl callsContainer;
-
-		/// <summary>
-		/// CallsRepeater control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.Repeater CallsRepeater;
-
-		/// <summary>
-		/// RefreshTimer control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.Timer RefreshTimer;
 
 		/// <summary>
 		/// hiddenReadId control.
@@ -66,7 +21,7 @@ namespace MobileExpress.TechniciansFolder
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlInputHidden hiddenReadId;
+		protected global::System.Web.UI.WebControls.HiddenField hiddenReadId;
 
 		/// <summary>
 		/// hiddenCustomerId control.
@@ -75,7 +30,7 @@ namespace MobileExpress.TechniciansFolder
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlInputHidden hiddenCustomerId;
+		protected global::System.Web.UI.WebControls.HiddenField hiddenCustomerId;
 
 		/// <summary>
 		/// hiddenTechnicianId control.
@@ -84,6 +39,78 @@ namespace MobileExpress.TechniciansFolder
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlInputHidden hiddenTechnicianId;
+		protected global::System.Web.UI.WebControls.HiddenField hiddenTechnicianId;
+
+		/// <summary>
+		/// btnPrint control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.Button btnPrint;
+
+		/// <summary>
+		/// txtCustomerName control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtCustomerName;
+
+		/// <summary>
+		/// txtPhone control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtPhone;
+
+		/// <summary>
+		/// txtTechnicianName control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtTechnicianName;
+
+		/// <summary>
+		/// txtDescription control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtDescription;
+
+		/// <summary>
+		/// txtTotalPrice control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtTotalPrice;
+
+		/// <summary>
+		/// btnAddItem control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.Button btnAddItem;
+
+		/// <summary>
+		/// btnSave control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.Button btnSave;
 	}
 }

@@ -58,5 +58,62 @@ namespace MobileExpress.controllers
 
             return $"Readability deleted{Id}";
         }
+
+        [HttpPost]
+        [Route("api/Readability/UpdateStatus")]
+        public IHttpActionResult UpdateStatus([FromBody] UpdateStatusModel model)
+        {
+            try
+            {
+                var readability = Readability.GetById(model.ReadId);
+                if (readability == null)
+                {
+                    return NotFound();
+                }
+                readability.Status = model.Status;
+                readability.UpdateReadability();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        public class UpdateStatusModel
+        {
+            public int ReadId { get; set; }
+            public bool Status { get; set; }
+        }
+
+        public string GetREAD(int id)
+        {
+            try
+            {
+                var readability = Readability.GetById(id);
+                if (readability == null)
+                    return null;
+
+                var result = new
+                {
+                    readability.ReadId,
+                    readability.CusId,
+                    readability.FullName,
+                    readability.Phone,
+                    readability.Desc,
+                    readability.ModelId,
+                    readability.SerProdId,
+                    readability.DateRead,
+                    readability.Status
+                };
+
+                return JsonConvert.SerializeObject(result);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in Get(id): {ex.Message}");
+                throw;
+            }
+        }
     }
 }

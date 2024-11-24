@@ -31,6 +31,15 @@ namespace BLL
                 throw;
             }
         }
+        public static string HashPassword(string password)
+        {
+            System.Diagnostics.Debug.WriteLine("מתחיל תהליך הצפנת סיסמה");
+            var hashedPassword = Convert.ToBase64String(
+                System.Security.Cryptography.SHA256.Create()
+                .ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
+            System.Diagnostics.Debug.WriteLine("סיסמה הוצפנה בהצלחה");
+            return hashedPassword;
+        }
 
         public void UpdateAdministrators()
         {
