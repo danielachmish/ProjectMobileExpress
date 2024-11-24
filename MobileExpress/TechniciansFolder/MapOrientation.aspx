@@ -25,37 +25,42 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <header class="main-header">
-    <!-- תפריט המבורגר בצד שמאל -->
-    <button class="menu-toggle">
-        ☰
-    </button>
+        <!-- תפריט המבורגר בצד שמאל -->
+        <button class="menu-toggle">
+            ☰
+   
+        </button>
 
-    <!-- כותרת ותת כותרת במרכז -->
-    <div class="header-content">
-        <h1 class="header-title">
-            מסלול טיול
-            <span class="header-subtitle">יותר מ-100 הצעות מסביב תל אביב יפו</span>
-        </h1>
-    </div>
+        <!-- כותרת ותת כותרת במרכז -->
+        <div class="header-content">
+            <h1 class="header-title">מסלול טיול
+           
+                <span class="header-subtitle">יותר מ-100 הצעות מסביב תל אביב יפו</span>
+            </h1>
+        </div>
 
-    <!-- לוגו בצד ימין -->
-    <div class="logo-container">
-        <img src="path-to-logo.png" alt="Easy Logo" class="easy-logo">
-    </div>
+        <!-- לוגו בצד ימין -->
+        <div class="logo-container">
+            <img src="path-to-logo.png" alt="Easy Logo" class="easy-logo">
+        </div>
 
-    <div class="header-border"></div>
-</header>
+        <div class="header-border"></div>
+    </header>
 
-    <%-- <style>
+
+
+    <style>
         .map-container {
             display: flex;
-            height: calc(100vh - 70px);
-            margin-top: 70px;
+            height: 100vh;
+            margin-top: 0;
+            position: relative;
         }
 
         #map {
             flex: 1;
             height: 100%;
+            position: relative;
         }
 
         .sidebar {
@@ -63,345 +68,135 @@
             background: white;
             box-shadow: -2px 0 10px rgba(0,0,0,0.1);
             overflow-y: auto;
-        }
-
-        .search-box {
-            padding: 20px;
-            background: white;
-            border-bottom: 1px solid #eee;
-        }
-
-        .main-title {
-            color: white;
-            background: #00a3d3;
-            padding: 15px 20px;
+            height: 100vh;
             margin: 0;
-            font-size: 1.2em;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 0;
         }
 
-        .search-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-        .call-item {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border: 1px solid #eee;
-        }
-
-        .location-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .location-info {
-            flex: 1;
-        }
-
-        .location-name {
-            color: #00a3d3;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 5px;
-            text-decoration: none;
-        }
-
-        .location-type {
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 5px;
-        }
-
-        .rating {
-            background: #00a3d3;
+        /* אם יש טולבר, הוא יהיה בתוך הסיידבר */
+        .toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: #6B46C1;
             color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.9em;
+            padding: 10px 15px;
+            width: 100%;
+        }
+
+        /* עדכון לפילטרים כך שיישארו צמודים לטולבר */
+        .filter-container {
+            position: sticky;
+            top: 0; /* אם יש טולבר, שנה ל-top: [גובה הטולבר] */
+            z-index: 9;
+            background: white;
+            margin: 0;
+            padding: 10px 15px;
+            border-bottom: 1px solid #E9D8FD;
+        }
+
+        .main-header {
+            background: #6B46C1;
+            width: 100%;
+            height: 60px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 5px;
+            padding: 0 20px;
+            direction: rtl;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
         }
 
-        .location-meta {
-            display: flex;
-            gap: 15px;
-            color: #666;
-            font-size: 0.9em;
-            margin-top: 10px;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-            .meta-item i {
-                color: #00a3d3;
-            }
-
-        .review-section {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-        }
-
-        .review-header {
+        .header-title {
+            color: white;
+            font-size: 1.2em;
+            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 10px;
         }
 
-        .reviewer-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #ddd;
-        }
-
-        .review-text {
-            color: #666;
+        .header-subtitle {
+            color: rgba(255, 255, 255, 0.9);
             font-size: 0.9em;
-            line-height: 1.4;
+            font-weight: normal;
         }
 
-        .filters {
+        .logo-container {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 0 20px 15px;
+            align-items: center;
         }
 
-        .filter-btn {
-            padding: 8px 16px;
+        /* המבורגר מניו בצד שמאל */
+        .menu-toggle {
+            background: none;
             border: none;
-            border-radius: 20px;
-            background: #f0f0f0;
-            color: #666;
+            color: white;
+            font-size: 24px;
             cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.2s;
-        }
-
-            .filter-btn:hover, .filter-btn.active {
-                background: #00a3d3;
-                color: white;
-            }
-
-        .status-indicators {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .status-indicator {
+            padding: 10px;
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 0.9em;
-            color: #666;
+            justify-content: center;
+            margin-right: auto; /* דוחף לצד שמאל */
         }
 
-        .indicator-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
+        /* לוגו בצד ימין */
+        .easy-logo {
+            height: 30px;
+            margin-left: 20px;
         }
 
-        .dot-open {
-            background: #4CAF50;
+        /* אם יש צורך בקו תחתון */
+        .header-border {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        .dot-closed {
-            background: #f44336;
+        /* מעטפת לתוכן המרכזי */
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
-        .dot-favorite {
-            color: #FFD700;
+        #map {
+            flex: 1;
+            height: 100%;
+            position: relative;
         }
-        .custom-map-control-button {
-    background-color: #fff;
-    border: 0;
-    border-radius: 2px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-    cursor: pointer;
-    margin: 10px;
-    padding: 0 0.5em;
-    height: 40px;
-    font: 400 18px Roboto, Arial, sans-serif;
-    overflow: hidden;
-}
 
-.custom-map-control-button:hover {
-    background: #ebebeb;
-}
-    </style>--%>
-<style>
-  
+        .sidebar {
+            width: 450px;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            margin-top: 0; /* וידוא שאין margin נוסף */
+            height: 100%; /* וידוא שהסייבר בר ממלא את כל הגובה */
+        }
 
-.map-container {
-    display: flex;
-    height: 100vh;
-    margin-top: 0;
-    position: relative;
-}
+        /* Ensure no extra spacing from body/html */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
 
-#map {
-    flex: 1;
-    height: 100%;
-    position: relative;
-}
-
-.sidebar {
-    width: 450px;
-    background: white;
-    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-    overflow-y: auto;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-}
-
-/* אם יש טולבר, הוא יהיה בתוך הסיידבר */
-.toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: #6B46C1;
-    color: white;
-    padding: 10px 15px;
-    width: 100%;
-}
-
-/* עדכון לפילטרים כך שיישארו צמודים לטולבר */
-.filter-container {
-    position: sticky;
-    top: 0; /* אם יש טולבר, שנה ל-top: [גובה הטולבר] */
-    z-index: 9;
-    background: white;
-    margin: 0;
-    padding: 10px 15px;
-    border-bottom: 1px solid #E9D8FD;
-}
-
-.main-header {
-    background: #6B46C1;
-    width: 100%;
-    height: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    direction: rtl;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: relative;
-}
-
-.header-title {
-    color: white;
-    font-size: 1.2em;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.header-subtitle {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.9em;
-    font-weight: normal;
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-}
-
-/* המבורגר מניו בצד שמאל */
-.menu-toggle {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: auto;  /* דוחף לצד שמאל */
-}
-
-/* לוגו בצד ימין */
-.easy-logo {
-    height: 30px;
-    margin-left: 20px;
-}
-
-/* אם יש צורך בקו תחתון */
-.header-border {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-/* מעטפת לתוכן המרכזי */
-.header-content {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-#map {
-    flex: 1;
-    height: 100%;
-    position: relative;
-}
-
-.sidebar {
-    width: 450px;
-    background: white;
-    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-    overflow-y: auto;
-    margin-top: 0; /* וידוא שאין margin נוסף */
-    height: 100%; /* וידוא שהסייבר בר ממלא את כל הגובה */
-}
-
-/* Ensure no extra spacing from body/html */
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-}
-
-/* If you have a toolbar or navigation */
-.toolbar {
-    height: 50px;
-    padding: 0 15px;
-    display: flex;
-    align-items: center;
-    background: #6B46C1;
-    color: white;
-}
+        /* If you have a toolbar or navigation */
+        .toolbar {
+            height: 50px;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            background: #6B46C1;
+            color: white;
+        }
 
         #map {
             flex: 1;
@@ -660,89 +455,89 @@ html, body {
                 color: #6B46C1;
             }
 
-       /* Filter container styling */
-.filter-container {
-    padding: 15px 20px;
-    background: white;
-    border-bottom: 1px solid #E9D8FD;
-    direction: rtl;
-}
+        /* Filter container styling */
+        .filter-container {
+            padding: 15px 20px;
+            background: white;
+            border-bottom: 1px solid #E9D8FD;
+            direction: rtl;
+        }
 
-/* Custom select styling */
-.filter-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    width: 200px;
-    padding: 10px 15px 10px 35px;  /* Updated padding for RTL */
-    font-size: 0.95em;
-    color: #553C9A;
-    background: #FAF5FF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23553C9A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat;
-    background-position: left 8px center;
-    background-size: 16px;
-    border: 2px solid #E9D8FD;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: right;  /* Added for RTL text alignment */
-    direction: rtl;     /* Added for RTL text direction */
-}
+        /* Custom select styling */
+        .filter-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 200px;
+            padding: 10px 15px 10px 35px; /* Updated padding for RTL */
+            font-size: 0.95em;
+            color: #553C9A;
+            background: #FAF5FF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23553C9A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat;
+            background-position: left 8px center;
+            background-size: 16px;
+            border: 2px solid #E9D8FD;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: right; /* Added for RTL text alignment */
+            direction: rtl; /* Added for RTL text direction */
+        }
 
-.filter-select option {
-    text-align: right;  /* Ensure options are right-aligned */
-    direction: rtl;     /* Ensure options follow RTL direction */
-    padding: 10px 15px;
-    background: white;
-    color: #553C9A;
-}
+            .filter-select option {
+                text-align: right; /* Ensure options are right-aligned */
+                direction: rtl; /* Ensure options follow RTL direction */
+                padding: 10px 15px;
+                background: white;
+                color: #553C9A;
+            }
 
-.filter-select:hover {
-    border-color: #805AD5;
-    background-color: #F3E8FF;
-}
+            .filter-select:hover {
+                border-color: #805AD5;
+                background-color: #F3E8FF;
+            }
 
-.filter-select:focus {
-    outline: none;
-    border-color: #6B46C1;
-    box-shadow: 0 0 0 3px rgba(107, 70, 193, 0.2);
-}
+            .filter-select:focus {
+                outline: none;
+                border-color: #6B46C1;
+                box-shadow: 0 0 0 3px rgba(107, 70, 193, 0.2);
+            }
 
-/* הוספת סטיילינג לתפריט הנפתח עצמו */
-.filter-select option:hover,
-.filter-select option:focus,
-.filter-select option:active,
-.filter-select option:checked {
-    background: #F3E8FF;
-    color: #6B46C1;
-}
+            /* הוספת סטיילינג לתפריט הנפתח עצמו */
+            .filter-select option:hover,
+            .filter-select option:focus,
+            .filter-select option:active,
+            .filter-select option:checked {
+                background: #F3E8FF;
+                color: #6B46C1;
+            }
 
-/* Filter group styling */
-.filter-group {
-    position: relative;
-    margin-right: auto;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    direction: rtl;
-}
+        /* Filter group styling */
+        .filter-group {
+            position: relative;
+            margin-right: auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            direction: rtl;
+        }
 
-/* Custom dropdown styling */
-select::-ms-expand {
-    display: none;
-}
+        /* Custom dropdown styling */
+        select::-ms-expand {
+            display: none;
+        }
 
-/* Responsive adjustments */
-@media screen and (max-width: 768px) {
-    .filter-select {
-        width: 100%;
-    }
-    
-    .filter-group {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-}
+        /* Responsive adjustments */
+        @media screen and (max-width: 768px) {
+            .filter-select {
+                width: 100%;
+            }
+
+            .filter-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
 
         .status-indicators {
             display: flex;
@@ -823,7 +618,16 @@ select::-ms-expand {
             font-size: 0.9em;
             line-height: 1.4;
         }
-    </style>    
+
+        .highlight {
+            background-color: yellow;
+            transition: background-color 1s ease;
+        }
+
+        .call-item {
+            display: block; /* וודא שהאלמנט גלוי */
+        }
+    </style>
 
     <div class="map-container">
         <div id="map"></div>
@@ -865,8 +669,15 @@ select::-ms-expand {
                     <div class="call-item">
                         <div class="location-header">
                             <div class="location-info">
-                                <a href='ServiceCallDetails.aspx?id=<%# Eval("ReadId") %>' class="location-name">קריאת שירות #<%# Eval("ReadId") %>
-                                </a>
+
+                                <div id="call-<%# Eval("ReadId") %>">
+                                    <a href='AllRead.aspx?readId=<%# Eval("ReadId") %>' class="location-name">קריאת שירות #<%# Eval("ReadId") %>
+                                    </a>
+                                </div>
+
+
+
+
                                 <div class="location-type <%# Convert.ToBoolean(Eval("Status")) ? "status-open" : "status-closed" %>">
                                     <%# GetStatusText(Convert.ToBoolean(Eval("Status"))) %>
                                 </div>
@@ -894,13 +705,23 @@ select::-ms-expand {
                                 מודל: <%# GetModelName(Convert.ToInt32(Eval("ModelId"))) %>
                             </span>--%>
                         </div>
+                           <div class="detail-item">
+                                                <span class="detail-label"></span>
+                                                <a href='MapOrientation.aspx?readId=<%# Eval("ReadId") %>' class="location-link">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    הצג מיקום
+                                                                 </a>
+                                            </div>
                         <div class="review-section">
                             <div class="review-header">
-                                <div class="reviewer-avatar"></div>
-                                <span>תיאור הבעיה</span>
+                               <%-- <div class="reviewer-avatar"></div>--%>
+                               <span style="font-weight: bold; color: #553C9A">:תיאור התקלה</span>
+
+
                             </div>
+
                             <p class="review-text"><%# Eval("Desc") %></p>
-                            <%# !string.IsNullOrEmpty(Eval("Nots").ToString()) ? $"<p class='review-text'><strong>הערות:</strong> {Eval("Nots")}</p>" : "" %>
+                         <%--   <%# !string.IsNullOrEmpty(Eval("Nots").ToString()) ? $"<p class='review-text'><strong>הערות:</strong> {Eval("Nots")}</p>" : "" %>--%>
                         </div>
                     </div>
                 </ItemTemplate>

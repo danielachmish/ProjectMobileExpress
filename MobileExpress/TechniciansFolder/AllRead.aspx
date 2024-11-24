@@ -11,8 +11,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
     <!-- Google Sign In API -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <%--  <meta name="google-signin-client_id" content="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com">--%>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- הוספת קישורים חיוניים בלבד -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
@@ -35,7 +37,9 @@
                                             <span class="subtitle">פרטי הקריאה</span>
                                         </div>
                                         <div class="id-wrapper">
-                                            <span class="call-id">#<%# Eval("ReadId") %></span>
+                                            <span id="call-<%# Eval("ReadId") %>" class="call-id">קריאה #<%# Eval("ReadId") %></span>
+
+                                            <%--  <span id="call-<%# Eval("ReadId") %> class="call-id="call-<%# Eval("ReadId") %></span>    --%>
                                             <span class="id-label">מספר קריאה</span>
                                         </div>
                                     </div>
@@ -102,45 +106,23 @@
                                            "<img src='Images/" + Eval("NameImage") + "' alt='תמונת קריאה' class='service-image' />" : 
                                            "<div class='no-image'>אין תמונה</div>" %>
                                         </div>
-                                        <div class="image-container">
-                                            <%# Eval("NameImage").ToString() != "" ? 
-                                           "<img src='Images/" + Eval("NameImage") + "' alt='תמונת קריאה' class='service-image' />" : 
-                                           "<div class='no-image'>אין תמונה</div>" %>
-                                        </div>
-                                        <div class="image-container">
-                                            <%# Eval("NameImage").ToString() != "" ? 
-                                           "<img src='Images/" + Eval("NameImage") + "' alt='תמונת קריאה' class='service-image' />" : 
-                                           "<div class='no-image'>אין תמונה</div>" %>
-                                        </div>
-                                        <div class="image-container">
-                                            <%# Eval("NameImage").ToString() != "" ? 
-                                           "<img src='Images/" + Eval("NameImage") + "' alt='תמונת קריאה' class='service-image' />" : 
-                                           "<div class='no-image'>אין תמונה</div>" %>
-                                        </div>
+
                                         <div class="description-container">
-                                            <span class="detail-label">תיאור הקריאה</span>
+                                            <span class="detail-label">תיאור התקלה</span>
                                             <p class="description-text"><%# Eval("Desc") %></p>
                                         </div>
                                     </div>
-
-
                                     <!-- כפתורי פעולה -->
                                     <div class="action-buttons">
                                         <asp:Button runat="server"
                                             CssClass="btn btn-primary"
-                                            Text="קבל קריאה"
-                                            CommandName="Accept"
+                                            Text="הצעת מחיר"
+                                            OnClick="RedirectToPriceQuote"
                                             CommandArgument='<%# Eval("ReadId") %>'
-                                            OnCommand="CallAction_Command" />
-                                        <asp:Button runat="server"
-                                            CssClass="btn btn-secondary"
-                                            Text="דחה קריאה"
-                                            CommandName="Reject"
-                                            CommandArgument='<%# Eval("ReadId") %>'
-                                            OnCommand="CallAction_Command" />
+                                            Enabled='<%# !(bool)Eval("Status") %>' />
+
                                     </div>
                                 </div>
-                            </div>
                         </ItemTemplate>
                     </asp:Repeater>
                 </div>
@@ -148,6 +130,10 @@
         </asp:UpdatePanel>
         <asp:Timer ID="RefreshTimer" runat="server" Interval="30000" OnTick="RefreshTimer_Tick" />
     </div>
+    <!-- שדות מוסתרים לשמירת מזהים -->
+    <input type="hidden" id="hiddenReadId" runat="server" />
+    <input type="hidden" id="hiddenCustomerId" runat="server" />
+    <input type="hidden" id="hiddenTechnicianId" runat="server" />
     <!-- הוספת סגנונות חדשים -->
     <style>
         /* עדכון לסגנונות הקיימים */
@@ -464,28 +450,256 @@
             font-size: 1.1rem;
             color: #888;
         }
+        .highlighted-call {
+        animation: highlight-pulse 3s;
+    }
+
+    @keyframes highlight-pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(124, 92, 219, 0.4);
+        }
+        70% {
+            box-shadow: 0 0 0 10px rgba(124, 92, 219, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(124, 92, 219, 0);
+        }
+    }
+
+    .card {
+        transition: box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
     </style>
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
-    <!-- סקריפטים שנדרשים לעמוד -->
-    <!-- טעינת סקריפטים חיצוניים -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.js"></script>
-    <script src="/dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="/dist-assets/js/scripts/tooltip.script.min.js"></script>
-    <script src="/dist-assets/js/scripts/script.min.js"></script>
-    <script src="/dist-assets/js/scripts/script_2.min.js"></script>
-    <script src="/dist-assets/js/scripts/sidebar.large.script.min.js"></script>
-    <script src="/dist-assets/js/plugins/datatables.min.js"></script>
-    <script src="/dist-assets/js/scripts/contact-list-table.min.js"></script>
-    <script src="/dist-assets/js/scripts/datatables.script.min.js"></script>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
 
+        $(document).ready(function () {
+            // פונקציית ריענון אוטומטי
+            function refreshCalls() {
+                __doPostBack('<%= RefreshTimer.ClientID %>', '');
+              }
+
+              // הוספת class להדגשת קריאה ספציפית
+              const readId = new URLSearchParams(window.location.search).get('readId');
+              if (readId) {
+                  $(`#call-${readId}`).addClass('highlighted-call');
+              }
+
+              // טיפול בשגיאות AJAX
+              $(document).ajaxError(function (event, jqXHR, settings, error) {
+                  Swal.fire('שגיאה', 'אירעה שגיאה בתקשורת עם השרת', 'error');
+              });
+          });
+
+
+
+        let tokenClient;
+        let gapiInited = false;
+        let gisInited = false;
+
+        // Logging function
+        function logEvent(stage, message, data = null) {
+            const timestamp = new Date().toISOString();
+            console.log(`[${timestamp}] ${stage}: ${message}`);
+            if (data) {
+                console.log('Data:', data);
+            }
+        }
+
+        // Error logging function
+        function logError(stage, error) {
+            const timestamp = new Date().toISOString();
+            console.error(`[${timestamp}] Error in ${stage}:`);
+            console.error('Error message:', error.message);
+            console.error('Stack trace:', error.stack);
+            if (error.response) {
+                console.error('API Response:', error.response);
+            }
+        }
+
+     
+
+
+        async function handleGoogleCalendar(readId) {
+            try {
+                logEvent('Calendar Handler', `Starting calendar handling for ReadId: ${readId}`);
+
+                const result = await Swal.fire({
+                    title: 'אישור הוספה ליומן',
+                    text: 'האם ברצונך להוסיף את הקריאה ליומן Google?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'כן',
+                    cancelButtonText: 'לא',
+                    reverseButtons: true
+                });
+
+                logEvent('User Response', `User response to confirmation dialog: ${result.isConfirmed}`);
+
+                if (!result.isConfirmed) {
+                    logEvent('Calendar Handler', 'User cancelled the operation');
+                    return false;
+                }
+
+                if (!gapiInited) {
+                    logEvent('Calendar Handler', 'GAPI not initialized, showing error');
+                    await Swal.fire('שגיאה', 'המערכת עדיין מאתחלת, אנא נסה שוב', 'error');
+                    return false;
+                }
+
+                logEvent('Auth Check', 'Checking authentication status');
+                const token = gapi.client.getToken();
+                logEvent('Auth Check', `Token exists: ${!!token}`);
+
+                if (!token) {
+                    logEvent('Auth Flow', 'Starting authentication flow');
+                    tokenClient.callback = async (resp) => {
+                        if (resp.error) {
+                            logError('Auth Flow', new Error(resp.error));
+                            throw resp;
+                        }
+                        logEvent('Auth Flow', 'Authentication successful');
+                        await addToCalendar(readId); // קריאה ישירה להוספה ליומן
+                    };
+                    tokenClient.requestAccessToken({ prompt: 'consent' });
+                } else {
+                    logEvent('Auth Flow', 'Using existing token');
+                    await addToCalendar(readId); // קריאה ישירה להוספה ליומן
+                }
+
+                await Swal.fire({
+                    title: 'הצלחה!',
+                    text: 'הקריאה נוספה בהצלחה ליומן Google.',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                return true;
+            } catch (error) {
+                logError('Calendar Handler', error);
+                await Swal.fire('שגיאה', 'אירעה שגיאה בתהליך', 'error');
+                return false;
+            }
+        }
+
+
+
+
+        async function addToCalendar(callData) {
+            try {
+                logEvent('Calendar Event', 'Creating calendar event object');
+
+                const event = {
+                    summary: `קריאת שירות - ${callData.FullName}`,
+                    description: `
+                        תיאור: ${callData.Desc}
+                        
+                        פרטי התקשרות:
+                        שם: ${callData.FullName}
+                        טלפון: ${callData.Phone}
+                        
+                        פרטי המכשיר:
+                        דגם: ${callData.ModelId}
+                        מספר סידורי: ${callData.SerProdId}
+                        
+                        מספר קריאה: ${callData.ReadId}
+                        דחיפות: ${callData.Urgency}
+                    `.trim(),
+                    start: {
+                        dateTime: new Date(callData.DateRead).toISOString(),
+                        timeZone: 'Asia/Jerusalem'
+                    },
+                    end: {
+                        dateTime: new Date(new Date(callData.DateRead).getTime() + 2 * 60 * 60 * 1000).toISOString(),
+                        timeZone: 'Asia/Jerusalem'
+                    },
+                    reminders: {
+                        useDefault: false,
+                        overrides: [
+                            { method: 'popup', minutes: 30 },
+                            { method: 'email', minutes: 60 }
+                        ]
+                    }
+                };
+
+                logEvent('Calendar Event', 'Event object created', event);
+
+                const response = await gapi.client.calendar.events.insert({
+                    calendarId: 'primary',
+                    resource: event
+                });
+
+                logEvent('Calendar Event', 'Event inserted successfully', response);
+                return response;
+            } catch (error) {
+                logError('Calendar Event Creation', error);
+                throw error;
+            }
+        }
+
+
+
+
+
+        async function updateServiceCallStatus(readId) {
+            try {
+                logEvent('Status Update', `Updating status for ReadId: ${readId}`);
+
+                const response = await fetch('/api/Readability/UpdateStatus', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        readId: readId,
+                        status: true
+                    })
+                });
+
+                logEvent('Status Update', `Response status: ${response.status}`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                logEvent('Status Update', 'Status updated successfully');
+            } catch (error) {
+                logError('Status Update', error);
+                throw error;
+            }
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // בדיקת פרמטר ה-ReadId ב-URL
+            const params = new URLSearchParams(window.location.search);
+            const readId = params.get("readId");
+            if (readId) {
+                const target = document.getElementById(`call-${readId}`);
+                if (target) {
+                    // גלילה לאלמנט
+                    target.scrollIntoView({ behavior: "smooth", block: "center" });
+                    // הוספת הדגשה זמנית
+                    target.classList.add("highlight");
+                    setTimeout(() => target.classList.remove("highlight"), 3000);
+                }
+            }
+        });
+
+
+    </script>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">
 </asp:Content>

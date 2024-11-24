@@ -15,6 +15,7 @@ namespace BLL
         public int TecId { get; set; } // מזהה הטכנאי
         public int ReadId { get; set; } // מזהה הקורא
         public DateTime Date { get; set; } // תאריך הביד
+       
 
         // שמירת הביד
         public void SaveNewBid()
@@ -71,5 +72,6 @@ namespace BLL
         {
             return BidDAL.DeleteById(Id);
         }
+
     }
 }
