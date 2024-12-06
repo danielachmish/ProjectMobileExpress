@@ -4,18 +4,12 @@ using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
-using System.Web.Script.Serialization;
+
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-using System.ComponentModel;
-using System.Net.Http;
-using System.Configuration;
+
 using System.Web.Script.Services;
 
 namespace MobileExpress.TechniciansFolder

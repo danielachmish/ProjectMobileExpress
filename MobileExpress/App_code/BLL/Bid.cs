@@ -8,25 +8,29 @@ namespace BLL
 {
     public class Bid
     {
-        public int BidId { get; set; } // מזהה הביד
-        public string Desc { get; set; } // תיאור הביד
-        public int Price { get; set; } // מחיר הביד (כ- string כדי להתאים ל-NVARCHAR)
-        public bool Status { get; set; } // סטטוס הביד
-        public int TecId { get; set; } // מזהה הטכנאי
-        public int ReadId { get; set; } // מזהה הקורא
-        public DateTime Date { get; set; } // תאריך הביד
-       
+        public int BidId { get; set; }
+        public string Desc { get; set; }
+        public decimal Price { get; set; }
+        public bool Status { get; set; }
+        public int TecId { get; set; }
+        public int ReadId { get; set; }
+        public DateTime Date { get; set; }
 
-        // שמירת הביד
+        // השדות החדשים מהטבלה המאוחדת
+        public string ItemDescription { get; set; }
+        public int ItemQuantity { get; set; }
+        public decimal ItemUnitPrice { get; set; }
+        public decimal ItemTotal => ItemQuantity * ItemUnitPrice;
+
         public void SaveNewBid()
         {
             try
             {
-                BidDAL.Save(this);
+                BidId = BidDAL.Save(this);
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת מנהל חדש: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת הצעת מחיר חדשה: {ex.Message}");
                 throw;
             }
         }
@@ -35,17 +39,18 @@ namespace BLL
         {
             try
             {
-                BidDAL.UpdateBid(this);
+                BidDAL.Save(this);
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"שגיאה בעדכון מנהל: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"שגיאה בעדכון הצעת מחיר: {ex.Message}");
                 throw;
             }
         }
+
         public void Save()
         {
-            if (this.BidId <= 0)
+            if (BidId <= 0)
             {
                 SaveNewBid();
             }
@@ -55,23 +60,24 @@ namespace BLL
             }
         }
 
-        // אחזור כל הבידים
         public static List<Bid> GetAll()
         {
             return BidDAL.GetAll();
         }
 
-        // אחזור ביד לפי מזהה
-        public static Bid GetById(int Id)
+        public static Bid GetById(int id)
         {
-            return BidDAL.GetById(Id);
+            return BidDAL.GetById(id);
         }
 
-        // מחיקת ביד לפי מזהה
-        public static int DeleteById(int Id)
+        public static int DeleteById(int id)
         {
-            return BidDAL.DeleteById(Id);
+            return BidDAL.DeleteById(id);
         }
 
+        public void CalculateTotalPrice()
+        {
+            Price = ItemTotal;  // במקרה זה המחיר הכולל הוא פשוט סכום הפריט
+        }
     }
 }

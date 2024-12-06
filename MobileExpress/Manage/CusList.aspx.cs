@@ -77,7 +77,7 @@ namespace MobileExpress.Manage
 				string FullName = txtFullName.Text;
 				string Phone = txtPhone.Text;
 				string Addres = txtAddres.Text;
-				string Uname = txtUname.Text;
+				string Email = txtEmail.Text;
 				string Pass = txtPass.Text;
 				//string DateAdd = txtDateAdd.Text;
 				bool Status;
@@ -90,10 +90,10 @@ namespace MobileExpress.Manage
 					throw new Exception("ערך לא תקין עבור שדה מספר עיר");
 				}
 
-				System.Diagnostics.Debug.WriteLine($"נתונים שהתקבלו: CusId={hfCusId?.Value}, FullName={FullName}, Phone={Phone}, Addres={Addres}, Uname={Uname},   CityId={CityId}, Nots={Nots}");
+				System.Diagnostics.Debug.WriteLine($"נתונים שהתקבלו: CusId={hfCusId?.Value}, FullName={FullName}, Phone={Phone}, Addres={Addres}, Email={Email},   CityId={CityId}, Nots={Nots}");
 
 				System.Diagnostics.Debug.WriteLine("מתחיל תהליך אימות שדות");
-				ValidateFields(FullName, Phone, Addres, Uname, Pass,  Nots, CityId.ToString());
+				ValidateFields(FullName, Phone, Addres, Email, Pass,  Nots, CityId.ToString());
 				System.Diagnostics.Debug.WriteLine("אימות שדות הסתיים בהצלחה");
 
 				var customers = new Customers
@@ -102,7 +102,7 @@ namespace MobileExpress.Manage
 					FullName = FullName,
 					Phone = Phone,
 					Addres = Addres,
-					Uname = Uname,
+					Email = Email,
 					Pass = Pass != "****" && !string.IsNullOrEmpty(Pass) ? HashPassword(Pass) : null,
 					DateAdd = DateTime.Now,
 					
@@ -110,7 +110,7 @@ namespace MobileExpress.Manage
 					CityId = CityId
 				};
 
-				System.Diagnostics.Debug.WriteLine($"אובייקט Customers נוצר: CusId={customers.CusId}, FullName={customers.FullName}, Phone={customers.Phone}, Addres={customers.Addres}, Uname={customers.Uname}, DateAdd={customers.DateAdd}, Status={customers.Status}, CityId={customers.CityId}, Nots={customers.Nots}");
+				System.Diagnostics.Debug.WriteLine($"אובייקט Customers נוצר: CusId={customers.CusId}, FullName={customers.FullName}, Phone={customers.Phone}, Addres={customers.Addres}, Email={customers.Email}, DateAdd={customers.DateAdd}, Status={customers.Status}, CityId={customers.CityId}, Nots={customers.Nots}");
 
 				if (customers.CusId == 0)
 				{
@@ -156,7 +156,7 @@ namespace MobileExpress.Manage
 
 		private void ValidateFields(params string[] fields)
 		{
-			string[] fieldNames = { "FullName", "Phone", "Addres", "Uname", "Pass", "DateAdd", "Status", "Nots", "CityId" };
+			string[] fieldNames = { "FullName", "Phone", "Addres", "Email", "Pass", "DateAdd", "Status", "Nots", "CityId" };
 			for (int i = 0; i < fields.Length; i++)
 			{
 				System.Diagnostics.Debug.WriteLine($"בודק שדה: {fieldNames[i]}, ערך: {fields[i]}");

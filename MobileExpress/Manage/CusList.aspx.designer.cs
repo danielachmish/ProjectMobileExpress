@@ -78,13 +78,13 @@ namespace MobileExpress.Manage
 		protected global::System.Web.UI.WebControls.TextBox txtAddres;
 
 		/// <summary>
-		/// txtUname control.
+		/// txtEmail control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtUname;
+		protected global::System.Web.UI.WebControls.TextBox txtEmail;
 
 		/// <summary>
 		/// txtPass control.

@@ -12,14 +12,14 @@ namespace BLL
 		public string FullName { get; set; }
 		public string Phone { get; set; }
 		public string Addres { get; set; }
-		public string Uname { get; set; }
+		public string Email { get; set; }
 		public string Pass { get; set; }
 		public DateTime DateAdd { get; set; }
 		public bool Status { get; set; }
 		public string History { get; set; }
 		public string Nots { get; set; }
 		public int CityId { get; set; }
-		public string Email { get; set; }
+		//public string Email { get; set; }
 		public string GoogleId { get; set; }
 
 
@@ -53,7 +53,7 @@ namespace BLL
 		// פונקציה כללית לשמירת לקוח חדש או קיים
 		public void Save()
 		{
-			if (this.CusId == -1)
+			if (this.CusId <=0)
 			{
 				SaveNewCustomers();
 			}
@@ -81,6 +81,52 @@ namespace BLL
 		public static Customers GetByEmail(string email)
 		{
 			return CustomersDAL.GetByEmail(email);
+		}
+		//public static string HashPassword(string password)
+		//{
+		//	System.Diagnostics.Debug.WriteLine("מתחיל תהליך הצפנת סיסמה");
+		//	var hashedPassword = Convert.ToBase64String(
+		//		System.Security.Cryptography.SHA256.Create()
+		//		.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
+		//	System.Diagnostics.Debug.WriteLine("סיסמה הוצפנה בהצלחה");
+		//	return hashedPassword;
+		//}
+		public static string HashPassword(string password)
+		{
+			using (var sha256 = System.Security.Cryptography.SHA256.Create())
+			{
+				var hashedBytes = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+				var hashedPassword = Convert.ToBase64String(hashedBytes);
+				System.Diagnostics.Debug.WriteLine($"הצפנת סיסמה: {hashedPassword}");
+				return hashedPassword;
+			}
+		}
+
+		public static bool VerifyPassword(string inputPassword, string storedHash)
+		{
+			using (var sha256 = System.Security.Cryptography.SHA256.Create())
+			{
+				string hashedInput = HashPassword(inputPassword);
+				System.Diagnostics.Debug.WriteLine($"Input password hash: {hashedInput}");
+				System.Diagnostics.Debug.WriteLine($"Stored password hash: {storedHash}");
+				return hashedInput.Equals(storedHash, StringComparison.Ordinal);
+			}
+		}
+		public static bool IsEmailExists(string Email)
+		{
+			return  CustomersDAL.IsEmailExists(Email);
+		}
+		public static Customers CreateFromGoogle(string idToken, string email, string fullName)
+		{
+			return new Customers
+			{
+				FullName = fullName,
+				Email = email,
+				Pass = HashPassword(Guid.NewGuid().ToString()),
+				DateAdd = DateTime.Now,
+				Status = true,
+				GoogleId = idToken
+			};
 		}
 	}
 }

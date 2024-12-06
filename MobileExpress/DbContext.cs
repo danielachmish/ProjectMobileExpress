@@ -11,12 +11,15 @@ namespace Data
 {
     public class DbContext
     {
+
         public string ConnStr { get; set; }
         public SqlConnection Conn { get; set; }
         public SqlCommand Cmd { get; set; }
 
+
         public DbContext()
         {
+
             try
             {
                 System.Diagnostics.Debug.WriteLine("=== מתחיל אתחול DbContext ===");
@@ -46,6 +49,7 @@ namespace Data
             }
         }
 
+        
         public int ExecuteNonQuery(string sql, List<SqlParameter> lst = null)
         {
             try
@@ -250,7 +254,12 @@ namespace Data
             }
         }
 
-        public void Open()
+		internal object ExecuteScalar(string readabilityCheck)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Open()
         {
             try
             {
@@ -283,5 +292,10 @@ namespace Data
                 throw;
             }
         }
-    }
+
+		internal DataTable Execute(string sql, List<SqlParameter> parameters)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

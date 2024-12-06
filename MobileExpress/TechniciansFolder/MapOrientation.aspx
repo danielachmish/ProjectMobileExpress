@@ -47,9 +47,371 @@
         <div class="header-border"></div>
     </header>
 
-
-
     <style>
+        :root {
+    --purple-50: rgba(124, 58, 237, 0.05);
+    --purple-100: rgba(124, 58, 237, 0.1);
+    --purple-500: #7c3aed;
+    --purple-600: #6d28d9;
+    --purple-700: #5b21b6;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+}
+
+.map-container {
+    display: flex;
+    height: 100vh;
+    margin-top: 0;
+    position: relative;
+}
+
+#map {
+    flex: 1;
+    height: 100%;
+    position: relative;
+}
+
+.sidebar {
+    width: 450px;
+    background: white;
+    box-shadow: -4px 0 20px rgba(124, 58, 237, 0.1);
+    overflow-y: auto;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--purple-600);
+    color: white;
+    padding: 1rem 1.5rem;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+}
+
+.filter-container {
+    position: sticky;
+    top: 0;
+    z-index: 9;
+    background: white;
+    margin: 0;
+    padding: 1rem 1.5rem;
+    border-bottom: 2px solid var(--purple-50);
+}
+
+.main-header {
+    background: var(--purple-600);
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.5rem;
+    direction: rtl;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.15);
+    position: relative;
+}
+
+.header-title {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.header-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    font-weight: normal;
+}
+
+.call-item {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 1rem;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08);
+    border: 2px solid var(--purple-50);
+    transition: all 0.3s ease;
+}
+
+.call-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(124, 58, 237, 0.12);
+}
+
+.location-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--purple-50);
+    padding-bottom: 1rem;
+}
+
+.location-name {
+    color: var(--purple-700);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.location-name:hover {
+    color: var(--purple-500);
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--purple-50);
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    color: var(--purple-600);
+    transition: all 0.3s ease;
+}
+
+.meta-item:hover {
+    background: var(--purple-100);
+    transform: translateY(-1px);
+}
+/* Filter styles */
+.filter-select {
+    appearance: none;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    color: var(--purple-700);
+    background: var(--purple-50) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat;
+    background-position: left 8px center;
+    background-size: 16px;
+    border: 2px solid var(--purple-100);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.filter-select:hover {
+    border-color: var(--purple-500);
+    background-color: var(--purple-100);
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--purple-500);
+    box-shadow: 0 0 0 3px var(--purple-50);
+}
+
+/* Status indicators */
+.status-indicators {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--purple-700);
+    padding: 0.5rem 1rem;
+    background: var(--purple-50);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.status-indicator:hover {
+    transform: translateY(-1px);
+    background: var(--purple-100);
+}
+
+.indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.status-indicator:hover .indicator-dot {
+    transform: scale(1.2);
+}
+
+.dot-open {
+    background: #10b981;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+.dot-closed {
+    background: #ef4444;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+.dot-favorite {
+    color: var(--purple-500);
+    box-shadow: 0 0 0 2px var(--purple-100);
+}
+
+/* Map controls */
+.custom-map-control-button {
+    background: white;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.15);
+    cursor: pointer;
+    margin: 1rem;
+    padding: 0.75rem 1.5rem;
+    height: auto;
+    font-weight: 500;
+    color: var(--purple-600);
+    transition: all 0.3s ease;
+}
+
+.custom-map-control-button:hover {
+    background: var(--purple-50);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(124, 58, 237, 0.2);
+}
+
+/* Review section */
+.review-section {
+    background: var(--purple-50);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.review-section:hover {
+    background: var(--purple-100);
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: var(--purple-700);
+}
+
+.reviewer-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid var(--purple-500);
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.2);
+}
+
+/* Location links */
+.location-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.waze-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: #40c4ff;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(64, 196, 255, 0.2);
+}
+
+.waze-link:hover {
+    background: #00b0ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(64, 196, 255, 0.3);
+}
+
+/* Highlighting */
+.highlight {
+    background: linear-gradient(120deg, var(--purple-100) 0%, var(--purple-50) 100%);
+    border-radius: 4px;
+    padding: 0.2rem 0.4rem;
+    transition: background 0.3s ease;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+    }
+
+    .filter-group {
+        flex-direction: column;
+    }
+
+    .filter-select {
+        width: 100%;
+    }
+
+    .status-indicators {
+        flex-wrap: wrap;
+    }
+
+    .location-links {
+        flex-direction: column;
+    }
+
+    .waze-link {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Search functionality */
+.search-box {
+    padding: 1.5rem;
+    background: white;
+    border-bottom: 2px solid var(--purple-50);
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--purple-100);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--purple-500);
+    box-shadow: 0 0 0 3px var(--purple-50);
+}
+
+/* Menu icon */
+.menu-toggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.menu-toggle:hover {
+    transform: scale(1.1);
+}
+    </style>
+
+   <%-- <style>
         .map-container {
             display: flex;
             height: 100vh;
@@ -628,6 +990,39 @@
             display: block; /* וודא שהאלמנט גלוי */
         }
     </style>
+    <style>
+        .location-links {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .waze-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            background-color: #40c4ff;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+            .waze-link:hover {
+                background-color: #00b0ff;
+                text-decoration: none;
+                color: white;
+            }
+
+        .fa-waze {
+            font-size: 1.2em;
+        }
+
+        .mr-2 {
+            margin-right: 0.5rem;
+        }
+    </style>--%>
 
     <div class="map-container">
         <div id="map"></div>
@@ -705,23 +1100,29 @@
                                 מודל: <%# GetModelName(Convert.ToInt32(Eval("ModelId"))) %>
                             </span>--%>
                         </div>
-                           <div class="detail-item">
-                                                <span class="detail-label"></span>
-                                                <a href='MapOrientation.aspx?readId=<%# Eval("ReadId") %>' class="location-link">
-                                                    <i class="fas fa-map-marker-alt"></i>
-                                                    הצג מיקום
+                        <div class="detail-item">
+                            <span class="detail-label"></span>
+                            <a href='MapOrientation.aspx?readId=<%# Eval("ReadId") %>' class="location-link">
+                                <i class="fas fa-map-marker-alt"></i>
+                                הצג מיקום
                                                                  </a>
-                                            </div>
+                            <%-- <a href='https://www.waze.com/en-GB/live-map/?q=<%# HttpUtility.UrlEncode(GetFullAddress(Eval("Street"), Eval("HouseNumber"), Eval("City"))) %>&navigate=yes' 
+   target="_blank" 
+   class="waze-link">
+    <i class="fab fa-waze"></i>
+    Waze-נווט ב
+</a>--%>
+                        </div>
                         <div class="review-section">
                             <div class="review-header">
-                               <%-- <div class="reviewer-avatar"></div>--%>
-                               <span style="font-weight: bold; color: #553C9A">:תיאור התקלה</span>
+                                <%-- <div class="reviewer-avatar"></div>--%>
+                                <span style="font-weight: bold; color: #553C9A">:תיאור התקלה</span>
 
 
                             </div>
 
                             <p class="review-text"><%# Eval("Desc") %></p>
-                         <%--   <%# !string.IsNullOrEmpty(Eval("Nots").ToString()) ? $"<p class='review-text'><strong>הערות:</strong> {Eval("Nots")}</p>" : "" %>--%>
+                            <%--   <%# !string.IsNullOrEmpty(Eval("Nots").ToString()) ? $"<p class='review-text'><strong>הערות:</strong> {Eval("Nots")}</p>" : "" %>--%>
                         </div>
                     </div>
                 </ItemTemplate>
@@ -1389,6 +1790,53 @@
         // פונקציה לסגירת פאנל ההוראות
         function closeDirections() {
             document.getElementById('directionsPanel').style.display = 'none';
+        }
+
+        function showCustomerLocation(lat, lng) {
+            // בדיקה שיש נתוני מיקום תקינים
+            console.log(`Received coordinates: ${lat}, ${lng}`); // לדיבאג
+
+            if (!lat || !lng) {
+                console.error('No valid coordinates provided');
+                return;
+            }
+
+            const location = { lat: parseFloat(lat), lng: parseFloat(lng) };
+            map.setCenter(location);
+            map.setZoom(15);
+
+            // הוספת סמן למיקום הלקוח
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                title: 'מיקום הלקוח',
+                icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
+            });
+
+            const infowindow = new google.maps.InfoWindow({
+                content: '<div style="direction: rtl">מיקום הלקוח</div>'
+            });
+            marker.addListener('click', () => {
+                infowindow.open(map, marker);
+            });
+        }
+
+        function findLocationByAddress(address) {
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ address: address }, (results, status) => {
+                if (status === 'OK') {
+                    const location = results[0].geometry.location;
+                    map.setCenter(location);
+                    map.setZoom(15);
+                    new google.maps.Marker({
+                        map: map,
+                        position: location,
+                        title: 'מיקום הלקוח'
+                    });
+                } else {
+                    console.error('Geocoding failed:', status);
+                }
+            });
         }
     </script>
 </asp:Content>

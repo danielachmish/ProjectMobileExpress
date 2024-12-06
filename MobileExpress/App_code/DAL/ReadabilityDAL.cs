@@ -21,14 +21,14 @@ namespace DAL
 			if (Tmp.ReadId == -1 || Tmp.ReadId == 0)
 			{
 				Debug.WriteLine("מבצע הכנסה של לקוח חדש");
-				sql = "INSERT INTO T_Readability(DateRead,[Desc],FullName,Phone,Nots,CusId,ModelId,Status,NameImage,Urgency,SerProdId) " +
-					  "VALUES(@DateRead,@Desc,@FullName,@Phone,@Nots,@CusId,@ModelId,@Status,@NameImage,@Urgency,@SerProdId)";
+				sql = "INSERT INTO T_Readability(DateRead,[Desc],FullName,Phone,Nots,CusId,ModelId,Status,Urgency,SerProdId) " +
+					  "VALUES(@DateRead,@Desc,@FullName,@Phone,@Nots,@CusId,@ModelId,@Status,@Urgency,@SerProdId)";
 			}
 			else
 			{
 				Debug.WriteLine($"מבצע עדכון של לקוח קיים עם ReadId={Tmp.ReadId}");
 				sql = "UPDATE T_Readability SET DateRead=@DateRead,[Desc]=@Desc,FullName=@FullName,Phone=@Phone,Nots=@Nots," +
-					  "CusId=@CusId,ModelId=@ModelId,Status=@Status,NameImage=@NameImage,Urgency=@Urgency,SerProdId=@SerProdId WHERE ReadId=@ReadId";
+					  "CusId=@CusId,ModelId=@ModelId,Status=@Status,Urgency=@Urgency,SerProdId=@SerProdId WHERE ReadId=@ReadId";
 			}
 
 			Debug.WriteLine($"SQL Query: {sql}");
@@ -47,7 +47,7 @@ namespace DAL
 					CusId = Tmp.CusId,
 					ModelId = Tmp.ModelId,
 					Status = Tmp.Status,
-					NameImage = Tmp.NameImage,
+					//NameImage = Tmp.NameImage,
 					Urgency = Tmp.Urgency,
 					SerProdId = Tmp.SerProdId
 				};
@@ -78,7 +78,7 @@ namespace DAL
 			try
 			{
 				string sql = "UPDATE T_Readability SET DateRead=@DateRead,[Desc]=@Desc,FullName=@FullName,Phone=@Phone,Nots=@Nots," +
-					  "CusId=@CusId,ModelId=@ModelId,Status=@Status,NameImage=@NameImage,Urgency=@Urgency,SerProdId=@SerProdId WHERE ReadId=@ReadId";
+					  "CusId=@CusId,ModelId=@ModelId,Status=@Status,Urgency=@Urgency,SerProdId=@SerProdId WHERE ReadId=@ReadId";
 
 				// הדפסת השאילתה לשם בדיקה
 				System.Diagnostics.Debug.WriteLine("SQL Query (Update): " + sql);
@@ -95,7 +95,7 @@ namespace DAL
 					Tmp.CusId,
 					Tmp.ModelId,
 					Tmp.Status,
-					Tmp.NameImage,
+				//	Tmp.NameImage,
 					Tmp.Urgency,
 					Tmp.SerProdId
 
@@ -146,7 +146,7 @@ namespace DAL
 						CusId = int.Parse(Dt.Rows[i]["CusId"].ToString()),
 						ModelId = int.Parse(Dt.Rows[i]["ModelId"].ToString()),
 						Status = false,// המרה בשלושה חלקים
-						NameImage = Dt.Rows[i]["NameImage"].ToString(),
+						//NameImage = Dt.Rows[i]["NameImage"].ToString(),
 						Urgency = Dt.Rows[i]["Urgency"].ToString(),
 						SerProdId = int.Parse(Dt.Rows[i]["SerProdId"].ToString())
 					};
@@ -198,7 +198,7 @@ namespace DAL
 					Nots = Dt.Rows[0]["Nots"].ToString(),
 					CusId = int.Parse(Dt.Rows[0]["CusId"].ToString()),
 					ModelId = int.Parse(Dt.Rows[0]["ModelId"].ToString()),
-					NameImage = Dt.Rows[0]["NameImage"].ToString(),
+					//NameImage = Dt.Rows[0]["NameImage"].ToString(),
 					Urgency = Dt.Rows[0]["Urgency"].ToString(),
 					SerProdId = int.Parse(Dt.Rows[0]["SerProdId"].ToString()),
 					Status = Convert.ToBoolean(Dt.Rows[0]["Status"])

@@ -1,4 +1,5 @@
 ﻿using BLL;
+using DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,16 @@ namespace MobileExpress.TechniciansFolder
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if (!IsPostBack && Request.QueryString["readId"] != null)
             {
+                int readId = Convert.ToInt32(Request.QueryString["readId"]);
+                Readability read = ReadabilityDAL.GetById(readId);
+
+                if (read?.Nots != null)
+                {
+                    ClientScript.RegisterStartupScript(GetType(), "ShowLocation",
+                        $"findLocationByAddress('{read.Nots}');", true);
+                }
                 LoadServiceCalls();
             }
         }
@@ -116,6 +125,10 @@ namespace MobileExpress.TechniciansFolder
                 System.Diagnostics.Debug.WriteLine($"Error in GetServiceCalls: {ex.Message}");
                 throw;
             }
+        }
+        protected string GetFullAddress(object street, object houseNumber, object city)
+        {
+            return $"{street} {houseNumber}, {city}, ישראל";
         }
     }
 }
