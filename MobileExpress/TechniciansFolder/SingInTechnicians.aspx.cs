@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using BLL;
 using System.Linq;
-using Google.Apis.Auth;
 using System.Web.Services;
 using System.Web;
 
+
+
 namespace MobileExpress.TechniciansFolder
 {
-    public partial class SingInTechnicians : System.Web.UI.Page
+	public partial class SingInTechnicians : System.Web.UI.Page
     {
         private const string ADMIN_TYPE = "admin";
         private const string TECHNICIAN_TYPE = "technician";
@@ -115,45 +114,45 @@ namespace MobileExpress.TechniciansFolder
             lblError.Visible = true;
         }
 
-        [WebMethod]
-        public static object VerifyGoogleToken(string idToken)
-        {
-            try
-            {
-                var settings = new GoogleJsonWebSignature.ValidationSettings()
-                {
-                    Audience = new[] { "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com" }
-                };
-                var payload = GoogleJsonWebSignature.ValidateAsync(idToken, settings).Result;
-                var technicians = Technicians.GetAll();
-                var existingTechnician = technicians.FirstOrDefault(t =>
-                    t.Email.Equals(payload.Email, StringComparison.OrdinalIgnoreCase));
+        //[WebMethod]
+        //public static object VerifyGoogleToken(string idToken)
+        //{
+        //    try
+        //    {
+        //        var settings = new GoogleJsonWebSignature.ValidationSettings()
+        //        {
+        //            Audience = new[] { "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com" }
+        //        };
+        //        var payload = GoogleJsonWebSignature.ValidateAsync(idToken, settings).Result;
+        //        var technicians = Technicians.GetAll();
+        //        var existingTechnician = technicians.FirstOrDefault(t =>
+        //            t.Email.Equals(payload.Email, StringComparison.OrdinalIgnoreCase));
 
-                if (existingTechnician != null)
-                {
-                    FormsAuthentication.SetAuthCookie(payload.Email, false);
-                    HttpContext.Current.Session["TecId"] = existingTechnician.TecId;
-                    HttpContext.Current.Session["FulName"] = existingTechnician.FulName;
-                    HttpContext.Current.Session["UserName"] = existingTechnician.UserName;
-                    HttpContext.Current.Session["Type"] = existingTechnician.Type;
-                    HttpContext.Current.Session["Email"] = existingTechnician.Email;
+        //        if (existingTechnician != null)
+        //        {
+        //            FormsAuthentication.SetAuthCookie(payload.Email, false);
+        //            HttpContext.Current.Session["TecId"] = existingTechnician.TecId;
+        //            HttpContext.Current.Session["FulName"] = existingTechnician.FulName;
+        //            HttpContext.Current.Session["UserName"] = existingTechnician.UserName;
+        //            HttpContext.Current.Session["Type"] = existingTechnician.Type;
+        //            HttpContext.Current.Session["Email"] = existingTechnician.Email;
 
-                    string userType = existingTechnician.Type.ToLower();
-                    string redirectUrl = userType == ADMIN_TYPE ? ADMIN_PAGE : TECHNICIAN_PAGE;
+        //            string userType = existingTechnician.Type.ToLower();
+        //            string redirectUrl = userType == ADMIN_TYPE ? ADMIN_PAGE : TECHNICIAN_PAGE;
 
-                    return new
-                    {
-                        success = true,
-                        redirectUrl = redirectUrl
-                    };
-                }
-                return new { success = false, message = "משתמש לא קיים במערכת. אנא הירשם תחילה." };
-            }
-            catch (Exception ex)
-            {
-                return new { success = false, error = ex.Message };
-            }
-        }
+        //            return new
+        //            {
+        //                success = true,
+        //                redirectUrl = redirectUrl
+        //            };
+        //        }
+        //        return new { success = false, message = "משתמש לא קיים במערכת. אנא הירשם תחילה." };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new { success = false, error = ex.Message };
+        //    }
+        //}
         private void RedirectBasedOnUserType()
         {
             try

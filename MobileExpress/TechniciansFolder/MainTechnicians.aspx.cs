@@ -1,7 +1,12 @@
 ﻿using BLL;
+using Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Threading;
 using System.Web;
 using System.Web.Script.Services;
@@ -39,8 +44,41 @@ namespace MobileExpress.TechniciansFolder
                     specializationInput.Value = technician.Type;
                     EmailInpot.Value = technician.Email;
                 }
+                // קבלת שם הטכנאי
+                string sql = $"SELECT FulName FROM T_Technicians WHERE TecId = {tecId}";
+                DbContext db = new DbContext();
+                DataTable dt = db.Execute(sql);
+                if (dt.Rows.Count > 0)
+                {
+                    string technicianName = $"{dt.Rows[0]["FulName"]}";
+                    string greeting = GetTimeBasedGreeting();
+                    lblTechnicianName.Text = $"{greeting} {technicianName}";
+                }
+
             }
         }
+        private string GetTimeBasedGreeting()
+        {
+            int currentHour = DateTime.Now.Hour;
+
+            if (currentHour >= 5 && currentHour < 12)
+            {
+                return "בוקר טוב";
+            }
+            else if (currentHour >= 12 && currentHour < 17)
+            {
+                return "צהריים טובים";
+            }
+            else if (currentHour >= 17 && currentHour < 21)
+            {
+                return "ערב טוב";
+            }
+            else
+            {
+                return "לילה טוב";
+            }
+        }
+
         [WebMethod]
         [ScriptMethod(UseHttpGet = false)]
         public static object UpdateProfile(TechnicianData technicianData)
@@ -90,6 +128,65 @@ namespace MobileExpress.TechniciansFolder
             public string Address { get; set; }
             public string Type { get; set; }
             public string Email { get; set; }
+        }
+
+        [WebMethod]
+        public static List<string> GetImagesFromDirectory(string path)
+        {
+            try
+            {
+                // נתיב מלא לתיקייה
+                string fullPath = HttpContext.Current.Server.MapPath("~/assets/images/");
+                System.Diagnostics.Debug.WriteLine($"Checking directory path: {fullPath}");
+
+                // בדיקת קיום התיקייה
+                if (!Directory.Exists(fullPath))
+                {
+                    System.Diagnostics.Debug.WriteLine("Directory doesn't exist - creating it");
+                    Directory.CreateDirectory(fullPath);
+                }
+
+                // הוספת הרשאות גישה לתיקייה
+                DirectoryInfo dirInfo = new DirectoryInfo(fullPath);
+                DirectorySecurity dirSecurity = dirInfo.GetAccessControl();
+
+                // הוספת הרשאות לקבוצת ASPNET
+                SecurityIdentifier aspnetSid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
+                FileSystemAccessRule aspnetRule = new FileSystemAccessRule(
+                    aspnetSid,
+                    FileSystemRights.ReadAndExecute | FileSystemRights.ListDirectory,
+                    InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
+                    PropagationFlags.None,
+                    AccessControlType.Allow);
+
+                dirSecurity.AddAccessRule(aspnetRule);
+                dirInfo.SetAccessControl(dirSecurity);
+
+                // קבלת רשימת הקבצים
+                var imageFiles = Directory.GetFiles(fullPath)
+                    .Where(file => new[] { ".jpg", ".jpeg", ".png", ".gif" }
+                        .Contains(Path.GetExtension(file).ToLower()))
+                    .ToList();
+
+                System.Diagnostics.Debug.WriteLine($"Found {imageFiles.Count} images");
+                foreach (var file in imageFiles)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Image found: {file}");
+                }
+
+                // יצירת נתיבים יחסיים
+                var relativeUrls = imageFiles
+                    .Select(file => $"/assets/images/{Path.GetFileName(file)}")
+                    .ToList();
+
+                return relativeUrls;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in GetImagesFromDirectory: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+                return new List<string>();
+            }
         }
     }
 }

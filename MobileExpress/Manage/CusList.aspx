@@ -79,7 +79,7 @@
                                             <input type="checkbox" class="toggle-vis" data-column="5" checked>
                                             <span class="slider round"></span>
                                         </label>
-                                        <label class="form-check-label ml-3">Uname</label>
+                                        <label class="form-check-label ml-3">Email</label>
                                     </div>
                                     <div class="form-check">
                                         <label class="switch">
@@ -158,7 +158,7 @@
                                 <th>FullName</th>
                                 <th>Phone</th>
                                 <th>Addres</th>
-                                <th>Uname</th>
+                                <th>Email</th>
                                 <th>Pass</th>
                                 <th>DateAdd</th>
 
@@ -179,7 +179,7 @@
                                         <td><%# Eval("FullName") %></td>
                                         <td><%# Eval("Phone") %></td>
                                         <td><%# Eval("Addres") %></td>
-                                        <td><%# Eval("Uname") %></td>
+                                        <td><%# Eval("Email") %></td>
                                         <td><%# Eval("Pass") %></td>
                                         <td><%# Eval("DateAdd") %></td>
 
@@ -196,7 +196,7 @@
                                                                 FullName: '<%# Eval("FullName") %>',
                                                                 Phone: '<%# Eval("Phone") %>',
                                                                 Addres: '<%# Eval("Addres") %>',
-                                                                Uname: '<%# Eval("Uname") %>',
+                                                                Email: '<%# Eval("Email") %>',
                                                                 Password: '<%# Eval("Pass") %>',
                                                                 dateAdd: '<%# Eval("DateAdd") %>',
                                                               
@@ -242,8 +242,8 @@
                             <asp:TextBox ID="txtAddres" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtUname" runat="server">אימייל:</asp:Label>
-                            <asp:TextBox ID="txtUname" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                            <asp:Label AssociatedControlID="txtEmail" runat="server">אימייל:</asp:Label>
+                            <asp:TextBox ID="txtEmail" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
                         <div class="form-group">
                             <asp:Label AssociatedControlID="txtPass" runat="server">סיסמה:</asp:Label>
@@ -843,7 +843,7 @@
             document.getElementById('<%= txtFullName.ClientID %>').value = '';
             document.getElementById('<%= txtPhone.ClientID %>').value = '';
             document.getElementById('<%= txtAddres.ClientID %>').value = '';
-            document.getElementById('<%= txtUname.ClientID %>').value = '';
+            document.getElementById('<%= txtEmail.ClientID %>').value = '';
             document.getElementById('<%= txtPass.ClientID %>').value = '';
             document.getElementById('<%= txtNots.ClientID %>').value = '';
             document.getElementById('<%= txtCityId.ClientID %>').value = '';
@@ -862,7 +862,7 @@
             document.getElementById('<%= txtFullName.ClientID %>').value = customer.FullName;
             document.getElementById('<%= txtPhone.ClientID %>').value = customer.Phone;
             document.getElementById('<%= txtAddres.ClientID %>').value = customer.Addres;
-            document.getElementById('<%= txtUname.ClientID %>').value = customer.Uname;
+            document.getElementById('<%= txtEmail.ClientID %>').value = customer.Email;
             document.getElementById('<%= txtPass.ClientID %>').value = customer.Password;
     <%--document.getElementById('<%= txtDateAdd.ClientID %>').value = customer.DateAdd;--%>
 
@@ -883,7 +883,7 @@
                 FullName: $('#<%= txtFullName.ClientID %>').val(),
                 Phone: $('#<%= txtPhone.ClientID %>').val(),
                 Addres: $('#<%= txtAddres.ClientID %>').val(),
-                Uname: $('#<%= txtUname.ClientID %>').val(),
+                Email: $('#<%= txtEmail.ClientID %>').val(),
                 Pass: $('#<%= txtPass.ClientID %>').val(),
      <%--   DateAdd: $('#<%= txtDateAdd.ClientID %>').val(),--%>
 
@@ -933,7 +933,7 @@
                             "<td>" + customer.FullName + "</td>" +
                             "<td>" + customer.Phone + "</td>" +
                             "<td>" + customer.Addres + "</td>" +
-                            "<td>" + customer.Uname + "</td>" +
+                            "<td>" + customer.Email + "</td>" +
                             "<td>" + customer.DateAdd + "</td>" +
                             "<td>" + (customer.Status ? "פעיל" : "לא פעיל") + "</td>" +
                             "<td>" + customer.Nots + "</td>" +
@@ -975,8 +975,8 @@
                     $('#<%= txtAddres.ClientID %>').val(customer.Addres);
                     console.log('Addres הוגדר:', customer.Addres);
 
-                    $('#<%= txtUname.ClientID %>').val(customer.Uname);
-                    console.log('Uname הוגדר:', customer.Uname);
+                    $('#<%= txtEmail.ClientID %>').val(customer.Email);
+                    console.log('Email הוגדר:', customer.Email);
 
                     $('#<%= txtPass.ClientID %>').val(customer.Pass);
                     console.log('Pass הוגדר:', customer.Pass);
@@ -1034,7 +1034,7 @@
             document.getElementById('<%= txtFullName.ClientID %>').value = '';
             document.getElementById('<%= txtPhone.ClientID %>').value = '';
             document.getElementById('<%= txtAddres.ClientID %>').value = '';
-            document.getElementById('<%= txtUname.ClientID %>').value = '';
+            document.getElementById('<%= txtEmail.ClientID %>').value = '';
             document.getElementById('<%= txtPassword.ClientID %>').value = '';            
             document.getElementById('<%= txtDateAdd.ClientID %>').value = '';
             document.getElementById('<%= txtStatus.ClientID %>').value = '';          
@@ -1057,7 +1057,7 @@
             document.getElementById('<%= txtFullName.ClientID %>').value = customers.FullName;
               document.getElementById('<%= txtPhone.ClientID %>').value = customers.Phone;
               document.getElementById('<%= txtAddres.ClientID %>').value = customers.Addres;
-              document.getElementById('<%= txtUname.ClientID %>').value = customers.Uname;         
+              document.getElementById('<%= txtEmail.ClientID %>').value = customers.Email;         
               document.getElementById('<%= txtPassword.ClientID %>').value = customers.Password;
               document.getElementById('<%= txtDateAdd.ClientID %>').value = customers.DateAdd;
               document.getElementById('<%= txtStatus.ClientID %>').value = customers.Status;

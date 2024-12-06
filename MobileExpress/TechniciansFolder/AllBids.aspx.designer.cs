@@ -69,22 +69,13 @@ namespace MobileExpress.TechniciansFolder
 		protected global::System.Web.UI.WebControls.TextBox txtPhone;
 
 		/// <summary>
-		/// txtTechnicianName control.
+		/// txtDesc control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtTechnicianName;
-
-		/// <summary>
-		/// txtDescription control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.TextBox txtDescription;
+		protected global::System.Web.UI.WebControls.TextBox txtDesc;
 
 		/// <summary>
 		/// txtTotalPrice control.
@@ -94,6 +85,15 @@ namespace MobileExpress.TechniciansFolder
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.TextBox txtTotalPrice;
+
+		/// <summary>
+		/// lblTotal control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.Label lblTotal;
 
 		/// <summary>
 		/// btnAddItem control.

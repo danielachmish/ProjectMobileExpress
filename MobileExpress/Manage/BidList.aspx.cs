@@ -1,5 +1,7 @@
 ﻿using BLL;
+using DAL;
 using Data;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -163,7 +165,7 @@ namespace MobileExpress.Manage
 		//		string FullName = txtFullName.Text;
 		//		string Phone = txtPhone.Text;
 		//		string Addres = txtAddres.Text;
-		//		string Uname = txtUname.Text;
+		//		string Email = txtEmail.Text;
 		//		string Pass = txtPass.Text;
 
 		//		//string DateAdd = txtDateAdd.Text;
@@ -172,10 +174,10 @@ namespace MobileExpress.Manage
 		//		string Email = txtEmail.Text;
 
 
-		//		System.Diagnostics.Debug.WriteLine($"נתונים שהתקבלו: AdminId={hfAdminId?.Value}, FullName={FullName}, Phone={Phone}, Addres={Addres}, Uname={Uname},    Email={Email}");
+		//		System.Diagnostics.Debug.WriteLine($"נתונים שהתקבלו: AdminId={hfAdminId?.Value}, FullName={FullName}, Phone={Phone}, Addres={Addres}, Email={Email},    Email={Email}");
 
 		//		System.Diagnostics.Debug.WriteLine("מתחיל תהליך אימות שדות");
-		//		ValidateFields(FullName, Phone, Addres, Uname, Pass, Email);
+		//		ValidateFields(FullName, Phone, Addres, Email, Pass, Email);
 		//		System.Diagnostics.Debug.WriteLine("אימות שדות הסתיים בהצלחה");
 
 		//		var administrators = new Administrators
@@ -184,7 +186,7 @@ namespace MobileExpress.Manage
 		//			FullName = FullName,
 		//			Phone = Phone,
 		//			Addres = Addres,
-		//			Uname = Uname,
+		//			Email = Email,
 		//			Pass = Pass != "****" && !string.IsNullOrEmpty(Pass) ? HashPassword(Pass) : null,
 		//			DateAdd = DateTime.Now,
 
@@ -192,7 +194,7 @@ namespace MobileExpress.Manage
 
 		//		};
 
-		//		System.Diagnostics.Debug.WriteLine($"אובייקט administrators נוצר: AdminId={administrators.AdminId}, FullName={administrators.FullName}, Phone={administrators.Phone}, Addres={administrators.Addres}, Uname={administrators.Uname}, DateAdd={administrators.DateAdd}, Status={administrators.Status},Email={administrators.Email}");
+		//		System.Diagnostics.Debug.WriteLine($"אובייקט administrators נוצר: AdminId={administrators.AdminId}, FullName={administrators.FullName}, Phone={administrators.Phone}, Addres={administrators.Addres}, Email={administrators.Email}, DateAdd={administrators.DateAdd}, Status={administrators.Status},Email={administrators.Email}");
 
 		//		if (administrators.AdminId == 0)
 		//		{
@@ -238,7 +240,7 @@ namespace MobileExpress.Manage
 
 		//private void ValidateFields(params string[] fields)
 		//{
-		//	string[] fieldNames = { "FullName", "Phone", "Addres", "Uname", "Pass", "DateAdd", "Status", "Email" };
+		//	string[] fieldNames = { "FullName", "Phone", "Addres", "Email", "Pass", "DateAdd", "Status", "Email" };
 		//	for (int i = 0; i < fields.Length; i++)
 		//	{
 		//		System.Diagnostics.Debug.WriteLine($"בודק שדה: {fieldNames[i]}, ערך: {fields[i]}");
@@ -307,5 +309,6 @@ namespace MobileExpress.Manage
 				throw;
 			}
 		}
+		
 	}
 }

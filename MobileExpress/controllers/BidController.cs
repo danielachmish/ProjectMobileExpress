@@ -9,58 +9,147 @@ using System.Web.Http;
 
 namespace MobileExpress.controllers
 {
+    //public class BidController : ApiController
+    //{
+    //    public void Post(Bid Tmp)
+    //    {
+    //        // בדוק ש-`Tmp` אינו `null` לפני גישה לפרופרטים שלו
+    //        if (Tmp != null)
+    //        {
+    //            // הגדרת מזהה חדש
+    //            Tmp.BidId = -1;
+    //            // שמירה
+    //            Tmp.Save();
+    //        }
+    //        else
+    //        {
+    //            // טיפול במקרה בו `Tmp` הוא `null`
+    //            // ניתן לזרוק חריגה, לרשום שגיאה או לטפל בזה לפי הלוגיקה של היישום שלך
+    //            // לדוגמה: throw new ArgumentNullException("Tmp", "אובייקט Tmp הוא null");
+    //        }
+    //    }
+    //    // עדכון Bid קיים
+
+    //    public void Put(int Id, Bid Tmp)
+    //    {
+
+    //        // הגדרת מזהה משתמש לפי הקלט
+    //        Tmp.BidId = Id;
+    //        // שמירת המשתמש
+    //        Tmp.Save();
+    //    }
+
+    //    // אחזור רשימת כל המשתמשים
+    //    public List<Bid> Get()
+    //    {
+    //        return Bid.GetAll();
+    //    }
+    //    // אחזור משתמש לפי מזהה
+    //    public string Get(int Id)
+    //    {
+    //        return JsonConvert.SerializeObject(Bid.GetById(Id));
+
+    //    }
+
+    //    // מחיקת משתמש לפי מזהה
+    //    public string Delete(int Id)
+    //    {
+
+    //        Bid.DeleteById(Id);
+
+    //        return $"Bid deleted{Id}";
+    //    }
+    //}
+
     public class BidController : ApiController
     {
-        public void Post(Bid Tmp)
+        public IHttpActionResult Post(Bid bid)
         {
-            // בדוק ש-`Tmp` אינו `null` לפני גישה לפרופרטים שלו
-            if (Tmp != null)
+            try
             {
-                // הגדרת מזהה חדש
-                Tmp.BidId = -1;
-                // שמירה
-                Tmp.Save();
+                if (bid == null)
+                {
+                    return BadRequest("אובייקט הצעת המחיר הוא null");
+                }
+
+                bid.BidId = -1;
+                bid.CalculateTotalPrice(); // חישוב הסכום הכולל כולל מע"מ
+                bid.Save();
+
+                return Ok(bid);
             }
-            else
+            catch (Exception ex)
             {
-                // טיפול במקרה בו `Tmp` הוא `null`
-                // ניתן לזרוק חריגה, לרשום שגיאה או לטפל בזה לפי הלוגיקה של היישום שלך
-                // לדוגמה: throw new ArgumentNullException("Tmp", "אובייקט Tmp הוא null");
+                return InternalServerError(ex);
             }
         }
-        // עדכון Bid קיים
 
-        public void Put(int Id, Bid Tmp)
+        public IHttpActionResult Put(int id, Bid bid)
         {
+            try
+            {
+                if (bid == null)
+                {
+                    return BadRequest("אובייקט הצעת המחיר הוא null");
+                }
 
-            // הגדרת מזהה משתמש לפי הקלט
-            Tmp.BidId = Id;
-            // שמירת המשתמש
-            Tmp.Save();
+                bid.BidId = id;
+                bid.CalculateTotalPrice(); // חישוב הסכום הכולל כולל מע"מ
+                bid.Save();
+
+                return Ok(bid);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
-        // אחזור רשימת כל המשתמשים
-        public List<Bid> Get()
+        public IHttpActionResult Get()
         {
-            return Bid.GetAll();
+            try
+            {
+                return Ok(Bid.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
-        // אחזור משתמש לפי מזהה
-        public string Get(int Id)
-        {
-            return JsonConvert.SerializeObject(Bid.GetById(Id));
 
+        public IHttpActionResult Get(int id)
+        {
+            try
+            {
+                var bid = Bid.GetById(id);
+                if (bid == null)
+                {
+                    return NotFound();
+                }
+                return Ok(bid);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
-        // מחיקת משתמש לפי מזהה
-        public string Delete(int Id)
+        public IHttpActionResult Delete(int id)
         {
-
-            Bid.DeleteById(Id);
-
-            return $"Bid deleted{Id}";
+            try
+            {
+                var result = Bid.DeleteById(id);
+                if (result > 0)
+                {
+                    return Ok($"הצעת מחיר {id} נמחקה בהצלחה");
+                }
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
     }
-
-
 }
 

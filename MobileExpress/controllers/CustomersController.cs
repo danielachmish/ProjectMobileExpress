@@ -51,14 +51,14 @@ namespace MobileExpress.controllers
 				{
 					CusId = 0,
 					FullName = payload.Name,
-					Email = payload.Email,
+					//Email = payload.Email,
 					Phone = "",
 					Addres = "",
-					Uname = payload.Email,
+					Email = payload.Email,
 					Pass = "",  // אין צורך בסיסמה עבור משתמש גוגל
 					DateAdd = DateTime.Now,
 					Status = true,
-					GoogleId = payload.Subject,
+					//GoogleId = payload.Subject,
 					CityId = 1  // ברירת מחדל
 				};
 
@@ -177,5 +177,6 @@ namespace MobileExpress.controllers
 
             return $"Customers deleted{Id}";
         }
+
     }
 }

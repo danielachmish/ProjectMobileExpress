@@ -7,9 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Net.Http;
-using Facebook.NET.SDK.Client;
-using Facebook;
+using System.Net;
+
 
 namespace MobileExpress.TechniciansFolder
 {

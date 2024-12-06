@@ -12,86 +12,106 @@ namespace MobileExpress.Users
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-            
 
-        }
+		}
+		protected void SaveCustomers(object sender, EventArgs e)
+		{
+			try
+			{
+				HiddenField hfCusId = (HiddenField)Page.FindControl("hfCusId");
+				string FullName = txtFullName.Text.Trim();
+				//string TecNum = txtTecNum.Text.Trim();
+				string Phone = txtPhone.Text.Trim();
+				string Addres = txtAddres.Text.Trim();
+				string Pass = txtPass.Text.Trim();
+				string Email = txtEmail.Text.Trim();
+				//string Type = txtType.Text.Trim();
+				//string Email = txtEmail.Text.Trim();
 
-        protected void SaveCustomers(object sender, EventArgs e)
-        {
-            try
-            {
-                HiddenField hfCusId = (HiddenField)form1.FindControl("hfCusId");
+				// בדיקה אם האימייל כבר קיים במערכת עבור טכנאי חדש
+				int cusId = hfCusId != null && !string.IsNullOrEmpty(hfCusId.Value) &&
+						   int.TryParse(hfCusId.Value, out int parsedId) ? parsedId : -1;
 
-                string FullName = txtFullName.Text;
-                string Phone = txtPhone.Text;
-                string Addres = txtAddres.Text;
-                string Uname = txtUname.Text;
-                string Pass = txtPass.Text;
-				string Nots = txtNots.Text;
+				if (cusId <= 0 && Customers.IsEmailExists(Email))
+				{
+					ScriptManager.RegisterStartupScript(this, GetType(), "redirect", @"
+                alert('משתמש עם מייל זה כבר קיים במערכת. אנו מעבירים אותך להתחברות.');
+                window.location = 'SingIn.aspx';",
+						true);
+					return;
+				}
 
-				//if (!int.TryParse(txtCityId.Text, out int CityId))
-				//{
-				//    throw new Exception("ערך לא תקין עבור שדה מספר עיר");
-				//}
+				ValidateFields(FullName, Phone, Addres, Pass, Email);
 
-				ValidateFields(FullName, Phone, Addres, Uname, Pass/* NotsCityId.ToString()*/);
+				var customers = new Customers
+				{
+					CusId = cusId,
+					//TecNum = TecNum,
+					FullName = FullName,
+					Phone = Phone,
+					Addres = Addres,
+					Pass = Pass != "****" && !string.IsNullOrEmpty(Pass) ? HashPassword(Pass) : null,
+					Email = Email,
+					//Type = Type,
+					//Email = Email,
+					DateAdd = DateTime.Now,
+					Status = true
+				};
 
-                var customers = new Customers
-                {
-                    CusId = hfCusId != null && !string.IsNullOrEmpty(hfCusId.Value) && int.TryParse(hfCusId.Value, out int cusId) ? cusId : 0,
-                    FullName = FullName,
-                    Phone = Phone,
-                    Addres = Addres,
-                    Uname = Uname,
-                    Pass = Pass != "****" && !string.IsNullOrEmpty(Pass) ? HashPassword(Pass) : null,
-                    DateAdd = DateTime.Now,
-                    Nots = Nots ?? "",
-                    //CityId = CityId
-                };
+				if (customers.CusId <= 0)
+				{
+					customers.Save();
 
-                if (customers.CusId == 0)
-                {
-                    customers.SaveNewCustomers();
-                }
-                else
-                {
-                    customers.UpdateCustomers();
-                }
+					ScriptManager.RegisterStartupScript(this, GetType(), "successScript", @"
+                alert('הנתונים נשמרו בהצלחה!');
+                window.location = 'Main.aspx';",
+						true);
+				}
+				else
+				{
+					customers.UpdateCustomers();
+					ScriptManager.RegisterStartupScript(this, GetType(), "updateScript", @"
+                alert('הנתונים עודכנו בהצלחה!'); 
+                window.location.href = 'Main.aspx';",
+						true);
+				}
+			}
+			catch (Exception ex)
+			{
+				ScriptManager.RegisterStartupScript(this, GetType(), "errorScript",
+					$"alert('שגיאה בשמירת טכנאי: {ex.Message}');", true);
+			}
+		}
+		private void ValidateFields(params string[] fields)
+		{
+			string[] fieldNames = { "FullName", "Phone", "Addres", "Pass", "Email" };
 
-            
-                ScriptManager.RegisterStartupScript(this, GetType(), "closeModalScript", "closeModal();", true);
-
-                if (!Response.IsRequestBeingRedirected)
-                {
-                    Response.Redirect(Request.RawUrl, false);
-                    Context.ApplicationInstance.CompleteRequest();
-                }
-                return;
-            }
-            catch (Exception ex)
-            {
-                Response.Write($"<script>alert('שגיאה בשמירת לקוח: {ex.Message}');</script>");
-            }
-        }
-
-        private void ValidateFields(params string[] fields)
-        {
-            string[] fieldNames = { "FullName", "Phone", "Addres", "Uname", "Pass", "DateAdd","Nots" };
-            for (int i = 0; i < fields.Length; i++)
-            {
-                if (string.IsNullOrEmpty(fields[i]))
-                {
-                    throw new Exception($"{fieldNames[i]} is missing or invalid");
-                }
-            }
-        }
-
-        private string HashPassword(string password)
+			for (int i = 0; i < fields.Length; i++)
+			{
+				if (string.IsNullOrEmpty(fields[i]))
+				{
+					throw new Exception($"Field {fieldNames[i]} is missing or invalid");
+				}
+			}
+		}
+		
+		private string HashPassword(string password)
 		{
 			System.Diagnostics.Debug.WriteLine("מתחיל תהליך הצפנת סיסמה");
 			var hashedPassword = Convert.ToBase64String(System.Security.Cryptography.SHA256.Create().ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
 			System.Diagnostics.Debug.WriteLine("סיסמה הוצפנה בהצלחה");
 			return hashedPassword;
 		}
+
+
+		public class EmailSignUpResult
+		{
+			public bool Success { get; set; }
+			public string Message { get; set; }
+			public string Token { get; set; }
+		}
+
+		
+
 	}
 }

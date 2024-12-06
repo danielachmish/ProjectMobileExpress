@@ -39,8 +39,8 @@
                                         <div class="id-wrapper">
                                             <span id="call-<%# Eval("ReadId") %>" class="call-id">קריאה #<%# Eval("ReadId") %></span>
 
-                                            <%--  <span id="call-<%# Eval("ReadId") %> class="call-id="call-<%# Eval("ReadId") %></span>    --%>
-                                            <span class="id-label">מספר קריאה</span>
+                                            <%-- <span id="call-<%# Eval("ReadId") %> class="call-id="call-<%# Eval("ReadId") %></span>    
+                                            <span class="id-label">מספר קריאה</span>--%>
                                         </div>
                                     </div>
 
@@ -100,12 +100,12 @@
                                     </div>
 
                                     <!-- תמונה ותיאור -->
-                                    <div class="media-section">
+                                   <%-- <div class="media-section">
                                         <div class="image-container">
                                             <%# Eval("NameImage").ToString() != "" ? 
                                            "<img src='Images/" + Eval("NameImage") + "' alt='תמונת קריאה' class='service-image' />" : 
                                            "<div class='no-image'>אין תמונה</div>" %>
-                                        </div>
+                                        </div>--%>
 
                                         <div class="description-container">
                                             <span class="detail-label">תיאור התקלה</span>
@@ -130,13 +130,17 @@
         </asp:UpdatePanel>
         <asp:Timer ID="RefreshTimer" runat="server" Interval="30000" OnTick="RefreshTimer_Tick" />
     </div>
+
+   
+
     <!-- שדות מוסתרים לשמירת מזהים -->
     <input type="hidden" id="hiddenReadId" runat="server" />
     <input type="hidden" id="hiddenCustomerId" runat="server" />
     <input type="hidden" id="hiddenTechnicianId" runat="server" />
     <!-- הוספת סגנונות חדשים -->
-    <style>
-        /* עדכון לסגנונות הקיימים */
+   
+      <%--  <style>
+             /* עדכון לסגנונות הקיימים */
         .details-section {
             display: flex;
             flex-wrap: wrap;
@@ -473,12 +477,246 @@
     .card:hover {
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
-    </style>
+        </style>--%>
+       <Style>
+           :root {
+   --purple-50: rgba(124, 58, 237, 0.05);
+   --purple-100: rgba(124, 58, 237, 0.1);
+   --purple-500: #7c3aed;
+   --purple-600: #6d28d9;
+   --purple-700: #5b21b6;
+   --border-color: rgba(124, 58, 237, 0.15);
+   --text-primary: #1f2937;
+   --text-secondary: #6b7280;
+}
+
+.dashboard-container {
+   padding: 2rem;
+   background-color: #f9fafb;
+   max-width: 1200px;
+   margin: 0 auto;
+}
+
+.cards-list {
+   display: flex;
+   flex-direction: column;
+   gap: 1.5rem;
+}
+
+.card {
+   background: white;
+   border-radius: 16px;
+   box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08);
+   width: 100%;
+   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+   transform: translateY(-4px);
+   box-shadow: 0 8px 30px rgba(124, 58, 237, 0.12);
+}
+
+.card-content {
+   padding: 1.5rem;
+}
+
+.header-section {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 1.5rem;
+   padding-bottom: 1rem;
+   border-bottom: 2px solid var(--purple-50);
+}
+
+.card-title {
+   font-size: 1.25rem;
+   color: var(--text-primary);
+   font-weight: 600;
+   margin: 0;
+}
+
+.subtitle {
+   font-size: 0.9rem;
+   color: var(--text-secondary);
+   margin-top: 0.25rem;
+}
+
+.call-id {
+   font-size: 1.5rem;
+   color: var(--purple-500);
+   font-weight: 600;
+}
+
+.details-section {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+   gap: 1.5rem;
+   padding: 1.5rem 0;
+   border-bottom: 2px solid var(--purple-50);
+}
+
+.detail-item {
+   display: flex;
+   flex-direction: column;
+   gap: 0.5rem;
+   padding: 1rem;
+   background: var(--purple-50);
+   border-radius: 12px;
+   transition: all 0.3s ease;
+}
+
+.detail-item:hover {
+   background: var(--purple-100);
+}
+
+.detail-label {
+   font-size: 0.875rem;
+   color: var(--text-secondary);
+}
+
+.detail-value {
+   font-size: 1rem;
+   color: var(--text-primary);
+   font-weight: 500;
+}
+
+.media-section {
+   display: flex;
+   gap: 1.5rem;
+   margin: 1.5rem 0;
+   padding: 1.5rem 0;
+   border-bottom: 2px solid var(--purple-50);
+}
+
+.image-container {
+   flex: 0 0 200px;
+   height: 200px;
+   border-radius: 12px;
+   overflow: hidden;
+   box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);
+}
+
+.description-text {
+   background: var(--purple-50);
+   padding: 1rem;
+   border-radius: 12px;
+   line-height: 1.6;
+   color: var(--text-primary);
+}
+
+.location-link {
+   color: var(--purple-500);
+   text-decoration: none;
+   display: flex;
+   align-items: center;
+   gap: 0.5rem;
+   padding: 0.5rem;
+   border-radius: 8px;
+   transition: all 0.3s ease;
+}
+
+.location-link:hover {
+   background: var(--purple-50);
+   transform: translateX(4px);
+}
+
+.action-buttons {
+   display: flex;
+   gap: 1rem;
+   margin-top: 1.5rem;
+}
+
+.btn {
+   padding: 0.75rem 1.5rem;
+   border-radius: 12px;
+   font-weight: 500;
+   transition: all 0.3s ease;
+}
+
+.btn-primary {
+   background: var(--purple-500);
+   color: white;
+   border: none;
+}
+
+.btn-primary:hover {
+   background: var(--purple-600);
+   transform: translateY(-2px);
+   box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+}
+
+.btn-secondary {
+   background: white;
+   color: var(--purple-500);
+   border: 2px solid var(--purple-500);
+}
+
+.btn-secondary:hover {
+   background: var(--purple-50);
+   transform: translateY(-2px);
+}
+
+.urgent {
+   color: #ef4444;
+   font-weight: 500;
+   display: inline-flex;
+   align-items: center;
+   gap: 0.5rem;
+   padding: 0.5rem 1rem;
+   background: #fee2e2;
+   border-radius: 20px;
+}
+
+.highlighted-call {
+   animation: highlight-pulse 2s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes highlight-pulse {
+   0% {
+       box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4);
+   }
+   70% {
+       box-shadow: 0 0 0 15px rgba(124, 58, 237, 0);
+   }
+   100% {
+       box-shadow: 0 0 0 0 rgba(124, 58, 237, 0);
+   }
+}
+
+@media (max-width: 768px) {
+   .details-section {
+       grid-template-columns: 1fr;
+   }
+
+   .media-section {
+       flex-direction: column;
+   }
+
+   .action-buttons {
+       flex-direction: column;
+   }
+}
+       </Style>
+    
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.js"></script>
+    <script src="/dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/dist-assets/js/scripts/tooltip.script.min.js"></script>
+    <script src="/dist-assets/js/scripts/script.min.js"></script>
+    <script src="/dist-assets/js/scripts/script_2.min.js"></script>
+    <script src="/dist-assets/js/scripts/sidebar.large.script.min.js"></script>
+    <script src="/dist-assets/js/plugins/datatables.min.js"></script>
+    <script src="/dist-assets/js/scripts/contact-list-table.min.js"></script>
+    <script src="/dist-assets/js/scripts/datatables.script.min.js"></script>
      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
