@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 
 
 using System.Web.Script.Services;
+using System.Linq;
 
 namespace MobileExpress.TechniciansFolder
 {
@@ -21,7 +22,7 @@ namespace MobileExpress.TechniciansFolder
 			if (!IsPostBack)
 			{
 				LoadCalls();
-
+				LoadApprovedCalls();
 				string readId = Request.QueryString["readId"];
 				if (!string.IsNullOrEmpty(readId))
 				{
@@ -31,6 +32,21 @@ namespace MobileExpress.TechniciansFolder
 
 			}
 
+		}
+		// בדף של הטכנאי
+		private void LoadApprovedCalls()
+		{
+			if (Session["TechnicianId"] != null)
+			{
+				int techId = Convert.ToInt32(Session["TechnicianId"]);
+				var calls = Readability.GetAll()
+					.Where(c => c.AssignedTechnicianId == techId)
+					.ToList();
+
+				// שימוש בריפיטר הקיים - CallsRepeater במקום TechnicianCallsRepeater
+				CallsRepeater.DataSource = calls;
+				CallsRepeater.DataBind();
+			}
 		}
 		[WebMethod]
 		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -291,7 +307,48 @@ namespace MobileExpress.TechniciansFolder
 
 		//	Response.Redirect("AllBids.aspx?readId=" + readId);
 		//}
+		protected void AcceptCall(object sender, EventArgs e)
+		{
+			try
+			{
+				Button btn = (Button)sender;
+				int readId = Convert.ToInt32(btn.CommandArgument);
+				var call = Readability.GetById(readId);
 
+				if (call != null && Session["TechnicianId"] != null)
+				{
+					// עדכון הקריאה
+					call.AssignedTechnicianId = Convert.ToInt32(Session["TechnicianId"]);
+					call.Status = true;
+					call.UpdateReadability();
+
+					// רענון הדף
+					LoadCalls();
+					LoadApprovedCalls();
+
+					// הודעת הצלחה
+					ScriptManager.RegisterStartupScript(this, GetType(), "ShowSuccess",
+						"Swal.fire({" +
+						"  title: 'הקריאה נקלטה'," +
+						"  text: 'הקריאה התקבלה בהצלחה'," +
+						"  icon: 'success'," +
+						"  timer: 2000," +
+						"  showConfirmButton: false" +
+						"});", true);
+				}
+				else
+				{
+					ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+						"Swal.fire('שגיאה', 'לא נמצאה הקריאה או שהמשתמש לא מחובר', 'error');", true);
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Error in AcceptCall: {ex.Message}");
+				ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+					"Swal.fire('שגיאה', 'אירעה שגיאה בקבלת הקריאה', 'error');", true);
+			}
+		}
 	}
 }
 

@@ -717,9 +717,9 @@ body, html {
                 <i class="fas fa-plug"></i>
                 <span>פתיחת קריאה</span>
             </a>
-            <a href="#" class="circle-button">
+            <a href="Bids.aspx" class="circle-button">
                 <i class="fas fa-search"></i>
-                <span>חדש באתר</span>
+                <span>הצעות מחיר</span>
             </a>
             <a href="#" class="circle-button">
                 <i class="fas fa-dollar-sign"></i>

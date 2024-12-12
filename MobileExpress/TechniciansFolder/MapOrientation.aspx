@@ -25,393 +25,22 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <header class="main-header">
-        <!-- תפריט המבורגר בצד שמאל -->
-        <button class="menu-toggle">
-            ☰
-   
-        </button>
-
-        <!-- כותרת ותת כותרת במרכז -->
-        <div class="header-content">
-            <h1 class="header-title">מסלול טיול
-           
-                <span class="header-subtitle">יותר מ-100 הצעות מסביב תל אביב יפו</span>
-            </h1>
-        </div>
-
-        <!-- לוגו בצד ימין -->
-        <div class="logo-container">
-            <img src="path-to-logo.png" alt="Easy Logo" class="easy-logo">
-        </div>
+      
 
         <div class="header-border"></div>
     </header>
 
     <style>
         :root {
-    --purple-50: rgba(124, 58, 237, 0.05);
-    --purple-100: rgba(124, 58, 237, 0.1);
-    --purple-500: #7c3aed;
-    --purple-600: #6d28d9;
-    --purple-700: #5b21b6;
-    --text-primary: #1f2937;
-    --text-secondary: #6b7280;
-}
+            --purple-50: rgba(124, 58, 237, 0.05);
+            --purple-100: rgba(124, 58, 237, 0.1);
+            --purple-500: #7c3aed;
+            --purple-600: #6d28d9;
+            --purple-700: #5b21b6;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+        }
 
-.map-container {
-    display: flex;
-    height: 100vh;
-    margin-top: 0;
-    position: relative;
-}
-
-#map {
-    flex: 1;
-    height: 100%;
-    position: relative;
-}
-
-.sidebar {
-    width: 450px;
-    background: white;
-    box-shadow: -4px 0 20px rgba(124, 58, 237, 0.1);
-    overflow-y: auto;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-}
-
-.toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: var(--purple-600);
-    color: white;
-    padding: 1rem 1.5rem;
-    width: 100%;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
-}
-
-.filter-container {
-    position: sticky;
-    top: 0;
-    z-index: 9;
-    background: white;
-    margin: 0;
-    padding: 1rem 1.5rem;
-    border-bottom: 2px solid var(--purple-50);
-}
-
-.main-header {
-    background: var(--purple-600);
-    width: 100%;
-    height: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 1.5rem;
-    direction: rtl;
-    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.15);
-    position: relative;
-}
-
-.header-title {
-    color: white;
-    font-size: 1.2rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.header-subtitle {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.95rem;
-    font-weight: normal;
-}
-
-.call-item {
-    background: white;
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin: 1rem;
-    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08);
-    border: 2px solid var(--purple-50);
-    transition: all 0.3s ease;
-}
-
-.call-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(124, 58, 237, 0.12);
-}
-
-.location-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid var(--purple-50);
-    padding-bottom: 1rem;
-}
-
-.location-name {
-    color: var(--purple-700);
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    transition: color 0.3s ease;
-}
-
-.location-name:hover {
-    color: var(--purple-500);
-}
-
-.meta-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--purple-50);
-    padding: 0.5rem 1rem;
-    border-radius: 10px;
-    color: var(--purple-600);
-    transition: all 0.3s ease;
-}
-
-.meta-item:hover {
-    background: var(--purple-100);
-    transform: translateY(-1px);
-}
-/* Filter styles */
-.filter-select {
-    appearance: none;
-    padding: 0.75rem 1rem;
-    font-size: 0.95rem;
-    color: var(--purple-700);
-    background: var(--purple-50) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat;
-    background-position: left 8px center;
-    background-size: 16px;
-    border: 2px solid var(--purple-100);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 200px;
-}
-
-.filter-select:hover {
-    border-color: var(--purple-500);
-    background-color: var(--purple-100);
-}
-
-.filter-select:focus {
-    outline: none;
-    border-color: var(--purple-500);
-    box-shadow: 0 0 0 3px var(--purple-50);
-}
-
-/* Status indicators */
-.status-indicators {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.status-indicator {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.95rem;
-    color: var(--purple-700);
-    padding: 0.5rem 1rem;
-    background: var(--purple-50);
-    border-radius: 10px;
-    transition: all 0.3s ease;
-}
-
-.status-indicator:hover {
-    transform: translateY(-1px);
-    background: var(--purple-100);
-}
-
-.indicator-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    transition: transform 0.3s ease;
-}
-
-.status-indicator:hover .indicator-dot {
-    transform: scale(1.2);
-}
-
-.dot-open {
-    background: #10b981;
-    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
-}
-
-.dot-closed {
-    background: #ef4444;
-    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
-}
-
-.dot-favorite {
-    color: var(--purple-500);
-    box-shadow: 0 0 0 2px var(--purple-100);
-}
-
-/* Map controls */
-.custom-map-control-button {
-    background: white;
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.15);
-    cursor: pointer;
-    margin: 1rem;
-    padding: 0.75rem 1.5rem;
-    height: auto;
-    font-weight: 500;
-    color: var(--purple-600);
-    transition: all 0.3s ease;
-}
-
-.custom-map-control-button:hover {
-    background: var(--purple-50);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(124, 58, 237, 0.2);
-}
-
-/* Review section */
-.review-section {
-    background: var(--purple-50);
-    padding: 1.5rem;
-    border-radius: 12px;
-    margin-top: 1.5rem;
-    transition: all 0.3s ease;
-}
-
-.review-section:hover {
-    background: var(--purple-100);
-}
-
-.review-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    color: var(--purple-700);
-}
-
-.reviewer-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: white;
-    border: 2px solid var(--purple-500);
-    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.2);
-}
-
-/* Location links */
-.location-links {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    margin-top: 1rem;
-}
-
-.waze-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    background: #40c4ff;
-    color: white;
-    border-radius: 10px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    box-shadow: 0 2px 8px rgba(64, 196, 255, 0.2);
-}
-
-.waze-link:hover {
-    background: #00b0ff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(64, 196, 255, 0.3);
-}
-
-/* Highlighting */
-.highlight {
-    background: linear-gradient(120deg, var(--purple-100) 0%, var(--purple-50) 100%);
-    border-radius: 4px;
-    padding: 0.2rem 0.4rem;
-    transition: background 0.3s ease;
-}
-
-/* Responsive design */
-@media screen and (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-    }
-
-    .filter-group {
-        flex-direction: column;
-    }
-
-    .filter-select {
-        width: 100%;
-    }
-
-    .status-indicators {
-        flex-wrap: wrap;
-    }
-
-    .location-links {
-        flex-direction: column;
-    }
-
-    .waze-link {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-/* Search functionality */
-.search-box {
-    padding: 1.5rem;
-    background: white;
-    border-bottom: 2px solid var(--purple-50);
-}
-
-.search-input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 2px solid var(--purple-100);
-    border-radius: 12px;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-}
-
-.search-input:focus {
-    outline: none;
-    border-color: var(--purple-500);
-    box-shadow: 0 0 0 3px var(--purple-50);
-}
-
-/* Menu icon */
-.menu-toggle {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    transition: all 0.3s ease;
-}
-
-.menu-toggle:hover {
-    transform: scale(1.1);
-}
-    </style>
-
-   <%-- <style>
         .map-container {
             display: flex;
             height: 100vh;
@@ -428,601 +57,343 @@
         .sidebar {
             width: 450px;
             background: white;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            box-shadow: -4px 0 20px rgba(124, 58, 237, 0.1);
             overflow-y: auto;
             height: 100vh;
             margin: 0;
             padding: 0;
         }
 
-        /* אם יש טולבר, הוא יהיה בתוך הסיידבר */
         .toolbar {
             position: sticky;
             top: 0;
             z-index: 10;
-            background: #6B46C1;
+            background: var(--purple-600);
             color: white;
-            padding: 10px 15px;
+            padding: 1rem 1.5rem;
             width: 100%;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
         }
 
-        /* עדכון לפילטרים כך שיישארו צמודים לטולבר */
         .filter-container {
             position: sticky;
-            top: 0; /* אם יש טולבר, שנה ל-top: [גובה הטולבר] */
+            top: 0;
             z-index: 9;
             background: white;
             margin: 0;
-            padding: 10px 15px;
-            border-bottom: 1px solid #E9D8FD;
+            padding: 1rem 1.5rem;
+            border-bottom: 2px solid var(--purple-50);
         }
 
         .main-header {
-            background: #6B46C1;
+            background: var(--purple-600);
             width: 100%;
             height: 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 1.5rem;
             direction: rtl;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.15);
             position: relative;
         }
 
         .header-title {
             color: white;
-            font-size: 1.2em;
+            font-size: 1.2rem;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.75rem;
         }
 
         .header-subtitle {
             color: rgba(255, 255, 255, 0.9);
-            font-size: 0.9em;
+            font-size: 0.95rem;
             font-weight: normal;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-
-        /* המבורגר מניו בצד שמאל */
-        .menu-toggle {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: auto; /* דוחף לצד שמאל */
-        }
-
-        /* לוגו בצד ימין */
-        .easy-logo {
-            height: 30px;
-            margin-left: 20px;
-        }
-
-        /* אם יש צורך בקו תחתון */
-        .header-border {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* מעטפת לתוכן המרכזי */
-        .header-content {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        #map {
-            flex: 1;
-            height: 100%;
-            position: relative;
-        }
-
-        .sidebar {
-            width: 450px;
-            background: white;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-            overflow-y: auto;
-            margin-top: 0; /* וידוא שאין margin נוסף */
-            height: 100%; /* וידוא שהסייבר בר ממלא את כל הגובה */
-        }
-
-        /* Ensure no extra spacing from body/html */
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        /* If you have a toolbar or navigation */
-        .toolbar {
-            height: 50px;
-            padding: 0 15px;
-            display: flex;
-            align-items: center;
-            background: #6B46C1;
-            color: white;
-        }
-
-        #map {
-            flex: 1;
-            height: 100%;
-        }
-
-        .sidebar {
-            width: 450px;
-            background: white;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-            overflow-y: auto;
-        }
-
-        .search-box {
-            padding: 20px;
-            background: white;
-            border-bottom: 1px solid #eee;
-        }
-
-        .main-title {
-            color: white;
-            background: #6B46C1; /* Changed to purple */
-            padding: 15px 20px;
-            margin: 0;
-            font-size: 1.2em;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-        /* Redesigned call item section */
-        /* Base call item container */
         .call-item {
             background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 15px;
-            box-shadow: 0 3px 10px rgba(107, 70, 193, 0.1);
-            border: 1px solid #E9D8FD;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1rem;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08);
+            border: 2px solid var(--purple-50);
             transition: all 0.3s ease;
-            max-width: 100%;
-            overflow: hidden;
         }
 
-        /* Header section with user info */
-        .location-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #E9D8FD;
-            padding-bottom: 10px;
-            width: 100%;
-        }
-
-        /* User name handling */
-        .location-info {
-            flex: 1;
-            min-width: 0; /* Important for text truncation */
-        }
-
-        .location-name {
-            color: #553C9A;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 5px;
-            text-decoration: none;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100%;
-        }
-
-        .location-type {
-            color: #6B46C1;
-            font-size: 0.9em;
-            margin-bottom: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* Meta information layout */
-        .location-meta {
-            display: flex;
-            flex-wrap: wrap; /* Allow wrapping for long content */
-            gap: 8px;
-            color: #553C9A;
-            font-size: 0.9em;
-            margin-top: 10px;
-            align-items: center;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background: #FAF5FF;
-            padding: 5px 8px;
-            border-radius: 6px;
-            max-width: calc(100% - 16px); /* Account for padding */
-            min-width: 0; /* Enable truncation */
-        }
-
-            /* Phone number specific styling */
-            .meta-item[title] {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+            .call-item:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 30px rgba(124, 58, 237, 0.12);
             }
-
-        /* Text content */
-        .review-text,
-        .status-text {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100%;
-        }
-
-        /* Status section */
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.9em;
-            color: #553C9A;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* Description area */
-        .description {
-            color: #553C9A;
-            font-size: 0.9em;
-            line-height: 1.4;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            max-width: 100%;
-        }
-
-        /* Add tooltip for truncated content */
-        [data-tooltip] {
-            position: relative;
-            cursor: help;
-        }
-
-            [data-tooltip]:hover::before {
-                content: attr(data-tooltip);
-                position: absolute;
-                bottom: 100%;
-                left: 50%;
-                transform: translateX(-50%);
-                padding: 5px 10px;
-                background: #553C9A;
-                color: white;
-                border-radius: 4px;
-                font-size: 0.8em;
-                white-space: nowrap;
-                z-index: 1000;
-            }
-
-        /* Badge/pill for call number */
-        .call-number {
-            background: #6B46C1;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.85em;
-            white-space: nowrap;
-            max-width: 150px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* Responsive adjustments */
-        @media screen and (max-width: 480px) {
-            .location-meta {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .meta-item {
-                width: 100%;
-            }
-        }
 
         .location-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #E9D8FD;
-            padding-bottom: 10px;
-        }
-
-        .location-info {
-            flex: 1;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--purple-50);
+            padding-bottom: 1rem;
         }
 
         .location-name {
-            color: #553C9A; /* Darker purple */
-            font-size: 1.1em;
+            color: var(--purple-700);
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 5px;
-            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
         }
 
-        .location-type {
-            color: #6B46C1; /* Main purple */
-            font-size: 0.9em;
-            margin-bottom: 5px;
-        }
-
-        .rating {
-            background: #805AD5; /* Light purple */
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.9em;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .location-meta {
-            display: flex;
-            gap: 15px;
-            color: #553C9A;
-            font-size: 0.9em;
-            margin-top: 10px;
-            align-items: center;
-            justify-content: flex-start;
-        }
+            .location-name:hover {
+                color: var(--purple-500);
+            }
 
         .meta-item {
             display: flex;
             align-items: center;
-            gap: 5px;
-            background: #FAF5FF; /* Very light purple background */
-            padding: 5px 10px;
-            border-radius: 6px;
+            gap: 0.5rem;
+            background: var(--purple-50);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            color: var(--purple-600);
+            transition: all 0.3s ease;
         }
 
-            .meta-item i {
-                color: #6B46C1;
+            .meta-item:hover {
+                background: var(--purple-100);
+                transform: translateY(-1px);
             }
-
-        /* Filter container styling */
-        .filter-container {
-            padding: 15px 20px;
-            background: white;
-            border-bottom: 1px solid #E9D8FD;
-            direction: rtl;
-        }
-
-        /* Custom select styling */
+        /* Filter styles */
         .filter-select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            width: 200px;
-            padding: 10px 15px 10px 35px; /* Updated padding for RTL */
-            font-size: 0.95em;
-            color: #553C9A;
-            background: #FAF5FF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23553C9A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat;
+            /* appearance: none;*/
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            color: var(--purple-700);
+            background: var(--purple-50) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat;
             background-position: left 8px center;
             background-size: 16px;
-            border: 2px solid #E9D8FD;
-            border-radius: 8px;
+            border: 2px solid var(--purple-100);
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-align: right; /* Added for RTL text alignment */
-            direction: rtl; /* Added for RTL text direction */
+            min-width: 200px;
         }
 
-            .filter-select option {
-                text-align: right; /* Ensure options are right-aligned */
-                direction: rtl; /* Ensure options follow RTL direction */
-                padding: 10px 15px;
-                background: white;
-                color: #553C9A;
-            }
-
             .filter-select:hover {
-                border-color: #805AD5;
-                background-color: #F3E8FF;
+                border-color: var(--purple-500);
+                background-color: var(--purple-100);
             }
 
             .filter-select:focus {
                 outline: none;
-                border-color: #6B46C1;
-                box-shadow: 0 0 0 3px rgba(107, 70, 193, 0.2);
+                border-color: var(--purple-500);
+                box-shadow: 0 0 0 3px var(--purple-50);
             }
 
-            /* הוספת סטיילינג לתפריט הנפתח עצמו */
-            .filter-select option:hover,
-            .filter-select option:focus,
-            .filter-select option:active,
-            .filter-select option:checked {
-                background: #F3E8FF;
-                color: #6B46C1;
-            }
-
-        /* Filter group styling */
-        .filter-group {
-            position: relative;
-            margin-right: auto;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            direction: rtl;
-        }
-
-        /* Custom dropdown styling */
-        select::-ms-expand {
-            display: none;
-        }
-
-        /* Responsive adjustments */
-        @media screen and (max-width: 768px) {
-            .filter-select {
-                width: 100%;
-            }
-
-            .filter-group {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-        }
-
+        /* Status indicators */
         .status-indicators {
             display: flex;
-            gap: 15px;
-            margin-top: 10px;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
         .status-indicator {
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 0.9em;
-            color: #553C9A;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--purple-700);
+            padding: 0.5rem 1rem;
+            background: var(--purple-50);
+            border-radius: 10px;
+            transition: all 0.3s ease;
         }
+
+            .status-indicator:hover {
+                transform: translateY(-1px);
+                background: var(--purple-100);
+            }
 
         .indicator-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .status-indicator:hover .indicator-dot {
+            transform: scale(1.2);
         }
 
         .dot-open {
-            background: #4CAF50;
+            background: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
         }
 
         .dot-closed {
-            background: #f44336;
+            background: #ef4444;
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
         }
 
         .dot-favorite {
-            color: #805AD5;
+            color: var(--purple-500);
+            box-shadow: 0 0 0 2px var(--purple-100);
         }
 
+        /* Map controls */
         .custom-map-control-button {
-            background-color: #fff;
-            border: 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(107, 70, 193, 0.2);
+            background: white;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.15);
             cursor: pointer;
-            margin: 10px;
-            padding: 0 0.5em;
-            height: 40px;
-            font: 400 18px Roboto, Arial, sans-serif;
-            overflow: hidden;
-            color: #6B46C1;
+            margin: 1rem;
+            padding: 0.75rem 1.5rem;
+            height: auto;
+            font-weight: 500;
+            color: var(--purple-600);
             transition: all 0.3s ease;
         }
 
             .custom-map-control-button:hover {
-                background: #FAF5FF;
+                background: var(--purple-50);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 25px rgba(124, 58, 237, 0.2);
             }
 
-        /* Additional improvements for the calls section */
+        /* Review section */
         .review-section {
-            background: #FAF5FF;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
+            background: var(--purple-50);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
         }
+
+            .review-section:hover {
+                background: var(--purple-100);
+            }
 
         .review-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            color: #553C9A;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--purple-700);
         }
 
         .reviewer-avatar {
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: #E9D8FD;
+            background: white;
+            border: 2px solid var(--purple-500);
+            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.2);
         }
 
-        .review-text {
-            color: #553C9A;
-            font-size: 0.9em;
-            line-height: 1.4;
-        }
-
-        .highlight {
-            background-color: yellow;
-            transition: background-color 1s ease;
-        }
-
-        .call-item {
-            display: block; /* וודא שהאלמנט גלוי */
-        }
-    </style>
-    <style>
+        /* Location links */
         .location-links {
             display: flex;
-            gap: 10px;
+            gap: 1rem;
             align-items: center;
+            margin-top: 1rem;
         }
 
         .waze-link {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            background-color: #40c4ff;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: #40c4ff;
             color: white;
-            border-radius: 5px;
+            border-radius: 10px;
             text-decoration: none;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(64, 196, 255, 0.2);
         }
 
             .waze-link:hover {
-                background-color: #00b0ff;
-                text-decoration: none;
-                color: white;
+                background: #00b0ff;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(64, 196, 255, 0.3);
             }
 
-        .fa-waze {
-            font-size: 1.2em;
+        /* Highlighting */
+        .highlight {
+            background: linear-gradient(120deg, var(--purple-100) 0%, var(--purple-50) 100%);
+            border-radius: 4px;
+            padding: 0.2rem 0.4rem;
+            transition: background 0.3s ease;
         }
 
-        .mr-2 {
-            margin-right: 0.5rem;
+        /* Responsive design */
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+            }
+
+            .filter-group {
+                flex-direction: column;
+            }
+
+            .filter-select {
+                width: 100%;
+            }
+
+            .status-indicators {
+                flex-wrap: wrap;
+            }
+
+            .location-links {
+                flex-direction: column;
+            }
+
+            .waze-link {
+                width: 100%;
+                justify-content: center;
+            }
         }
-    </style>--%>
+
+        /* Search functionality */
+        .search-box {
+            padding: 1.5rem;
+            background: white;
+            border-bottom: 2px solid var(--purple-50);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--purple-100);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+            .search-input:focus {
+                outline: none;
+                border-color: var(--purple-500);
+                box-shadow: 0 0 0 3px var(--purple-50);
+            }
+
+        /* Menu icon */
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+            .menu-toggle:hover {
+                transform: scale(1.1);
+            }
+    </style>
+
 
     <div class="map-container">
         <div id="map"></div>
@@ -1034,13 +405,6 @@
             <div class="search-box">
                 <input type="text" class="search-input" placeholder="חיפוש...">
             </div>
-
-            <%-- <div class="filters">
-                <button class="filter-btn active">פתוח עכשיו</button>
-                <button class="filter-btn">יום ושעה</button>
-                <button class="filter-btn">פתוח בשבת</button>
-                <button class="filter-btn">פתוח בלילה</button>
-            </div>--%>
 
             <h2 class="mt-4 mb-3"></h2>
             <%-- סינון --%>
@@ -1070,9 +434,6 @@
                                     </a>
                                 </div>
 
-
-
-
                                 <div class="location-type <%# Convert.ToBoolean(Eval("Status")) ? "status-open" : "status-closed" %>">
                                     <%# GetStatusText(Convert.ToBoolean(Eval("Status"))) %>
                                 </div>
@@ -1095,10 +456,6 @@
                                 <i class="fas fa-phone"></i>
                                 <%# Eval("Phone") %>
                             </span>
-                            <%--<span class="meta-item">
-                                <i class="fas fa-cog"></i>
-                                מודל: <%# GetModelName(Convert.ToInt32(Eval("ModelId"))) %>
-                            </span>--%>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label"></span>
@@ -1106,36 +463,24 @@
                                 <i class="fas fa-map-marker-alt"></i>
                                 הצג מיקום
                                                                  </a>
-                            <%-- <a href='https://www.waze.com/en-GB/live-map/?q=<%# HttpUtility.UrlEncode(GetFullAddress(Eval("Street"), Eval("HouseNumber"), Eval("City"))) %>&navigate=yes' 
-   target="_blank" 
-   class="waze-link">
-    <i class="fab fa-waze"></i>
-    Waze-נווט ב
-</a>--%>
                         </div>
                         <div class="review-section">
                             <div class="review-header">
-                                <%-- <div class="reviewer-avatar"></div>--%>
+
                                 <span style="font-weight: bold; color: #553C9A">:תיאור התקלה</span>
 
 
                             </div>
 
                             <p class="review-text"><%# Eval("Desc") %></p>
-                            <%--   <%# !string.IsNullOrEmpty(Eval("Nots").ToString()) ? $"<p class='review-text'><strong>הערות:</strong> {Eval("Nots")}</p>" : "" %>--%>
+
                         </div>
                     </div>
                 </ItemTemplate>
             </asp:Repeater>
         </div>
     </div>
-    <%-- <div class="search-box">
-        <input type="text" class="search-input" placeholder="חיפוש...">
-        <button id="getCurrentLocationBtn" class="filter-btn">
-            <i class="fas fa-location-arrow"></i>מצא את מיקומי
-   
-        </button>
-    </div>--%>
+
 
     <div id="directionsPanel" style="width: 100%; height: 100%; overflow: auto; padding: 10px;"></div>
 </asp:Content>
@@ -1838,6 +1183,177 @@
                 }
             });
         }
+
+
+        function initTechnicianTracking() {
+            // בדיקה האם המעקב מופעל עבור הטכנאי
+            $.ajax({
+                url: 'MainTechnicians.aspx/CheckLocationTracking',
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (response) {
+                    if (response.d.isEnabled) {
+                        startTracking();
+                    }
+                }
+            });
+        }
+
+        function startTracking() {
+            if (!navigator.geolocation) {
+                console.error("הדפדפן לא תומך בשירותי מיקום");
+                return;
+            }
+            // המשך הקוד כפי שהיה...
+        }
+
+
+        // משתנים גלובליים למעקב אחר מיקום
+        let technicianMarker = null;     // מייצג את הסמן של הטכנאי על המפה
+        let watchPositionId = null;      // מזהה ייחודי למעקב המיקום
+        let lastReportedPosition = null; // המיקום האחרון שדווח לשרת
+
+        // פונקציה ראשית לאתחול מערכת המעקב
+        function initTechnicianTracking() {
+            // בדיקת תמיכה בשירותי מיקום
+            if (!navigator.geolocation) {
+                console.error("הדפדפן לא תומך בשירותי מיקום");
+                return;
+            }
+
+            // הגדרות למעקב מיקום
+            const options = {
+                enableHighAccuracy: true,  // דיוק גבוה (GPS)
+                maximumAge: 0,            // לא להשתמש במיקום מהמטמון
+                timeout: 5000             // זמן מקסימלי לקבלת מיקום (5 שניות)
+            };
+
+            // התחלת מעקב רציף אחר המיקום
+            watchPositionId = navigator.geolocation.watchPosition(
+                updateTechnicianPosition, // פונקציה שתקרא בכל עדכון מיקום
+                handleTrackingError,      // פונקציה לטיפול בשגיאות
+                options
+            );
+
+            // יצירת סמן הטכנאי על המפה
+            technicianMarker = new google.maps.Marker({
+                map: map,
+                icon: {
+                    url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                    scaledSize: new google.maps.Size(32, 32),
+                    anchor: new google.maps.Point(16, 16)
+                },
+                title: 'מיקום הטכנאי'
+            });
+        }
+
+        // פונקציה לעדכון מיקום הטכנאי
+        function updateTechnicianPosition(position) {
+            const currentPosition = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+                accuracy: position.coords.accuracy,
+                timestamp: new Date().toISOString()
+            };
+
+            // עדכון מיקום הסמן על המפה
+            if (technicianMarker) {
+                technicianMarker.setPosition({
+                    lat: currentPosition.lat,
+                    lng: currentPosition.lng
+                });
+            }
+
+            // בדיקה האם צריך לדווח לשרת
+            if (shouldReportPosition(currentPosition)) {
+                reportPositionToServer(currentPosition);
+                lastReportedPosition = currentPosition;
+            }
+        }
+
+        // פונקציה לבדיקה האם צריך לדווח על המיקום החדש
+        function shouldReportPosition(newPosition) {
+            if (!lastReportedPosition) return true;
+
+            const minDistanceThreshold = 10;  // מרחק מינימלי במטרים
+            const minTimeThreshold = 10000;   // זמן מינימלי במילישניות (10 שניות)
+
+            // חישוב המרחק בין המיקומים
+            const distance = google.maps.geometry.spherical.computeDistanceBetween(
+                new google.maps.LatLng(lastReportedPosition.lat, lastReportedPosition.lng),
+                new google.maps.LatLng(newPosition.lat, newPosition.lng)
+            );
+
+            // חישוב הזמן שעבר
+            const timeDiff = new Date(newPosition.timestamp) - new Date(lastReportedPosition.timestamp);
+
+            // מחזיר true אם המרחק או הזמן עברו את הסף
+            return distance > minDistanceThreshold || timeDiff > minTimeThreshold;
+        }
+
+        // פונקציה לדיווח המיקום לשרת
+        function reportPositionToServer(position) {
+            const data = {
+                latitude: position.lat,
+                longitude: position.lng,
+                accuracy: position.accuracy,
+                timestamp: position.timestamp
+            };
+
+            $.ajax({
+                url: 'MapOrientation.aspx/UpdateTechnicianLocation',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ locationData: data }),
+                success: function (response) {
+                    console.log('המיקום עודכן בהצלחה');
+                },
+                error: function (xhr, status, error) {
+                    console.error('שגיאה בעדכון המיקום:', error);
+                }
+            });
+        }
+
+        // פונקציה לטיפול בשגיאות מעקב
+        function handleTrackingError(error) {
+            let errorMessage;
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMessage = "המשתמש לא אישר גישה למיקום";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorMessage = "מידע המיקום אינו זמין";
+                    break;
+                case error.TIMEOUT:
+                    errorMessage = "פג הזמן לבקשת המיקום";
+                    break;
+                default:
+                    errorMessage = "שגיאה לא ידועה במעקב המיקום";
+            }
+            console.error('שגיאת מעקב:', errorMessage);
+        }
+
+        // פונקציה לניקוי משאבים כשהמעקב מסתיים
+        function stopTechnicianTracking() {
+            if (watchPositionId) {
+                navigator.geolocation.clearWatch(watchPositionId);
+                watchPositionId = null;
+            }
+            if (technicianMarker) {
+                technicianMarker.setMap(null);
+                technicianMarker = null;
+            }
+        }
+
+        // הוספת מאזיני אירועים
+        document.addEventListener('DOMContentLoaded', () => {
+            initTechnicianTracking();
+        });
+
+        // ניקוי בסגירת הדף
+        window.addEventListener('beforeunload', () => {
+            stopTechnicianTracking();
+        });
     </script>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">

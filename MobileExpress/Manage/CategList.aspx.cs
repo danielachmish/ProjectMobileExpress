@@ -75,9 +75,9 @@ namespace MobileExpress.Manage
 				System.Diagnostics.Debug.WriteLine($"hfCatId נמצא: {hfCatId != null}, ערך: {hfCatId?.Value}");
 
 				string CatName = txtCatName.Text;
-				
+
 				bool Status;
-				
+
 
 
 				System.Diagnostics.Debug.WriteLine($"נתונים שהתקבלו: CatId={hfCatId?.Value}, CatName={CatName}");
@@ -128,7 +128,7 @@ namespace MobileExpress.Manage
 			catch (Exception ex)
 			{
 				System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת קטגוריה: {ex.Message}");
-				System.Diagnostics.Debug.WriteLine( $"סוג השגיאה: {ex.GetType().Name}");
+				System.Diagnostics.Debug.WriteLine($"סוג השגיאה: {ex.GetType().Name}");
 				System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
 				Response.Write($"<script>console.error('שגיאה בשמירת לקוח: {ex.Message}'); alert('שגיאה בשמירת לקוח: {ex.Message}');</script>");
 			}
@@ -152,9 +152,6 @@ namespace MobileExpress.Manage
 			}
 			System.Diagnostics.Debug.WriteLine("כל השדות עברו אימות בהצלחה");
 		}
-
-	
-
 
 
 		[WebMethod]

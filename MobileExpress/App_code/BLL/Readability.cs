@@ -20,6 +20,8 @@ namespace BLL
 		public string NameImage { get; set; }
 		public string Urgency { get; set; }
 		public int SerProdId { get; set; }
+		public int? AssignedTechnicianId { get; set; }
+		//public bool? IsCallAccepted { get; set; }
 
 		public void SaveNewRead()
 		{
@@ -61,6 +63,11 @@ namespace BLL
 		{
 			return ReadabilityDAL.DeleteById(Id);
 		}
-
+		// פונקציה חדשה לעדכון הטכנאי המטפל
+		public void AssignTechnician(int technicianId)
+		{
+			AssignedTechnicianId = technicianId;
+			UpdateReadability();
+		}
 	}
 }

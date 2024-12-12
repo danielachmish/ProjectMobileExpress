@@ -1,17 +1,17 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Manage/MainMaster.Master" AutoEventWireup="true" CodeBehind="BidList.aspx.cs" Inherits="MobileExpress.Manage.BidList" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
-      <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
+    <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
     <link rel="stylesheet" href="assets/css/styles.css">
-    <!-- קישורים נוספים כמו Bootstrap ו-Font Awesome -->
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
-
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-        <!-- כותרת העמוד ופירורי לחם -->
+    <!-- כותרת העמוד  -->
 
     <div class="breadcrumb" style="direction: rtl;">
         <h1>רשימת הצעות מחיר</h1>
@@ -94,11 +94,8 @@
                                         </label>
                                         <label class="form-check-label ml-3">Date</label>
                                     </div>
-                                   
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -124,7 +121,7 @@
                                 <th>TecId</th>
                                 <th>ReadId</th>
                                 <th>Date</th>
-                               
+
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -141,7 +138,7 @@
                                         <td><%# Eval("TecId") %></td>
                                         <td><%# Eval("ReadId") %></td>
                                         <td><%# Eval("Date") %></td>
-                                    
+
                                         <td>
                                             <button class="status-button"><%# Convert.ToBoolean(Eval("Status")) ? "פעיל" : "לא פעיל" %></button>
                                         </td>
@@ -177,6 +174,7 @@
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
+
                 <%-- מודל הוספת מנהל--%>
                 <div id="BidModal" class="modal">
                     <div class="modal-content">
@@ -201,13 +199,8 @@
                         </div>
                         <div class="form-group">
                             <asp:Label AssociatedControlID="txtReadId" runat="server">מס קריאה:</asp:Label>
-                            <asp:TextBox ID="txtReadId" runat="server"  required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                            <asp:TextBox ID="txtReadId" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
-                        <%--  <div class="form-group">
-            <asp:Label AssociatedControlID="txtDate" runat="server">תאריך הוספה:</asp:Label>
-            <asp:TextBox ID="txtDate" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>--%>
-                       
 
                         <asp:Button ID="btnSave" runat="server" OnClick=" Savebid" Text="שמירה" CssClass="btn btn-primary" />
                     </div>
@@ -216,7 +209,6 @@
             </form>
         </div>
     </div>
-
     <style>
         body {
             margin: 0;
@@ -418,7 +410,7 @@
         }
         /* עיצוב חלון המודאל */
         .modal {
-            display:none; /* המודאל מוסתר כברירת מחדל */
+            display: none; /* המודאל מוסתר כברירת מחדל */
             position: fixed; /* מיקום קבוע בחלון הדפדפן */
             z-index: 1; /* סדר גובה גבוה */
             left: 0; /* מיקום משמאל */
@@ -737,7 +729,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="FooterContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="UnderFooter" runat="server">
-      <!-- סקריפטים שנדרשים לעמוד -->
+    <!-- סקריפטים שנדרשים לעמוד -->
     <!-- טעינת סקריפטים חיצוניים -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -791,8 +783,8 @@
             document.getElementById('<%= txtStatus.ClientID %>').value = '';
             document.getElementById('<%= txtTecId.ClientID %>').value = '';
             document.getElementById('<%= txtReadId.ClientID %>').value = '';
-           
-            modal.style.display='block'
+
+            modal.style.display = 'block'
         }
 
         // פונקציה לפתיחת מודאל עריכת לקוח
@@ -809,7 +801,7 @@
             document.getElementById('<%= txtStatus.ClientID %>').value = bid.Status;
             document.getElementById('<%= txtTecId.ClientID %>').value = bid.TecId;
             document.getElementById('<%= txtReadId.ClientID %>').value = bid.ReadId;
-           
+
             modal.style.display = 'block';
         }
 
@@ -827,7 +819,7 @@
                 Status: $('#<%= txtStatus.ClientID %>').val(),
                 TecId: $('#<%= txtTecId.ClientID %>').val(),
                 ReadId: $('#<%= txtReadId.ClientID %>').val(),
-              
+
 
             };
 
@@ -875,8 +867,8 @@
                             "<td>" + (bid.Status ? "פעיל" : "לא פעיל") + "</td>" +
                             "<td>" + bid.TecId + "</td>" +
                             "<td>" + bid.Date + "</td>" +
-                           
-                           
+
+
 
                             "<td><button onclick='editbid(" + bid.BidId + ")'>עריכה</button>" +
                             "<button onclick='deletebid(" + bid.BidId + ")'>מחיקה</button></td>" +
@@ -924,7 +916,7 @@
                     // Date נמחק או הוסתר
                     // console.log('Date הוגדר:', customer.Date);
 
-                   
+
 
                     $('#BidModal').show();
                     console.log('מודל המנהלים נפתח');
