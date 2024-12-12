@@ -122,7 +122,7 @@ namespace MobileExpress.TechniciansFolder
 
 				// הודעה על הצלחה וניתוב חזרה לדף הקריאות
 				ScriptManager.RegisterStartupScript(this, GetType(), "SaveSuccess",
-					"alert('הצעת המחיר נשמרה בהצלחה'); window.location.href='AllRead.aspx';", true);
+					"alert('הצעת המחיר נשמרה בהצלחה'); window.location.href='Forms.aspx';", true);
 			}
 			catch (Exception ex)
 			{

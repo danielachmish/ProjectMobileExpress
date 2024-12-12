@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
@@ -36,9 +37,48 @@ namespace MobileExpress.TechniciansFolder
 			// יישום חיפוש אם נדרש
 		}
 
-		protected void gvBids_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
+		protected void gvBids_RowCommand(object sender, GridViewCommandEventArgs e)
 		{
-			// טיפול בפקודות של הטבלה
+			if (e.CommandName == "AcceptCall")
+			{
+				try
+				{
+					int readId = Convert.ToInt32(e.CommandArgument);
+					var call = Readability.GetById(readId);
+
+					if (call != null && Session["TechnicianId"] != null)
+					{
+						// עדכון הקריאה
+						call.AssignedTechnicianId = Convert.ToInt32(Session["TechnicianId"]);
+						call.Status = true;
+						call.UpdateReadability();
+
+						// רענון הטבלה
+						LoadBids();
+
+						// הודעת הצלחה
+						ScriptManager.RegisterStartupScript(this, GetType(), "ShowSuccess",
+							"Swal.fire({" +
+							"  title: 'הקריאה נקלטה'," +
+							"  text: 'הקריאה התקבלה בהצלחה'," +
+							"  icon: 'success'," +
+							"  timer: 2000," +
+							"  showConfirmButton: false" +
+							"});", true);
+					}
+					else
+					{
+						ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+							"Swal.fire('שגיאה', 'לא נמצאה הקריאה או שהמשתמש לא מחובר', 'error');", true);
+					}
+				}
+				catch (Exception ex)
+				{
+					System.Diagnostics.Debug.WriteLine($"Error in AcceptCall: {ex.Message}");
+					ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+						"Swal.fire('שגיאה', 'אירעה שגיאה בקבלת הקריאה', 'error');", true);
+				}
+			}
 		}
 
 		protected string GetStatusClass(bool status)
@@ -115,6 +155,7 @@ namespace MobileExpress.TechniciansFolder
 			{
 				System.Diagnostics.Debug.WriteLine($"GetBidDetails called with bidId: {bidId}");
 				var bid = BLL.Bid.GetById(bidId);
+
 				if (bid == null)
 				{
 					System.Diagnostics.Debug.WriteLine("Bid not found");
@@ -132,6 +173,7 @@ namespace MobileExpress.TechniciansFolder
 				var response = new BidDetailsResponse
 				{
 					BidNumber = bid.BidId,
+
 					Date = bid.Date,
 					ReadId = bid.ReadId,
 					Status = bid.Status,
@@ -144,6 +186,7 @@ namespace MobileExpress.TechniciansFolder
 					} : null,
 					CustomerDetails = readability != null ? new CustomerDetailsResponse
 					{
+
 						Name = readability.FullName,
 						Phone = readability.Phone,
 						Description = readability.Desc
@@ -199,11 +242,95 @@ namespace MobileExpress.TechniciansFolder
 
 		public class CustomerDetailsResponse
 		{
+			public string FullName { get; set; }
 			public string Name { get; set; }
 			public string Phone { get; set; }
 			public string Description { get; set; }
 		}
+		protected void ApproveBid(object sender, EventArgs e)
+		{
+			try
+			{
+				Button btn = (Button)sender;
+				int bidId = Convert.ToInt32(btn.CommandArgument);
+				var bid = BLL.Bid.GetById(bidId);
+
+				if (bid != null)
+				{
+					// עדכון סטטוס ההצעה
+					bid.Status = true;
+					bid.Save();
+
+					// שליחת התראה לטכנאי (אפשר להוסיף לפי הצורך)
+					NotifyTechnician(bid.TecId, bid.ReadId);
+
+					// רענון הדף
+					LoadBids();
+
+					// הצגת הודעת הצלחה
+					ScriptManager.RegisterStartupScript(this, GetType(), "ShowSuccess",
+						"Swal.fire('ההצעה אושרה', 'ההצעה אושרה בהצלחה והועברה לטכנאי', 'success');", true);
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Error in ApproveBid: {ex.Message}");
+				ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+					"Swal.fire('שגיאה', 'אירעה שגיאה באישור ההצעה', 'error');", true);
+			}
+		}
+
+		private void NotifyTechnician(int techId, int readId)
+		{
+			// כאן אפשר להוסיף לוגיקה לשליחת התראה לטכנאי
+			// למשל: שליחת מייל, הודעת SMS, או התראה במערכת
+		}
+
+		//protected void AcceptCall(object sender, EventArgs e)
+		//{
+		//	try
+		//	{
+		//		Button btn = (Button)sender;
+		//		int readId = Convert.ToInt32(btn.CommandArgument);
+		//		var call = Readability.GetById(readId);
+
+		//		if (call != null && Session["TechnicianId"] != null)
+		//		{
+		//			// עדכון הקריאה
+		//			call.AssignedTechnicianId = Convert.ToInt32(Session["TechnicianId"]);
+		//			call.Status = true; // מעדכן את הסטטוס לבטיפול
+		//			call.UpdateReadability();
+
+		//			// רענון הדף
+		//			LoadCalls();
+
+		//			// הודעת הצלחה
+		//			ScriptManager.RegisterStartupScript(this, GetType(), "ShowSuccess",
+		//				"Swal.fire({" +
+		//				"  title: 'הקריאה נקלטה'," +
+		//				"  text: 'הקריאה התקבלה בהצלחה'," +
+		//				"  icon: 'success'," +
+		//				"  timer: 2000," +
+		//				"  showConfirmButton: false" +
+		//				"});", true);
+		//		}
+		//		else
+		//		{
+		//			ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+		//				"Swal.fire('שגיאה', 'לא נמצאה הקריאה או שהמשתמש לא מחובר', 'error');", true);
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		System.Diagnostics.Debug.WriteLine($"Error in AcceptCall: {ex.Message}");
+		//		ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+		//			"Swal.fire('שגיאה', 'אירעה שגיאה בקבלת הקריאה', 'error');", true);
+		//	}
+		//}
+		
+
 	}
 }
+
 
 

@@ -293,9 +293,56 @@ namespace Data
             }
         }
 
-		internal DataTable Execute(string sql, List<SqlParameter> parameters)
-		{
-			throw new NotImplementedException();
-		}
-	}
+        public DataTable Execute(string sql, List<SqlParameter> parameters, int CmdType = 1)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine("=== מתחיל ביצוע Execute עם פרמטרים ===");
+                System.Diagnostics.Debug.WriteLine($"SQL Query: {sql}");
+
+                Open();
+                Cmd.CommandText = sql;
+                Cmd.Parameters.Clear(); // נקה פרמטרים קודמים
+
+                if (parameters != null)
+                {
+                    foreach (var param in parameters)
+                    {
+                        Cmd.Parameters.Add(param);
+                        System.Diagnostics.Debug.WriteLine($"הוסף פרמטר: {param.ParameterName} = {param.Value}");
+                    }
+                }
+
+                DataTable Dt = new DataTable();
+                SqlDataAdapter Da = new SqlDataAdapter();
+
+                if (CmdType == 2)
+                {
+                    Cmd.CommandType = CommandType.StoredProcedure;
+                    System.Diagnostics.Debug.WriteLine("הוגדר כ-Stored Procedure");
+                }
+
+                Da.SelectCommand = Cmd;
+                Da.Fill(Dt);
+
+                System.Diagnostics.Debug.WriteLine($"מספר שורות שהוחזרו: {Dt.Rows.Count}");
+                System.Diagnostics.Debug.WriteLine($"מספר עמודות: {Dt.Columns.Count}");
+
+                Cmd.Dispose();
+                Close();
+
+                System.Diagnostics.Debug.WriteLine("=== סיום ביצוע Execute ===");
+                return Dt;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(
+                    $"!!! שגיאה בביצוע Execute !!!\n" +
+                    $"שגיאה: {ex.Message}\n" +
+                    $"SQL: {sql}\n" +
+                    $"Stack Trace: {ex.StackTrace}");
+                throw;
+            }
+        }
+    }
 }

@@ -120,7 +120,9 @@ namespace MobileExpress.Users
 				}
 
 				newTicket.SaveNewRead();
-
+				// בתוך btnSubmit_Click, אחרי שמירת הקריאה החדשה
+				//newTicket.SaveNewRead();
+				//NotificationService.CreateNewNotification(newTicket.ReadId);
 				// הודעת הצלחה
 				ScriptManager.RegisterStartupScript(this, GetType(), "ShowSuccess",
 					"alert('הקריאה נפתחה בהצלחה!');window.location='TicketsList.aspx';", true);

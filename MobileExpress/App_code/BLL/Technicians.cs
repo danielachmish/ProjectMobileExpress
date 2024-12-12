@@ -20,6 +20,7 @@ namespace BLL
         public bool Status { get; set; }
         public int SerProdId { get; set; }
         public DateTime DateAddition { get; set; }
+        public bool ShowLocation { get; set; }
 
         // פונקציה לשמירת טכנאי חדש
         public void SaveNewTechnician()
@@ -57,6 +58,7 @@ namespace BLL
                 Type = "",
                 Email = email,
                 DateAddition = DateTime.Now,
+
             };
 
             return technician;

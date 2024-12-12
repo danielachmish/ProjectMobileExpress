@@ -464,7 +464,11 @@ public class BidDAL
 		DbContext db = new DbContext();
 		try
 		{
-			string sql = "SELECT * FROM T_Bid WHERE BidId = @BidId";
+			//string sql = "SELECT * FROM T_Bid WHERE BidId = @BidId";
+			string sql = @"SELECT b.*, r.FullName 
+                      FROM T_Bid b 
+                      LEFT JOIN T_Readability r ON b.ReadId = r.ReadId 
+                      WHERE b.BidId = @BidId";
 			var parameters = new List<SqlParameter>
 		{
 			new SqlParameter("@BidId", id)
@@ -484,6 +488,8 @@ public class BidDAL
 					TecId = Convert.ToInt32(row["TecId"]),
 					ReadId = Convert.ToInt32(row["ReadId"]),
 					Date = Convert.ToDateTime(row["Date"]),
+					FullName = row["FullName"]?.ToString() ?? "לא צוין",
+
 					// בדיקת NULL לשדות החדשים
 					ItemDescription = row["ItemDescription"] != DBNull.Value ? row["ItemDescription"].ToString() : null,
 					ItemQuantity = row["ItemQuantity"] != DBNull.Value ? Convert.ToInt32(row["ItemQuantity"]) : 0,
@@ -503,7 +509,10 @@ public class BidDAL
 		DbContext db = new DbContext();
 		try
 		{
-			string sql = "SELECT * FROM T_Bid";
+			//string sql = "SELECT * FROM T_Bid";
+			string sql = @"SELECT b.*, r.FullName 
+                      FROM T_Bid b 
+                      LEFT JOIN T_Readability r ON b.ReadId = r.ReadId";
 			DataTable dt = db.Execute(sql);
 			List<Bid> bids = new List<Bid>();
 
@@ -520,6 +529,7 @@ public class BidDAL
 						TecId = Convert.ToInt32(row["TecId"]),
 						ReadId = Convert.ToInt32(row["ReadId"]),
 						Date = Convert.ToDateTime(row["Date"])
+
 					};
 
 					// בדיקת קיום העמודות החדשות

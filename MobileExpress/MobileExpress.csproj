@@ -208,12 +208,6 @@
     <Reference Include="Monads, Version=1.1.5.0, Culture=neutral, PublicKeyToken=c45ad03d718dd7fa, processorArchitecture=MSIL">
       <HintPath>..\packages\Monads.1.1.5.0\lib\net40\Monads.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Bson, Version=2.30.0.0, Culture=neutral, PublicKeyToken=94992a530f44e321, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Bson.2.30.0\lib\net472\MongoDB.Bson.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Libmongocrypt, Version=1.12.0.0, Culture=neutral, PublicKeyToken=94992a530f44e321, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Libmongocrypt.1.12.0\lib\net472\MongoDB.Libmongocrypt.dll</HintPath>
-    </Reference>
     <Reference Include="Mvc.JQuery.DataTables, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Mvc.JQuery.DataTables.1.5.56\lib\net451\Mvc.JQuery.DataTables.dll</HintPath>
     </Reference>
@@ -306,7 +300,6 @@
     <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
       <Private>True</Private>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -322,7 +315,6 @@
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
       <Private>True</Private>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
@@ -336,7 +328,6 @@
     </Reference>
     <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
-      <Private>True</Private>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -408,7 +399,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\Styles.css" />
-    <Content Include="Chat.aspx" />
     <Content Include="FodyWeavers.XML" />
     <Content Include="MainMobileExpress.aspx" />
     <Content Include="Manage\AdminiList.aspx" />
@@ -727,24 +717,24 @@
     <Content Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </Content>
-    <Content Include="libmongocrypt.so" />
-    <Content Include="libmongocrypt.dylib" />
     <Content Include="Master.Master" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
-    <Content Include="mongocrypt.dll" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.min.js" />
     <Content Include="TechniciansFolder\AllBids.aspx" />
     <Content Include="TechniciansFolder\AllRead.aspx" />
+    <Content Include="TechniciansFolder\EditBid.aspx" />
     <Content Include="TechniciansFolder\Forms.aspx" />
     <Content Include="TechniciansFolder\MainTechnicians.aspx" />
     <Content Include="TechniciansFolder\MapOrientation.aspx" />
     <Content Include="TechniciansFolder\SingInTechnicians.aspx" />
     <Content Include="TechniciansFolder\SingUpTechnicians.aspx" />
     <Content Include="TechniciansFolder\Tasks.aspx" />
+    <Content Include="TechniciansFolder\Notifications.aspx" />
     <Content Include="TechniciansFolder\TechnicianProfile.aspx" />
+    <Content Include="Users\Bids.aspx" />
     <Content Include="Users\CustomerProfile.aspx" />
     <Content Include="Users\Default.aspx" />
     <Content Include="Users\Main.aspx" />
@@ -754,7 +744,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_code\BLL\Chat.cs" />
+    <Compile Include="App_code\BLL\TechnicianNotifications.cs" />
     <Compile Include="App_code\BLL\Readability.cs" />
     <Compile Include="App_code\BLL\Rating.cs" />
     <Compile Include="App_code\BLL\Models.cs" />
@@ -766,30 +756,24 @@
     <Compile Include="App_code\BLL\Administrators.cs" />
     <Compile Include="App_code\BLL\SerProd.cs" />
     <Compile Include="App_code\BLL\SystemInfoService.cs" />
+    <Compile Include="App_code\BLL\TechnicianLocation.cs" />
     <Compile Include="App_code\BLL\Technicians.cs" />
     <Compile Include="App_code\DAL\AdministratorsDAL.cs" />
     <Compile Include="App_code\DAL\BidDAL.cs" />
     <Compile Include="App_code\DAL\CategoriesDAL.cs" />
-    <Compile Include="App_code\DAL\ChatDAL.cs" />
     <Compile Include="App_code\DAL\CityDAL.cs" />
     <Compile Include="App_code\DAL\CustomersDAL.cs" />
     <Compile Include="App_code\DAL\ManufacturersDAL.cs" />
     <Compile Include="App_code\DAL\ModelsDAL.cs" />
+    <Compile Include="App_code\DAL\TechnicianNotificationsDAL.cs" />
     <Compile Include="App_code\DAL\RatingDAL.cs" />
     <Compile Include="App_code\DAL\ReadabilityDAL.cs" />
     <Compile Include="App_code\DAL\SerProdDAL.cs" />
+    <Compile Include="App_code\DAL\TechnicianLocationDAL.cs" />
     <Compile Include="App_code\DAL\TechniciansDAL.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Chat.aspx.cs">
-      <DependentUpon>Chat.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Chat.aspx.designer.cs">
-      <DependentUpon>Chat.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="controllers\ChatController.cs" />
     <Compile Include="controllers\PriceQuoteController.cs" />
     <Compile Include="MainMobileExpress.aspx.cs">
       <DependentUpon>MainMobileExpress.aspx</DependentUpon>
@@ -926,6 +910,13 @@
     <Compile Include="TechniciansFolder\AllRead.aspx.designer.cs">
       <DependentUpon>AllRead.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TechniciansFolder\EditBid.aspx.cs">
+      <DependentUpon>EditBid.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TechniciansFolder\EditBid.aspx.designer.cs">
+      <DependentUpon>EditBid.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TechniciansFolder\Forms.aspx.cs">
       <DependentUpon>Forms.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -975,12 +966,25 @@
     <Compile Include="TechniciansFolder\Tasks.aspx.designer.cs">
       <DependentUpon>Tasks.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TechniciansFolder\Notifications.aspx.cs">
+      <DependentUpon>Notifications.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TechniciansFolder\Notifications.aspx.designer.cs">
+      <DependentUpon>Notifications.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TechniciansFolder\TechnicianProfile.aspx.cs">
       <DependentUpon>TechnicianProfile.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TechniciansFolder\TechnicianProfile.aspx.designer.cs">
       <DependentUpon>TechnicianProfile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Users\Bids.aspx.cs">
+      <DependentUpon>Bids.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Users\Bids.aspx.designer.cs">
+      <DependentUpon>Bids.aspx</DependentUpon>
     </Compile>
     <Compile Include="Users\CustomerProfile.aspx.cs">
       <DependentUpon>CustomerProfile.aspx</DependentUpon>
@@ -1313,6 +1317,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="assets\images\imagebackground\" />
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
@@ -1356,12 +1361,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
-    <Error Condition="!Exists('..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets'))" />
-    <Error Condition="!Exists('..\packages\Fody.6.6.4\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.6.4\build\Fody.targets'))" />
     <Error Condition="!Exists('..\packages\PropertyChanged.Fody.4.1.0\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.4.1.0\build\PropertyChanged.Fody.props'))" />
+    <Error Condition="!Exists('..\packages\Fody.6.6.4\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.6.4\build\Fody.targets'))" />
   </Target>
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
-  <Import Project="..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets" Condition="Exists('..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets')" />
   <Import Project="..\packages\Fody.6.6.4\build\Fody.targets" Condition="Exists('..\packages\Fody.6.6.4\build\Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

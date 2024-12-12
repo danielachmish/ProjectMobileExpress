@@ -262,81 +262,73 @@
 
 
 
-        <div class="modal-card" id="techniciansModal">
-            <div class="image-side"></div>
-            <div class="form-side">
-                <h2 id="modalTitle">הרשמה</h2>
+    <div class="modal-card" id="techniciansModal">
+        <div class="image-side"></div>
+        <div class="form-side">
+            <h2 id="modalTitle">הרשמה</h2>
 
-                <asp:HiddenField ID="hfTecId" runat="server" />
+            <asp:HiddenField ID="hfTecId" runat="server" />
 
-                <div class="form-group">
-                    <asp:Label AssociatedControlID="txtFulName" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtFulName" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="שם מלא"></asp:TextBox>
-                </div>
+            <div class="form-group">
+                <asp:Label AssociatedControlID="txtFulName" runat="server"></asp:Label>
+                <asp:TextBox ID="txtFulName" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="שם מלא"></asp:TextBox>
+            </div>
 
-                <div class="form-group">
-                    <asp:Label AssociatedControlID="txtTecNum" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtTecNum" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="ח.פ/ת.ז"></asp:TextBox>
-                </div>
+            <div class="form-group">
+                <asp:Label AssociatedControlID="txtTecNum" runat="server"></asp:Label>
+                <asp:TextBox ID="txtTecNum" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="ח.פ/ת.ז"></asp:TextBox>
+            </div>
 
-                <div class="form-group">
-                    <asp:Label AssociatedControlID="txtPhone" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtPhone" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="טלפון"></asp:TextBox>
-                </div>
+            <div class="form-group">
+                <asp:Label AssociatedControlID="txtPhone" runat="server"></asp:Label>
+                <asp:TextBox ID="txtPhone" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="טלפון"></asp:TextBox>
+            </div>
 
-                <div class="form-group">
-                    <asp:Label AssociatedControlID="txtAddress" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtAddress" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="כתובת"></asp:TextBox>
-                </div>
+            <div class="form-group">
+                <asp:Label AssociatedControlID="txtAddress" runat="server"></asp:Label>
+                <asp:TextBox ID="txtAddress" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="כתובת"></asp:TextBox>
+            </div>
 
-                <div class="form-group">
-                    <asp:Label AssociatedControlID="txtPass" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtPass" runat="server" TextMode="Password" required="required" CssClass="form-control form-control-rounded" placeholder="סיסמה"></asp:TextBox>
-                </div>
+            <div class="form-group">
+                <asp:Label AssociatedControlID="txtPass" runat="server"></asp:Label>
+                <asp:TextBox ID="txtPass" runat="server" TextMode="Password" required="required" CssClass="form-control form-control-rounded" placeholder="סיסמה"></asp:TextBox>
+            </div>
 
-                <div class="form-group">
-                    <asp:Label AssociatedControlID="txtUserName" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtUserName" runat="server" CssClass="form-control form-control-rounded" placeholder="שם משתמש"></asp:TextBox>
-                </div>
-                <div class="form-group">
-                    <asp:Label AssociatedControlID="txtType" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtType" runat="server" CssClass="form-control form-control-rounded" placeholder="סוג טכנאי"></asp:TextBox>
-                </div>
-                <div class="form-group">
-                    <asp:Label AssociatedControlID="txtEmail" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control form-control-rounded" placeholder="כתובת מייל"></asp:TextBox>
-                </div>
-                <asp:Button ID="btnSave" runat="server" OnClick="SaveTechnicians" Text="שמירה" CssClass="btn btn-primary" />
+            <div class="form-group">
+                <asp:Label AssociatedControlID="txtUserName" runat="server"></asp:Label>
+                <asp:TextBox ID="txtUserName" runat="server" CssClass="form-control form-control-rounded" placeholder="שם משתמש"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <asp:Label AssociatedControlID="txtType" runat="server"></asp:Label>
+                <asp:TextBox ID="txtType" runat="server" CssClass="form-control form-control-rounded" placeholder="סוג טכנאי"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <asp:Label AssociatedControlID="txtEmail" runat="server"></asp:Label>
+                <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control form-control-rounded" placeholder="כתובת מייל"></asp:TextBox>
+            </div>
+            <asp:Button ID="btnSave" runat="server" OnClick="SaveTechnicians" Text="שמירה" CssClass="btn btn-primary" />
 
 
 
-                <!-- כפתורי ההתחברות החברתית -->
-                <div class="social-buttons">
-                    <%-- <asp:LinkButton ID="emailButton" runat="server" CssClass="social-button email" OnClick="EmailSignUp">
-                            <i class="fas fa-envelope"></i>
-                            התחברות באמצעות אימייל
-                    </asp:LinkButton>--%>
+            <!-- כפתורי ההתחברות החברתית -->
+            <div class="social-buttons">
 
-                    <div class="google-container">
-                        <!-- הכפתור המעוצב -->
-                        <asp:LinkButton ID="googleButton" runat="server" CssClass="social-button google">
+                <div class="google-container">
+                    <!-- הכפתור המעוצב -->
+                    <asp:LinkButton ID="googleButton" runat="server" CssClass="social-button google">
             <i class="fab fa-google"></i>
             התחברות באמצעות Google
         </asp:LinkButton>
-                        <!-- הכפתור המקורי של Google מעל הכפתור המעוצב -->
-                        <div class="g-signin2 google-overlay" data-onsuccess="onGoogleSignUp"></div>
-                    </div>
+                    <!-- הכפתור המקורי של Google מעל הכפתור המעוצב -->
+                    <div class="g-signin2 google-overlay" data-onsuccess="onGoogleSignUp"></div>
+                </div>
 
-                    <%-- <asp:LinkButton ID="facebookButton" runat="server" CssClass="social-button facebook" OnClick="FacebookSignUp">
-                            <i class="fab fa-facebook"></i>
-                            התחברות באמצעות Facebook
-                        </asp:LinkButton>--%>
-                    <div class="login-link" style="text-align: center; margin-top: 15px;">
-        <a href="SingInTechnicians.aspx" style="color: #666; text-decoration: none;">יש לך חשבון? היכנס</a>
-    </div>
+                <div class="login-link" style="text-align: center; margin-top: 15px;">
+                    <a href="SingInTechnicians.aspx" style="color: #666; text-decoration: none;">יש לך חשבון? היכנס</a>
                 </div>
             </div>
         </div>
+    </div>
 
 
 
@@ -473,65 +465,6 @@
                     alert('שגיאה בטעינת הפרטים: ' + error.message);
                 });
         }
-
-        //function onGoogleSignUp(googleUser) {
-        //    console.log('Google Sign-Up successful');
-        //    var id_token = googleUser.getAuthResponse().id_token;
-
-        //    fetch('/api/Technicians/google-signup', {
-        //        method: 'POST',
-        //        headers: {
-        //            'Content-Type': 'application/json'
-        //        },
-        //        body: JSON.stringify({ idToken: id_token })
-        //    })
-        //        .then(response => {
-        //            console.log('Server Response:', response);
-        //            // בדיקה אם התגובה תקינה
-        //            if (!response.ok) {
-        //                throw new Error(`HTTP error! status: ${response.status}`);
-        //            }
-        //            return response.json();
-        //        })
-        //        .then(data => {
-        //            console.log('Server Data:', data);
-        //            if (data.success) {
-        //                alert('ההרשמה בוצעה בהצלחה!');
-        //                window.location.href = 'MainTechnicians.aspx';
-        //            } else {
-        //                throw new Error(data.message || 'אירעה שגיאה לא ידועה');
-        //            }
-        //        })
-        //        .catch(error => {
-        //            console.error('Error:', error);
-        //            alert('שגיאה בהרשמה עם גוגל: ' + error.message);
-        //        });
-        //}
-
-      <%--  // פונקציה להתחברות
-        function initFacebookLogin() {
-            FB.login(function (response) {
-                if (response.authResponse) {
-                    // שליחת הטוקן לשרת
-                    document.getElementById('<%= facebookButton.ClientID %>').click();
-                    // הוספת שדה נסתר עם הטוקן
-                    var form = document.forms[0];
-                    var input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = 'fbToken';
-                    input.value = response.authResponse.accessToken;
-                    form.appendChild(input);
-                }
-            }, { scope: 'email' });
-        }
-
-        // קישור הפונקציה לכפתור
-        document.querySelector('.facebook').addEventListener('click', function (e) {
-            e.preventDefault();
-            initFacebookLogin();
-        });--%>
-
-
     </script>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">

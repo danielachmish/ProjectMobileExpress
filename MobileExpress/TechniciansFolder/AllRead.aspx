@@ -44,24 +44,35 @@
                                         </div>
                                     </div>
 
-                                    <!-- פרטי הקריאה -->
-                                    <div class="details-section">
-                                        <div class="detail-group">
-                                            <!-- מידע אישי -->
-                                            <div class="detail-item">
-                                                <span class="detail-label">שם לקוח</span>
-                                                <span class="detail-value"><%# Eval("FullName") %></span>
-                                            </div>
-                                            <div class="detail-item">
-                                                <span class="detail-label">טלפון</span>
-                                                <span class="detail-value"><%# Eval("Phone") %></span>
-                                            </div>
-                                            <div class="detail-item">
-                                                <span class="detail-label">תאריך קריאה</span>
-                                                <span class="detail-value"><%# ((DateTime)Eval("DateRead")).ToString("dd/MM/yyyy HH:mm") %></span>
-                                            </div>
-                                        </div>
-
+                                   <div class="details-section">
+    <div class="detail-group">
+        <div class="detail-item">
+            <span class="detail-label">שם לקוח</span>
+            <span class="detail-value"><%# Eval("FullName") %></span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">טלפון</span>
+            <span class="detail-value"><%# Eval("Phone") %></span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">תאריך קריאה</span>
+            <span class="detail-value"><%# ((DateTime)Eval("DateRead")).ToString("dd/MM/yyyy HH:mm") %></span>
+        </div>
+    </div>
+   <ItemTemplate>
+    <div class="call-status">
+        <%# Eval("AssignedTechnicianId") != null ? 
+               "<div class=\"status-badge approved\">הקריאה אושרה</div>" : 
+               "" %>
+        <asp:Button runat="server"
+            CssClass="btn btn-accept-call"
+            Text="התחל טיפול"
+            OnClick="AcceptCall"
+            CommandArgument='<%# Eval("ReadId") %>'
+            Visible='<%# !Convert.ToBoolean(Eval("Status")) %>' />
+    </div>
+</ItemTemplate>
+   
                                         <div class="detail-group">
                                             <!-- פרטי מוצר ושירות -->
                                             <div class="detail-item">
@@ -93,36 +104,36 @@
                                                 <a href='MapOrientation.aspx?readId=<%# Eval("ReadId") %>' class="location-link">
                                                     <i class="fas fa-map-marker-alt"></i>
                                                     הצג מיקום
-                                                                 </a>
+                                                </a>
                                             </div>
 
                                         </div>
                                     </div>
 
                                     <!-- תמונה ותיאור -->
-                                   <%-- <div class="media-section">
+                                    <%-- <div class="media-section">
                                         <div class="image-container">
                                             <%# Eval("NameImage").ToString() != "" ? 
                                            "<img src='Images/" + Eval("NameImage") + "' alt='תמונת קריאה' class='service-image' />" : 
                                            "<div class='no-image'>אין תמונה</div>" %>
                                         </div>--%>
 
-                                        <div class="description-container">
-                                            <span class="detail-label">תיאור התקלה</span>
-                                            <p class="description-text"><%# Eval("Desc") %></p>
-                                        </div>
-                                    </div>
-                                    <!-- כפתורי פעולה -->
-                                    <div class="action-buttons">
-                                        <asp:Button runat="server"
-                                            CssClass="btn btn-primary"
-                                            Text="הצעת מחיר"
-                                            OnClick="RedirectToPriceQuote"
-                                            CommandArgument='<%# Eval("ReadId") %>'
-                                            Enabled='<%# !(bool)Eval("Status") %>' />
-
+                                    <div class="description-container">
+                                        <span class="detail-label">תיאור התקלה</span>
+                                        <p class="description-text"><%# Eval("Desc") %></p>
                                     </div>
                                 </div>
+                                <!-- כפתורי פעולה -->
+                                <div class="action-buttons">
+                                    <asp:Button runat="server"
+                                        CssClass="btn btn-primary"
+                                        Text="הצעת מחיר"
+                                        OnClick="RedirectToPriceQuote"
+                                        CommandArgument='<%# Eval("ReadId") %>'
+                                        Enabled='<%# !(bool)Eval("Status") %>' />
+
+                                </div>
+                            </div>
                         </ItemTemplate>
                     </asp:Repeater>
                 </div>
@@ -131,15 +142,15 @@
         <asp:Timer ID="RefreshTimer" runat="server" Interval="30000" OnTick="RefreshTimer_Tick" />
     </div>
 
-   
+
 
     <!-- שדות מוסתרים לשמירת מזהים -->
     <input type="hidden" id="hiddenReadId" runat="server" />
     <input type="hidden" id="hiddenCustomerId" runat="server" />
     <input type="hidden" id="hiddenTechnicianId" runat="server" />
     <!-- הוספת סגנונות חדשים -->
-   
-      <%--  <style>
+
+    <%--  <style>
              /* עדכון לסגנונות הקיימים */
         .details-section {
             display: flex;
@@ -478,233 +489,274 @@
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
         </style>--%>
-       <Style>
-           :root {
-   --purple-50: rgba(124, 58, 237, 0.05);
-   --purple-100: rgba(124, 58, 237, 0.1);
-   --purple-500: #7c3aed;
-   --purple-600: #6d28d9;
-   --purple-700: #5b21b6;
-   --border-color: rgba(124, 58, 237, 0.15);
-   --text-primary: #1f2937;
-   --text-secondary: #6b7280;
-}
+    <style>
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
 
-.dashboard-container {
-   padding: 2rem;
-   background-color: #f9fafb;
-   max-width: 1200px;
-   margin: 0 auto;
-}
+            .status-badge.approved {
+                background-color: #48BB78;
+                color: white;
+            }
 
-.cards-list {
-   display: flex;
-   flex-direction: column;
-   gap: 1.5rem;
-}
+        .btn-accept-call {
+            background: var(--purple-600);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
 
-.card {
-   background: white;
-   border-radius: 16px;
-   box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08);
-   width: 100%;
-   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+            .btn-accept-call:hover {
+                background: var(--purple-700);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(107, 70, 193, 0.2);
+            }
 
-.card:hover {
-   transform: translateY(-4px);
-   box-shadow: 0 8px 30px rgba(124, 58, 237, 0.12);
-}
+        .card.approved {
+            border-right: 4px solid #48BB78;
+            background-color: rgba(72, 187, 120, 0.05);
+        }
 
-.card-content {
-   padding: 1.5rem;
-}
 
-.header-section {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   margin-bottom: 1.5rem;
-   padding-bottom: 1rem;
-   border-bottom: 2px solid var(--purple-50);
-}
 
-.card-title {
-   font-size: 1.25rem;
-   color: var(--text-primary);
-   font-weight: 600;
-   margin: 0;
-}
 
-.subtitle {
-   font-size: 0.9rem;
-   color: var(--text-secondary);
-   margin-top: 0.25rem;
-}
 
-.call-id {
-   font-size: 1.5rem;
-   color: var(--purple-500);
-   font-weight: 600;
-}
 
-.details-section {
-   display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-   gap: 1.5rem;
-   padding: 1.5rem 0;
-   border-bottom: 2px solid var(--purple-50);
-}
+        :root {
+            --purple-50: rgba(124, 58, 237, 0.05);
+            --purple-100: rgba(124, 58, 237, 0.1);
+            --purple-500: #7c3aed;
+            --purple-600: #6d28d9;
+            --purple-700: #5b21b6;
+            --border-color: rgba(124, 58, 237, 0.15);
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+        }
 
-.detail-item {
-   display: flex;
-   flex-direction: column;
-   gap: 0.5rem;
-   padding: 1rem;
-   background: var(--purple-50);
-   border-radius: 12px;
-   transition: all 0.3s ease;
-}
+        .dashboard-container {
+            padding: 2rem;
+            background-color: #f9fafb;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-.detail-item:hover {
-   background: var(--purple-100);
-}
+        .cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
 
-.detail-label {
-   font-size: 0.875rem;
-   color: var(--text-secondary);
-}
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08);
+            width: 100%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-.detail-value {
-   font-size: 1rem;
-   color: var(--text-primary);
-   font-weight: 500;
-}
+            .card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 8px 30px rgba(124, 58, 237, 0.12);
+            }
 
-.media-section {
-   display: flex;
-   gap: 1.5rem;
-   margin: 1.5rem 0;
-   padding: 1.5rem 0;
-   border-bottom: 2px solid var(--purple-50);
-}
+        .card-content {
+            padding: 1.5rem;
+        }
 
-.image-container {
-   flex: 0 0 200px;
-   height: 200px;
-   border-radius: 12px;
-   overflow: hidden;
-   box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);
-}
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--purple-50);
+        }
 
-.description-text {
-   background: var(--purple-50);
-   padding: 1rem;
-   border-radius: 12px;
-   line-height: 1.6;
-   color: var(--text-primary);
-}
+        .card-title {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin: 0;
+        }
 
-.location-link {
-   color: var(--purple-500);
-   text-decoration: none;
-   display: flex;
-   align-items: center;
-   gap: 0.5rem;
-   padding: 0.5rem;
-   border-radius: 8px;
-   transition: all 0.3s ease;
-}
+        .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
 
-.location-link:hover {
-   background: var(--purple-50);
-   transform: translateX(4px);
-}
+        .call-id {
+            font-size: 1.5rem;
+            color: var(--purple-500);
+            font-weight: 600;
+        }
 
-.action-buttons {
-   display: flex;
-   gap: 1rem;
-   margin-top: 1.5rem;
-}
+        .details-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem 0;
+            border-bottom: 2px solid var(--purple-50);
+        }
 
-.btn {
-   padding: 0.75rem 1.5rem;
-   border-radius: 12px;
-   font-weight: 500;
-   transition: all 0.3s ease;
-}
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--purple-50);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
 
-.btn-primary {
-   background: var(--purple-500);
-   color: white;
-   border: none;
-}
+            .detail-item:hover {
+                background: var(--purple-100);
+            }
 
-.btn-primary:hover {
-   background: var(--purple-600);
-   transform: translateY(-2px);
-   box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
-}
+        .detail-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
 
-.btn-secondary {
-   background: white;
-   color: var(--purple-500);
-   border: 2px solid var(--purple-500);
-}
+        .detail-value {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
 
-.btn-secondary:hover {
-   background: var(--purple-50);
-   transform: translateY(-2px);
-}
+        .media-section {
+            display: flex;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            padding: 1.5rem 0;
+            border-bottom: 2px solid var(--purple-50);
+        }
 
-.urgent {
-   color: #ef4444;
-   font-weight: 500;
-   display: inline-flex;
-   align-items: center;
-   gap: 0.5rem;
-   padding: 0.5rem 1rem;
-   background: #fee2e2;
-   border-radius: 20px;
-}
+        .image-container {
+            flex: 0 0 200px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);
+        }
 
-.highlighted-call {
-   animation: highlight-pulse 2s cubic-bezier(0.4, 0, 0.6, 1);
-}
+        .description-text {
+            background: var(--purple-50);
+            padding: 1rem;
+            border-radius: 12px;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
 
-@keyframes highlight-pulse {
-   0% {
-       box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4);
-   }
-   70% {
-       box-shadow: 0 0 0 15px rgba(124, 58, 237, 0);
-   }
-   100% {
-       box-shadow: 0 0 0 0 rgba(124, 58, 237, 0);
-   }
-}
+        .location-link {
+            color: var(--purple-500);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
 
-@media (max-width: 768px) {
-   .details-section {
-       grid-template-columns: 1fr;
-   }
+            .location-link:hover {
+                background: var(--purple-50);
+                transform: translateX(4px);
+            }
 
-   .media-section {
-       flex-direction: column;
-   }
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
 
-   .action-buttons {
-       flex-direction: column;
-   }
-}
-       </Style>
-    
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--purple-500);
+            color: white;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background: var(--purple-600);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+            }
+
+        .btn-secondary {
+            background: white;
+            color: var(--purple-500);
+            border: 2px solid var(--purple-500);
+        }
+
+            .btn-secondary:hover {
+                background: var(--purple-50);
+                transform: translateY(-2px);
+            }
+
+        .urgent {
+            color: #ef4444;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #fee2e2;
+            border-radius: 20px;
+        }
+
+        .highlighted-call {
+            animation: highlight-pulse 2s cubic-bezier(0.4, 0, 0.6, 1);
+        }
+
+        @keyframes highlight-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(124, 58, 237, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(124, 58, 237, 0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .details-section {
+                grid-template-columns: 1fr;
+            }
+
+            .media-section {
+                flex-direction: column;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
@@ -717,7 +769,7 @@
     <script src="/dist-assets/js/plugins/datatables.min.js"></script>
     <script src="/dist-assets/js/scripts/contact-list-table.min.js"></script>
     <script src="/dist-assets/js/scripts/datatables.script.min.js"></script>
-     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -726,19 +778,19 @@
             // פונקציית ריענון אוטומטי
             function refreshCalls() {
                 __doPostBack('<%= RefreshTimer.ClientID %>', '');
-              }
+            }
 
-              // הוספת class להדגשת קריאה ספציפית
-              const readId = new URLSearchParams(window.location.search).get('readId');
-              if (readId) {
-                  $(`#call-${readId}`).addClass('highlighted-call');
-              }
+            // הוספת class להדגשת קריאה ספציפית
+            const readId = new URLSearchParams(window.location.search).get('readId');
+            if (readId) {
+                $(`#call-${readId}`).addClass('highlighted-call');
+            }
 
-              // טיפול בשגיאות AJAX
-              $(document).ajaxError(function (event, jqXHR, settings, error) {
-                  Swal.fire('שגיאה', 'אירעה שגיאה בתקשורת עם השרת', 'error');
-              });
-          });
+            // טיפול בשגיאות AJAX
+            $(document).ajaxError(function (event, jqXHR, settings, error) {
+                Swal.fire('שגיאה', 'אירעה שגיאה בתקשורת עם השרת', 'error');
+            });
+        });
 
 
 
@@ -766,7 +818,7 @@
             }
         }
 
-     
+
 
 
         async function handleGoogleCalendar(readId) {

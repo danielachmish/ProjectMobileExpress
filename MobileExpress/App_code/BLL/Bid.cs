@@ -8,6 +8,7 @@ namespace BLL
 {
     public class Bid
     {
+         public string FullName { get; set; } 
         public int BidId { get; set; }
         public string Desc { get; set; }
         public decimal Price { get; set; }
@@ -15,7 +16,7 @@ namespace BLL
         public int TecId { get; set; }
         public int ReadId { get; set; }
         public DateTime Date { get; set; }
-
+        
         // השדות החדשים מהטבלה המאוחדת
         public string ItemDescription { get; set; }
         public int ItemQuantity { get; set; }

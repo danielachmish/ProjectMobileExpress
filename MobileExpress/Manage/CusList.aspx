@@ -130,12 +130,8 @@
                                         </label>
                                         <label class="form-check-label ml-3">Actions</label>
                                     </div>
-
-
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -161,7 +157,6 @@
                                 <th>Email</th>
                                 <th>Pass</th>
                                 <th>DateAdd</th>
-
                                 <th>History</th>
                                 <th>Nots</th>
                                 <th>CityId</th>
@@ -182,7 +177,6 @@
                                         <td><%# Eval("Email") %></td>
                                         <td><%# Eval("Pass") %></td>
                                         <td><%# Eval("DateAdd") %></td>
-
                                         <td><%# Eval("History") %></td>
                                         <td><%# Eval("Nots") %></td>
                                         <td><%# Eval("CityId") %></td>
@@ -198,8 +192,7 @@
                                                                 Addres: '<%# Eval("Addres") %>',
                                                                 Email: '<%# Eval("Email") %>',
                                                                 Password: '<%# Eval("Pass") %>',
-                                                                dateAdd: '<%# Eval("DateAdd") %>',
-                                                              
+                                                                dateAdd: '<%# Eval("DateAdd") %>',                                                              
                                                                 History: '<%# Eval("History") %>',
                                                                 Nots: '<%# Eval("Nots") %>',
                                                                 CityId: '<%# Eval("CityId") %>'
@@ -249,10 +242,7 @@
                             <asp:Label AssociatedControlID="txtPass" runat="server">סיסמה:</asp:Label>
                             <asp:TextBox ID="txtPass" runat="server" TextMode="Password" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
-                        <%--  <div class="form-group">
-            <asp:Label AssociatedControlID="txtDateAdd" runat="server">תאריך הוספה:</asp:Label>
-            <asp:TextBox ID="txtDateAdd" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
-        </div>--%>
+                     
                         <div class="form-group">
                             <asp:Label AssociatedControlID="txtNots" runat="server">הערות:</asp:Label>
                             <asp:TextBox ID="txtNots" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
@@ -864,7 +854,7 @@
             document.getElementById('<%= txtAddres.ClientID %>').value = customer.Addres;
             document.getElementById('<%= txtEmail.ClientID %>').value = customer.Email;
             document.getElementById('<%= txtPass.ClientID %>').value = customer.Password;
-    <%--document.getElementById('<%= txtDateAdd.ClientID %>').value = customer.DateAdd;--%>
+   
 
             document.getElementById('<%= txtNots.ClientID %>').value = customer.Nots;
             document.getElementById('<%= txtCityId.ClientID %>').value = customer.CityId;
@@ -885,7 +875,7 @@
                 Addres: $('#<%= txtAddres.ClientID %>').val(),
                 Email: $('#<%= txtEmail.ClientID %>').val(),
                 Pass: $('#<%= txtPass.ClientID %>').val(),
-     <%--   DateAdd: $('#<%= txtDateAdd.ClientID %>').val(),--%>
+    
 
                 Nots: $('#<%= txtNots.ClientID %>').val(),
                 CityId: parseInt($('#<%= txtCityId.ClientID %>').val())
@@ -981,8 +971,7 @@
                     $('#<%= txtPass.ClientID %>').val(customer.Pass);
                     console.log('Pass הוגדר:', customer.Pass);
 
-                    // DateAdd נמחק או הוסתר
-                    // console.log('DateAdd הוגדר:', customer.DateAdd);
+                    
 
                     $('#<%= txtNots.ClientID %>').val(customer.Nots);
                     console.log('Nots הוגדר:', customer.Nots);
@@ -1003,76 +992,7 @@
             console.log('סיום פונקציית editCustomer');
         }
 
-        //function deleteCustomer(customerId) {
-        //    if (confirm("האם אתה בטוח שברצונך למחוק לקוח זה?")) {
-        //        $.ajax({
-        //            type: "DELETE",
-        //            url: "/api/Customers/" + customerId,
-        //            success: function (response) {
-        //                alert("הלקוח נמחק בהצלחה");
-        //                refreshCustomersTable();
-        //            },
-        //            error: function (error) {
-        //                console.log(error);
-        //                alert("אירעה שגיאה במחיקת הלקוח");
-        //            }
-        //        });
-        //    }
-        //}
-
-       <%--// פונקציה לפתיחת מודאל הוספת לקוח
-        function openModalAdd() {
-            var modal = document.getElementById('customersModal');
-            var title = document.getElementById('modalTitle');
-            var btnSave = document.getElementById('<%= btnSave.ClientID %>');
-
-            title.innerText = 'הוספת טכנאי';
-            btnSave.value = 'הוסף טכנאי';
-
-            // clear form fields
-            document.getElementById('<%= hfCusId.ClientID %>').value = '';
-            document.getElementById('<%= txtFullName.ClientID %>').value = '';
-            document.getElementById('<%= txtPhone.ClientID %>').value = '';
-            document.getElementById('<%= txtAddres.ClientID %>').value = '';
-            document.getElementById('<%= txtEmail.ClientID %>').value = '';
-            document.getElementById('<%= txtPassword.ClientID %>').value = '';            
-            document.getElementById('<%= txtDateAdd.ClientID %>').value = '';
-            document.getElementById('<%= txtStatus.ClientID %>').value = '';          
-            document.getElementById('<%= txtNots.ClientID %>').value = '';
-            document.getElementById('<%= txtCityId.ClientID %>').value = '';     
-            modal.style.display = 'block';
-        }
-
-      // פונקציה לפתיחת מודאל עריכת לקוח
-          function openModalEdit(Customers) {
-            var modal = document.getElementById('customersModal');
-            var title = document.getElementById('modalTitle');
-            var btnSave = document.getElementById('<%= btnSave.ClientID %>');
-
-            title.innerText = 'עריכת לקוח';
-            btnSave.value = 'שמור שינויים';
-
-            // populate form fields with customers data
-            document.getElementById('<%= hfCusId.ClientID %>').value = customers.Id;
-            document.getElementById('<%= txtFullName.ClientID %>').value = customers.FullName;
-              document.getElementById('<%= txtPhone.ClientID %>').value = customers.Phone;
-              document.getElementById('<%= txtAddres.ClientID %>').value = customers.Addres;
-              document.getElementById('<%= txtEmail.ClientID %>').value = customers.Email;         
-              document.getElementById('<%= txtPassword.ClientID %>').value = customers.Password;
-              document.getElementById('<%= txtDateAdd.ClientID %>').value = customers.DateAdd;
-              document.getElementById('<%= txtStatus.ClientID %>').value = customers.Status;
-              document.getElementById('<%= txtNots.ClientID %>').value = customers.Nots;
-              document.getElementById('<%= txtCityId.ClientID %>').value = customers.CityId;
-
-            modal.style.display = 'block';
-        }
-
-        function closeModal() {
-            var modal = document.getElementById('customersModal');
-            modal.style.display = 'none';
-        }--%>
-
-
+        
         // פונקציית מחיקה
         function deleteCustomers(CusId) {
             if (confirm('Are you sure you want to delete this customers?')) {
@@ -1240,7 +1160,7 @@
                     updateStatusInDatabase(cutomersId, newStatus);
                 });
             });
-
+            //עדכון סטטוס
             function updateStatusInDatabase(CusId, Status) {
                 console.log("Updating status for CusId: " + CusId + " to Status: " + Status); // הדפסה לצורכי דיבוג
 

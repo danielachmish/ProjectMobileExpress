@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:ScriptManager runat="server" EnablePageMethods="true"></asp:ScriptManager>
@@ -26,9 +29,9 @@
                 </div>
             </div>
             <div class="col-md-6 text-left">
-                <button type="button" class="btn btn-success" onclick="openNewBidForm()">
+                <%-- <button type="button" class="btn btn-success" onclick="openNewBidForm()">
                     <i class="fas fa-plus"></i>הצעת מחיר חדשה
-                </button>
+                </button>--%>
             </div>
         </div>
 
@@ -37,9 +40,7 @@
             AutoGenerateColumns="False" OnRowCommand="gvBids_RowCommand" DataKeyNames="BidId">
             <Columns>
                 <asp:BoundField DataField="BidId" HeaderText="מספר הצעה" />
-
-                <%--    <asp:BoundField DataField="FullName" DataFormatString="שם לקוח" />--%>
-
+                <%-- <asp:BoundField DataField="Name" HeaderText="שם לקוח" ItemStyle-CssClass="customer-name-cell" />--%>
                 <asp:BoundField DataField="Date" HeaderText="תאריך" DataFormatString="{0:dd/MM/yyyy}" />
                 <asp:BoundField DataField="Price" HeaderText="סכום" DataFormatString="{0:C}" />
                 <asp:BoundField DataField="ItemDescription" HeaderText="תיאור" />
@@ -62,10 +63,16 @@
                                 onclick="editBid(<%# Eval("BidId") %>)">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button type="button" class="btn btn-secondary btn-sm"
-                                onclick="printBid(<%# Eval("BidId") %>)">
-                                <i class="fas fa-print"></i>
-                            </button>
+                           <%-- <div class="action-buttons">
+                                <asp:Button runat="server"
+                                    CssClass="btn btn-accept-call"
+                                    Text="קבל קריאה"
+                                    CommandName="AcceptCall"
+                                    CommandArgument='<%# Eval("ReadId") %>'
+                                   
+                                    Visible='<%# (bool)Eval("Status") && !Convert.ToBoolean(Eval("IsCallAccepted")) %>' />
+
+                            </div>--%>
                         </div>
                     </ItemTemplate>
                 </asp:TemplateField>
@@ -86,233 +93,302 @@
                 <div class="modal-body" id="bidDetails">
                     <!-- תוכן דינמי -->
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">סגור</button>
-                    <button type="button" class="btn btn-primary" onclick="printCurrentBid()">הדפס</button>
+
+                    <button type="button" class="btn btn-primary" onclick="printCurrentBid()">
+                        <i class="fas fa-print"></i>הדפס
+   
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-   <style>
-/* צבעים קבועים */
-:root {
-    --purple-50: rgba(124, 58, 237, 0.05);
-    --purple-100: rgba(124, 58, 237, 0.1);
-    --purple-500: #7c3aed;
-    --purple-600: #6d28d9;
-    --purple-700: #5b21b6;
-}
+    <style>
+        /* הצעה מאושרת */
+        .card.approved {
+            border-right: 4px solid #48BB78;
+            background: rgba(72, 187, 120, 0.05);
+        }
 
-.container {
-    padding: 2rem;
-}
+        /* כפתור קבלת קריאה */
+        .btn-accept-call {
+            background: #48BB78;
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-h2.mt-4 {
-    color: var(--purple-700);
-    font-weight: 600;
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-}
+            .btn-accept-call:hover {
+                background: #38A169;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(72, 187, 120, 0.2);
+            }
 
-/* עיצוב תיבת החיפוש */
-.input-group .form-control {
-    border-radius: 12px 0 0 12px;
-    border: 2px solid #e5e7eb;
-    padding: 0.75rem 1rem;
-    transition: all 0.3s ease;
-}
 
-.input-group .form-control:focus {
-    border-color: var(--purple-500);
-    box-shadow: 0 0 0 3px var(--purple-50);
-}
 
-.input-group-append .btn-primary {
-    border-radius: 0 12px 12px 0;
-    background: var(--purple-500);
-    border: none;
-    padding: 0.75rem 1.5rem;
-    transition: all 0.3s ease;
-}
 
-.input-group-append .btn-primary:hover {
-    background: var(--purple-600);
-    transform: translateY(-1px);
-}
 
-/* כפתור הוספת הצעת מחיר */
-.btn-success {
-    background: var(--purple-500);
-    border: none;
-    border-radius: 12px;
-    padding: 0.75rem 1.5rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
-}
 
-.btn-success:hover {
-    background: var(--purple-600);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.25);
-}
+        .customer-name-cell {
+            min-width: 150px;
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
-.btn-success i {
-    margin-left: 0.5rem;
-}
+        .table td.customer-name-cell {
+            padding: 1rem;
+            vertical-align: middle;
+            font-weight: 500;
+            color: var(--purple-700);
+        }
+        /* צבעים קבועים */
+        :root {
+            --purple-50: rgba(124, 58, 237, 0.05);
+            --purple-100: rgba(124, 58, 237, 0.1);
+            --purple-500: #7c3aed;
+            --purple-600: #6d28d9;
+            --purple-700: #5b21b6;
+        }
 
-/* עיצוב טבלה */
-.table {
-    border-radius: 16px;
-    overflow: hidden;
-    border: none;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
+        .container {
+            padding: 2rem;
+        }
 
-.table th {
-    background: var(--purple-50);
-    color: var(--purple-700);
-    font-weight: 600;
-    padding: 1rem;
-    border: none;
-}
+        h2.mt-4 {
+            color: var(--purple-700);
+            font-weight: 600;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+        }
 
-.table td {
-    padding: 1rem;
-    border-color: rgba(124, 58, 237, 0.1);
-    vertical-align: middle;
-}
+        /* עיצוב תיבת החיפוש */
+        .input-group .form-control {
+            border-radius: 12px 0 0 12px;
+            border: 2px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
 
-.table tbody tr {
-    transition: all 0.3s ease;
-}
+            .input-group .form-control:focus {
+                border-color: var(--purple-500);
+                box-shadow: 0 0 0 3px var(--purple-50);
+            }
 
-.table tbody tr:hover {
-    background: var(--purple-50);
-}
+        .input-group-append .btn-primary {
+            border-radius: 0 12px 12px 0;
+            background: var(--purple-500);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+        }
 
-/* כפתורי פעולות */
-.btn-group {
-    gap: 0.5rem;
-}
+            .input-group-append .btn-primary:hover {
+                background: var(--purple-600);
+                transform: translateY(-1px);
+            }
 
-.btn-group .btn {
-    border-radius: 8px;
-    padding: 0.5rem 0.75rem;
-    transition: all 0.3s ease;
-}
+        /* כפתור הוספת הצעת מחיר */
+        .btn-success {
+            background: var(--purple-500);
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+        }
 
-.btn-info {
-    background: var(--purple-50);
-    color: var(--purple-500);
-    border: none;
-}
+            .btn-success:hover {
+                background: var(--purple-600);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(124, 58, 237, 0.25);
+            }
 
-.btn-info:hover {
-    background: var(--purple-500);
-    color: white;
-    transform: translateY(-2px);
-}
+            .btn-success i {
+                margin-left: 0.5rem;
+            }
 
-.btn-primary {
-    background: var(--purple-500);
-    border: none;
-}
+        /* עיצוב טבלה */
+        .table {
+            border-radius: 16px;
+            overflow: hidden;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
 
-.btn-primary:hover {
-    background: var(--purple-600);
-    transform: translateY(-2px);
-}
+            .table th {
+                background: var(--purple-50);
+                color: var(--purple-700);
+                font-weight: 600;
+                padding: 1rem;
+                border: none;
+            }
 
-.btn-secondary {
-    background: #f3f4f6;
-    color: #4b5563;
-    border: none;
-}
+            .table td {
+                padding: 1rem;
+                border-color: rgba(124, 58, 237, 0.1);
+                vertical-align: middle;
+            }
 
-.btn-secondary:hover {
-    background: #e5e7eb;
-    transform: translateY(-2px);
-}
+            .table tbody tr {
+                transition: all 0.3s ease;
+            }
 
-/* סטטוס */
-.badge {
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-weight: 500;
-}
+                .table tbody tr:hover {
+                    background: var(--purple-50);
+                }
 
-.badge-success {
-    background: #dcfce7;
-    color: #15803d;
-}
+        /* כפתורי פעולות */
+        .btn-group {
+            gap: 0.5rem;
+        }
 
-.badge-danger {
-    background: #fee2e2;
-    color: #dc2626;
-}
+            .btn-group .btn {
+                border-radius: 8px;
+                padding: 0.5rem 0.75rem;
+                transition: all 0.3s ease;
+            }
 
-/* מודאל */
-.modal-content {
-    border-radius: 24px;
-    border: none;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-}
+        .btn-info {
+            background: var(--purple-50);
+            color: var(--purple-500);
+            border: none;
+        }
 
-.modal-header {
-    background: var(--purple-500);
-    color: white;
-    border-radius: 24px 24px 0 0;
-    padding: 1.5rem;
-}
+            .btn-info:hover {
+                background: var(--purple-500);
+                color: white;
+                transform: translateY(-2px);
+            }
 
-.modal-header .close {
-    color: white;
-    opacity: 1;
-    text-shadow: none;
-    transition: transform 0.3s ease;
-}
+        .btn-primary {
+            background: var(--purple-500);
+            border: none;
+        }
 
-.modal-header .close:hover {
-    transform: rotate(90deg);
-}
+            .btn-primary:hover {
+                background: var(--purple-600);
+                transform: translateY(-2px);
+            }
 
-.modal-body {
-    padding: 2rem;
-}
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #4b5563;
+            border: none;
+        }
 
-.modal-footer {
-    border-top: 1px solid rgba(124, 58, 237, 0.1);
-    padding: 1.5rem;
-}
+            .btn-secondary:hover {
+                background: #e5e7eb;
+                transform: translateY(-2px);
+            }
 
-/* כפתורים במודאל */
-.modal-footer .btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-}
+        /* סטטוס */
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
 
-.modal-footer .btn-primary {
-    background: var(--purple-500);
-    border: none;
-}
+        .badge-success {
+            background: #dcfce7;
+            color: #15803d;
+        }
 
-.modal-footer .btn-primary:hover {
-    background: var(--purple-600);
-    transform: translateY(-2px);
-}
+        .badge-danger {
+            background: #fee2e2;
+            color: #dc2626;
+        }
 
-.modal-footer .btn-secondary {
-    background: #f3f4f6;
-    color: #4b5563;
-    border: none;
-}
+        /* מודאל */
+        .modal-content {
+            border-radius: 24px;
+            border: none;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
 
-.modal-footer .btn-secondary:hover {
-    background: #e5e7eb;
-    transform: translateY(-2px);
-}
-</style>
+        .modal-header {
+            background: var(--purple-500);
+            color: white;
+            border-radius: 24px 24px 0 0;
+            padding: 1.5rem;
+        }
+
+            .modal-header .close {
+                color: white;
+                opacity: 1;
+                text-shadow: none;
+                transition: transform 0.3s ease;
+            }
+
+                .modal-header .close:hover {
+                    transform: rotate(90deg);
+                }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-footer {
+            border-top: 1px solid rgba(124, 58, 237, 0.1);
+            padding: 1.5rem;
+        }
+
+            /* כפתורים במודאל */
+            .modal-footer .btn {
+                padding: 0.75rem 1.5rem;
+                border-radius: 12px;
+                transition: all 0.3s ease;
+            }
+
+            .modal-footer .btn-primary {
+                background: var(--purple-500);
+                border: none;
+            }
+
+                .modal-footer .btn-primary:hover {
+                    background: var(--purple-600);
+                    transform: translateY(-2px);
+                }
+
+            .modal-footer .btn-secondary {
+                background: #f3f4f6;
+                color: #4b5563;
+                border: none;
+            }
+
+                .modal-footer .btn-secondary:hover {
+                    background: #e5e7eb;
+                    transform: translateY(-2px);
+                }
+
+
+        .share-popup {
+            max-width: 400px !important;
+        }
+
+        .share-options {
+            padding: 20px;
+        }
+
+            .share-options .btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 12px;
+            }
+
+                .share-options .btn i {
+                    margin-left: 8px;
+                }
+    </style>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 </asp:Content>
@@ -332,60 +408,60 @@ h2.mt-4 {
     <script src="/dist-assets/js/scripts/datatables.script.min.js"></script>
     <script>
         function viewBid(bidId) {
-               if (!bidId) {
-                   console.error('No bidId provided');
-                   return;
-               }
+            if (!bidId) {
+                console.error('No bidId provided');
+                return;
+            }
 
-               console.log('Viewing bid:', bidId);
+            console.log('Viewing bid:', bidId);
 
-               $.ajax({
-                   url: 'Forms.aspx/GetBidDetails',
-                   type: 'POST',
-                   data: JSON.stringify({ bidId: bidId }),
-                   contentType: 'application/json',
-                   dataType: 'json',
-                   success: function (response) {
-                       console.log('Server response:', response);
-                       if (response && response.d) {
-                           try {
-                               const bidData = response.d;
-                               displayBidDetails(JSON.parse(bidData));
-                           } catch (e) {
-                               console.error('Error parsing bid data:', e);
-                               alert('אירעה שגיאה בעיבוד הנתונים');
-                           }
-                       } else {
-                           alert('לא נמצאו פרטים להצעת המחיר המבוקשת');
-                       }
-                   },
-                   error: function (xhr, status, error) {
-                       console.error('Ajax error:', { xhr, status, error });
-                       alert('אירעה שגיאה בטעינת פרטי ההצעה');
-                   }
-               });
-           }
-           // חיבור Event Listener אלטרנטיבי
-           $(document).ready(function () {
-               $(document).on('click', '.view-bid-btn', function () {
-                   var bidId = $(this).data('bid-id');
-                   viewBid(bidId);
-               });
-           });
+            $.ajax({
+                url: 'Forms.aspx/GetBidDetails',
+                type: 'POST',
+                data: JSON.stringify({ bidId: bidId }),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (response) {
+                    console.log('Server response:', response);
+                    if (response && response.d) {
+                        try {
+                            const bidData = response.d;
+                            displayBidDetails(JSON.parse(bidData));
+                        } catch (e) {
+                            console.error('Error parsing bid data:', e);
+                            alert('אירעה שגיאה בעיבוד הנתונים');
+                        }
+                    } else {
+                        alert('לא נמצאו פרטים להצעת המחיר המבוקשת');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Ajax error:', { xhr, status, error });
+                    alert('אירעה שגיאה בטעינת פרטי ההצעה');
+                }
+            });
+        }
+        // חיבור Event Listener אלטרנטיבי
+        $(document).ready(function () {
+            $(document).on('click', '.view-bid-btn', function () {
+                var bidId = $(this).data('bid-id');
+                viewBid(bidId);
+            });
+        });
 
-           function displayBidDetails(bid) {
-               if (!bid) {
-                   console.error('No bid data received');
-                   return;
-               }
+        function displayBidDetails(bid) {
+            if (!bid) {
+                console.error('No bid data received');
+                return;
+            }
 
-               console.log('Displaying bid:', bid);
+            console.log('Displaying bid:', bid);
 
-               // המרת תאריך לפורמט מתאים
-               const date = new Date(bid.Date);
-               const formattedDate = date.toLocaleDateString('he-IL');
+            // המרת תאריך לפורמט מתאים
+            const date = new Date(bid.Date);
+            const formattedDate = date.toLocaleDateString('he-IL');
 
-               let html = `
+            let html = `
     <div class="bid-details p-3" dir="rtl">
         <!-- כותרת ופרטים בסיסיים -->
         <div class="card mb-4">
@@ -463,21 +539,21 @@ h2.mt-4 {
         </div>
     </div>`;
 
-               // עדכון תוכן המודל
-               $('#bidDetails').html(html);
+            // עדכון תוכן המודל
+            $('#bidDetails').html(html);
 
-               // הצגת המודל
-               $('#bidModal').modal('show');
-           }
-           function editBid(bidId) {
-               window.location.href = `EditBid.aspx?id=${bidId}`;
-           }
+            // הצגת המודל
+            $('#bidModal').modal('show');
+        }
+        function editBid(bidId) {
+            window.location.href = `EditBid.aspx?id=${bidId}`;
+        }
 
-           function printCurrentBid() {
-               const content = document.getElementById('bidDetails').innerHTML;
-               const printWindow = window.open('', '', 'height=600,width=800');
+        function printCurrentBid() {
+            const content = document.getElementById('bidDetails').innerHTML;
+            const printWindow = window.open('', '', 'height=600,width=800');
 
-               printWindow.document.write(`
+            printWindow.document.write(`
             <!DOCTYPE html>
             <html dir="rtl">
             <head>
@@ -499,12 +575,13 @@ h2.mt-4 {
             </html>
         `);
 
-               printWindow.document.close();
-               setTimeout(() => {
-                   printWindow.print();
-                   printWindow.close();
-               }, 250);
-           }
+            printWindow.document.close();
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 250);
+        }
+
     </script>
 </asp:Content>
 
