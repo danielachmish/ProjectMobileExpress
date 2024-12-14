@@ -126,7 +126,7 @@ namespace MobileExpress.Users
 				// הודעת הצלחה
 				ScriptManager.RegisterStartupScript(this, GetType(), "ShowSuccess",
 					"alert('הקריאה נפתחה בהצלחה!');window.location='TicketsList.aspx';", true);
-				Response.Redirect("~/Users/ServiceHistory.aspx");
+				Response.Redirect("~/Users/Main.aspx");
 			}
 			catch (Exception ex)
 			{

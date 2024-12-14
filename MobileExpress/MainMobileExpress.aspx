@@ -161,7 +161,7 @@
 
             <div class="circles-container">
                 
-                <a href="/TechniciansFolder/SingUpTechnicians.aspx" class="circle-button">
+                <a href="/TechniciansFolder/SingInTechnicians.aspx" class="circle-button">
                     <i class="fas fa-bell"></i>
                     <span>כניסת טכנאים</span>
                 </a>
