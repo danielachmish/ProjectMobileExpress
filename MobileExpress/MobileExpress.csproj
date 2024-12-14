@@ -226,6 +226,9 @@
     <Reference Include="RestSharp, Version=106.6.10.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
     </Reference>
+    <Reference Include="SendGrid, Version=9.29.3.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\SendGrid.9.29.3\lib\net452\SendGrid.dll</HintPath>
+    </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.2.7.1\lib\net46\Serilog.dll</HintPath>
     </Reference>
@@ -237,6 +240,9 @@
     </Reference>
     <Reference Include="Snappier, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a1b25124e6e13a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Snappier.1.0.0\lib\netstandard2.0\Snappier.dll</HintPath>
+    </Reference>
+    <Reference Include="StarkbankEcdsa, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b2e6337a5d77bfbc, processorArchitecture=MSIL">
+      <HintPath>..\packages\starkbank-ecdsa.1.3.3\lib\net452\StarkbankEcdsa.dll</HintPath>
     </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -309,6 +315,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security.AccessControl, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.AccessControl.5.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
     </Reference>
@@ -398,6 +405,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Account\ForgotPassword.aspx" />
+    <Content Include="Account\ResetPassword.aspx" />
     <Content Include="assets\css\Styles.css" />
     <Content Include="FodyWeavers.XML" />
     <Content Include="MainMobileExpress.aspx" />
@@ -718,6 +727,7 @@
       <Link>.editorconfig</Link>
     </Content>
     <Content Include="Master.Master" />
+    <Content Include="Account\MainAccount.Master" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -744,6 +754,28 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\ForgotPassword.aspx.cs">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\ForgotPassword.aspx.designer.cs">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\MainAccount.Master.cs">
+      <DependentUpon>MainAccount.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\MainAccount.Master.designer.cs">
+      <DependentUpon>MainAccount.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Account\ResetPassword.aspx.cs">
+      <DependentUpon>ResetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\ResetPassword.aspx.designer.cs">
+      <DependentUpon>ResetPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App_code\BLL\PasswordReset.cs" />
     <Compile Include="App_code\BLL\TechnicianNotifications.cs" />
     <Compile Include="App_code\BLL\Readability.cs" />
     <Compile Include="App_code\BLL\Rating.cs" />
@@ -765,6 +797,7 @@
     <Compile Include="App_code\DAL\CustomersDAL.cs" />
     <Compile Include="App_code\DAL\ManufacturersDAL.cs" />
     <Compile Include="App_code\DAL\ModelsDAL.cs" />
+    <Compile Include="App_code\DAL\PasswordResetDAL.cs" />
     <Compile Include="App_code\DAL\TechnicianNotificationsDAL.cs" />
     <Compile Include="App_code\DAL\RatingDAL.cs" />
     <Compile Include="App_code\DAL\ReadabilityDAL.cs" />
@@ -896,6 +929,7 @@
       <DependentUpon>Master.Master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\EmailService.cs" />
     <Compile Include="TechniciansFolder\AllBids.aspx.cs">
       <DependentUpon>AllBids.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

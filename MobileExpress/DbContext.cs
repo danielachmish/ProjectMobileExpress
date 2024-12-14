@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace Data
 {
-    public class DbContext
+    public class DbContext: IDisposable
     {
 
         public string ConnStr { get; set; }
@@ -48,8 +48,12 @@ namespace Data
                 throw;
             }
         }
-
         
+        public void Dispose()
+        {
+            Close();
+        }
+
         public int ExecuteNonQuery(string sql, List<SqlParameter> lst = null)
         {
             try
