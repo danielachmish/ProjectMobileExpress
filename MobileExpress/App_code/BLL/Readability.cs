@@ -6,6 +6,12 @@ using System.Web;
 
 namespace BLL
 {
+	public enum CallStatus
+	{
+		Open = 0,        // קריאה פתוחה/חדשה
+		InProgress = 1,  // בטיפול
+		Closed = 2       // סגורה
+	}
 	public class Readability
 	{
 		public int ReadId { get; set; }
@@ -15,13 +21,33 @@ namespace BLL
 		public string Phone { get; set; }
 		public string Nots { get; set; }
 		public int CusId { get; set; }
-		public int ModelId { get; set; }
+		public string ModelId { get; set; }
 		public bool Status { get; set; }
 		public string NameImage { get; set; }
 		public string Urgency { get; set; }
 		public int SerProdId { get; set; }
 		public int? AssignedTechnicianId { get; set; }
 		//public bool? IsCallAccepted { get; set; }
+		public CallStatus CallStatus { get; set; }
+		public string ModelCode { get; set; }
+
+		// מתודה עזר לבדיקת סטטוס
+		public bool IsOpen() => CallStatus == CallStatus.Open;
+		public bool IsInProgress() => CallStatus == CallStatus.InProgress;
+		public bool IsClosed() => CallStatus == CallStatus.Closed;
+
+		// מתודות לעדכון סטטוס
+		public void StartTreatment()
+		{
+			CallStatus = CallStatus.InProgress;
+			UpdateReadability();
+		}
+
+		public void CloseCall()
+		{
+			CallStatus = CallStatus.Closed;
+			UpdateReadability();
+		}
 
 		public void SaveNewRead()
 		{
@@ -69,5 +95,27 @@ namespace BLL
 			AssignedTechnicianId = technicianId;
 			UpdateReadability();
 		}
+	
+
+		
+	}
+	public class ReadabilityStats
+	{
+		public int TotalCalls { get; set; }
+		public int AcceptedCalls { get; set; }
+		public int PendingCalls => TotalCalls - AcceptedCalls;
+		public double CompletionRate => TotalCalls > 0 ? (AcceptedCalls * 100.0 / TotalCalls) : 0;
+
+		public static ReadabilityStats GetTechnicianStats(int technicianId)
+		{
+			var (total, accepted) = ReadabilityStatsDAL.GetTechnicianStats(technicianId);
+			return new ReadabilityStats
+			{
+				TotalCalls = total,
+				AcceptedCalls = accepted
+			};
+		}
+		
+
 	}
 }

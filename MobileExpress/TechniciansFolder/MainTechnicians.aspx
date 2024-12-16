@@ -14,6 +14,51 @@
     <input type="hidden" id="hdnTecId" runat="server" />
 
     <style>
+        /* רק את החלק הזה משתנה - שאר הקוד נשאר בדיוק אותו דבר */
+        .circles-container {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+            max-width: 1200px;
+        }
+
+        .circle-button {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: #7c3aed;
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2);
+        }
+
+            .circle-button:hover {
+                transform: translateY(-8px) scale(1.05);
+                box-shadow: 0 20px 40px rgba(124, 58, 237, 0.3);
+                background: white;
+            }
+
+            .circle-button i {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+                color: #7c3aed;
+                transition: all 0.3s ease;
+            }
+
+            .circle-button span {
+                font-size: 1.1rem;
+                text-align: center;
+                font-weight: 500;
+            }
+
         body, html {
             margin: 0;
             padding: 0;
@@ -880,22 +925,79 @@
         input:checked + .toggle-slider:before {
             transform: translateX(26px);
         }
+
+
+
+
+
+        .hours-input {
+            flex-direction: row-reverse;
+        }
+
+        .day-row {
+            flex-direction: row-reverse;
+        }
+
+        .info-row {
+            text-align: right;
+        }
+
+        .field-content {
+            text-align: right;
+        }
+
+        .info-label {
+            text-align: right;
+        }
+
+        .edit-input {
+            text-align: right;
+        }
+
+        .stats-container {
+            direction: rtl;
+        }
+
+        .stat-content {
+            flex-direction: row-reverse;
+        }
+
+        .modal-header {
+            direction: rtl;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-direction: row-reverse; /* שינוי כיוון הכפתורים */
+        }
+
+        .close-button {
+            margin-right: auto; /* העברת כפתור הסגירה לצד שמאל */
+            margin-left: 0;
+        }
+
+        .modal-content {
+            direction: rtl;
+            text-align: right;
+        }
     </style>
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <%-- <div class="background-slideshow"></div>--%>
+
     <!-- תפריט עליון -->
     <div class="top-menu">
-       
-        <%--  <img src="/api/placeholder/120/40" alt="Logo" class="logo">--%>
+
+
         <div class="top-nav">
-            <a href="#"><i class="fas fa-truck"></i>עקבו אחרינו</a>
-            <%--  <a href="TechnicianProfile.aspx"><i class="fas fa-user"></i>פרופיל</a>--%>
+            <a href="../About.aspx"><i class="fas fa-truck"></i>עקבו אחרינו</a>
+
             <a href="#" onclick="openModal(); return false;"><i class="fas fa-user"></i>פרופיל</a>
         </div>
     </div>
-     <div class="background-slideshow"></div>
+    <div class="background-slideshow"></div>
     <!-- מיכל ראשי -->
     <div class="main-container">
         <h1 class="main-title">
@@ -904,35 +1006,29 @@
         </h1>
         <h2 class="sub-title"></h2>
 
-        <%--      <input type="search" class="search-box" placeholder="חיפוש...">--%>
+
 
         <div class="circles-container">
             <a href="AllRead.aspx" class="circle-button">
-                <i class="fas fa-plug"></i>
+                <i class="fas fa-ticket-alt"></i>
                 <span>קריאות</span>
             </a>
             <a href="MapOrientation.aspx" class="circle-button">
-                <i class="fas fa-search"></i>
+                <i class="fas fa-map-marker-alt"></i>
                 <span>מפה והתמצאות</span>
             </a>
-            <%-- <a href="../Chat.aspx" class="circle-button">
-                <i class="fas fa-search"></i>
-                <span>צ'אט</span>
-            </a>--%>
+
             <a href="Forms.aspx" class="circle-button">
-                <i class="fas fa-dollar-sign"></i>
+                <i class="fas fa-file-alt"></i>
                 <span>מסמכים</span>
             </a>
-            <%-- <a href="#" class="circle-button">
-                <i class="fas fa-bell"></i>
-                <span>ניהול משימות</span>
-            </a>--%>
+
             <a href="#" class="circle-button">
-                <i class="fas fa-bell"></i>
+                <i class="fas fa-chart-line"></i>
                 <span>מעקב ביצועים</span>
             </a>
             <a href="Tasks.aspx" class="circle-button">
-                <i class="fas fa-bell"></i>
+                <i class="fas fa-calendar"></i>
                 <span>יומן ומשימות</span>
             </a>
         </div>
@@ -945,9 +1041,10 @@
             <div class="modal-header">
                 <div class="header-title">
                     <h1 class="profile-title">פרופיל טכנאי</h1>
-                    <span class="version-label">גרסה 1</span>
+
                 </div>
                 <div class="header-controls">
+                    <button class="close-button">&times;</button>
                     <button class="edit-mode-btn">
                         <i class="fas fa-edit"></i>
                         <span class="btn-text">עריכת פרופיל</span>
@@ -956,31 +1053,33 @@
                         <i class="fas fa-save"></i>
                         <span class="btn-text">שמור שינויים</span>
                     </button>
-                    <button class="close-button">&times;</button>
+
                 </div>
             </div>
-            <div class="location-tracking-section">
+            <%--  <div class="location-tracking-section">
                 <div class="toggle-container">
                     <asp:CheckBox ID="locationToggle" runat="server" CssClass="toggle-switch-input" />
                     <label for="<%= locationToggle.ClientID %>" class="toggle-switch">
                         <span class="toggle-slider"></span>
                     </label>
-                    <span class="toggle-label">הצג מיקום בזמן אמת</span>
+                   <%-- <span class="toggle-label">הצג מיקום בזמן אמת</span>
                 </div>
-            </div>
+            </div>--%>
             <!-- Stats Grid -->
             <div class="stats-container">
                 <div class="stat-card">
                     <div class="stat-content">
                         <div>
                             <h3>קריאות שירות</h3>
-                            <p class="stat-value">80</p>
+                            <p class="stat-value"><%# CurrentStats.TotalCalls %></p>
+                            <small class="stat-subtitle"><%# $"{CurrentStats.AcceptedCalls} בטיפול | {CurrentStats.PendingCalls} בהמתנה" %></small>
                         </div>
                         <div class="stat-icon">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M4 6h16M4 12h16m-7 6h7"></path>
-                            </svg>
+                            <i class="fas fa-ticket-alt"></i>
                         </div>
+                    </div>
+                    <div class="stat-progress">
+                        <div class="progress-bar" style="width: <%# CurrentStats.CompletionRate %>%"></div>
                     </div>
                 </div>
 
@@ -1165,7 +1264,7 @@
                     </div>
 
                     <!-- הפסקות -->
-                    <div class="breaks-section">
+                    <%-- <div class="breaks-section">
                         <h3>הפסקות קבועות</h3>
                         <div class="breaks-container">
                             <button class="add-break-btn">
@@ -1185,15 +1284,15 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div>--%>
                 </div>
             </div>
             <!-- היסטוריית עבודות -->
-            <div class="details-card work-history">
-                <h2>היסטוריית עבודות</h2>
+            <%--<div class="details-card work-history">
+                <h2>היסטוריית עבודות</h2>--%>
 
-                <!-- סיכום חודשי -->
-                <%-- <div class="monthly-summary">
+            <!-- סיכום חודשי -->
+            <%-- <div class="monthly-summary">
         <div class="summary-header">
             <h3>סיכום חודשי - מרץ 2024</h3>
             <div class="summary-controls">
@@ -1221,8 +1320,8 @@
         </div>
     </div>--%>
 
-                <!-- רשימת העבודות -->
-                <div class="work-list">
+            <!-- רשימת העבודות -->
+            <%--<div class="work-list">
                     <div class="list-filters">
                         <div class="filter-group">
                             <label>סינון לפי:</label>
@@ -1302,9 +1401,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>--%>
 
-                    <div class="pagination">
+            <%--  <div class="pagination">
                         <button class="page-nav prev-page">
                             <i class="fas fa-chevron-right"></i>
                         </button>
@@ -1316,11 +1415,10 @@
                         <button class="page-nav next-page">
                             <i class="fas fa-chevron-left"></i>
                         </button>
-                    </div>
-                </div>
-            </div>
+                    </div>--%>
         </div>
     </div>
+
 
 
 
@@ -1364,80 +1462,80 @@
 
         // פונקציה שמקבלת את רשימת התמונות מהתיקייה
 
-//        $(document).ready(function () {
-//            console.log('התחלת טעינת תמונות...');
-//            getImagesFromDirectory('\MobileExpress\assets\images\
-//');
+        //        $(document).ready(function () {
+        //            console.log('התחלת טעינת תמונות...');
+        //            getImagesFromDirectory('\MobileExpress\assets\images\
+        //');
 
-//        });
+        //        });
 
-//        function getImagesFromDirectory(directoryPath) {
-//            console.log('שולח בקשה לשרת...', directoryPath);
+        //        function getImagesFromDirectory(directoryPath) {
+        //            console.log('שולח בקשה לשרת...', directoryPath);
 
-//            $.ajax({
-//                type: "POST",
-//                url: "MainTechnicians.aspx/GetImagesFromDirectory",
-//                data: JSON.stringify({ path: directoryPath }),
-//                contentType: "application/json; charset=utf-8",
-//                dataType: "json",
-//                success: function (response) {
-//                    console.log('תגובה התקבלה:', response);
+        //            $.ajax({
+        //                type: "POST",
+        //                url: "MainTechnicians.aspx/GetImagesFromDirectory",
+        //                data: JSON.stringify({ path: directoryPath }),
+        //                contentType: "application/json; charset=utf-8",
+        //                dataType: "json",
+        //                success: function (response) {
+        //                    console.log('תגובה התקבלה:', response);
 
-//                    if (!response || !response.d) {
-//                        console.error('תגובה לא תקינה מהשרת');
-//                        return;
-//                    }
+        //                    if (!response || !response.d) {
+        //                        console.error('תגובה לא תקינה מהשרת');
+        //                        return;
+        //                    }
 
-//                    const backgroundImages = response.d;
-//                    console.log('תמונות שהתקבלו:', backgroundImages);
+        //                    const backgroundImages = response.d;
+        //                    console.log('תמונות שהתקבלו:', backgroundImages);
 
-//                    if (backgroundImages.length === 0) {
-//                        console.error('לא נמצאו תמונות!');
-//                        return;
-//                    }
+        //                    if (backgroundImages.length === 0) {
+        //                        console.error('לא נמצאו תמונות!');
+        //                        return;
+        //                    }
 
-//                    const backgroundElement = document.querySelector('.background-slideshow');
-//                    if (!backgroundElement) {
-//                        console.error('לא נמצא אלמנט עם המחלקה background-slideshow');
-//                        return;
-//                    }
+        //                    const backgroundElement = document.querySelector('.background-slideshow');
+        //                    if (!backgroundElement) {
+        //                        console.error('לא נמצא אלמנט עם המחלקה background-slideshow');
+        //                        return;
+        //                    }
 
-//                    let currentImageIndex = Math.floor(Math.random() * backgroundImages.length);
+        //                    let currentImageIndex = Math.floor(Math.random() * backgroundImages.length);
 
-//                    function changeBackgroundImage() {
-//                        const imageUrl = backgroundImages[currentImageIndex];
-//                        console.log('מחליף לתמונה:', imageUrl);
+        //                    function changeBackgroundImage() {
+        //                        const imageUrl = backgroundImages[currentImageIndex];
+        //                        console.log('מחליף לתמונה:', imageUrl);
 
-//                        // טעינה מקדימה של התמונה
-//                        const img = new Image();
-//                        img.onload = function () {
-//                            console.log('תמונה נטענה בהצלחה:', imageUrl);
-//                            backgroundElement.style.backgroundImage = `url(${imageUrl})`;
-//                        };
-//                        img.onerror = function () {
-//                            console.error('שגיאה בטעינת התמונה:', imageUrl);
-//                        };
-//                        img.src = imageUrl;
+        //                        // טעינה מקדימה של התמונה
+        //                        const img = new Image();
+        //                        img.onload = function () {
+        //                            console.log('תמונה נטענה בהצלחה:', imageUrl);
+        //                            backgroundElement.style.backgroundImage = `url(${imageUrl})`;
+        //                        };
+        //                        img.onerror = function () {
+        //                            console.error('שגיאה בטעינת התמונה:', imageUrl);
+        //                        };
+        //                        img.src = imageUrl;
 
-//                        currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
-//                    }
+        //                        currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
+        //                    }
 
-//                    // הצגת תמונה ראשונה
-//                    changeBackgroundImage();
+        //                    // הצגת תמונה ראשונה
+        //                    changeBackgroundImage();
 
-//                    // התחלת החלפת תמונות
-//                    setInterval(changeBackgroundImage, 5000);
-//                },
-//                error: function (xhr, status, error) {
-//                    console.error('שגיאת AJAX:', {
-//                        status: status,
-//                        error: error,
-//                        response: xhr.responseText,
-//                        statusCode: xhr.status
-//                    });
-//                }
-//            });
-//        }
+        //                    // התחלת החלפת תמונות
+        //                    setInterval(changeBackgroundImage, 5000);
+        //                },
+        //                error: function (xhr, status, error) {
+        //                    console.error('שגיאת AJAX:', {
+        //                        status: status,
+        //                        error: error,
+        //                        response: xhr.responseText,
+        //                        statusCode: xhr.status
+        //                    });
+        //                }
+        //            });
+        //        }
 
 
 
@@ -1667,6 +1765,31 @@
             // הוסף את הקוד להצגת הודעת שגיאה בהתאם לעיצוב שלך
             alert(message);
         }
+        fetch('<%= ResolveUrl("~/MainMobileExpress.aspx/GetImagesList") %>', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({})
+        })
+            .then(response => response.json())
+            .then(data => {
+                // התוצאה תחזור בפורמט ASP.NET AJAX, כלומר data.d הוא המערך שמוחזר
+                const images = data.d;
+
+                const backgroundElement = document.querySelector('.background-slideshow');
+                if (!backgroundElement || images.length === 0) return;
+
+                let currentImageIndex = Math.floor(Math.random() * images.length);
+                backgroundElement.style.backgroundImage = `url('/assets/images/imagebackground/${images[currentImageIndex]}')`;
+
+                function changeBackground() {
+                    currentImageIndex = (currentImageIndex + 1) % images.length;
+                    backgroundElement.style.backgroundImage = `url('/assets/images/imagebackground/${images[currentImageIndex]}')`;
+                }
+
+                // החלפת תמונה כל 5 שניות
+                setInterval(changeBackground, 5000);
+            })
+            .catch(err => console.error('Error fetching images:', err));
 </script>
 
 

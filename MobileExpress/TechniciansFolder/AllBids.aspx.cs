@@ -1,9 +1,12 @@
 ﻿using Betfair_API_NG.TO;
 using BLL;
 using DAL;
+using Data;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
@@ -20,11 +23,7 @@ namespace MobileExpress.TechniciansFolder
 		{
 			if (!IsPostBack)
 			{
-				//if (Session["TecId"] == null)
-				//{
-				//	Response.Redirect("~/SingInTechhnicians.aspx");
-				//	return;
-				//}
+				
 				string readId = Request.QueryString["readId"];
 				if (!string.IsNullOrEmpty(readId))
 				{
@@ -49,7 +48,97 @@ namespace MobileExpress.TechniciansFolder
 			return Session["TecId"] != null;
 		}
 
+		//[WebMethod]
+		//public static string GetCallInfoJson(int readId)
+		//{
+		//	try
+		//	{
+		//		using (var db = new DbContext())
+		//		{
+		//			string sql = @"SELECT r.*, m.ModelName 
+		//                        FROM T_Readability r 
+		//                        LEFT JOIN T_Models m ON r.ModelCode = m.ModelCode 
+		//                        WHERE r.ReadId = @ReadId";
 
+		//			var parameters = new SqlParameter[]
+		//			{
+		//		new SqlParameter("@ReadId", readId)
+		//			};
+
+		//			DataTable dt = db.Execute(sql, parameters);
+
+		//			if (dt.Rows.Count > 0)
+		//			{
+		//				var row = dt.Rows[0];
+		//				var data = new
+		//				{
+		//					ReadId = Convert.ToInt32(row["ReadId"]),
+		//					FullName = row["FullName"]?.ToString(),
+		//					Phone = row["Phone"]?.ToString(),
+		//					Desc = row["Desc"]?.ToString(),
+		//					ModelCode = row["ModelCode"]?.ToString(),
+		//					ModelName = row["ModelName"]?.ToString()
+		//				};
+		//				return JsonConvert.SerializeObject(data);
+		//			}
+		//			return null;
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		return JsonConvert.SerializeObject(new { error = ex.Message });
+		//	}
+		//}
+		[WebMethod]
+		public static string GetCallInfoJson(int readId)
+		{
+			try
+			{
+				System.Diagnostics.Debug.WriteLine($"GetCallInfoJson called with readId: {readId}");
+				using (var db = new DbContext())
+				{
+					string sql = @"SELECT r.*, m.ModelName 
+                          FROM T_Readability r 
+                          LEFT JOIN T_Models m ON r.ModelCode = m.ModelCode 
+                          WHERE r.ReadId = @ReadId";
+
+					var parameters = new SqlParameter[]
+					{
+				new SqlParameter("@ReadId", readId)
+					};
+
+					System.Diagnostics.Debug.WriteLine($"Executing SQL: {sql}");
+					DataTable dt = db.Execute(sql, parameters);
+					System.Diagnostics.Debug.WriteLine($"Rows returned: {dt.Rows.Count}");
+
+					if (dt.Rows.Count > 0)
+					{
+						var row = dt.Rows[0];
+						var data = new
+						{
+							ReadId = Convert.ToInt32(row["ReadId"]),
+							FullName = row["FullName"]?.ToString(),
+							Phone = row["Phone"]?.ToString(),
+							Desc = row["Desc"]?.ToString(),
+							ModelCode = row["ModelCode"]?.ToString(),
+							ModelName = row["ModelName"]?.ToString()
+						};
+
+						var json = JsonConvert.SerializeObject(data);
+						System.Diagnostics.Debug.WriteLine($"Returning JSON: {json}");
+						return json;
+					}
+					System.Diagnostics.Debug.WriteLine("No rows found");
+					return null;
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Error in GetCallInfoJson: {ex.Message}");
+				System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+				return JsonConvert.SerializeObject(new { error = ex.Message });
+			}
+		}
 
 		protected void btnSave_Click(object sender, EventArgs e)
 		{
@@ -95,6 +184,7 @@ namespace MobileExpress.TechniciansFolder
 
 				var bid = new Bid
 				{
+
 					ReadId = readId,
 					TecId = tecId,
 					Price = totalPrice,
@@ -104,6 +194,7 @@ namespace MobileExpress.TechniciansFolder
 					ItemDescription = itemDesc,
 					ItemQuantity = itemQuantity,
 					ItemUnitPrice = itemUnitPrice
+					
 				};
 
 				// חישוב המחיר הכולל לפי הכמות והמחיר ליחידה
@@ -155,6 +246,7 @@ namespace MobileExpress.TechniciansFolder
 					TecId = technician.TecId,
 					FulName = technician.FulName,
 					Phone = technician.Phone
+					
 				});
 			}
 			catch (Exception ex)

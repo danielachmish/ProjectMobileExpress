@@ -19,6 +19,8 @@ namespace MobileExpress.TechniciansFolder
 
 	public partial class MainTechnicians : System.Web.UI.Page
 	{
+		protected ReadabilityStats CurrentStats;
+
 		protected Technicians technician;
 		protected void Page_Load(object sender, EventArgs e)
 		{
@@ -54,8 +56,16 @@ namespace MobileExpress.TechniciansFolder
 					string greeting = GetTimeBasedGreeting();
 					lblTechnicianName.Text = $"{greeting} {technicianName}";
 				}
+				LoadStats();
 
 			}
+
+		}
+		private void LoadStats()
+		{
+			// בהנחה שאתה שומר את ID הטכנאי בסשן
+			int technicianId = Convert.ToInt32(Session["TechnicianId"]);
+			CurrentStats = ReadabilityStats.GetTechnicianStats(technicianId);
 		}
 		private string GetTimeBasedGreeting()
 		{
@@ -198,5 +208,24 @@ namespace MobileExpress.TechniciansFolder
 				return new { isEnabled = false };
 			}
 		}
+		[WebMethod]
+		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+		public static string[] GetImagesList()
+		{
+			string imagesDir = HttpContext.Current.Server.MapPath("~/assets/images/imagebackground");
+
+			var imageFiles = Directory.EnumerateFiles(imagesDir)
+				.Where(file => file.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
+							|| file.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase)
+							|| file.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
+							|| file.EndsWith(".gif", StringComparison.OrdinalIgnoreCase))
+				.Select(Path.GetFileName)
+				.ToArray();
+
+			return imageFiles; // תחזור כמערך של מחרוזות
+		}
+
 	}
+
+
 }

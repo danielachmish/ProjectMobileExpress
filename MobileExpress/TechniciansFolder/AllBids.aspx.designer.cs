@@ -69,6 +69,15 @@ namespace MobileExpress.TechniciansFolder
 		protected global::System.Web.UI.WebControls.TextBox txtPhone;
 
 		/// <summary>
+		/// txtmodelcode control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtmodelcode;
+
+		/// <summary>
 		/// txtDesc control.
 		/// </summary>
 		/// <remarks>
