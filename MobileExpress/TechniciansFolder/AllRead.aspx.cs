@@ -4,12 +4,9 @@ using Google.Apis.Calendar.v3;
 using Google.Apis.Services;
 using Newtonsoft.Json;
 using System;
-
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
-
 using System.Web.Script.Services;
 using System.Linq;
 
@@ -73,9 +70,10 @@ namespace MobileExpress.TechniciansFolder
 					Desc = readability.Desc,
 					DateRead = readability.DateRead.ToString("yyyy-MM-ddTHH:mm:ss"),
 					Urgency = readability.Urgency,
-					ModelId = readability.ModelId,
+					ModelCode = readability.ModelCode,
 					SerProdId = readability.SerProdId,
-					Status = readability.Status
+					Status = readability.Status,
+					CallStatus = readability.CallStatus
 				};
 
 				var json = JsonConvert.SerializeObject(callInfo);
@@ -135,178 +133,14 @@ namespace MobileExpress.TechniciansFolder
 			string readId = btn.CommandArgument;
 			Response.Redirect($"AllBids.aspx?readId={readId}");
 		}
-		//protected void CallAction_Command(object sender, CommandEventArgs e)
-		//{
-		//	try
-		//	{
-		//		int readId = Convert.ToInt32(e.CommandArgument);
 
-		//		// קבלת הקריאה מהדאטהבייס
-		//		var call = Readability.GetById(readId);
-
-		//		if (call != null)
-		//		{
-		//			// עדכון סטטוס הקריאה
-		//			call.Status = (e.CommandName == "Accept");
-		//			call.UpdateReadability();
-
-		//			// הוספת האירוע ליומן Google
-		//			if (call.Status)
-		//			{
-		//				AddEventToGoogleCalendar(call);
-		//			}
-
-		//			// טען מחדש את הרשימה
-		//			LoadCalls();
-		//		}
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		// טיפול בשגיאות
-		//		System.Diagnostics.Debug.WriteLine($"Error in CallAction_Command: {ex.Message}");
-		//	}
-		//}
 
 
 		protected void RefreshTimer_Tick(object sender, EventArgs e)
 		{
 			LoadCalls();
 		}
-		//[WebMethod]
-		//public static string GetCallInfoJson(string readId)
-		//{
-		//	try
-		//	{
-		//		int id = Convert.ToInt32(readId);
-		//		var readability = Readability.GetById(id);
-		//		if (readability == null)
-		//		{
-		//			return "null";
-		//		}
 
-		//		var callInfo = new
-		//		{
-		//			ReadId = readability.ReadId,
-		//			FullName = readability.FullName,
-		//			Phone = readability.Phone,
-		//			Desc = readability.Desc,
-		//			DateRead = readability.DateRead.ToString("yyyy-MM-ddTHH:mm:ss"),
-		//			Urgency = readability.Urgency,
-		//			ModelId = readability.ModelId,
-		//			SerProdId = readability.SerProdId,
-		//			Nots = readability.Nots ?? "",
-		//			Status = readability.Status
-		//		};
-
-		//		return JsonConvert.SerializeObject(callInfo);
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		System.Diagnostics.Debug.WriteLine($"Error in GetCallInfoJson: {ex.Message}");
-		//		return "null";
-		//	}
-		//}
-
-		//private CalendarService GetCalendarService()
-		//{
-		//    try
-		//    {
-		//        // מיקום קובץ ה-credentials.json
-		//        string credentialsPath = Server.MapPath("~/App_Data/credentials.json");
-
-		//        GoogleCredential credential;
-		//        using (var stream = new FileStream(credentialsPath, FileMode.Open, FileAccess.Read))
-		//        {
-		//            credential = GoogleCredential.FromStream(stream).CreateScoped(CalendarService.Scope.CalendarEvents);
-		//        }
-
-		//        return new CalendarService(new BaseClientService.Initializer()
-		//        {
-		//            HttpClientInitializer = credential,
-		//            ApplicationName = "MobileExpress",
-		//        });
-		//    }
-		//    catch (Exception ex)
-		//    {
-		//        System.Diagnostics.Debug.WriteLine($"Error in GetCalendarService: {ex.Message}");
-		//        throw;
-		//    }
-		//}
-		//private void AddEventToGoogleCalendar(Readability call)
-		//{
-		//	try
-		//	{
-		//		// יצירת חיבור לשירות Google Calendar
-		//		var service = GetCalendarService();
-
-		//		// הגדרת אירוע חדש
-		//		var newEvent = new Google.Apis.Calendar.v3.Data.Event
-		//		{
-		//			Summary = $"קריאת שירות: {call.FullName}",
-		//			Description = call.Desc,
-		//			Location = "מיקום הלקוח", // תוכל לעדכן לשדה מתאים
-		//			Start = new Google.Apis.Calendar.v3.Data.EventDateTime
-		//			{
-		//				DateTime = call.DateRead,
-		//				TimeZone = "Asia/Jerusalem"
-		//			},
-		//			End = new Google.Apis.Calendar.v3.Data.EventDateTime
-		//			{
-		//				DateTime = call.DateRead.AddHours(1), // הוספת שעה לסיום האירוע
-		//				TimeZone = "Asia/Jerusalem"
-		//			},
-		//			Reminders = new Google.Apis.Calendar.v3.Data.Event.RemindersData
-		//			{
-		//				UseDefault = false,
-		//				Overrides = new List<Google.Apis.Calendar.v3.Data.EventReminder>
-		//		{
-		//			new Google.Apis.Calendar.v3.Data.EventReminder { Method = "email", Minutes = 30 },
-		//			new Google.Apis.Calendar.v3.Data.EventReminder { Method = "popup", Minutes = 10 }
-		//		}
-		//			}
-		//		};
-
-		//		// הוספת האירוע ליומן Google
-		//		var createdEvent = service.Events.Insert(newEvent, "primary").Execute();
-		//		System.Diagnostics.Debug.WriteLine($"Event created: {createdEvent.HtmlLink}");
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		System.Diagnostics.Debug.WriteLine($"Error in AddEventToGoogleCalendar: {ex.Message}");
-		//	}
-		//}
-		//private Google.Apis.Calendar.v3.CalendarService GetCalendarService()
-		//{
-		//	try
-		//	{
-		//		// נתיב לקובץ ה-credentials.json
-		//		string credentialsPath = Server.MapPath("~/App_Data/credentials.json");
-
-		//		GoogleCredential credential;
-		//		using (var stream = new FileStream(credentialsPath, FileMode.Open, FileAccess.Read))
-		//		{
-		//			credential = GoogleCredential.FromStream(stream).CreateScoped(CalendarService.Scope.CalendarEvents);
-		//		}
-
-		//		return new Google.Apis.Calendar.v3.CalendarService(new BaseClientService.Initializer()
-		//		{
-		//			HttpClientInitializer = credential,
-		//			ApplicationName = "MobileExpress",
-		//		});
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		System.Diagnostics.Debug.WriteLine($"Error in GetCalendarService: {ex.Message}");
-		//		throw;
-		//	}
-		//}
-		//protected void RedirectToPriceQuote(object sender, EventArgs e)
-		//{
-		//	Button btn = (Button)sender;
-		//	string readId = btn.CommandArgument;
-
-		//	Response.Redirect("AllBids.aspx?readId=" + readId);
-		//}
 		protected void AcceptCall(object sender, EventArgs e)
 		{
 			try
@@ -347,6 +181,22 @@ namespace MobileExpress.TechniciansFolder
 				System.Diagnostics.Debug.WriteLine($"Error in AcceptCall: {ex.Message}");
 				ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
 					"Swal.fire('שגיאה', 'אירעה שגיאה בקבלת הקריאה', 'error');", true);
+			}
+		}
+
+
+		protected string GetStatusText(CallStatus status)
+		{
+			switch (status)
+			{
+				case CallStatus.Open:
+					return "קריאה פתוחה";
+				case CallStatus.InProgress:
+					return "בטיפול";
+				case CallStatus.Closed:
+					return "קריאה סגורה";
+				default:
+					return "";
 			}
 		}
 	}

@@ -12,8 +12,11 @@ namespace DAL
 {
 	public class ReadabilityDAL
 	{
+		
 		public static void Save(Readability Tmp)
 		{
+			
+
 			Debug.WriteLine("נכנס לפונקציית SaveNewRead");
 			Debug.WriteLine($"פרטי הלקוח: ReadId={Tmp.ReadId}, FullName={Tmp.FullName}, Phone={Tmp.Phone}");
 
@@ -21,14 +24,14 @@ namespace DAL
 			if (Tmp.ReadId == -1 || Tmp.ReadId == 0)
 			{
 				Debug.WriteLine("מבצע הכנסה של לקוח חדש");
-				sql = "INSERT INTO T_Readability(DateRead,[Desc],FullName,Phone,Nots,CusId,ModelId,Status,Urgency,SerProdId) " +
-					  "VALUES(@DateRead,@Desc,@FullName,@Phone,@Nots,@CusId,@ModelId,@Status,@Urgency,@SerProdId)";
+				sql = "INSERT INTO T_Readability(DateRead,[Desc],FullName,Phone,Nots,CusId,ModelId,Status,CallStatus,Urgency,SerProdId,ModelCode) " +
+					  "VALUES(@DateRead,@Desc,@FullName,@Phone,@Nots,@CusId,@ModelId,@Status,@CallStatus,@Urgency,@SerProdId,@ModelCode)";
 			}
 			else
 			{
 				Debug.WriteLine($"מבצע עדכון של לקוח קיים עם ReadId={Tmp.ReadId}");
 				sql = "UPDATE T_Readability SET DateRead=@DateRead,[Desc]=@Desc,FullName=@FullName,Phone=@Phone,Nots=@Nots," +
-					  "CusId=@CusId,ModelId=@ModelId,Status=@Status,Urgency=@Urgency,SerProdId=@SerProdId WHERE ReadId=@ReadId";
+					  "CusId=@CusId,ModelId=@ModelId,Status=@Status,CallStatus=@CallStatus,Urgency=@Urgency,SerProdId=@SerProdId,ModelCode=@ModelCode WHERE ReadId=@ReadId";
 			}
 
 			Debug.WriteLine($"SQL Query: {sql}");
@@ -45,11 +48,13 @@ namespace DAL
 					Phone = Tmp.Phone,
 					Nots = Tmp.Nots,
 					CusId = Tmp.CusId,
-					ModelId = Tmp.ModelId,
+					ModelId = 0,
 					Status = Tmp.Status,
 					//NameImage = Tmp.NameImage,
+					CallStatus = (int)Tmp.CallStatus,
 					Urgency = Tmp.Urgency,
-					SerProdId = Tmp.SerProdId
+					SerProdId = Tmp.SerProdId,
+					ModelCode=Tmp.ModelCode
 				};
 
 				var LstParma = DbContext.CreateParameters(Obj);
@@ -78,7 +83,7 @@ namespace DAL
 			try
 			{
 				string sql = "UPDATE T_Readability SET DateRead=@DateRead,[Desc]=@Desc,FullName=@FullName,Phone=@Phone,Nots=@Nots," +
-					  "CusId=@CusId,ModelId=@ModelId,Status=@Status,Urgency=@Urgency,SerProdId=@SerProdId WHERE ReadId=@ReadId";
+					  "CusId=@CusId,ModelId=@ModelId,Status=@Status,Urgency=@Urgency,SerProdId=@SerProdId,ModelCode=@ModelCode WHERE ReadId=@ReadId";
 
 				// הדפסת השאילתה לשם בדיקה
 				System.Diagnostics.Debug.WriteLine("SQL Query (Update): " + sql);
@@ -96,8 +101,10 @@ namespace DAL
 					Tmp.ModelId,
 					Tmp.Status,
 				//	Tmp.NameImage,
+					Tmp.CallStatus,
 					Tmp.Urgency,
-					Tmp.SerProdId
+					Tmp.SerProdId,
+					Tmp.ModelCode
 
 				};
 
@@ -125,9 +132,10 @@ namespace DAL
 		}
 		// אחזור כל הלקוחות
 		public static List<Readability> GetAll()
+
 		{
 			List<Readability> ReadabilityList = new List<Readability>();
-			string sql = "Select * from T_Readability";
+			string sql = "SELECT * FROM T_Readability ORDER BY DateRead DESC";
 			DbContext Db = new DbContext();
 			DataTable Dt = Db.Execute(sql);
 
@@ -144,11 +152,13 @@ namespace DAL
 						Phone = Dt.Rows[i]["Phone"].ToString(),
 						Nots = Dt.Rows[i]["Nots"].ToString(),
 						CusId = int.Parse(Dt.Rows[i]["CusId"].ToString()),
-						ModelId = int.Parse(Dt.Rows[i]["ModelId"].ToString()),
+						ModelId = Dt.Rows[i]["ModelId"].ToString(),
 						Status = false,// המרה בשלושה חלקים
-						//NameImage = Dt.Rows[i]["NameImage"].ToString(),
+									   //NameImage = Dt.Rows[i]["NameImage"].ToString(),
+						CallStatus = (CallStatus)Convert.ToInt32(Dt.Rows[i]["CallStatus"]),
 						Urgency = Dt.Rows[i]["Urgency"].ToString(),
-						SerProdId = int.Parse(Dt.Rows[i]["SerProdId"].ToString())
+						SerProdId = int.Parse(Dt.Rows[i]["SerProdId"].ToString()),
+						ModelCode = Dt.Rows[i]["ModelCode"].ToString()
 					};
 
 					// המרת ערך ה-Status לבוליאני
@@ -197,11 +207,13 @@ namespace DAL
 					Phone = Dt.Rows[0]["Phone"].ToString(),
 					Nots = Dt.Rows[0]["Nots"].ToString(),
 					CusId = int.Parse(Dt.Rows[0]["CusId"].ToString()),
-					ModelId = int.Parse(Dt.Rows[0]["ModelId"].ToString()),
+					ModelId = Dt.Rows[0]["ModelId"].ToString(),
 					//NameImage = Dt.Rows[0]["NameImage"].ToString(),
+					CallStatus = (CallStatus)Convert.ToInt32(Dt.Rows[0]["CallStatus"]),
 					Urgency = Dt.Rows[0]["Urgency"].ToString(),
 					SerProdId = int.Parse(Dt.Rows[0]["SerProdId"].ToString()),
-					Status = Convert.ToBoolean(Dt.Rows[0]["Status"])
+					Status = Convert.ToBoolean(Dt.Rows[0]["Status"]),
+					ModelCode= Dt.Rows[0]["ModelCode"].ToString()
 				};
 
 			}
@@ -223,6 +235,35 @@ namespace DAL
 			else
 			{
 				return -1;
+			}
+		}
+	}
+	public static class ReadabilityStatsDAL
+	{
+		public static (int totalCalls, int acceptedCalls) GetTechnicianStats(int technicianId)
+		{
+			// שינוי השאילתה כך שתתאים למבנה הטבלאות שלך
+			string sql = @"SELECT 
+            (SELECT COUNT(*) FROM T_Readability WHERE Status = 0) as TotalCalls,
+            (SELECT COUNT(*) FROM T_Readability WHERE Status = 1) as AcceptedCalls";
+
+			DbContext db = new DbContext();
+			try
+			{
+				DataTable dt = db.Execute(sql);
+
+				if (dt.Rows.Count > 0)
+				{
+					return (
+						Convert.ToInt32(dt.Rows[0]["TotalCalls"]),
+						Convert.ToInt32(dt.Rows[0]["AcceptedCalls"])
+					);
+				}
+				return (0, 0);
+			}
+			finally
+			{
+				db.Close();
 			}
 		}
 	}

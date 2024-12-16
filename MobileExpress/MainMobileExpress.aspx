@@ -1,11 +1,11 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MainMobileExpress.aspx.cs" Inherits="MobileExpress.MainMobileExpress" %>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="rtl" lang="he">
 <head runat="server">
     <title>MobileExpress</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
     <style>
         /* סגנונות בסיסיים */
         body, html {
@@ -141,14 +141,6 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <!-- תפריט עליון -->
-       <%-- <div class="top-menu">
-            <img src="/api/placeholder/120/40" alt="Logo" class="logo">
-            <div class="top-nav">
-                <a href="#"><i class="fas fa-truck"></i> עקבו אחרינו</a>
-                <a href="SingInTechnicians.aspx"><i class="fas fa-user"></i> התחבר לחשבון</a>
-            </div>
-        </div>--%>
 
         <div class="background-slideshow"></div>
 
@@ -174,36 +166,34 @@
     </form>
 
     <script>
-        // מערך של נתיבי תמונות - החלף את הנתיבים באלו של התמונות שלך
-        const backgroundImages = [
-            '/assets/images/photo-long-2.jpg',
-            '/assets/images/photo-long-2.jpg',
-            '/assets/images/photo-long-2.jpg'
-            
-        ];
-        
-        let currentImageIndex = 0;
-        const backgroundElement = document.querySelector('.background-slideshow');
-        
-        // הגדרת התמונה הראשונה
-        if (backgroundElement) {
-            // בחירת תמונה רנדומלית בטעינה הראשונית
-            currentImageIndex = Math.floor(Math.random() * backgroundImages.length);
-            backgroundElement.style.backgroundImage = `url(${backgroundImages[currentImageIndex]})`;
-        }
-        
-        // פונקציה להחלפת התמונות
-        function changeBackground() {
-            currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
-            backgroundElement.style.backgroundImage = `url(${backgroundImages[currentImageIndex]})`;
-        }
-        
-        // החלפת התמונה בכל טעינת דף
-        window.addEventListener('load', () => {
-            if (backgroundElement) {
-                backgroundElement.style.backgroundImage = `url(${backgroundImages[currentImageIndex]})`;
-            }
-        });
+  
+        fetch('<%= ResolveUrl("~/MainMobileExpress.aspx/GetImagesList") %>', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({})
+        })
+            .then(response => response.json())
+            .then(data => {
+                // התוצאה תחזור בפורמט ASP.NET AJAX, כלומר data.d הוא המערך שמוחזר
+                const images = data.d;
+
+                const backgroundElement = document.querySelector('.background-slideshow');
+                if (!backgroundElement || images.length === 0) return;
+
+                let currentImageIndex = Math.floor(Math.random() * images.length);
+                backgroundElement.style.backgroundImage = `url('/assets/images/imagebackground/${images[currentImageIndex]}')`;
+
+                function changeBackground() {
+                    currentImageIndex = (currentImageIndex + 1) % images.length;
+                    backgroundElement.style.backgroundImage = `url('/assets/images/imagebackground/${images[currentImageIndex]}')`;
+                }
+
+                // החלפת תמונה כל 5 שניות
+                setInterval(changeBackground, 5000);
+            })
+            .catch(err => console.error('Error fetching images:', err));
+
+
     </script>
 </body>
 </html>

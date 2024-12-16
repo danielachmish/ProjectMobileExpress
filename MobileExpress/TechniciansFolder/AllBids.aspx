@@ -1,13 +1,15 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/TechniciansFolder/MainMaster.Master" AutoEventWireup="true" CodeBehind="AllBids.aspx.cs" Inherits="MobileExpress.TechniciansFolder.AllBids" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <!-- קישורים נוספים כמו Bootstrap ו-Font Awesome -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
+ 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+
+<!-- הוסף גם את ה-CSS הנדרש -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -15,9 +17,9 @@
     <asp:HiddenField ID="hiddenReadId" runat="server" />
     <asp:HiddenField ID="hiddenCustomerId" runat="server" />
     <asp:HiddenField ID="hiddenTechnicianId" runat="server" />
+     
 
-
-    <div class="invoice-container" dir="rtl">
+    <div class="invoice-container">
         <!-- כותרת ופעולות -->
         <div class="invoice-header">
             <div class="quote-info">
@@ -51,6 +53,9 @@
                 </div>
             </div>
 
+            <%-- <div class="invoice-actions">
+                <asp:Button ID="btnPrint" runat="server" CssClass="btn btn-primary" Text="הדפס הצעת מחיר" OnClientClick="window.print(); return false;" />
+            </div>--%>
             <div class="invoice-actions">
                 <asp:Button ID="btnPrint" runat="server" CssClass="btn btn-primary" Text="הדפס הצעת מחיר" OnClientClick="window.print(); return false;" />
             </div>
@@ -65,30 +70,33 @@
             <label for="txtPhone">טלפון:</label>
             <asp:TextBox ID="txtPhone" runat="server" CssClass="form-control" ReadOnly="true" />
         </div>
-        <%-- <div class="form-group">
-            <label for="txtTechnicianName">שם טכנאי:</label>
-            <asp:TextBox ID="txtTechnicianName" runat="server" CssClass="form-control" ReadOnly="true" />
-        </div>--%>
+       
+        <div class="form-group">
+    <label for="txtmodelcode">דגם:</label>
+    <asp:TextBox ID="txtmodelcode" runat="server" CssClass="form-control" ReadOnly="false" />
+    <span class="text-danger" id="errorTxtModelCode" style="display: none;">השדה חובה</span>
+</div>
         <div class="form-group">
             <label for="txtDesc">תיאור התקלה:</label>
             <asp:TextBox ID="txtDesc" runat="server" CssClass="form-control" ReadOnly="false" />
             <span class="text-danger" id="errorTxtDesc" style="display: none;">השדה חובה</span>
         </div>
 
-        <div class="form-group">
+      <%--  <div class="form-group">
             <label for="txtTotalPrice">סכום כולל:</label>
             <asp:TextBox ID="txtTotalPrice" runat="server" CssClass="form-control" step="0.01" min="0" />
-        </div>
+        </div>--%>
+        <div class="form-group d-none">
+    <label for="txtTotalPrice">סכום כולל:</label>
+    <asp:TextBox ID="txtTotalPrice" runat="server" CssClass="form-control" step="0.01" min="0" />
+</div>
 
         <!-- טבלת פריטים -->
         <table class="items-table">
             <thead>
                 <tr>
                     <div class="card-body">
-                        <%-- <asp:TextBox ID="txtItemDescription" runat="server" CssClass="form-control" placeholder="תיאור הפריט"></asp:TextBox>
-<asp:TextBox ID="txtItemQuantity" runat="server" CssClass="form-control" placeholder="כמות"></asp:TextBox>
-<asp:TextBox ID="txtItemUnitPrice" runat="server" CssClass="form-control" placeholder="מחיר ליחידה"></asp:TextBox>--%>
-
+                
                         <p>
                             <strong>סה"כ:</strong>
                             <asp:Label ID="lblTotal" runat="server"></asp:Label>
@@ -141,263 +149,246 @@
             </td>
         </tr>
     </template>
-  <%--  <style>
-        /* מיכל הצעת המחיר */
-        .invoice-container {
-            background: white;
-            padding: 30px;
-            margin: 20px auto;
-            max-width: 1000px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            direction: rtl;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+
+    <style>
+        :root {
+            --purple-50: rgba(124, 58, 237, 0.05);
+            --purple-100: rgba(124, 58, 237, 0.1);
+            --purple-500: #7c3aed;
+            --purple-600: #6d28d9;
+            --purple-700: #5b21b6;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
         }
 
-        /* כותרת והפעולות */
+
+        /* הוספת כיווניות RTL לכל הקונטיינר */
+        .invoice-container {
+            background: white;
+            padding: 2rem;
+            margin: 1.5rem auto;
+            max-width: 1000px;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08);
+            border-radius: 16px;
+            direction: rtl;
+            text-align: right;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        /* עדכון טבלת פריטים */
+        .items-table th {
+            text-align: right;
+        }
+
+        .items-table td {
+            text-align: right;
+        }
+
+        /* עדכון תצוגת שדות */
+        .form-group {
+            text-align: right;
+            margin-bottom: 1rem;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 0.5rem;
+            }
+
+        /* עדכון כפתורים */
+        .invoice-actions {
+            text-align: left;
+        }
+
+        /* עדכון סיכומים */
+        .summary-row td.text-left,
+        .total td.text-left {
+            text-align: right;
+        }
+
+        /* עדכון פרטי הצעת מחיר */
+        .quote-info {
+            text-align: right;
+        }
+
+        .info-item .label {
+            margin-left: 0.5rem;
+            margin-right: 0;
+        }
+
+        /* התאמה למובייל */
+        @media screen and (max-width: 768px) {
+            .invoice-header {
+                text-align: right;
+            }
+
+            .quote-info {
+                width: 100%;
+            }
+        }
+
+        /* עדכון כיוון לאייקונים */
+        .btn-danger i,
+        .btn i {
+            margin-left: 0.5rem;
+            margin-right: 0;
+        }
+
         .invoice-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--purple-50);
         }
 
         .quote-info h2 {
-            margin: 0 0 15px 0;
-            color: #2c3e50;
-            font-size: 24px;
+            margin: 0 0 1rem 0;
+            color: var(--purple-700);
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
         .info-item {
-            margin-bottom: 8px;
-            color: #555;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
         }
 
             .info-item .label {
-                font-weight: 600;
-                margin-left: 8px;
-                color: #666;
+                font-weight: 500;
+                margin-left: 0.5rem;
+                color: var(--text-primary);
             }
 
-        /* אזור הכתובות */
-        .billing-section {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            gap: 30px;
-        }
-
-        .bill-to, .bill-from {
-            flex: 1;
-        }
-
-            .bill-to h3, .bill-from h3 {
-                margin: 0 0 10px 0;
-                color: #2c3e50;
-                font-size: 18px;
-            }
-
-        .contact-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 4px;
-            border: 1px solid #e9ecef;
-        }
-
-            .contact-info p {
-                margin: 5px 0;
-                color: #495057;
-            }
-
-        .company-name {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        /* פרטי המכשיר */
-        .device-info {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 4px;
-            margin: 20px 0;
-            border: 1px solid #e9ecef;
-        }
-
-            .device-info h3 {
-                margin: 0 0 15px 0;
-                color: #2c3e50;
-                font-size: 18px;
-            }
-
-        /* טבלת פריטים */
         .items-table {
             width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.06);
         }
 
             .items-table th {
-                background: #f8f9fa;
-                padding: 12px;
+                background: var(--purple-50);
+                padding: 1rem;
                 text-align: right;
                 font-weight: 600;
-                color: #495057;
-                border-bottom: 2px solid #dee2e6;
+                color: var(--purple-700);
+                border: none;
             }
 
             .items-table td {
-                padding: 12px;
-                border-bottom: 1px solid #dee2e6;
+                padding: 1rem;
+                border-bottom: 1px solid var(--purple-50);
                 vertical-align: middle;
             }
 
             .items-table input {
                 width: 100%;
-                padding: 6px 8px;
-                border: 1px solid #ced4da;
-                border-radius: 4px;
-                font-size: 14px;
+                padding: 0.75rem 1rem;
+                border: 2px solid #e5e7eb;
+                border-radius: 8px;
+                font-size: 0.95rem;
+                transition: all 0.3s ease;
             }
 
                 .items-table input:focus {
                     outline: none;
-                    border-color: #80bdff;
-                    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+                    border-color: var(--purple-500);
+                    box-shadow: 0 0 0 3px var(--purple-50);
                 }
 
-        .item-total {
-            font-weight: 600;
-            color: #495057;
-        }
-
-        /* שורות סיכום */
-        .summary-row td {
-            padding: 8px 12px;
-            color: #495057;
-        }
-
-        .total td {
-            font-weight: bold;
-            font-size: 16px;
-            border-top: 2px solid #dee2e6;
-            color: #2c3e50;
-        }
-
-        /* כפתורים */
         .btn {
-            padding: 8px 16px;
-            border-radius: 4px;
-            border: 1px solid transparent;
-            font-size: 14px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
         }
 
         .btn-primary {
-            background-color: #007bff;
+            background: var(--purple-500);
             color: white;
-            border-color: #0056b3;
         }
 
             .btn-primary:hover {
-                background-color: #0056b3;
+                background: var(--purple-600);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
             }
 
         .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-            border-color: #545b62;
+            background: var(--purple-50);
+            color: var(--purple-500);
         }
 
             .btn-secondary:hover {
-                background-color: #545b62;
+                background: var(--purple-100);
+                transform: translateY(-2px);
             }
 
         .btn-danger {
-            background-color: #dc3545;
-            color: white;
-            border-color: #bd2130;
+            background: #fee2e2;
+            color: #dc2626;
         }
 
             .btn-danger:hover {
-                background-color: #bd2130;
+                background: #fecaca;
+                transform: translateY(-2px);
             }
 
-        .delete-item {
-            padding: 4px 8px;
-            font-size: 12px;
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-primary);
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus {
+                border-color: var(--purple-500);
+                box-shadow: 0 0 0 3px var(--purple-50);
+                outline: none;
+            }
+
+        .summary-row td {
+            padding: 1rem;
+            color: var(--text-primary);
+        }
+
+        .total td {
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-top: 2px solid var(--purple-50);
+            color: var(--purple-700);
         }
 
         .form-actions {
-            margin-top: 20px;
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
+            text-align: left;
+            margin-top: 2rem;
         }
 
-        /* מצב הדפסה */
-        @media print {
-            .invoice-container {
-                box-shadow: none;
-                margin: 0;
-                padding: 20px;
+            .form-actions .btn {
+                margin-left: 1rem;
             }
-
-            .no-print {
-                display: none !important;
-            }
-
-            .btn {
-                display: none;
-            }
-
-            body {
-                background: white;
-            }
-
-            @page {
-                margin: 0.5cm;
-            }
-
-            .items-table th {
-                background-color: #f8f9fa !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-        }
-
-        /* תגובתיות */
-        @media screen and (max-width: 768px) {
-            .invoice-container {
-                padding: 15px;
-                margin: 10px;
-            }
-
-            .billing-section {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .items-table {
-                display: block;
-                overflow-x: auto;
-            }
-
-            .invoice-header {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .invoice-actions {
-                width: 100%;
-            }
-        }
-
         /* אנימציות */
-        @keyframes fadeIn {
+        .items-table tr {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        @keyframes slideIn {
             from {
                 opacity: 0;
                 transform: translateY(-10px);
@@ -409,274 +400,34 @@
             }
         }
 
-        .items-table tr {
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        /* תוספות שימושיות */
-        .text-danger {
-            color: #dc3545;
-        }
-
-        .text-success {
-            color: #28a745;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-control {
-            display: block;
-            width: 100%;
-            padding: 0.375rem 0.75rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #495057;
-            background-color: #fff;
-            background-clip: padding-box;
-            border: 1px solid #ced4da;
-            border-radius: 0.25rem;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
-
-            .form-control:focus {
-                color: #495057;
-                background-color: #fff;
-                border-color: #80bdff;
-                outline: 0;
-                box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-            }
-
-        /* מצבי שגיאה בטופס */
+        /* מצבי שגיאה */
         .is-invalid {
-            border-color: #dc3545;
+            border-color: #ef4444;
         }
 
             .is-invalid:focus {
-                border-color: #dc3545;
-                box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25);
+                border-color: #ef4444;
+                box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
             }
 
         .invalid-feedback {
-            display: none;
-            width: 100%;
-            margin-top: 0.25rem;
-            font-size: 80%;
-            color: #dc3545;
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
         }
 
-        .is-invalid ~ .invalid-feedback {
-            display: block;
+        @media screen and (max-width: 768px) {
+            .invoice-container {
+                margin: 0.5rem;
+                padding: 1rem;
+                border-radius: 12px;
+            }
+
+            .invoice-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
         }
-    </style>--%>
-
-    <style>
-        :root {
-    --purple-50: rgba(124, 58, 237, 0.05);
-    --purple-100: rgba(124, 58, 237, 0.1);
-    --purple-500: #7c3aed;
-    --purple-600: #6d28d9;
-    --purple-700: #5b21b6;
-    --text-primary: #1f2937;
-    --text-secondary: #6b7280;
-}
-
-.invoice-container {
-    background: white;
-    padding: 2rem;
-    margin: 1.5rem auto;
-    max-width: 1000px;
-    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08);
-    border-radius: 16px;
-    direction: rtl;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    transition: all 0.3s ease;
-}
-
-.invoice-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 2px solid var(--purple-50);
-}
-
-.quote-info h2 {
-    margin: 0 0 1rem 0;
-    color: var(--purple-700);
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-.info-item {
-    margin-bottom: 0.75rem;
-    color: var(--text-secondary);
-}
-
-.info-item .label {
-    font-weight: 500;
-    margin-left: 0.5rem;
-    color: var(--text-primary);
-}
-
-.items-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin: 1.5rem 0;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.06);
-}
-
-.items-table th {
-    background: var(--purple-50);
-    padding: 1rem;
-    text-align: right;
-    font-weight: 600;
-    color: var(--purple-700);
-    border: none;
-}
-
-.items-table td {
-    padding: 1rem;
-    border-bottom: 1px solid var(--purple-50);
-    vertical-align: middle;
-}
-
-.items-table input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-}
-
-.items-table input:focus {
-    outline: none;
-    border-color: var(--purple-500);
-    box-shadow: 0 0 0 3px var(--purple-50);
-}
-
-.btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 10px;
-    border: none;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-primary {
-    background: var(--purple-500);
-    color: white;
-}
-
-.btn-primary:hover {
-    background: var(--purple-600);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
-}
-
-.btn-secondary {
-    background: var(--purple-50);
-    color: var(--purple-500);
-}
-
-.btn-secondary:hover {
-    background: var(--purple-100);
-    transform: translateY(-2px);
-}
-
-.btn-danger {
-    background: #fee2e2;
-    color: #dc2626;
-}
-
-.btn-danger:hover {
-    background: #fecaca;
-    transform: translateY(-2px);
-}
-
-.form-control {
-    display: block;
-    width: 100%;
-    padding: 0.75rem 1rem;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: var(--text-primary);
-    background: white;
-    border: 2px solid #e5e7eb;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-}
-
-.form-control:focus {
-    border-color: var(--purple-500);
-    box-shadow: 0 0 0 3px var(--purple-50);
-    outline: none;
-}
-
-.summary-row td {
-    padding: 1rem;
-    color: var(--text-primary);
-}
-
-.total td {
-    font-weight: 600;
-    font-size: 1.1rem;
-    border-top: 2px solid var(--purple-50);
-    color: var(--purple-700);
-}
-
-/* אנימציות */
-.items-table tr {
-    animation: slideIn 0.3s ease-out forwards;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* מצבי שגיאה */
-.is-invalid {
-    border-color: #ef4444;
-}
-
-.is-invalid:focus {
-    border-color: #ef4444;
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-}
-
-.invalid-feedback {
-    color: #ef4444;
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-}
-
-@media screen and (max-width: 768px) {
-    .invoice-container {
-        margin: 0.5rem;
-        padding: 1rem;
-        border-radius: 12px;
-    }
-    
-    .invoice-header {
-        flex-direction: column;
-        gap: 1rem;
-    }
-}
     </style>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
@@ -696,6 +447,30 @@
     <script src="/dist-assets/js/scripts/contact-list-table.min.js"></script>
     <script src="/dist-assets/js/scripts/datatables.script.min.js"></script>
     <script>
+
+        // הגדר משתנים גלובליים לשימוש בקוד JavaScript
+        var formControls = {
+            customerName: '<%= txtCustomerName.ClientID %>',
+            phone: '<%= txtPhone.ClientID %>',
+            desc: '<%= txtDesc.ClientID %>',
+            hiddenReadId: '<%= hiddenReadId.ClientID %>',
+           modelcode: '<%= txtmodelcode.ClientID %>'
+       };
+        
+        document.getElementById('<%= btnSave.ClientID %>').addEventListener('click', function (e) {
+            const txtDesc = document.getElementById('<%= txtDesc.ClientID %>');
+            const errorSpan = document.getElementById('errorTxtDesc');
+            const modelcode = document.getElementById('txtmodelcode');
+            if (!txtDesc.value.trim()) {
+                e.preventDefault(); // עצירת השליחה
+                errorSpan.style.display = 'block'; // הצגת שגיאה
+            } else {
+                errorSpan.style.display = 'none'; // הסתרת שגיאה
+            }
+        });
+      
+            
+
         function collectItems() {
             const items = [];
             document.querySelectorAll("#itemsTableBody tr").forEach(row => {
@@ -760,45 +535,6 @@
             updateTotals();
         }
 
-       <%-- // חישוב סכום שורה
-        function calculateRowTotal(row) {
-            const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
-            const price = parseFloat(row.querySelector('.item-price').value) || 0;
-            const subtotal = quantity * price;  // סכום לפני מע"מ
-            row.querySelector('.item-total').textContent = `₪${subtotal.toFixed(2)}`;
-            return subtotal;
-        }
-
-        // עדכון סיכומים
-        function updateTotals() {
-            const rows = document.querySelectorAll('#itemsTableBody tr');
-            let subtotal = 0;
-
-            // חישוב סה"כ לפני מע"מ
-            rows.forEach(row => {
-                subtotal += calculateRowTotal(row);
-            });
-
-            // חישוב מע"מ וסה"כ
-            const vat = subtotal * 0.17;  // 17% מע"מ
-            const total = subtotal + vat;  // סה"כ כולל מע"מ
-
-            // עדכון התצוגה עם שתי ספרות אחרי הנקודה
-            document.getElementById('subtotal').textContent = `₪${subtotal.toFixed(2)}`;
-            document.getElementById('vat').textContent = `₪${vat.toFixed(2)}`;
-            document.getElementById('total').textContent = `₪${total.toFixed(2)}`;
-
-            // שמירת הסכום הכולל בשדה המחיר
-            $(`#<%= txtTotalPrice.ClientID %>`).val(Math.round(total));
-            console.log('Total price set to txtTotalPrice:', total.toFixed(2));
-
-            // החזרת כל הערכים למקרה שנצטרך אותם
-            return {
-                subtotal: subtotal,
-                vat: vat,
-                total: total
-            };
-        }--%>
 
         // חישוב סכום שורה
         function calculateRowTotal(row) {
@@ -831,12 +567,12 @@
             // שמירת הסכום הכולל בשדה המחיר
             $(`#<%= txtTotalPrice.ClientID %>`).val(Math.round(totalWithVat));
 
-    console.log('Price details:', {
-        subtotalBeforeVat: subtotalBeforeVat.toFixed(2),
-        vat: vat.toFixed(2),
-        totalWithVat: totalWithVat.toFixed(2)
-    });
-}
+            console.log('Price details:', {
+                subtotalBeforeVat: subtotalBeforeVat.toFixed(2),
+                vat: vat.toFixed(2),
+                totalWithVat: totalWithVat.toFixed(2)
+            });
+        }
 
         // מחיקת פריט
         function deleteItem(button) {
@@ -845,154 +581,85 @@
             updateTotals();
         }
 
-        <%--function loadQuoteFromRead(readId) {
-            console.log('Loading quote for ReadId:', readId);
 
-            $.ajax({
-                type: "POST",
-                url: "AllRead.aspx/GetCallInfoJson",
-                data: JSON.stringify({ readId: readId.toString() }), // חשוב: המרה למחרוזת
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    console.log('Server response:', response);
-
-                    if (!response.d || response.d === "null") {
-                        console.error('No data found for readId:', readId);
-                        alert("לא נמצאו נתונים עבור קריאה זו");
-                        return;
-                    }
-
-                    try {
-                        // המרה ל-JSON
-                        const data = JSON.parse(response.d);
-                        console.log('Parsed data:', data);
-
-                        // מילוי הטופס
-                        $('#<%= txtCustomerName.ClientID %>').val(data.FullName);
-                $('#<%= txtPhone.ClientID %>').val(data.Phone);
-                $('#<%= txtDescription.ClientID %>').val(data.Desc);
-                $('#<%= hiddenReadId.ClientID %>').val(data.ReadId);
-
-                // עדכון כותרות
-                $('#quoteNumber').text(`Q-${data.ReadId}-${new Date().getTime().toString().slice(-4)}`);
-                $('#currentDate').text(new Date().toLocaleDateString('he-IL'));
-                $('#serviceCallId').text(data.ReadId);
-
-                // הוספת שורת פריט ראשונה
-                addNewItem();
-
-                console.log('Form filled successfully');
-            } catch (error) {
-                console.error('Error parsing or filling data:', error);
-                alert("אירעה שגיאה בעיבוד הנתונים");
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error('AJAX Error:', error);
-            console.error('Status:', status);
-            console.error('Response Text:', xhr.responseText);
-            alert("אירעה שגיאה בטעינת הנתונים");
-        }
-    });
-        }--%>
 
         // הגדרת משתנים גלובליים עם ה-ClientID של השדות
         var txtCustomerName = { clientID: '<%= txtCustomerName.ClientID %>' };
         var txtPhone = { clientID: '<%= txtPhone.ClientID %>' };
         var txtDesc = { clientID: '<%= txtDesc.ClientID %>' };
         var hiddenReadId = { clientID: '<%= hiddenReadId.ClientID %>' };
+       
 
         // Debug log
         console.log('Form field IDs:', {
             customerName: txtCustomerName.clientID,
             phone: txtPhone.clientID,
             desc: txtDesc.clientID,
-            hiddenReadId: hiddenReadId.clientID
+            hiddenReadId: hiddenReadId.clientID,
+          
+        });
+
+      
+    
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const readId = urlParams.get('readId');
+
+            if (readId) {
+                loadQuoteFromRead(readId);
+            }
         });
 
         function loadQuoteFromRead(readId) {
-            console.log('loadQuoteFromRead called with readId:', readId);
+            console.log('Loading quote for readId:', readId);
 
             if (!readId) {
                 console.error('readId is required');
                 return;
             }
 
-            // בדיקת זיהויי השדות
-            console.log('Form control IDs:', formControls);
-
             // טעינת פרטי הטכנאי
             loadTechnicianInfo();
 
             $.ajax({
                 type: "POST",
-                url: "AllRead.aspx/GetCallInfoJson",
+                url: "AllBids.aspx/GetCallInfoJson",
                 data: JSON.stringify({ readId: readId }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    console.log('Server response:', response);
-
-                    if (!response || !response.d) {
-                        console.error('Invalid response:', response);
-                        return;
-                    }
-
                     try {
                         const data = JSON.parse(response.d);
+                        console.log('Raw response:', response);
                         console.log('Parsed data:', data);
+                        console.log('ModelCode:', data.ModelCode);
+                        console.log('formControls:', formControls);
 
-                        // מילוי הטופס עם בדיקות מפורטות
-                        if (document.getElementById(formControls.customerName)) {
-                            document.getElementById(formControls.customerName).value = data.FullName;
-                            console.log('Set customer name:', data.FullName);
-                        } else {
-                            console.error('Customer name control not found');
+                        // מילוי השדות בטופס
+                        $('#' + txtCustomerName.clientID).val(data.FullName);
+                        $('#' + txtPhone.clientID).val(data.Phone);
+                        $('#' + txtDesc.clientID).val(data.Desc);
+                        $('#' + hiddenReadId.clientID).val(data.ReadId);
+                        $('#' + formControls.modelcode).val(data.ModelCode);
+
+                        // עדכון כותרות
+                        $('#quoteNumber').text(`Q-${data.ReadId}-${new Date().getTime().toString().slice(-4)}`);
+                        $('#currentDate').text(new Date().toLocaleDateString('he-IL'));
+                        $('#serviceCallId').text(data.ReadId);
+
+                        const tbody = document.getElementById('itemsTableBody');
+                        if (tbody.children.length === 0) {
+                            addNewItem();
                         }
-
-                        if (document.getElementById(formControls.phone)) {
-                            document.getElementById(formControls.phone).value = data.Phone;
-                            console.log('Set phone:', data.Phone);
-                        } else {
-                            console.error('Phone control not found');
-                        }
-
-                        if (document.getElementById(formControls.desc)) {
-                            document.getElementById(formControls.desc).value = data.Desc;
-                            console.log('Set desc:', data.Desc);
-                        } else {
-                            console.error('Desc control not found');
-                        }
-
-                        if (document.getElementById(formControls.hiddenReadId)) {
-                            document.getElementById(formControls.hiddenReadId).value = data.ReadId;
-                            console.log('Set hidden ReadId:', data.ReadId);
-                        } else {
-                            console.error('Hidden ReadId control not found');
-                        }
-
-                        // עדכון המספרים וכותרות
-                        document.getElementById('quoteNumber').textContent = `Q-${data.ReadId}-${new Date().getTime().toString().slice(-4)}`;
-                        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('he-IL');
-                        document.getElementById('serviceCallId').textContent = data.ReadId;
-
-
-                        // הוספת שורת פריט ראשונה
-                        addNewItem();
-
-                        console.log('Form filled successfully');
-
+                        console.log('Form populated successfully');
                     } catch (error) {
                         console.error('Error parsing or filling form:', error);
-                        console.error('Error details:', error.message);
+                        alert('אירעה שגיאה בטעינת הנתונים');
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error('AJAX call failed');
-                    console.error('Status:', status);
-                    console.error('Error:', error);
-                    console.error('Response:', xhr.responseText);
+                    console.error('Ajax Error:', error);
+                    alert('אירעה שגיאה בטעינת הנתונים');
                 }
             });
         }
@@ -1035,55 +702,7 @@
             });
         }
 
-        //// הפעלת הקוד כשהדף נטען
-        //$(document).ready(function () {
-        //    console.log('Document ready');
-        //    const urlParams = new URLSearchParams(window.location.search);
-        //    const readId = urlParams.get('readId');
-
-        //    if (readId) {
-        //        console.log('Found readId in URL:', readId);
-        //        loadQuoteFromRead(readId);
-        //    } else {
-        //        console.log('No readId found in URL');
-        //    }
-        //});
-
-        // חשוב: וודא שהקוד רץ אחרי טעינת הדף
-        //$(document).ready(function () {
-        //    console.log('Document ready');
-        //    const urlParams = new URLSearchParams(window.location.search);
-        //    const readId = urlParams.get('readId');
-
-        //    if (readId) {
-        //        console.log('Found readId in URL:', readId);
-        //        loadQuoteFromRead(readId);
-        //    } else {
-        //        console.log('No readId found in URL');
-        //    }
-        //});
-
-        // להוסיף את זה בתחתית הקובץ או ב-document.ready
-        //$(document).ready(function () {
-        //    const urlParams = new URLSearchParams(window.location.search);
-        //    const readId = urlParams.get('readId');
-
-        //    if (readId) {
-        //        console.log('Found readId in URL:', readId);
-        //        loadQuoteFromRead(readId);
-        //    }
-        //});
-
-        // הוספת האזנה לטעינת העמוד
-        //$(document).ready(function () {
-        //    const urlParams = new URLSearchParams(window.location.search);
-        //    const readId = urlParams.get('readId');
-
-        //    if (readId) {
-        //        loadQuoteFromRead(readId);
-        //    }
-        //});
-
+        
         // פונקציה לקבלת מזהה הטכנאי מה-Session
         function getTechnicianId() {
             // נוסיף נקודת קצה ב-Web API שתחזיר את מזהה הטכנאי מה-Session
@@ -1124,48 +743,7 @@
             // לדוגמה:
             // fetch('/api/quote-data').then(response => response.json()).then(data => initializeQuote(data));
         });
-        // פונקציה לאיסוף פריטי ההצעה לפני שליחה
-        //function collectBidItem() {
-        //    try {
-        //        const items = [];
-        //        const rows = document.querySelectorAll('#itemsTableBody tr');
-
-        //        rows.forEach(row => {
-        //            const itemdescription = row.querySelector('.item-description').value;
-        //            const itemquantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
-        //            const itemPrice = parseFloat(row.querySelector('.item-price').value) || 0;
-        //            const itemTotal = parseFloat(row.querySelector('.item-total').textContent.replace('₪', '')) || 0;
-
-        //            items.push({
-        //                description: itemDesc,
-        //                quantity: itemQuantity,
-        //                price: itemPrice,
-        //                total: itemTotal
-        //            });
-        //        });
-
-        //        // מוסיף את הפריטים כשדה נסתר לטופס
-        //        const bidItemJson = JSON.stringify(items);
-        //        let hiddenInput = document.getElementById('hiddenBidItems');
-        //        if (!hiddenInput) {
-        //            hiddenInput = document.createElement('input');
-        //            hiddenInput.type = 'hidden';
-        //            hiddenInput.id = 'hiddenBidItems';
-        //            hiddenInput.name = 'bidItem';
-        //            document.forms[0].appendChild(hiddenInput);
-        //        }
-        //        hiddenInput.value = bidItemJson;
-
-        //        console.log('Collected bid items:', items);
-        //        console.log('JSON string:', bidItemJson);
-
-        //        return true;
-        //    } catch (e) {
-        //        console.error('Error collecting bid items:', e);
-        //        alert('אירעה שגיאה באיסוף פרטי ההצעה');
-        //        return false;
-        //    }
-        //}
+      
 
         function collectBidItem() {
             try {
@@ -1202,7 +780,7 @@
         }
 
         // עדכון אירוע הלחיצה על כפתור השמירה
-        document.querySelector('#<%= btnSave.ClientID %>').addEventListener('click', function (e) {
+       <%-- document.querySelector('#<%= btnSave.ClientID %>').addEventListener('click', function (e) {
             if (!validateForm()) {
                 e.preventDefault();
                 return;
@@ -1212,7 +790,7 @@
                 e.preventDefault();
                 return;
             }
-        });
+        });--%>
 
         function validateForm() {
             const desc = document.getElementById('<%= txtDesc.ClientID %>').value.trim();
@@ -1232,7 +810,7 @@
 
 
         // עדכון כפתור השמירה
-        document.querySelector('#<%= btnSave.ClientID %>').addEventListener('click', function (e) {
+       <%-- document.querySelector('#<%= btnSave.ClientID %>').addEventListener('click', function (e) {
             if (!collectBidItem()) {
                 e.preventDefault();  // מונע את שליחת הטופס אם יש שגיאה
                 return;
@@ -1247,39 +825,46 @@
             }
 
             // אם הכל בסדר, הטופס יישלח
+        });--%>
+
+        document.getElementById('<%= btnSave.ClientID %>').addEventListener('click', function (e) {
+            // בדיקת תיאור
+            const txtDesc = document.getElementById('<%= txtDesc.ClientID %>');
+    const errorSpan = document.getElementById('errorTxtDesc');
+    
+    if (!txtDesc.value.trim()) {
+        e.preventDefault();
+        errorSpan.style.display = 'block';
+        return;
+    }
+    errorSpan.style.display = 'none';
+    
+    // בדיקת תקינות הטופס
+    if (!validateForm()) {
+        e.preventDefault();
+        return;
+    }
+    
+    // איסוף הפריטים
+    if (!collectBidItem()) {
+        e.preventDefault();
+        return;
+    }
+    
+            __doPostBack('<%= btnSave.UniqueID %>', '');
         });
 
         // עדכון כפתור השמירה כך שיאסוף את הפריטים לפני השליחה
-        document.querySelector('#<%= btnSave.ClientID %>').addEventListener('click', function (e) {
+       <%-- document.querySelector('#<%= btnSave.ClientID %>').addEventListener('click', function (e) {
 
             collectBidItem();
             __doPostBack('<%= btnSave.UniqueID %>', '');
-        });
+        });--%>
 
 
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
-        // הגדר משתנים גלובליים לשימוש בקוד JavaScript
-        var formControls = {
-            customerName: '<%= txtCustomerName.ClientID %>',
-            phone: '<%= txtPhone.ClientID %>',
-            desc: '<%= txtDesc.ClientID %>',
-            hiddenReadId: '<%= hiddenReadId.ClientID %>'
-        };
-        document.getElementById('<%= btnSave.ClientID %>').addEventListener('click', function (e) {
-            const txtDesc = document.getElementById('<%= txtDesc.ClientID %>');
-            const errorSpan = document.getElementById('errorTxtDesc');
 
-            if (!txtDesc.value.trim()) {
-                e.preventDefault(); // עצירת השליחה
-                errorSpan.style.display = 'block'; // הצגת שגיאה
-            } else {
-                errorSpan.style.display = 'none'; // הסתרת שגיאה
-            }
-        });
-
-    </script>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">
 </asp:Content>

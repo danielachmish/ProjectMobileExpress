@@ -52,7 +52,7 @@ namespace MobileExpress.Account
                 System.Threading.Thread.Sleep(2000);
 
                 // הפניה לדף ההתחברות
-                //Response.Redirect(ReturnUrl);
+                Response.Redirect(ReturnUrl);
             }
             catch (Exception ex)
             {
@@ -71,17 +71,17 @@ namespace MobileExpress.Account
             lblMessage.Visible = true;
         }
 
-        //private string ReturnUrl
-        //{
-        //    get
-        //    {
-        //        string url = Request.QueryString["returnUrl"];
-        //        // וידוא שמדובר בURL פנימי למניעת Open Redirect
-        //        if (string.IsNullOrEmpty(url) || url.Contains("://"))
-        //            return "~/Default.aspx";
-        //        return "~/" + url;
-        //    }
-        //}
+        private string ReturnUrl
+        {
+            get
+            {
+                string url = Request.QueryString["returnUrl"];
+                // וידוא שמדובר בURL פנימי למניעת Open Redirect
+                if (string.IsNullOrEmpty(url) || url.Contains("://"))
+                    return "~/Default.aspx";
+                return "~/" + url;
+            }
+        }
 
     }
 }

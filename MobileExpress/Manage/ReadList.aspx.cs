@@ -86,17 +86,17 @@ namespace MobileExpress.Manage
 				//string DateAdd = txtDateAdd.Text;
 				bool Status;
 
-				int ModelId = int.Parse(txtModelId.Text);
+				string ModelCode = txtModelCode.Text;
 				string NameImage = txtNameImage.Text;
 				string Urgency = txtUrgency.Text;
 				int SerProdId = int.Parse(txtSerProdId.Text);
 				
 
 				System.Diagnostics.Debug.WriteLine($"נתונים שהתקבלו: " +
-					$"ReadId={hfReadId?.Value}, Desc={Desc}, FullName={FullName}, Phone={Phone}, Nots={Nots}, CusId={CusId}, ModaelId={ModelId},NameImage={NameImage},Urgency={Urgency},SerProdId={SerProdId}");
+					$"ReadId={hfReadId?.Value}, Desc={Desc}, FullName={FullName}, Phone={Phone}, Nots={Nots}, CusId={CusId}, ModelCode={ModelCode},NameImage={NameImage},Urgency={Urgency},SerProdId={SerProdId}");
 
 				System.Diagnostics.Debug.WriteLine("מתחיל תהליך אימות שדות");
-				ValidateFields(Desc, FullName, Phone, Nots, CusId.ToString(), ModelId.ToString(), NameImage, Urgency, SerProdId.ToString());
+				ValidateFields(Desc, FullName, Phone, Nots, CusId.ToString(), ModelCode, NameImage, Urgency, SerProdId.ToString());
 				System.Diagnostics.Debug.WriteLine("אימות שדות הסתיים בהצלחה");
 
 				var readability = new Readability
@@ -108,13 +108,13 @@ namespace MobileExpress.Manage
 					Phone = Phone,
 					Nots = Nots,
 					CusId = CusId,				
-					ModelId = ModelId,
+					ModelCode = ModelCode,
 					NameImage = NameImage,
 					Urgency=Urgency,
 					SerProdId=SerProdId
 				};
 
-				System.Diagnostics.Debug.WriteLine($"אובייקט Readability נוצר: ReadId={readability.ReadId},DateRead={readability.DateRead}, Desc={readability.Desc}, FullName={readability.FullName},Phone={readability.Phone}, Nots={readability.Nots}, CusId={readability.CusId},  ModelId={readability.ModelId}, Status={readability.Status}, NameImage={readability.NameImage},Urgency={readability.Urgency},SerProdId={readability.SerProdId}");
+				System.Diagnostics.Debug.WriteLine($"אובייקט Readability נוצר: ReadId={readability.ReadId},DateRead={readability.DateRead}, Desc={readability.Desc}, FullName={readability.FullName},Phone={readability.Phone}, Nots={readability.Nots}, CusId={readability.CusId},  ModelCode={readability.ModelCode}, Status={readability.Status}, NameImage={readability.NameImage},Urgency={readability.Urgency},SerProdId={readability.SerProdId}");
 
 				if (readability.ReadId == 0)
 				{
@@ -160,7 +160,7 @@ namespace MobileExpress.Manage
 
 		private void ValidateFields(params string[] fields)
 		{
-			string[] fieldNames = { "DateAdd", "Desc","FullName", "Phone", "Nots", "CusId", "ModelId","Status","NameImage","Urgency","SerProdId" };
+			string[] fieldNames = { "DateAdd", "Desc","FullName", "Phone", "Nots", "CusId", "modelcode","Status","NameImage","Urgency","SerProdId" };
 			for (int i = 0; i < fields.Length; i++)
 			{
 				System.Diagnostics.Debug.WriteLine($"בודק שדה: {fieldNames[i]}, ערך: {fields[i]}");

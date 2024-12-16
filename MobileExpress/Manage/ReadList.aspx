@@ -255,8 +255,8 @@
             <asp:TextBox ID="txtDateAdd" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
         </div>--%>
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtModelId" runat="server">מס מודל:</asp:Label>
-                            <asp:TextBox ID="txtModelId" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
+                            <asp:Label AssociatedControlID="txtModelCode" runat="server">מס מודל:</asp:Label>
+                            <asp:TextBox ID="txtModelCode" runat="server" required="required" CssClass="form-control form-control-rounded"></asp:TextBox>
                         </div>
                         <div class="form-group">
                             <asp:Label AssociatedControlID="txtNameImage" runat="server">תמונה :</asp:Label>
@@ -836,7 +836,7 @@
             document.getElementById('<%= txtPhone.ClientID %>').value = '';
             document.getElementById('<%= txtNots.ClientID %>').value = '';
             document.getElementById('<%= txtCusId.ClientID %>').value = '';
-            document.getElementById('<%= txtModelId.ClientID %>').value = '';
+            document.getElementById('<%= txtModelCode.ClientID %>').value = '';
             document.getElementById('<%= txtNameImage.ClientID %>').value = '';
             document.getElementById('<%= txtUrgency.ClientID %>').value = '';
             document.getElementById('<%= txtSerProdId.ClientID %>').value = '';
@@ -859,7 +859,7 @@
             document.getElementById('<%= txtCusId.ClientID %>').value = readability.CusId;
     <%--document.getElementById('<%= txtDateAdd.ClientID %>').value = customer.DateAdd;--%>
 
-            document.getElementById('<%= txtModelId.ClientID %>').value = readability.ModelId;
+            document.getElementById('<%= txtModelCode.ClientID %>').value = readability.ModelId;
             document.getElementById('<%= txtNameImage.ClientID %>').value = readability.NameImage;
             document.getElementById('<%= txtUrgency.ClientID %>').value = readability.Urgency;
             document.getElementById('<%= txtSerProdId.ClientID %>').value = readability.SerProdId;
@@ -882,7 +882,7 @@
                 CusId: $('#<%= txtCusId.ClientID %>').val(),
      <%--   DateAdd: $('#<%= txtDateAdd.ClientID %>').val(),--%>
 
-                ModelId: $('#<%= txtModelId.ClientID %>').val(),
+                ModelId: $('#<%= txtModelCode.ClientID %>').val(),
                 NameImage: $('#<%= txtNameImage.ClientID %>').val(),
                 Urgency: $('#<%= txtUrgency.ClientID %>').val(),
                 SerProdId: $('#<%= txtSerProdId.ClientID %>').val()
@@ -987,7 +987,7 @@
                     // DateAdd נמחק או הוסתר
                     // console.log('DateAdd הוגדר:', customer.DateAdd);
 
-                    $('#<%= txtModelId.ClientID %>').val(readability.ModelId);
+                    $('#<%= txtModelCode.ClientID %>').val(readability.ModelCode);
                     console.log('ModelId הוגדר:', readability.ModelId);
 
                     $('#<%= txtNameImage.ClientID %>').val(readability.NameImage);
