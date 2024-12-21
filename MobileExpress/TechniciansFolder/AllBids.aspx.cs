@@ -48,47 +48,7 @@ namespace MobileExpress.TechniciansFolder
 			return Session["TecId"] != null;
 		}
 
-		//[WebMethod]
-		//public static string GetCallInfoJson(int readId)
-		//{
-		//	try
-		//	{
-		//		using (var db = new DbContext())
-		//		{
-		//			string sql = @"SELECT r.*, m.ModelName 
-		//                        FROM T_Readability r 
-		//                        LEFT JOIN T_Models m ON r.ModelCode = m.ModelCode 
-		//                        WHERE r.ReadId = @ReadId";
-
-		//			var parameters = new SqlParameter[]
-		//			{
-		//		new SqlParameter("@ReadId", readId)
-		//			};
-
-		//			DataTable dt = db.Execute(sql, parameters);
-
-		//			if (dt.Rows.Count > 0)
-		//			{
-		//				var row = dt.Rows[0];
-		//				var data = new
-		//				{
-		//					ReadId = Convert.ToInt32(row["ReadId"]),
-		//					FullName = row["FullName"]?.ToString(),
-		//					Phone = row["Phone"]?.ToString(),
-		//					Desc = row["Desc"]?.ToString(),
-		//					ModelCode = row["ModelCode"]?.ToString(),
-		//					ModelName = row["ModelName"]?.ToString()
-		//				};
-		//				return JsonConvert.SerializeObject(data);
-		//			}
-		//			return null;
-		//		}
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		return JsonConvert.SerializeObject(new { error = ex.Message });
-		//	}
-		//}
+	
 		[WebMethod]
 		public static string GetCallInfoJson(int readId)
 		{
@@ -161,6 +121,7 @@ namespace MobileExpress.TechniciansFolder
 				}
 
 				// קבלת הנתונים מהטופס
+				
 				string description = txtDesc.Text?.Trim() ?? "הצעת מחיר";
 				decimal totalPrice;
 				if (!decimal.TryParse(txtTotalPrice.Text, out totalPrice))
@@ -181,10 +142,11 @@ namespace MobileExpress.TechniciansFolder
 				{
 					itemUnitPrice = totalPrice; // אם לא צוין מחיר ליחידה, נשתמש במחיר הכולל
 				}
-
+				string fullname = txtCustomerName.Text?.Trim() ?? "שם לקוח";
+				System.Diagnostics.Debug.WriteLine($"FullName from TextBox: {fullname}");
 				var bid = new Bid
 				{
-
+					FullName = fullname,
 					ReadId = readId,
 					TecId = tecId,
 					Price = totalPrice,

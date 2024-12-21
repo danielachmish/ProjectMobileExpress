@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/TechniciansFolder/MainMaster.Master" AutoEventWireup="true" CodeBehind="MapOrientation.aspx.cs" Inherits="MobileExpress.TechniciansFolder.MapOrientation" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
     <!-- בראש הדף -->
     <meta http-equiv="Content-Security-Policy" content="geolocation 'self'">
     <!-- סגנונות -->
@@ -24,6 +25,7 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
     <header class="main-header">
       
 
@@ -31,6 +33,101 @@
     </header>
 
     <style>
+        /* הגדרות בסיס */
+body, html {
+    direction: rtl;
+    text-align: right;
+}
+
+/* סיידבר */
+.sidebar {
+    right: 0; /* במקום left */
+    box-shadow: 4px 0 20px rgba(124, 58, 237, 0.1); /* שינוי כיוון הצל */
+}
+
+/* פריטי מיטא */
+.meta-item {
+    direction: rtl;
+}
+
+/* כותרות וטקסטים */
+.location-name, 
+.location-info,
+.location-meta,
+.review-section,
+.review-header,
+.detail-item {
+    text-align: right;
+    direction: rtl;
+}
+
+/* תיבת חיפוש */
+.search-input {
+    text-align: right;
+    padding-right: 1rem;
+    direction: rtl;
+}
+
+/* סינון */
+.filter-select {
+    text-align: right;
+    padding-right: 1rem;
+    background-position: left 8px center;
+    direction: rtl;
+}
+
+/* תפריט */
+.menu-toggle {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/* אייקונים */
+.meta-item i {
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+/* כותרת ראשית */
+.main-header {
+    direction: rtl;
+}
+
+/* התאמה למפה */
+#map {
+    right: auto;
+    left: 0;
+}
+
+/* סידור כפתורים */
+.location-links {
+    flex-direction: row-reverse;
+}
+
+/* סידור פריטי מיקום */
+.location-header {
+    flex-direction: row-reverse;
+}
+
+/* עיצוב נוסף */
+.urgency-high,
+.urgency-medium,
+.urgency-low {
+    margin-left: 0;
+    margin-right: 0.5rem;
+}
+
+.filter-container {
+    text-align: right;
+}
+
+/* התאמה למובייל */
+@media screen and (max-width: 768px) {
+    .location-links,
+    .filter-group {
+        align-items: flex-start;
+    }
+}
         :root {
             --purple-50: rgba(124, 58, 237, 0.05);
             --purple-100: rgba(124, 58, 237, 0.1);
@@ -394,9 +491,42 @@
             }
     </style>
 
+   <%-- //להציג קריאות ברדיוס מסויים--%>
+  <%-- <style>
+       .radius-filter {
+    padding: 15px;
+    background: var(--purple-50);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
 
-    <div class="map-container">
-        <div id="map"></div>
+.radius-slider {
+    width: 100%;
+    height: 8px;
+    background: var(--purple-100);
+    border-radius: 5px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.radius-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--purple-500);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.radius-slider::-webkit-slider-thumb:hover {
+    background: var(--purple-600);
+    transform: scale(1.1);
+}
+   </style>--%>
+
+    <div class="map-container" dir="rtl">
+
         <div class="sidebar">
             <h1 class="main-title"><%--מפה והתמצאות--%>
                 <span><%--100 תושבים סביב תל אביב-יפו--%></span>
@@ -406,6 +536,11 @@
                 <input type="text" class="search-input" placeholder="חיפוש...">
             </div>
 
+            <%-- //להציג קריאות ברגיוס מסויים--%>
+           <%--  <div class="radius-filter">
+    <label for="radiusSlider">רדיוס חיפוש (ק"מ): <span id="radiusValue">10</span></label>
+    <input type="range" id="radiusSlider" min="1" max="50" value="10" class="radius-slider">
+</div>--%>
             <h2 class="mt-4 mb-3"></h2>
             <%-- סינון --%>
             <div class="filter-container">
@@ -416,8 +551,8 @@
                         AutoPostBack="true"
                         OnSelectedIndexChanged="StatusFilter_SelectedIndexChanged">
                         <asp:ListItem Text="כל הקריאות" Value="" />
-                        <asp:ListItem Text="קריאות פתוחות" Value="true" />
-                        <asp:ListItem Text="קריאות סגורות" Value="false" />
+                        <asp:ListItem Text="קריאות סגורות" Value="true" />
+                        <asp:ListItem Text="קריאות פתוחות" Value="false" />
                     </asp:DropDownList>
                 </div>
             </div>
@@ -479,6 +614,7 @@
                 </ItemTemplate>
             </asp:Repeater>
         </div>
+                <div id="map"></div>
     </div>
 
 
@@ -1354,6 +1490,77 @@
         window.addEventListener('beforeunload', () => {
             stopTechnicianTracking();
         });
+
+
+
+        //להציג קריאות ברגיוס מסויים
+        //let currentRadius = 10;
+        //const slider = document.getElementById('radiusSlider');
+        //const radiusValue = document.getElementById('radiusValue');
+
+        //slider.addEventListener('input', function () {
+        //    currentRadius = this.value;
+        //    radiusValue.textContent = currentRadius;
+        //    updateServiceCalls();
+        //});
+
+        //function updateServiceCalls() {
+        //    if (navigator.geolocation) {
+        //        navigator.geolocation.getCurrentPosition(position => {
+        //            const currentLocation = {
+        //                lat: position.coords.latitude,
+        //                lng: position.coords.longitude
+        //            };
+
+        //            $.ajax({
+        //                url: 'MapOrientation.aspx/GetServiceCalls',
+        //                type: 'POST',
+        //                data: JSON.stringify({
+        //                    currentLat: currentLocation.lat,
+        //                    currentLng: currentLocation.lng,
+        //                    radius: currentRadius
+        //                }),
+        //                contentType: 'application/json',
+        //                dataType: 'json',
+        //                success: function (response) {
+        //                    // עדכון המפה והרשימה
+        //                    updateMap(response.d);
+        //                    updateList(response.d);
+        //                },
+        //                error: function (error) {
+        //                    console.error('Error:', error);
+        //                }
+        //            });
+        //        });
+        //    }
+        //}
+
+        //function updateMap(calls) {
+        //    // נקה סימונים קיימים
+        //    clearMarkers();
+
+        //    // הוסף סימונים חדשים
+        //    calls.forEach(call => {
+        //        if (call.Nots) {
+        //            const coordinates = call.Nots.split(',');
+        //            const position = {
+        //                lat: parseFloat(coordinates[0]),
+        //                lng: parseFloat(coordinates[1])
+        //            };
+        //            addMarker(position, call);
+        //        }
+        //    });
+        //}
+
+        //function updateList(calls) {
+        //    // עדכון הרשימה בסיידבר
+        //    const container = document.querySelector('.calls-list');
+        //    container.innerHTML = '';
+        //    calls.forEach(call => {
+        //        // הוסף את הקריאה לרשימה
+        //        addCallToList(call);
+        //    });
+        //}
     </script>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">

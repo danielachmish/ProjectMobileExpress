@@ -81,7 +81,7 @@
                                             </div>
                                              <div class="detail-item">
                                                 <span class="detail-label">סטטוס</span>
-                                                <span class="detail-value status"><%# (bool)Eval("Status") ? "בטיפול" : "ממתין" %></span>
+                                                <span class="detail-value status"><%# (bool)Eval("Status") ? "סגורה" : "פתוחה" %></span>
                                             </div>
                                           <%-- <div class="detail-item">
     <span class="detail-label">סטטוס</span>
@@ -792,6 +792,13 @@
             }
         });
 
+
+
+
+
+
+
+       
 
     </script>
 </asp:Content>

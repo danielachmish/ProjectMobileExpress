@@ -8,7 +8,7 @@ namespace BLL
 {
     public class Bid
     {
-         public string FullName { get; set; } 
+        public string FullName { get; set; } 
         public int BidId { get; set; }
         public string Desc { get; set; }
         public decimal Price { get; set; }
@@ -70,6 +70,7 @@ namespace BLL
         {
             return BidDAL.GetById(id);
         }
+
 
         public static int DeleteById(int id)
         {

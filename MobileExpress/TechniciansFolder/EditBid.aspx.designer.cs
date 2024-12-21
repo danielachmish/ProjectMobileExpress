@@ -7,9 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-
 namespace MobileExpress.TechniciansFolder
 {
+
+
 	public partial class EditBid
 	{
 
@@ -149,13 +150,13 @@ namespace MobileExpress.TechniciansFolder
 		protected global::System.Web.UI.WebControls.Label lblTotal;
 
 		/// <summary>
-		/// ddlStatus control.
+		/// btnCancel control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
+		protected global::System.Web.UI.WebControls.Button btnCancel;
 
 		/// <summary>
 		/// btnSave control.
@@ -165,14 +166,5 @@ namespace MobileExpress.TechniciansFolder
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.Button btnSave;
-
-		/// <summary>
-		/// btnCancel control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.Button btnCancel;
 	}
 }
