@@ -14,15 +14,39 @@ namespace MobileExpress.TechniciansFolder
 		{
 			if (!IsPostBack)
 			{
-				string bidId = Request.QueryString["id"];
-				if (!string.IsNullOrEmpty(bidId))
-				{
-					LoadBidData(Convert.ToInt32(bidId));
-				}
-				else
+				//string bidId = Request.QueryString["id"];
+				//if (!string.IsNullOrEmpty(bidId))
+				//{
+				//	LoadBidData(Convert.ToInt32(bidId));
+				//}
+				//else
+				//{
+				//	Response.Redirect("Forms.aspx");
+				//}
+				if (!int.TryParse(Request.QueryString["id"], out int bidId))
 				{
 					Response.Redirect("Forms.aspx");
+					return;
 				}
+
+				// טעינת ההצעה
+				var bid = BidDAL.GetById(bidId);
+				if (bid == null)
+				{
+					Response.Redirect("Forms.aspx");
+					return;
+				}
+
+				// בדיקה אם ההצעה מאושרת
+				if (bid.Status)
+				{
+					ScriptManager.RegisterStartupScript(this, GetType(), "AlertAndRedirect",
+						"alert('לא ניתן לערוך הצעת מחיר מאושרת'); window.location.href='Forms.aspx';", true);
+					return;
+				}
+
+				// טעינת הנתונים לטופס
+				LoadBidData(bidId);
 			}
 		}
 
@@ -56,7 +80,7 @@ namespace MobileExpress.TechniciansFolder
 				txtItemDescription.Text = bid.ItemDescription;
 				txtQuantity.Text = bid.ItemQuantity.ToString();
 				txtUnitPrice.Text = bid.ItemUnitPrice.ToString();
-				ddlStatus.SelectedValue = bid.Status.ToString().ToLower();
+				//ddlStatus.SelectedValue = bid.Status.ToString().ToLower();
 
 				// חישוב סכומים
 				decimal subtotal = bid.ItemQuantity * bid.ItemUnitPrice;
@@ -79,7 +103,7 @@ namespace MobileExpress.TechniciansFolder
 				bid.ItemDescription = txtItemDescription.Text;
 				bid.ItemQuantity = Convert.ToInt32(txtQuantity.Text);
 				bid.ItemUnitPrice = Convert.ToDecimal(txtUnitPrice.Text);
-				bid.Status = Convert.ToBoolean(ddlStatus.SelectedValue);
+				//bid.Status = Convert.ToBoolean(ddlStatus.SelectedValue);
 				bid.Date = Convert.ToDateTime(txtDate.Text);
 
 				bid.UpdateBid();

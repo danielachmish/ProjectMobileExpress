@@ -1,0 +1,2 @@
+﻿ALTER TABLE T_Bid
+ADD FullName NVARCHAR(100) NULL;

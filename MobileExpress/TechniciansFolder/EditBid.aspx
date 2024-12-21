@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="invoice-container" dir="rtl">
+<div class="invoice-container" dir="rtl" lang="he">
         <!-- פרטי טכנאי -->
         <div class="invoice-header">
             <div class="quote-info">
@@ -91,22 +91,26 @@
                 <label>סה"כ כולל מע"מ:</label>
                 <asp:Label ID="lblTotal" runat="server" CssClass="form-control-static" />
             </div>
-            <div class="form-group">
+            <%--<div class="form-group">
                 <label>סטטוס:</label>
                 <asp:DropDownList ID="ddlStatus" runat="server" CssClass="form-control">
                     <asp:ListItem Text="פעיל" Value="true" />
                     <asp:ListItem Text="לא פעיל" Value="false" />
                 </asp:DropDownList>
-            </div>
+            </div>--%>
         </div>
 
-        <div class="form-actions">
+        <%--<div class="form-actions">
             <asp:Button ID="btnSave" runat="server" Text="שמור שינויים" CssClass="btn btn-primary" OnClick="btnSave_Click" />
             <asp:Button ID="btnCancel" runat="server" Text="חזור" CssClass="btn btn-secondary" OnClick="btnCancel_Click" />
-        </div>
+        </div>--%>
+    <div class="form-actions">
+    <asp:Button ID="btnCancel" runat="server" Text="חזור" CssClass="btn btn-secondary" OnClick="btnCancel_Click" />
+    <asp:Button ID="btnSave" runat="server" Text="שמור שינויים" CssClass="btn btn-primary" OnClick="btnSave_Click" />
+</div>
     </div>
     <style>
-        .invoice-container {
+       /* .invoice-container {
             max-width: 1000px;
             margin: 40px auto;
             padding: 30px;
@@ -287,7 +291,146 @@
         textarea.form-control {
             min-height: 100px;
             resize: vertical;
-        }
+        }*/
+
+    /* הגדרות בסיס */
+body {
+    direction: rtl;
+    text-align: right;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.invoice-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2);
+    direction: rtl;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* כותרת */
+.invoice-header {
+    display: flex;
+    flex-direction: row-reverse; /* שינוי כיוון הפלקס */
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(124, 58, 237, 0.2);
+}
+
+/* מידע */
+.quote-info {
+    text-align: right;
+}
+
+.info-item {
+    margin-bottom: 15px;
+}
+
+.info-item .label {
+    margin-left: 0;
+    margin-right: 8px;
+}
+
+/* טפסים */
+.form-section {
+    text-align: right;
+    margin-bottom: 40px;
+    padding: 20px;
+    background: rgba(124, 58, 237, 0.05);
+    border-radius: 16px;
+}
+
+.form-group {
+    text-align: right;
+}
+
+.form-group label {
+    text-align: right;
+    display: block;
+    margin-bottom: 8px;
+    color: #7c3aed;
+}
+
+/* תיבת בחירה */
+select.form-control {
+    padding-right: 40px;
+    padding-left: 12px;
+    background-position: left 1rem center;
+}
+
+/* כפתורים */
+.form-actions {
+    display: flex;
+    flex-direction: row-reverse; /* שינוי כיוון הכפתורים */
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+/* שדות קלט */
+input[type="number"] {
+    text-align: right;
+    direction: ltr; /* משאירים LTR למספרים */
+}
+
+.form-control-static {
+    text-align: right;
+}
+
+/* התאמה למובייל */
+@media (max-width: 768px) {
+    .invoice-header {
+        flex-direction: column;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse; /* שינוי כיוון הכפתורים במובייל */
+    }
+}
+
+/* סגנון כללי */
+.invoice-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(124, 58, 237, 0.3);
+}
+
+.form-section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.15);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn i {
+    margin-left: 8px;
+    margin-right: 0;
+}
+
+/* אנימציות */
+.form-control:focus {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.2);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(124, 58, 237, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(124, 58, 237, 0);
+    }
+}
     </style>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">

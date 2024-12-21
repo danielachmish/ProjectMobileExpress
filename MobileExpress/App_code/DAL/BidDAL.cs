@@ -12,221 +12,221 @@ namespace DAL
 {
 	//public class BidDAL
 	//{
-		//public static int Save(Bid bid)
-		//{
-		//	DbContext db = new DbContext();
-		//	try
-		//	{
-		//		string bidSql;
-		//		List<SqlParameter> bidParams = new List<SqlParameter>();
+	//public static int Save(Bid bid)
+	//{
+	//	DbContext db = new DbContext();
+	//	try
+	//	{
+	//		string bidSql;
+	//		List<SqlParameter> bidParams = new List<SqlParameter>();
 
-		//		// הוספת כל הפרמטרים הנדרשים
-		//		bidParams.Add(new SqlParameter("@Desc", bid.Desc));
-		//		bidParams.Add(new SqlParameter("@Price", bid.Price));
-		//		bidParams.Add(new SqlParameter("@Status", bid.Status));
-		//		bidParams.Add(new SqlParameter("@TecId", bid.TecId));
-		//		bidParams.Add(new SqlParameter("@ReadId", bid.ReadId));
-		//		bidParams.Add(new SqlParameter("@Date", bid.Date));
+	//		// הוספת כל הפרמטרים הנדרשים
+	//		bidParams.Add(new SqlParameter("@Desc", bid.Desc));
+	//		bidParams.Add(new SqlParameter("@Price", bid.Price));
+	//		bidParams.Add(new SqlParameter("@Status", bid.Status));
+	//		bidParams.Add(new SqlParameter("@TecId", bid.TecId));
+	//		bidParams.Add(new SqlParameter("@ReadId", bid.ReadId));
+	//		bidParams.Add(new SqlParameter("@Date", bid.Date));
 
-		//		if (bid.BidId <= 0)
-		//		{
-		//			bidSql = @"INSERT INTO T_Bid ([Desc], [Price], [Status], [TecId], [ReadId], [Date])
-  //                            OUTPUT INSERTED.BidId
-  //                            VALUES (@Desc, @Price, @Status, @TecId, @ReadId, @Date)";
-		//		}
-		//		else
-		//		{
-		//			bidSql = @"UPDATE T_Bid 
-  //                            SET [Desc]=@Desc, [Price]=@Price, [Status]=@Status, 
-  //                                [TecId]=@TecId, [ReadId]=@ReadId, [Date]=@Date 
-  //                            WHERE [BidId]=@BidId;
-  //                            SELECT @BidId;";
-		//			bidParams.Add(new SqlParameter("@BidId", bid.BidId));
-		//		}
+	//		if (bid.BidId <= 0)
+	//		{
+	//			bidSql = @"INSERT INTO T_Bid ([Desc], [Price], [Status], [TecId], [ReadId], [Date])
+	//                            OUTPUT INSERTED.BidId
+	//                            VALUES (@Desc, @Price, @Status, @TecId, @ReadId, @Date)";
+	//		}
+	//		else
+	//		{
+	//			bidSql = @"UPDATE T_Bid 
+	//                            SET [Desc]=@Desc, [Price]=@Price, [Status]=@Status, 
+	//                                [TecId]=@TecId, [ReadId]=@ReadId, [Date]=@Date 
+	//                            WHERE [BidId]=@BidId;
+	//                            SELECT @BidId;";
+	//			bidParams.Add(new SqlParameter("@BidId", bid.BidId));
+	//		}
 
-		//		// שמירת ההצעה וקבלת ה-ID
-		//		int bidId = Convert.ToInt32(db.ExecuteScalar(bidSql, bidParams));
+	//		// שמירת ההצעה וקבלת ה-ID
+	//		int bidId = Convert.ToInt32(db.ExecuteScalar(bidSql, bidParams));
 
-		//		// טיפול בפריטים
-		//		if (bid.Items != null && bid.Items.Count > 0)
-		//		{
-		//			if (bid.BidId > 0)
-		//			{
-		//				// מחיקת פריטים קיימים
-		//				string deleteItemsSql = "DELETE FROM T_BidItem WHERE BidId = @BidId";
-		//				var deleteParam = new List<SqlParameter>
-		//				{
-		//					new SqlParameter("@BidId", bidId)
-		//				};
-		//				db.ExecuteNonQuery(deleteItemsSql, deleteParam);
-		//			}
+	//		// טיפול בפריטים
+	//		if (bid.Items != null && bid.Items.Count > 0)
+	//		{
+	//			if (bid.BidId > 0)
+	//			{
+	//				// מחיקת פריטים קיימים
+	//				string deleteItemsSql = "DELETE FROM T_BidItem WHERE BidId = @BidId";
+	//				var deleteParam = new List<SqlParameter>
+	//				{
+	//					new SqlParameter("@BidId", bidId)
+	//				};
+	//				db.ExecuteNonQuery(deleteItemsSql, deleteParam);
+	//			}
 
-		//			// הוספת פריטים חדשים
-		//			string itemSql = @"INSERT INTO T_BidItem (BidId, [Description], Quantity, UnitPrice, Total)
-  //                                   VALUES (@BidId, @Description, @Quantity, @UnitPrice, @Total)";
+	//			// הוספת פריטים חדשים
+	//			string itemSql = @"INSERT INTO T_BidItem (BidId, [Description], Quantity, UnitPrice, Total)
+	//                                   VALUES (@BidId, @Description, @Quantity, @UnitPrice, @Total)";
 
-		//			foreach (var item in bid.Items)
-		//			{
-		//				var itemParams = new List<SqlParameter>
-		//				{
-		//					new SqlParameter("@BidId", bidId),
-		//					new SqlParameter("@Description", item.Description),
-		//					new SqlParameter("@Quantity", item.Quantity),
-		//					new SqlParameter("@UnitPrice", item.UnitPrice),
-		//					new SqlParameter("@Total", item.Total)
-		//				};
-		//				db.ExecuteNonQuery(itemSql, itemParams);
-		//			}
-		//		}
+	//			foreach (var item in bid.Items)
+	//			{
+	//				var itemParams = new List<SqlParameter>
+	//				{
+	//					new SqlParameter("@BidId", bidId),
+	//					new SqlParameter("@Description", item.Description),
+	//					new SqlParameter("@Quantity", item.Quantity),
+	//					new SqlParameter("@UnitPrice", item.UnitPrice),
+	//					new SqlParameter("@Total", item.Total)
+	//				};
+	//				db.ExecuteNonQuery(itemSql, itemParams);
+	//			}
+	//		}
 
-		//		return bidId;
-		//	}
-		//	finally
-		//	{
-		//		db.Close();
-		//	}
-		//}
+	//		return bidId;
+	//	}
+	//	finally
+	//	{
+	//		db.Close();
+	//	}
+	//}
 
 
 
-		//public static List<Bid> GetAll()
-		//{
-		//	List<Bid> bidList = new List<Bid>();
-		//	DbContext db = new DbContext();
-		//	try
-		//	{
-		//		string sql = "SELECT * FROM T_Bid";
-		//		DataTable dt = db.Execute(sql);
+	//public static List<Bid> GetAll()
+	//{
+	//	List<Bid> bidList = new List<Bid>();
+	//	DbContext db = new DbContext();
+	//	try
+	//	{
+	//		string sql = "SELECT * FROM T_Bid";
+	//		DataTable dt = db.Execute(sql);
 
-		//		foreach (DataRow row in dt.Rows)
-		//		{
-		//			var bid = new Bid
-		//			{
-		//				BidId = Convert.ToInt32(row["BidId"]),
-		//				Desc = row["Desc"].ToString(),
-		//				Price = Convert.ToInt32(row["Price"]),
-		//				Status = Convert.ToBoolean(row["Status"]),
-		//				TecId = Convert.ToInt32(row["TecId"]),
-		//				ReadId = Convert.ToInt32(row["ReadId"]),
-		//				Date = Convert.ToDateTime(row["Date"]),
-		//				Items = GetBidItems(Convert.ToInt32(row["BidId"]))
-		//			};
-		//			bidList.Add(bid);
-		//		}
-		//	}
-		//	finally
-		//	{
-		//		db.Close();
-		//	}
-		//	return bidList;
-		//}
+	//		foreach (DataRow row in dt.Rows)
+	//		{
+	//			var bid = new Bid
+	//			{
+	//				BidId = Convert.ToInt32(row["BidId"]),
+	//				Desc = row["Desc"].ToString(),
+	//				Price = Convert.ToInt32(row["Price"]),
+	//				Status = Convert.ToBoolean(row["Status"]),
+	//				TecId = Convert.ToInt32(row["TecId"]),
+	//				ReadId = Convert.ToInt32(row["ReadId"]),
+	//				Date = Convert.ToDateTime(row["Date"]),
+	//				Items = GetBidItems(Convert.ToInt32(row["BidId"]))
+	//			};
+	//			bidList.Add(bid);
+	//		}
+	//	}
+	//	finally
+	//	{
+	//		db.Close();
+	//	}
+	//	return bidList;
+	//}
 
-		//public static Bid GetById(int id)
-		//{
-		//	DbContext db = new DbContext();
-		//	try
-		//	{
-		//		string sql = $"SELECT * FROM T_Bid WHERE BidId = {id}";
-		//		DataTable dt = db.Execute(sql);
+	//public static Bid GetById(int id)
+	//{
+	//	DbContext db = new DbContext();
+	//	try
+	//	{
+	//		string sql = $"SELECT * FROM T_Bid WHERE BidId = {id}";
+	//		DataTable dt = db.Execute(sql);
 
-		//		if (dt.Rows.Count > 0)
-		//		{
-		//			var row = dt.Rows[0];
-		//			return new Bid
-		//			{
-		//				BidId = Convert.ToInt32(row["BidId"]),
-		//				Desc = row["Desc"].ToString(),
-		//				Price = Convert.ToInt32(row["Price"]),
-		//				Status = Convert.ToBoolean(row["Status"]),
-		//				TecId = Convert.ToInt32(row["TecId"]),
-		//				ReadId = Convert.ToInt32(row["ReadId"]),
-		//				Date = Convert.ToDateTime(row["Date"]),
-		//				Items = GetBidItems(Convert.ToInt32(row["BidId"]))
-		//			};
-		//		}
-		//		return null;
-		//	}
-		//	finally
-		//	{
-		//		db.Close();
-		//	}
-		//}
+	//		if (dt.Rows.Count > 0)
+	//		{
+	//			var row = dt.Rows[0];
+	//			return new Bid
+	//			{
+	//				BidId = Convert.ToInt32(row["BidId"]),
+	//				Desc = row["Desc"].ToString(),
+	//				Price = Convert.ToInt32(row["Price"]),
+	//				Status = Convert.ToBoolean(row["Status"]),
+	//				TecId = Convert.ToInt32(row["TecId"]),
+	//				ReadId = Convert.ToInt32(row["ReadId"]),
+	//				Date = Convert.ToDateTime(row["Date"]),
+	//				Items = GetBidItems(Convert.ToInt32(row["BidId"]))
+	//			};
+	//		}
+	//		return null;
+	//	}
+	//	finally
+	//	{
+	//		db.Close();
+	//	}
+	//}
 
-		//public static List<BidItem> GetBidItems(int bidId)
-		//{
-		//	try
-		//	{
-		//		using (var conn = new SqlConnection(ConnectionString))
-		//		{
-		//			conn.Open();
-		//			var query = @"SELECT ItemId, BidId, Description, Quantity, UnitPrice, Total 
-  //                          FROM BidItems WHERE BidId = @BidId";
+	//public static List<BidItem> GetBidItems(int bidId)
+	//{
+	//	try
+	//	{
+	//		using (var conn = new SqlConnection(ConnectionString))
+	//		{
+	//			conn.Open();
+	//			var query = @"SELECT ItemId, BidId, Description, Quantity, UnitPrice, Total 
+	//                          FROM BidItems WHERE BidId = @BidId";
 
-		//			using (var cmd = new SqlCommand(query, conn))
-		//			{
-		//				cmd.Parameters.AddWithValue("@BidId", bidId);
-		//				var items = new List<BidItem>();
+	//			using (var cmd = new SqlCommand(query, conn))
+	//			{
+	//				cmd.Parameters.AddWithValue("@BidId", bidId);
+	//				var items = new List<BidItem>();
 
-		//				using (var reader = cmd.ExecuteReader())
-		//				{
-		//					while (reader.Read())
-		//					{
-		//						items.Add(new BidItem
-		//						{
-		//							ItemId = reader.GetInt32(0),
-		//							BidId = reader.GetInt32(1),
-		//							Description = reader.GetString(2),
-		//							Quantity = reader.GetInt32(3),
-		//							UnitPrice = reader.GetDecimal(4),
-		//							Total = reader.GetDecimal(5)
-		//						});
-		//					}
-		//				}
-		//				return items;
-		//			}
-		//		}
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		System.Diagnostics.Debug.WriteLine($"Error getting bid items: {ex.Message}");
-		//		throw;
-		//	}
-		//}
+	//				using (var reader = cmd.ExecuteReader())
+	//				{
+	//					while (reader.Read())
+	//					{
+	//						items.Add(new BidItem
+	//						{
+	//							ItemId = reader.GetInt32(0),
+	//							BidId = reader.GetInt32(1),
+	//							Description = reader.GetString(2),
+	//							Quantity = reader.GetInt32(3),
+	//							UnitPrice = reader.GetDecimal(4),
+	//							Total = reader.GetDecimal(5)
+	//						});
+	//					}
+	//				}
+	//				return items;
+	//			}
+	//		}
+	//	}
+	//	catch (Exception ex)
+	//	{
+	//		System.Diagnostics.Debug.WriteLine($"Error getting bid items: {ex.Message}");
+	//		throw;
+	//	}
+	//}
 
-		//public static void SaveBidItem(BidItem item)
-		//{
-		//	using (var conn = new SqlConnection(ConnectionString))
-		//	{
-		//		conn.Open();
-		//		var query = @"INSERT INTO BidItems (BidId, Description, Quantity, UnitPrice) 
-  //                       VALUES (@BidId, @Description, @Quantity, @UnitPrice)";
+	//public static void SaveBidItem(BidItem item)
+	//{
+	//	using (var conn = new SqlConnection(ConnectionString))
+	//	{
+	//		conn.Open();
+	//		var query = @"INSERT INTO BidItems (BidId, Description, Quantity, UnitPrice) 
+	//                       VALUES (@BidId, @Description, @Quantity, @UnitPrice)";
 
-		//		using (var cmd = new SqlCommand(query, conn))
-		//		{
-		//			cmd.Parameters.AddWithValue("@BidId", item.BidId);
-		//			cmd.Parameters.AddWithValue("@Description", item.Description);
-		//			cmd.Parameters.AddWithValue("@Quantity", item.Quantity);
-		//			cmd.Parameters.AddWithValue("@UnitPrice", item.UnitPrice);
-		//			cmd.ExecuteNonQuery();
-		//		}
-		//	}
-		//}
+	//		using (var cmd = new SqlCommand(query, conn))
+	//		{
+	//			cmd.Parameters.AddWithValue("@BidId", item.BidId);
+	//			cmd.Parameters.AddWithValue("@Description", item.Description);
+	//			cmd.Parameters.AddWithValue("@Quantity", item.Quantity);
+	//			cmd.Parameters.AddWithValue("@UnitPrice", item.UnitPrice);
+	//			cmd.ExecuteNonQuery();
+	//		}
+	//	}
+	//}
 
-		//public static void DeleteBidItems(int bidId)
-		//{
-		//	using (var conn = new SqlConnection(ConnectionString))
-		//	{
-		//		conn.Open();
-		//		var query = "DELETE FROM BidItems WHERE BidId = @BidId";
+	//public static void DeleteBidItems(int bidId)
+	//{
+	//	using (var conn = new SqlConnection(ConnectionString))
+	//	{
+	//		conn.Open();
+	//		var query = "DELETE FROM BidItems WHERE BidId = @BidId";
 
-		//		using (var cmd = new SqlCommand(query, conn))
-		//		{
-		//			cmd.Parameters.AddWithValue("@BidId", bidId);
-		//			cmd.ExecuteNonQuery();
-		//		}
-		//	}
-		//}
-	}
+	//		using (var cmd = new SqlCommand(query, conn))
+	//		{
+	//			cmd.Parameters.AddWithValue("@BidId", bidId);
+	//			cmd.ExecuteNonQuery();
+	//		}
+	//	}
+	//}
+}
 
 //private static List<BidItem> GetBidItems(int bidId)
 //{
@@ -417,6 +417,7 @@ public class BidDAL
 			new SqlParameter("@Status", SqlDbType.Bit) { Value = bid.Status },
 			new SqlParameter("@TecId", SqlDbType.Int) { Value = bid.TecId },
 			new SqlParameter("@ReadId", SqlDbType.Int) { Value = bid.ReadId },
+				new SqlParameter("@FullName", SqlDbType.NVarChar) { Value = string.IsNullOrEmpty(bid.FullName) ? DBNull.Value : (object)bid.FullName },
 			new SqlParameter("@Date", SqlDbType.DateTime) { Value = bid.Date },
 			new SqlParameter("@ItemDescription", SqlDbType.NVarChar) { Value = string.IsNullOrEmpty(bid.ItemDescription) ? DBNull.Value : (object)bid.ItemDescription },
 			new SqlParameter("@ItemQuantity", SqlDbType.Int) { Value = bid.ItemQuantity },
@@ -426,18 +427,18 @@ public class BidDAL
 			if (bid.BidId <= 0)
 			{
 				sql = @"INSERT INTO T_Bid (
-                    [Desc], Price, Status, TecId, ReadId, Date,
+                    [Desc], Price, Status, TecId, ReadId, Date,FullName,
                     ItemDescription, ItemQuantity, ItemUnitPrice)
                 OUTPUT INSERTED.BidId
                 VALUES (
-                    @Desc, @Price, @Status, @TecId, @ReadId, @Date,
+                    @Desc, @Price, @Status, @TecId, @ReadId, @Date,@FullName,
                     @ItemDescription, @ItemQuantity, @ItemUnitPrice)";
 			}
 			else
 			{
 				sql = @"UPDATE T_Bid 
                     SET [Desc]=@Desc, Price=@Price, Status=@Status,
-                        TecId=@TecId, ReadId=@ReadId, Date=@Date,
+                        TecId=@TecId, ReadId=@ReadId, Date=@Date,FullName=@FullName,
                         ItemDescription=@ItemDescription, 
                         ItemQuantity=@ItemQuantity,
                         ItemUnitPrice=@ItemUnitPrice
@@ -445,7 +446,7 @@ public class BidDAL
                     SELECT @BidId";
 				parameters.Add(new SqlParameter("@BidId", SqlDbType.Int) { Value = bid.BidId });
 			}
-
+			System.Diagnostics.Debug.WriteLine($"FullName value before save: {bid.FullName}");
 			return Convert.ToInt32(db.ExecuteScalar(sql, parameters));
 		}
 		catch (Exception ex)
@@ -502,6 +503,7 @@ public class BidDAL
 		{
 			db.Close();
 		}
+
 	}
 
 	public static List<Bid> GetAll()
@@ -511,8 +513,8 @@ public class BidDAL
 		{
 			//string sql = "SELECT * FROM T_Bid";
 			string sql = @"SELECT b.*, r.FullName 
-                      FROM T_Bid b 
-                      LEFT JOIN T_Readability r ON b.ReadId = r.ReadId";
+               FROM T_Bid b 
+               LEFT JOIN T_Readability r ON b.ReadId = r.ReadId";
 			DataTable dt = db.Execute(sql);
 			List<Bid> bids = new List<Bid>();
 
@@ -528,6 +530,7 @@ public class BidDAL
 						Status = row["Status"] != DBNull.Value ? Convert.ToBoolean(row["Status"]) : false,
 						TecId = Convert.ToInt32(row["TecId"]),
 						ReadId = Convert.ToInt32(row["ReadId"]),
+						FullName = row["FullName"]?.ToString() ?? "לא צוין",
 						Date = Convert.ToDateTime(row["Date"])
 
 					};

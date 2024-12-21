@@ -1,15 +1,15 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/TechniciansFolder/MainMaster.Master" AutoEventWireup="true" CodeBehind="AllBids.aspx.cs" Inherits="MobileExpress.TechniciansFolder.AllBids" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
- 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
 
-<!-- הוסף גם את ה-CSS הנדרש -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+
+    <!-- הוסף גם את ה-CSS הנדרש -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -17,7 +17,7 @@
     <asp:HiddenField ID="hiddenReadId" runat="server" />
     <asp:HiddenField ID="hiddenCustomerId" runat="server" />
     <asp:HiddenField ID="hiddenTechnicianId" runat="server" />
-     
+
 
     <div class="invoice-container">
         <!-- כותרת ופעולות -->
@@ -62,41 +62,45 @@
         </div>
 
         <!-- טופס פרטים -->
-        <div class="form-group">
+       <%-- <div class="form-group">
             <label for="txtCustomerName">שם לקוח:</label>
             <asp:TextBox ID="txtCustomerName" runat="server" CssClass="form-control" ReadOnly="true" />
-        </div>
+        </div>--%>
+        <div class="form-group">
+    <label for="txtCustomerName">שם לקוח:</label>
+    <asp:TextBox ID="txtCustomerName" runat="server" CssClass="form-control" ReadOnly="false" />
+</div>
         <div class="form-group">
             <label for="txtPhone">טלפון:</label>
             <asp:TextBox ID="txtPhone" runat="server" CssClass="form-control" ReadOnly="true" />
         </div>
-       
+
         <div class="form-group">
-    <label for="txtmodelcode">דגם:</label>
-    <asp:TextBox ID="txtmodelcode" runat="server" CssClass="form-control" ReadOnly="false" />
-    <span class="text-danger" id="errorTxtModelCode" style="display: none;">השדה חובה</span>
-</div>
+            <label for="txtmodelcode">דגם:</label>
+            <asp:TextBox ID="txtmodelcode" runat="server" CssClass="form-control" ReadOnly="false" />
+            <span class="text-danger" id="errorTxtModelCode" style="display: none;">השדה חובה</span>
+        </div>
         <div class="form-group">
             <label for="txtDesc">תיאור התקלה:</label>
             <asp:TextBox ID="txtDesc" runat="server" CssClass="form-control" ReadOnly="false" />
             <span class="text-danger" id="errorTxtDesc" style="display: none;">השדה חובה</span>
         </div>
 
-      <%--  <div class="form-group">
+        <%--  <div class="form-group">
             <label for="txtTotalPrice">סכום כולל:</label>
             <asp:TextBox ID="txtTotalPrice" runat="server" CssClass="form-control" step="0.01" min="0" />
         </div>--%>
         <div class="form-group d-none">
-    <label for="txtTotalPrice">סכום כולל:</label>
-    <asp:TextBox ID="txtTotalPrice" runat="server" CssClass="form-control" step="0.01" min="0" />
-</div>
+            <label for="txtTotalPrice">סכום כולל:</label>
+            <asp:TextBox ID="txtTotalPrice" runat="server" CssClass="form-control" step="0.01" min="0" />
+        </div>
 
         <!-- טבלת פריטים -->
         <table class="items-table">
             <thead>
                 <tr>
                     <div class="card-body">
-                
+
                         <p>
                             <strong>סה"כ:</strong>
                             <asp:Label ID="lblTotal" runat="server"></asp:Label>
@@ -454,12 +458,13 @@
             phone: '<%= txtPhone.ClientID %>',
             desc: '<%= txtDesc.ClientID %>',
             hiddenReadId: '<%= hiddenReadId.ClientID %>',
-           modelcode: '<%= txtmodelcode.ClientID %>'
-       };
-        
+            modelcode: '<%= txtmodelcode.ClientID %>'
+        };
+
         document.getElementById('<%= btnSave.ClientID %>').addEventListener('click', function (e) {
             const txtDesc = document.getElementById('<%= txtDesc.ClientID %>');
             const errorSpan = document.getElementById('errorTxtDesc');
+            const txtCustomerName = document.getElementById('<%= txtCustomerName.ClientID %>');
             const modelcode = document.getElementById('txtmodelcode');
             if (!txtDesc.value.trim()) {
                 e.preventDefault(); // עצירת השליחה
@@ -468,13 +473,14 @@
                 errorSpan.style.display = 'none'; // הסתרת שגיאה
             }
         });
-      
-            
+
+
 
         function collectItems() {
             const items = [];
             document.querySelectorAll("#itemsTableBody tr").forEach(row => {
                 const description = row.querySelector(".item-description").value.trim();
+               
                 const quantity = parseInt(row.querySelector(".item-quantity").value, 10);
                 const unitPrice = parseFloat(row.querySelector(".item-price").value);
                 if (description && quantity > 0 && unitPrice >= 0) {
@@ -490,6 +496,7 @@
                 technicianId: document.getElementById("hiddenTechnicianId").value,
                 description: document.getElementById("txtDesc").value.trim(),
                 totalPrice: parseFloat(document.getElementById("txtTotalPrice").value),
+                FullName: document.getElementById("txtCustomerName").value.trim(),
                 items: items
             };
 
@@ -588,7 +595,7 @@
         var txtPhone = { clientID: '<%= txtPhone.ClientID %>' };
         var txtDesc = { clientID: '<%= txtDesc.ClientID %>' };
         var hiddenReadId = { clientID: '<%= hiddenReadId.ClientID %>' };
-       
+
 
         // Debug log
         console.log('Form field IDs:', {
@@ -596,11 +603,11 @@
             phone: txtPhone.clientID,
             desc: txtDesc.clientID,
             hiddenReadId: hiddenReadId.clientID,
-          
+
         });
 
-      
-    
+
+
         $(document).ready(function () {
             const urlParams = new URLSearchParams(window.location.search);
             const readId = urlParams.get('readId');
@@ -702,7 +709,7 @@
             });
         }
 
-        
+
         // פונקציה לקבלת מזהה הטכנאי מה-Session
         function getTechnicianId() {
             // נוסיף נקודת קצה ב-Web API שתחזיר את מזהה הטכנאי מה-Session
@@ -743,7 +750,7 @@
             // לדוגמה:
             // fetch('/api/quote-data').then(response => response.json()).then(data => initializeQuote(data));
         });
-      
+
 
         function collectBidItem() {
             try {
@@ -755,6 +762,9 @@
                     const quantity = firstRow.querySelector('.item-quantity').value;
                     const unitPrice = firstRow.querySelector('.item-price').value;
 
+                    // הוספת שם הלקוח
+                    const customerName = document.getElementById('<%= txtCustomerName.ClientID %>').value;
+                    addHiddenInput('FullName', customerName);
                     // הוספת שדות נסתרים לטופס
                     addHiddenInput('itemDescription', description);
                     addHiddenInput('itemQuantity', quantity);
@@ -779,18 +789,6 @@
             input.value = value;
         }
 
-        // עדכון אירוע הלחיצה על כפתור השמירה
-       <%-- document.querySelector('#<%= btnSave.ClientID %>').addEventListener('click', function (e) {
-            if (!validateForm()) {
-                e.preventDefault();
-                return;
-            }
-
-            if (!collectBidItem()) {
-                e.preventDefault();
-                return;
-            }
-        });--%>
 
         function validateForm() {
             const desc = document.getElementById('<%= txtDesc.ClientID %>').value.trim();
@@ -809,57 +807,34 @@
         }
 
 
-        // עדכון כפתור השמירה
-       <%-- document.querySelector('#<%= btnSave.ClientID %>').addEventListener('click', function (e) {
-            if (!collectBidItem()) {
-                e.preventDefault();  // מונע את שליחת הטופס אם יש שגיאה
+        document.getElementById('<%= btnSave.ClientID %>').addEventListener('click', function (e) {
+            // בדיקת תיאור
+            const txtDesc = document.getElementById('<%= txtDesc.ClientID %>');
+            const errorSpan = document.getElementById('errorTxtDesc');
+
+            if (!txtDesc.value.trim()) {
+                e.preventDefault();
+                errorSpan.style.display = 'block';
                 return;
             }
+            errorSpan.style.display = 'none';
 
-            // מוודא שיש מחיר כולל
-            const totalPrice = document.querySelector('#<%= txtTotalPrice.ClientID %>').value;
-            if (!totalPrice || totalPrice <= 0) {
-                alert('נא להזין סכום כולל תקין');
+            // בדיקת תקינות הטופס
+            if (!validateForm()) {
                 e.preventDefault();
                 return;
             }
 
-            // אם הכל בסדר, הטופס יישלח
-        });--%>
+            // איסוף הפריטים
+            if (!collectBidItem()) {
+                e.preventDefault();
+                return;
+            }
 
-        document.getElementById('<%= btnSave.ClientID %>').addEventListener('click', function (e) {
-            // בדיקת תיאור
-            const txtDesc = document.getElementById('<%= txtDesc.ClientID %>');
-    const errorSpan = document.getElementById('errorTxtDesc');
-    
-    if (!txtDesc.value.trim()) {
-        e.preventDefault();
-        errorSpan.style.display = 'block';
-        return;
-    }
-    errorSpan.style.display = 'none';
-    
-    // בדיקת תקינות הטופס
-    if (!validateForm()) {
-        e.preventDefault();
-        return;
-    }
-    
-    // איסוף הפריטים
-    if (!collectBidItem()) {
-        e.preventDefault();
-        return;
-    }
-    
             __doPostBack('<%= btnSave.UniqueID %>', '');
         });
 
-        // עדכון כפתור השמירה כך שיאסוף את הפריטים לפני השליחה
-       <%-- document.querySelector('#<%= btnSave.ClientID %>').addEventListener('click', function (e) {
-
-            collectBidItem();
-            __doPostBack('<%= btnSave.UniqueID %>', '');
-        });--%>
+    
 
 
     </script>
