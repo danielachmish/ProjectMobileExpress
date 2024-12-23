@@ -570,6 +570,62 @@ public class BidDAL
 			db.Close();
 		}
 	}
+	public static List<Bid> GetByReadId(int readId)
+	{
+		DbContext db = new DbContext();
+		try
+		{
+			string sql = @"SELECT b.*, r.FullName 
+                       FROM T_Bid b
+                       LEFT JOIN T_Readability r ON b.ReadId = r.ReadId
+                       WHERE b.ReadId = @ReadId";
+
+			var parameters = new List<SqlParameter>
+		{
+			new SqlParameter("@ReadId", readId)
+		};
+
+			DataTable dt = db.Execute(sql, parameters.ToArray());
+			List<Bid> bids = new List<Bid>();
+
+			foreach (DataRow row in dt.Rows)
+			{
+				try
+				{
+					var bid = new Bid
+					{
+						BidId = Convert.ToInt32(row["BidId"]),
+						Desc = row["Desc"]?.ToString(),
+						Price = row["Price"] != DBNull.Value ? Convert.ToDecimal(row["Price"]) : 0m,
+						Status = row["Status"] != DBNull.Value ? Convert.ToBoolean(row["Status"]) : false,
+						TecId = Convert.ToInt32(row["TecId"]),
+						ReadId = Convert.ToInt32(row["ReadId"]),
+						FullName = row["FullName"]?.ToString() ?? "לא צוין",
+						Date = Convert.ToDateTime(row["Date"]),
+
+						// שדות חדשים
+						ItemDescription = row["ItemDescription"] != DBNull.Value ? row["ItemDescription"].ToString() : null,
+						ItemQuantity = row["ItemQuantity"] != DBNull.Value ? Convert.ToInt32(row["ItemQuantity"]) : 0,
+						ItemUnitPrice = row["ItemUnitPrice"] != DBNull.Value ? Convert.ToDecimal(row["ItemUnitPrice"]) : 0m
+					};
+
+					bids.Add(bid);
+				}
+				catch (Exception ex)
+				{
+					System.Diagnostics.Debug.WriteLine($"Error processing bid: {ex.Message}");
+					continue;
+				}
+			}
+
+			return bids;
+		}
+		finally
+		{
+			db.Close();
+		}
+	}
+
 
 	public static int DeleteById(int id)
 	{

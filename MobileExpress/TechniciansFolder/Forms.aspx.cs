@@ -52,6 +52,12 @@ namespace MobileExpress.TechniciansFolder
 				// השגת כל ההצעות מהדאטאבייס
 				var query = BLL.Bid.GetAll().AsQueryable();
 
+				if (Session["TechnicianId"] != null)
+				{
+					int techId = Convert.ToInt32(Session["TechnicianId"]);
+					query = query.Where(b => b.TecId == techId); // מציג רק הצעות של הטכנאי המחובר
+				}
+
 				// בדיקת טקסט חיפוש
 				if (!string.IsNullOrEmpty(txtSearch?.Value))
 				{
@@ -86,20 +92,28 @@ namespace MobileExpress.TechniciansFolder
 				}
 
 				// ביצוע השאילתה והצגת התוצאות
-				var filteredBids = query?.ToList();
+				var filteredBids = query?.ToList().Select(b =>
+				{
+					var read = Readability.GetById(b.ReadId);
+					return new
+					{
+						b.BidId,
+						b.ReadId,
+						b.Status,          // סטטוס ההצעה (האם אושרה)
+						b.Date,
+						b.Price,
+						b.ItemDescription,
+						b.FullName,
+						ReadStatus = read?.Status ?? false,  // סטטוס הקריאה
+						IsCallTaken = read?.Status ?? false, // האם הקריאה נלקחה
+						ShowTakeButton = b.Status && !(read?.Status ?? false) // להציג כפתור רק אם ההצעה אושרה והקריאה לא נלקחה
+					};
+				});
+
 				if (filteredBids != null)
 				{
 					gvBids.DataSource = filteredBids;
 					gvBids.DataBind();
-
-					// הצגת הודעה על מספר התוצאות
-					ScriptManager.RegisterStartupScript(this, GetType(), "ShowResults",
-						$"Swal.fire({{" +
-						$"  title: 'נמצאו {filteredBids.Count} תוצאות'," +
-						$"  icon: 'info'," +
-						$"  timer: 1500," +
-						$"  showConfirmButton: false" +
-						$"}});", true);
 				}
 				else
 				{
@@ -130,6 +144,7 @@ namespace MobileExpress.TechniciansFolder
 
 
 
+		
 		protected void gvBids_RowCommand(object sender, GridViewCommandEventArgs e)
 		{
 			if (e.CommandName == "AcceptCall")
@@ -141,28 +156,30 @@ namespace MobileExpress.TechniciansFolder
 
 					if (call != null && Session["TechnicianId"] != null)
 					{
+						// בדיקה שהקריאה לא סגורה
+						if (call.Status == true)
+						{
+							ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+								"Swal.fire('שגיאה', 'הקריאה כבר סגורה', 'error');", true);
+							return;
+						}
+
 						// עדכון הקריאה
+						call.Status = true; // true = סגור/בטיפול
 						call.AssignedTechnicianId = Convert.ToInt32(Session["TechnicianId"]);
-						call.Status = true;
 						call.UpdateReadability();
 
 						// רענון הטבלה
 						LoadBids();
 
-						// הודעת הצלחה
 						ScriptManager.RegisterStartupScript(this, GetType(), "ShowSuccess",
 							"Swal.fire({" +
 							"  title: 'הקריאה נקלטה'," +
-							"  text: 'הקריאה התקבלה בהצלחה'," +
+							"  text: 'הקריאה התקבלה בהצלחה והועברה לטיפול'," +
 							"  icon: 'success'," +
 							"  timer: 2000," +
 							"  showConfirmButton: false" +
 							"});", true);
-					}
-					else
-					{
-						ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
-							"Swal.fire('שגיאה', 'לא נמצאה הקריאה או שהמשתמש לא מחובר', 'error');", true);
 					}
 				}
 				catch (Exception ex)
@@ -173,7 +190,7 @@ namespace MobileExpress.TechniciansFolder
 				}
 			}
 		}
-
+		
 		protected string GetStatusClass(bool status)
 		{
 			return status ? "badge badge-success" : "badge badge-danger";
@@ -286,47 +303,7 @@ namespace MobileExpress.TechniciansFolder
 			public string Phone { get; set; }
 			public string Description { get; set; }
 		}
-		protected void ApproveBid(object sender, EventArgs e)
-		{
-			try
-			{
-				Button btn = (Button)sender;
-				int bidId = Convert.ToInt32(btn.CommandArgument);
-				var bid = BLL.Bid.GetById(bidId);
-
-				if (bid != null)
-				{
-					// עדכון סטטוס ההצעה
-					bid.Status = true;
-					bid.Save();
-
-					// שליחת התראה לטכנאי (אפשר להוסיף לפי הצורך)
-					NotifyTechnician(bid.TecId, bid.ReadId);
-
-					// רענון הדף
-					LoadBids();
-
-					// הצגת הודעת הצלחה
-					ScriptManager.RegisterStartupScript(this, GetType(), "ShowSuccess",
-						"Swal.fire('ההצעה אושרה', 'ההצעה אושרה בהצלחה והועברה לטכנאי', 'success');", true);
-				}
-			}
-			catch (Exception ex)
-			{
-				System.Diagnostics.Debug.WriteLine($"Error in ApproveBid: {ex.Message}");
-				ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
-					"Swal.fire('שגיאה', 'אירעה שגיאה באישור ההצעה', 'error');", true);
-			}
-		}
-
-		private void NotifyTechnician(int techId, int readId)
-		{
-			// כאן אפשר להוסיף לוגיקה לשליחת התראה לטכנאי
-			// למשל: שליחת מייל, הודעת SMS, או התראה במערכת
-		}
-
 		
-
 	}
 }
 

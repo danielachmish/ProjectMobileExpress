@@ -50,6 +50,38 @@
                             <p>רחוב ערבי נחל 9, בני עיי"ש</p>
                         </div>
                     </div>
+
+                </div>
+
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h3>טלפון</h3>
+                            <p>053-7167770</p>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h3>אימייל</h3>
+                            <p>shimi101295@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h3>כתובת</h3>
+                            <p>רחוב מיכשוילי 26ב ד51  אשדוד</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>

@@ -755,6 +755,7 @@
     <Content Include="Users\CustomerProfile.aspx" />
     <Content Include="Users\Default.aspx" />
     <Content Include="Users\Main.aspx" />
+    <Content Include="Users\Reads.aspx" />
     <Content Include="Users\ServiceCall.aspx" />
     <Content Include="Users\SingIn.aspx" />
     <Content Include="Users\SingUp.aspx" />
@@ -1061,6 +1062,13 @@
     </Compile>
     <Compile Include="Users\MainMaster.Master.designer.cs">
       <DependentUpon>MainMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Users\Reads.aspx.cs">
+      <DependentUpon>Reads.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Users\Reads.aspx.designer.cs">
+      <DependentUpon>Reads.aspx</DependentUpon>
     </Compile>
     <Compile Include="Users\ServiceCall.aspx.cs">
       <DependentUpon>ServiceCall.aspx</DependentUpon>

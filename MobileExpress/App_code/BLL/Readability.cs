@@ -95,9 +95,12 @@ namespace BLL
 			AssignedTechnicianId = technicianId;
 			UpdateReadability();
 		}
-	
 
-		
+		public static List<Readability> GetAllByCustomerId(int cusId)
+		{
+			return ReadabilityDAL.GetAllByCustomerId(cusId);
+		}
+
 	}
 	public class ReadabilityStats
 	{
@@ -115,7 +118,7 @@ namespace BLL
 				AcceptedCalls = accepted
 			};
 		}
-		
 
+		
 	}
 }

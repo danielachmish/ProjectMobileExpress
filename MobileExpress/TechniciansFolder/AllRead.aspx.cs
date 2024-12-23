@@ -19,32 +19,33 @@ namespace MobileExpress.TechniciansFolder
 			if (!IsPostBack)
 			{
 				LoadCalls();
-				LoadApprovedCalls();
+				//LoadApprovedCalls();
+			
+
 				string readId = Request.QueryString["readId"];
 				if (!string.IsNullOrEmpty(readId))
 				{
-					// בצע פעולות בהתאם למזהה הקריאה
 					GetCallInfoJson(readId);
 				}
 
 			}
 
 		}
-		// בדף של הטכנאי
-		private void LoadApprovedCalls()
-		{
-			if (Session["TechnicianId"] != null)
-			{
-				int techId = Convert.ToInt32(Session["TechnicianId"]);
-				var calls = Readability.GetAll()
-					.Where(c => c.AssignedTechnicianId == techId)
-					.ToList();
+		
+		//private void LoadApprovedCalls()
+		//{
+		//	if (Session["TechnicianId"] != null)
+		//	{
+		//		int techId = Convert.ToInt32(Session["TechnicianId"]);
+		//		var calls = Readability.GetAll()
+		//			.Where(c => c.AssignedTechnicianId == techId)
+		//			.ToList();
 
-				// שימוש בריפיטר הקיים - CallsRepeater במקום TechnicianCallsRepeater
-				CallsRepeater.DataSource = calls;
-				CallsRepeater.DataBind();
-			}
-		}
+				
+		//		CallsRepeater.DataSource = calls;
+		//		CallsRepeater.DataBind();
+		//	}
+		//}
 		[WebMethod]
 		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
 		public static string GetCallInfoJson(string readId)
@@ -96,14 +97,53 @@ namespace MobileExpress.TechniciansFolder
 			}
 		}
 
+		//private void LoadCalls()
+		//{
+		//	try
+		//	{
+
+		//		if (CallsRepeater != null)
+		//		{
+		//			var calls = Readability.GetAll().FindAll(c => !c.Status);
+		//			if (calls != null && calls.Count > 0)
+		//			{
+		//				CallsRepeater.DataSource = calls;
+		//				CallsRepeater.DataBind();
+		//			}
+		//			else
+		//			{
+		//				// אין קריאות - אפשר להציג הודעה
+		//				callsContainer.InnerHtml = "<div class='no-calls'>אין קריאות שירות פתוחות</div>";
+		//			}
+		//		}
+		//		else
+		//		{
+		//			// לוג או הודעת שגיאה
+		//			System.Diagnostics.Debug.WriteLine("CallsRepeater is null");
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		// טיפול בשגיאות
+		//		System.Diagnostics.Debug.WriteLine($"Error in LoadCalls: {ex.Message}");
+		//	}
+		//}
 		private void LoadCalls()
 		{
 			try
 			{
-				// וודא שה-Repeater קיים
 				if (CallsRepeater != null)
 				{
-					var calls = Readability.GetAll().FindAll(c => !c.Status);
+					var allCalls = Readability.GetAll();
+					System.Diagnostics.Debug.WriteLine($"סך הכל קריאות: {allCalls.Count}");
+					foreach (var call in allCalls)
+					{
+						System.Diagnostics.Debug.WriteLine($"קריאה {call.ReadId}: סטטוס = {call.Status}");
+					}
+
+					var calls = allCalls.FindAll(c => c.Status);
+					System.Diagnostics.Debug.WriteLine($"קריאות פתוחות: {calls.Count}");
+
 					if (calls != null && calls.Count > 0)
 					{
 						CallsRepeater.DataSource = calls;
@@ -111,19 +151,12 @@ namespace MobileExpress.TechniciansFolder
 					}
 					else
 					{
-						// אין קריאות - אפשר להציג הודעה
 						callsContainer.InnerHtml = "<div class='no-calls'>אין קריאות שירות פתוחות</div>";
 					}
-				}
-				else
-				{
-					// לוג או הודעת שגיאה
-					System.Diagnostics.Debug.WriteLine("CallsRepeater is null");
 				}
 			}
 			catch (Exception ex)
 			{
-				// טיפול בשגיאות
 				System.Diagnostics.Debug.WriteLine($"Error in LoadCalls: {ex.Message}");
 			}
 		}
@@ -139,6 +172,7 @@ namespace MobileExpress.TechniciansFolder
 		protected void RefreshTimer_Tick(object sender, EventArgs e)
 		{
 			LoadCalls();
+			
 		}
 
 		protected void AcceptCall(object sender, EventArgs e)
@@ -158,7 +192,7 @@ namespace MobileExpress.TechniciansFolder
 
 					// רענון הדף
 					LoadCalls();
-					LoadApprovedCalls();
+					//LoadApprovedCalls();
 
 					// הודעת הצלחה
 					ScriptManager.RegisterStartupScript(this, GetType(), "ShowSuccess",

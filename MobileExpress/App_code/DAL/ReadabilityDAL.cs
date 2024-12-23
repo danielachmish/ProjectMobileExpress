@@ -153,7 +153,7 @@ namespace DAL
 						Nots = Dt.Rows[i]["Nots"].ToString(),
 						CusId = int.Parse(Dt.Rows[i]["CusId"].ToString()),
 						ModelId = Dt.Rows[i]["ModelId"].ToString(),
-						Status = false,// המרה בשלושה חלקים
+						Status = true,// המרה בשלושה חלקים
 									   //NameImage = Dt.Rows[i]["NameImage"].ToString(),
 						CallStatus = (CallStatus)Convert.ToInt32(Dt.Rows[i]["CallStatus"]),
 						Urgency = Dt.Rows[i]["Urgency"].ToString(),
@@ -163,14 +163,16 @@ namespace DAL
 
 					// המרת ערך ה-Status לבוליאני
 					bool status;
-					if (bool.TryParse(Dt.Rows[i]["Status"].ToString(), out status))
+					// המרת ערך ה-Status מהדאטהבייס לבוליאני
+					if (Dt.Rows[i]["Status"] != DBNull.Value)
 					{
-						Tmp.Status = status;
+						// אם הערך הוא 1 או true בדאטהבייס, Status יהיה true
+						Tmp.Status = Convert.ToBoolean(Dt.Rows[i]["Status"]);
 					}
 					else
 					{
-						// טיפול בכשל בהמרה - הגדרת ערך ברירת מחדל או תיעוד הבעיה
-						// Tmp.Status = false; // הגדרת ערך ברירת מחדל או טיפול בהתאם לצורך
+						// אם הערך הוא NULL בדאטהבייס, נגדיר ברירת מחדל
+						Tmp.Status = false;
 					}
 
 					ReadabilityList.Add(Tmp);
@@ -220,6 +222,49 @@ namespace DAL
 			Db.Close();
 			return Tmp;
 		}
+		public static List<Readability> GetAllByCustomerId(int cusId)
+		{
+			List<Readability> ReadabilityList = new List<Readability>();
+			string sql = $"SELECT * FROM T_Readability WHERE CusId = {cusId} ORDER BY DateRead DESC";
+			DbContext Db = new DbContext();
+
+			try
+			{
+				DataTable Dt = Db.Execute(sql);
+
+				for (int i = 0; i < Dt.Rows.Count; i++)
+				{
+					Readability Tmp = new Readability()
+					{
+						ReadId = int.Parse(Dt.Rows[i]["ReadId"].ToString()),
+						DateRead = DateTime.Parse(Dt.Rows[i]["DateRead"].ToString()),
+						Desc = Dt.Rows[i]["Desc"].ToString(),
+						FullName = Dt.Rows[i]["FullName"].ToString(),
+						Phone = Dt.Rows[i]["Phone"].ToString(),
+						Nots = Dt.Rows[i]["Nots"].ToString(),
+						CusId = int.Parse(Dt.Rows[i]["CusId"].ToString()),
+						ModelId = Dt.Rows[i]["ModelId"].ToString(),
+						Status = Convert.ToBoolean(Dt.Rows[i]["Status"]),
+						CallStatus = (CallStatus)Convert.ToInt32(Dt.Rows[i]["CallStatus"]),
+						Urgency = Dt.Rows[i]["Urgency"].ToString(),
+						SerProdId = int.Parse(Dt.Rows[i]["SerProdId"].ToString()),
+						ModelCode = Dt.Rows[i]["ModelCode"].ToString()
+					};
+					ReadabilityList.Add(Tmp);
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error in GetAllByCustomerId: {ex.Message}");
+				throw;
+			}
+			finally
+			{
+				Db.Close();
+			}
+
+			return ReadabilityList;
+		}
 		//מחיקה לפי זיהוי
 		public static int DeleteById(int Id)
 		{
@@ -266,5 +311,7 @@ namespace DAL
 				db.Close();
 			}
 		}
+		
 	}
+
 }
