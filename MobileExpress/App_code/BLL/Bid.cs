@@ -70,6 +70,19 @@ namespace BLL
         {
             return BidDAL.GetById(id);
         }
+        public static List<Bid> GetByReadId(int readId)
+        {
+            try
+            {
+                return BidDAL.GetByReadId(readId);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in GetByReadId: {ex.Message}");
+                throw;
+            }
+        }
+
 
 
         public static int DeleteById(int id)

@@ -83,11 +83,19 @@
                                         <%# Convert.ToBoolean(Eval("Status")) ? "disabled" : "" %>>
                                         <i class="fas fa-edit"></i>
                                     </button>
-
+                                   <div class="btn-group">
+             <asp:Button runat="server" 
+                CommandName="AcceptCall"
+                CommandArgument='<%# Eval("ReadId") %>'
+                CssClass="btn btn-success btn-sm"
+                Text="קח קריאה"
+                Visible='<%# (bool)Eval("Status") %>'
+                OnClientClick="return confirm('האם אתה בטוח שברצונך לקחת את הקריאה?');" />
 
                                 </div>
                             </ItemTemplate>
                         </asp:TemplateField>
+
                     </Columns>
                 </asp:GridView>
             </div>
@@ -665,7 +673,23 @@
                 </div>
             </div>
         </div>
-
+ <!-- פרטי טכנאי -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h6 class="mb-0">פרטי טכנאי</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong>שם:</strong> ${bid.TechnicianDetails?.Name || 'לא צוין'}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>טלפון:</strong> ${bid.TechnicianDetails?.Phone || 'לא צוין'}
+                    </div>
+                </div>
+                
+            </div>
+        </div>
         <!-- פרטי לקוח -->
         <div class="card mb-4">
             <div class="card-header">
@@ -752,26 +776,37 @@
             const printWindow = window.open('', '', 'height=600,width=800');
 
             printWindow.document.write(`
-            <!DOCTYPE html>
-            <html dir="rtl">
-            <head>
-                <title>הדפסת הצעת מחיר</title>
-                <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-                <style>
-                    body { padding: 20px; }
-                    .bid-details { margin: 20px; }
-                    @media print {
-                        .no-print { display: none !important; }
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    ${content}
-                </div>
-            </body>
-            </html>
-        `);
+    <!DOCTYPE html>
+    <html dir="rtl" lang="he">
+    <head>
+        <title>הדפסת הצעת מחיר</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body { 
+                padding: 20px; 
+                direction: rtl; 
+                text-align: right; 
+                font-family: Arial, sans-serif; 
+            }
+            .container {
+                direction: rtl;
+                text-align: right;
+            }
+            .bid-details {
+                margin: 20px;
+            }
+            @media print {
+                .no-print { display: none !important; }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            ${content}
+        </div>
+    </body>
+    </html>
+    `);
 
             printWindow.document.close();
             setTimeout(() => {

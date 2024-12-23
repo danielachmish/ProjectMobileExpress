@@ -18,15 +18,52 @@ namespace MobileExpress.Users
       
         protected void Page_Load(object sender, EventArgs e)
         {
+            //if (!IsPostBack)
+            //{
+            //    LoadBids();
+
+            //    string bidId = Request.QueryString["bidId"];
+            //    if (!string.IsNullOrEmpty(bidId))
+            //    {
+            //        GetBidInfoJson(bidId);
+            //    }
+            //}
             if (!IsPostBack)
             {
-                LoadBids();
-
-                string bidId = Request.QueryString["bidId"];
-                if (!string.IsNullOrEmpty(bidId))
+                // בדיקה אם יש פרמטר ReadId ב-Query String
+                string readIdParam = Request.QueryString["ReadId"];
+                if (!string.IsNullOrEmpty(readIdParam) && int.TryParse(readIdParam, out int readId))
                 {
-                    GetBidInfoJson(bidId);
+                    // טעינת הצעות המחיר לפי ReadId
+                    LoadBidsByReadId(readId);
                 }
+                else
+                {
+                    // טעינת כל ההצעות אם אין ReadId
+                    LoadBids();
+                }
+            }
+        }
+        private void LoadBidsByReadId(int readId)
+        {
+            try
+            {
+                // קבלת הצעות מחיר לקריאה מבסיס הנתונים
+                var bids = BLL.Bid.GetByReadId(readId);
+                if (bids != null && bids.Count > 0)
+                {
+                    BidsRepeater.DataSource = bids;
+                    BidsRepeater.DataBind();
+                }
+                else
+                {
+                    bidsContainer.InnerHtml = "<div class='no-bids'>אין הצעות מחיר לקריאה זו</div>";
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in LoadBidsByReadId: {ex.Message}");
+                bidsContainer.InnerHtml = "<div class='error-message'>אירעה שגיאה בטעינת הנתונים</div>";
             }
         }
 
@@ -103,6 +140,49 @@ namespace MobileExpress.Users
             Response.Redirect($"EditBid.aspx?bidId={bidId}");
         }
 
+        //protected void ApproveBid(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        Button btn = (Button)sender;
+        //        int bidId = Convert.ToInt32(btn.CommandArgument);
+        //        var bid = BLL.Bid.GetById(bidId);
+
+        //        if (bid != null)
+        //        {
+        //            // עדכון סטטוס ההצעה
+        //            bid.Status = true;
+        //            bid.Save();
+
+        //            // עדכון הקריאה המקושרת
+        //            var readability = Readability.GetById(bid.ReadId);
+        //            if (readability != null)
+        //            {
+        //                readability.AssignedTechnicianId = bid.TecId;
+        //                readability.UpdateReadability();
+        //            }
+
+        //            // הודעת הצלחה
+        //            ScriptManager.RegisterStartupScript(this, GetType(), "ShowSuccess",
+        //                "Swal.fire({" +
+        //                "  title: 'ההצעה אושרה'," +
+        //                "  text: 'ההצעה אושרה בהצלחה והקריאה הועברה לטכנאי'," +
+        //                "  icon: 'success'," +
+        //                "  timer: 2000," +
+        //                "  showConfirmButton: false" +
+        //                "});", true);
+
+        //            LoadBids();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine($"Error in ApproveBid: {ex.Message}");
+        //        ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+        //            "Swal.fire('שגיאה', 'אירעה שגיאה באישור ההצעה', 'error');", true);
+        //    }
+        //}
+
         protected void ApproveBid(object sender, EventArgs e)
         {
             try
@@ -110,7 +190,6 @@ namespace MobileExpress.Users
                 Button btn = (Button)sender;
                 int bidId = Convert.ToInt32(btn.CommandArgument);
                 var bid = BLL.Bid.GetById(bidId);
-
                 if (bid != null)
                 {
                     // עדכון סטטוס ההצעה
@@ -122,6 +201,7 @@ namespace MobileExpress.Users
                     if (readability != null)
                     {
                         readability.AssignedTechnicianId = bid.TecId;
+                        readability.Status = false; // מסמן שהקריאה סגורה/נבחרה הצעה
                         readability.UpdateReadability();
                     }
 
@@ -134,7 +214,6 @@ namespace MobileExpress.Users
                         "  timer: 2000," +
                         "  showConfirmButton: false" +
                         "});", true);
-
                     LoadBids();
                 }
             }
@@ -150,5 +229,47 @@ namespace MobileExpress.Users
         {
             LoadBids();
         }
+        //protected void ApproveBid(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        Button btn = (Button)sender;
+        //        int bidId = Convert.ToInt32(btn.CommandArgument);
+        //        var bid = BLL.Bid.GetById(bidId);
+
+        //        if (bid != null)
+        //        {
+        //            // עדכון סטטוס ההצעה
+        //            bid.Status = true;
+        //            bid.Save();
+
+        //            // עדכון הקריאה המקושרת
+        //            var readability = Readability.GetById(bid.ReadId);
+        //            if (readability != null)
+        //            {
+        //                readability.AssignedTechnicianId = bid.TecId;
+        //                readability.Status = false; // false = פתוח לטיפול הטכנאי
+        //                readability.UpdateReadability();
+        //            }
+
+        //            ScriptManager.RegisterStartupScript(this, GetType(), "ShowSuccess",
+        //                "Swal.fire({" +
+        //                "  title: 'ההצעה אושרה'," +
+        //                "  text: 'ההצעה אושרה בהצלחה והקריאה הועברה לטכנאי'," +
+        //                "  icon: 'success'," +
+        //                "  timer: 2000," +
+        //                "  showConfirmButton: false" +
+        //                "});", true);
+
+        //            LoadBids();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine($"Error in ApproveBid: {ex.Message}");
+        //        ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+        //            "Swal.fire('שגיאה', 'אירעה שגיאה באישור ההצעה', 'error');", true);
+        //    }
+        //}
     }
 }

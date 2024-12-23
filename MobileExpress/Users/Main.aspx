@@ -12,260 +12,100 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
     <input type="hidden" id="hdnCusId" runat="server" />
+    <div class="background-slideshow"></div>
+
     <style>
-        /* סגנונות בסיסיים */
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: #f9fafb;
-}
-
-/* תפריט עליון */
-.top-menu {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    backdrop-filter: blur(10px);
-    position: relative;
-    z-index: 2;
-}
-
-.logo {
-    height: 44px;
-    transition: transform 0.3s ease;
-}
-
-.logo:hover {
-    transform: scale(1.05);
-}
-
-.top-nav {
-    display: flex;
-    gap: 2rem;
-}
-
-.top-nav a {
-    color: #4b5563;
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-}
-
-.top-nav a:hover {
-    color: #9333ea;
-    background: rgba(147, 51, 234, 0.08);
-}
-
-/* מיכל ראשי */
-.main-container {
-    min-height: calc(100vh - 70px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 3rem 1.5rem;
-    position: relative;
-    z-index: 1;
-}
-
-/* רקע מתחלף */
-.background-slideshow {
+        .background-slideshow {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
+    z-index: -1;
     background-size: cover;
     background-position: center;
-    transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1; /* שקיפות הרקע */
+    transition: background-image 1s ease-in-out;
 }
 
-/* כותרות */
-.main-title {
-    color: white;
-    font-size: 5.5rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    text-shadow: 2px 2px 20px rgba(0,0,0,0.3);
-    font-weight: 800;
-    letter-spacing: -2px;
-}
-
-.sub-title {
-    color: white;
-    font-size: 1.5rem;
-    margin-bottom: 3.5rem;
-    text-align: center;
-    text-shadow: 1px 1px 10px rgba(0,0,0,0.3);
-    font-weight: 500;
-    max-width: 800px;
-    line-height: 1.6;
-}
-
-/* מיכל כפתורים */
-.circles-container {
-    display: flex;
-    justify-content: center;
-    gap: 2.5rem;
-    margin-top: 2.5rem;
-    flex-wrap: wrap;
-    max-width: 1200px;
-}
-
-/* כפתורים עגולים */
-.circle-button {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.95);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    text-decoration: none;
-    color: #2c1358;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    backdrop-filter: blur(10px);
-}
-
-.circle-button:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(147, 51, 234, 0.2);
-    background: white;
-}
-
-.circle-button i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: #9333ea;
-    transition: all 0.3s ease;
-}
-
-.circle-button span {
-    font-size: 1.1rem;
-    text-align: center;
-    font-weight: 500;
-}
-
-/* חיפוש */
-.search-box {
-    width: 100%;
-    max-width: 600px;
-    padding: 1.2rem 2rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 20px;
-    margin-bottom: 3.5rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-}
-
-.search-box:focus {
-    outline: none;
-    box-shadow: 0 15px 40px rgba(147, 51, 234, 0.2);
-    transform: translateY(-2px);
-}
-
-/* מודל */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
+/* אפקט שכבת כהה על הרקע */
+.background-slideshow::after {
+    content: '';
+    position: absolute;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.3);
-    backdrop-filter: blur(5px);
-    opacity: 0;
-    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(0, 0, 0, 0.3); /* שכבה שחורה שקופה */
+    z-index: -1;
 }
+    </style>
 
-.modal.show {
-    opacity: 1;
-}
-
-.modal-content {
-    background: #ffffff;
-    margin: 2% auto;
-    max-width: 1200px;
-    width: 95%;
-    border-radius: 24px;
-    position: relative;
-    max-height: 95vh;
-    overflow-y: auto;
-    padding: 2.5rem;
-    transform: translateY(-20px);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.1);
-}
-
-.modal.show .modal-content {
-    transform: translateY(0);
-}
-
-/* המשך הסגנונות עבור הכפתורים והתוכן הפנימי של המודל... */
+    <style>
         /* סגנונות בסיסיים */
-        /*body, html {
+        body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: Arial, sans-serif;
-        }*/
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            
+        }
 
         /* תפריט עליון */
-        /*.top-menu {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 15px;
+        .top-menu {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            backdrop-filter: blur(10px);
             position: relative;
             z-index: 2;
         }
 
         .logo {
-            height: 40px;
+            height: 44px;
+            transition: transform 0.3s ease;
         }
+
+            .logo:hover {
+                transform: scale(1.05);
+            }
 
         .top-nav {
             display: flex;
-            gap: 20px;
+            gap: 2rem;
         }
 
             .top-nav a {
-                color: #333;
+                color: #4b5563;
                 text-decoration: none;
-                font-size: 14px;
-            }*/
+                font-size: 0.95rem;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                padding: 0.5rem 1rem;
+                border-radius: 8px;
+            }
+
+                .top-nav a:hover {
+                    color: #9333ea;
+                    background: rgba(147, 51, 234, 0.08);
+                }
 
         /* מיכל ראשי */
-        /*.main-container {
+        .main-container {
             min-height: calc(100vh - 70px);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
+            padding: 3rem 1.5rem;
             position: relative;
             z-index: 1;
-            background: transparent;
-        }*/
+        }
 
         /* רקע מתחלף */
-        /*.background-slideshow {
+        .background-slideshow {
             position: fixed;
             top: 0;
             left: 0;
@@ -274,90 +114,101 @@ body, html {
             z-index: 0;
             background-size: cover;
             background-position: center;
-            transition: background-image 1s ease-in-out;
-        }*/
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-        /* כותרת ראשית */
-        /*.main-title {
+        /* כותרות */
+        .main-title {
             color: white;
-            font-size: 88px;
-            margin-bottom: 20px;
+            font-size: 5.5rem;
+            margin-bottom: 1.5rem;
             text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.3);
+            font-weight: 800;
+            letter-spacing: -2px;
         }
 
         .sub-title {
             color: white;
-            font-size: 24px;
-            margin-bottom: 60px;
+            font-size: 1.5rem;
+            margin-bottom: 3.5rem;
             text-align: center;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }*/
+            text-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+            font-weight: 500;
+            max-width: 800px;
+            line-height: 1.6;
+        }
 
-        /* מיכל לכפתורים העגולים */
-        /*.circles-container {
+        /* מיכל כפתורים */
+        .circles-container {
             display: flex;
             justify-content: center;
-            gap: 40px;
-            margin-top: 40px;
+            gap: 2.5rem;
+            margin-top: 2.5rem;
             flex-wrap: wrap;
             max-width: 1200px;
-        }*/
+        }
 
         /* כפתורים עגולים */
-        /*.circle-button {
-            width: 180px;
-            height: 180px;
+        .circle-button {
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             color: #2c1358;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
         }
 
             .circle-button:hover {
-                transform: scale(1.05);
+                transform: translateY(-8px);
+                box-shadow: 0 20px 40px rgba(147, 51, 234, 0.2);
+                background: white;
             }
 
             .circle-button i {
-                font-size: 48px;
-                margin-bottom: 15px;
-                color: #2c1358;
+                font-size: 3rem;
+                margin-bottom: 1rem;
+                color: #9333ea;
+                transition: all 0.3s ease;
             }
 
             .circle-button span {
-                font-size: 18px;
+                font-size: 1.1rem;
                 text-align: center;
-            }*/
+                font-weight: 500;
+            }
 
-        /* סרגל חיפוש */
-        /*.search-box {
+        /* חיפוש */
+        .search-box {
             width: 100%;
             max-width: 600px;
-            padding: 15px 25px;
-            font-size: 16px;
+            padding: 1.2rem 2rem;
+            font-size: 1rem;
             border: none;
-            border-radius: 30px;
-            margin-bottom: 60px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }*/
-    
-        /* Basic Styles */
-        /*body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: Arial, sans-serif;
-        }*/
+            border-radius: 20px;
+            margin-bottom: 3.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
 
-        /* Modal Base Styles */
-        /*.modal {
+            .search-box:focus {
+                outline: none;
+                box-shadow: 0 15px 40px rgba(147, 51, 234, 0.2);
+                transform: translateY(-2px);
+            }
+
+        /* מודל */
+        .modal {
             display: none;
             position: fixed;
             z-index: 1000;
@@ -365,9 +216,10 @@ body, html {
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
             .modal.show {
@@ -375,321 +227,25 @@ body, html {
             }
 
         .modal-content {
-            background-color: #f8f9fe;
+            background: #ffffff;
             margin: 2% auto;
             max-width: 1200px;
             width: 95%;
-            border-radius: 1rem;
+            border-radius: 24px;
             position: relative;
             max-height: 95vh;
             overflow-y: auto;
-            padding: 2rem;
+            padding: 2.5rem;
             transform: translateY(-20px);
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
         }
 
         .modal.show .modal-content {
             transform: translateY(0);
-        }*/
-
-        /* Header Styles */
-        /*.modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
         }
 
-        .header-title {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-            .header-title h1 {
-                font-size: 1.5rem;
-                color: #333;
-                margin: 0;
-            }
-
-        .header-controls {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }*/
-
-        /* Button Styles */
-        /*.edit-mode-btn, .save-changes-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s;
-            font-size: 0.875rem;
-        }
-
-        .edit-mode-btn {
-            background-color: #6b46c1;
-            color: white;
-            display: flex;
-        }
-
-            .edit-mode-btn:hover {
-                background-color: #553c9a;
-            }
-
-        .save-changes-btn {
-            background-color: #059669;
-            color: white;
-            display: none;
-        }
-
-            .save-changes-btn:hover {
-                background-color: #047857;
-            }
-
-        .close-button {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #6B7280;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            transition: all 0.2s;
-        }
-
-            .close-button:hover {
-                background-color: #f0f0ff;
-                color: #6b46c1;
-            }*/
-
-        /* Stats Grid */
-        /*.stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }*/
-
-        /*.stat-card {
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .stat-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .stat-card h3 {
-            font-size: 0.875rem;
-            color: #6B7280;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #6b46c1;
-        }
-
-        .stat-icon {
-            width: 3rem;
-            height: 3rem;
-            background-color: #f0f0ff;
-            border-radius: 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .icon {
-            width: 1.5rem;
-            height: 1.5rem;
-            stroke: #6b46c1;
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }*/
-
-        /* Details Section */
-        /*.details-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .details-card {
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-            .details-card h2 {
-                color: #333;
-                font-size: 1.25rem;
-                margin-bottom: 1.5rem;
-            }*/
-
-        /* Info Rows */
-        /*.info-row {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 1rem;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #f0f0ff;
-        }
-
-            .info-row:last-child {
-                border-bottom: none;
-            }
-
-        .field-content {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
-        .info-label {
-            font-weight: 500;
-            color: #6B7280;
-            margin-bottom: 0.5rem;
-            width: 100%;
-        }
-
-        .info-value {
-            color: #374151;
-        }
-
-        .edit-input {
-            display: none;
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            color: #374151;
-            margin-top: 0.5rem;
-        }*/
-
-        /* Edit Mode Styles */
-        /*.modal-content.edit-mode .info-value,
-        .edit-mode .info-value {
-            display: none !important;
-        }
-
-        .modal-content.edit-mode .edit-input,
-        .edit-mode .edit-input {
-            display: block !important;
-        }
-
-        .edit-mode .edit-mode-btn {
-            display: none !important;
-        }
-
-        .edit-mode .save-changes-btn {
-            display: flex !important;
-        }*/
-
-        /* Working Hours */
-        /*.working-hours {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }*/
-
-        /*.hours-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #f0f0ff;
-        }
-
-            .hours-row:last-child {
-                border-bottom: none;
-            }
-
-        .available {
-            color: #059669;
-        }
-
-        .unavailable {
-            color: #DC2626;
-        }*/
-
-        /* Version Label */
-        /*.version-label {
-            font-size: 0.875rem;
-            color: #6B7280;
-        }*/
-
-        /* Top Menu Styles */
-        /*.top-menu {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 2;
-        }
-
-        .logo {
-            height: 40px;
-        }
-
-        .top-nav {
-            display: flex;
-            gap: 20px;
-        }
-
-            .top-nav a {
-                color: #333;
-                text-decoration: none;
-                font-size: 14px;
-            }*/
-
-        /* Responsive Styles */
- /*       @media (max-width: 768px) {
-            .modal-content {
-                padding: 1rem;
-                margin: 0;
-                width: 100%;
-                height: 100%;
-                max-height: 100vh;
-                border-radius: 0;
-            }
-
-            .stats-container {
-                grid-template-columns: 1fr;
-            }
-
-            .details-section {
-                grid-template-columns: 1fr;
-            }
-
-            .info-row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-
-            .info-label {
-                width: 100%;
-            }
-        }*/
+       
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -698,7 +254,7 @@ body, html {
     <div class="top-menu">
         <%--  <img src="/api/placeholder/120/40" alt="Logo" class="logo">--%>
         <div class="top-nav">
-            <a href="#"><i class="fas fa-truck"></i>עקבו אחרינו</a>
+            <a href="../About.aspx"><i class="fas fa-truck"></i>עקבו אחרינו</a>
             <%--  <a href="TechnicianProfile.aspx"><i class="fas fa-user"></i>פרופיל</a>--%>
             <a href="#" onclick="openModal(); return false;"><i class="fas fa-user"></i>פרופיל</a>
         </div>
@@ -710,8 +266,6 @@ body, html {
         </h1>
         <h2 class="sub-title"></h2>
 
-
-
         <div class="circles-container">
             <a href="ServiceCall.aspx" class="circle-button">
                 <i class="fas fa-plug"></i>
@@ -721,410 +275,34 @@ body, html {
                 <i class="fas fa-search"></i>
                 <span>הצעות מחיר</span>
             </a>
-            <a href="#" class="circle-button">
+            <a href="Reads.aspx" class="circle-button">
                 <i class="fas fa-dollar-sign"></i>
-                <span>מבצעים</span>
+                <span>הקריאות שלי</span>
             </a>
-            <a href="#" class="circle-button">
+           <%-- <a href="#" class="circle-button">
                 <i class="fas fa-bell"></i>
                 <span>עקבו אחרינו</span>
-            </a>
+            </a>--%>
         </div>
     </div>
-
-
-    <!-- מודל פרופיל -->
-    <%--<div id="profileModal" class="modal" dir="rtl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="header-title">
-                    <h1 class="profile-title">פרופיל לקוח</h1>
-                    <span class="version-label">גרסה 1</span>
-                </div>
-                <div class="header-controls">
-                    <button class="edit-mode-btn">
-                        <i class="fas fa-edit"></i>
-                        <span class="btn-text">עריכת פרופיל</span>
-                    </button>
-                    <button class="save-changes-btn" style="display: none;">
-                        <i class="fas fa-save"></i>
-                        <span class="btn-text">שמור שינויים</span>
-                    </button>
-                    <button class="close-button">&times;</button>
-                </div>
-            </div>
-
-            <!-- Stats Grid -->
-           <%-- <div class="stats-container">
-                <div class="stat-card">
-                    <div class="stat-content">
-                        <div>
-                            <h3>קריאות שירות</h3>
-                            <p class="stat-value">80</p>
-                        </div>
-                        <div class="stat-icon">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M4 6h16M4 12h16m-7 6h7"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-              <%--  <div class="stat-card">
-                    <div class="stat-content">
-                        <div>
-                            <h3>הכנסה חודשית</h3>
-                            <p class="stat-value">₪4,021</p>
-                        </div>
-                        <div class="stat-icon money-icon">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>--%>
-
-    <%-- <div class="stat-card">
-                    <div class="stat-content">
-                        <div>
-                            <h3>דירוג</h3>
-                            <p class="stat-value">4.8</p>
-                        </div>
-                        <div class="stat-icon rating-icon">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>--%>
-
-    <%--  <div class="stat-card">
-                    <div class="stat-content">
-                        <div>
-                            <h3>זמינות</h3>
-                            <p class="stat-value available">זמין</p>
-                        </div>
-                        <div class="stat-icon available-icon">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M5 13l4 4L19 7"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>--%>
-    <%--     </div>
-
-
-            <div class="details-card">
-                <h2>פרטים אישיים</h2>
-                <div class="personal-details">
-                    <div class="info-row">
-                        <div class="field-content">
-                            <span class="info-label">שם מלא:</span>
-                            <span class="info-value" runat="server" id="fullNameValue"></span>
-                            <input type="text" runat="server" class="edit-input" id="fullNameInput">
-                        </div>
-                    </div>
-                    <div class="info-row">
-                        <div class="field-content">
-                            <span class="info-label">טלפון:</span>
-                            <span class="info-value" runat="server" id="phoneValue"></span>
-                            <input type="tel" runat="server" class="edit-input" id="phoneInput">
-                        </div>
-                    </div>
-                    <div class="info-row">
-                        <div class="field-content">
-                            <span class="info-label">כתובת:</span>
-                            <span class="info-value" runat="server" id="addressValue"></span>
-                            <input type="text" runat="server" class="edit-input" id="addressInput">
-                        </div>
-                    </div>--%>
-    <%-- <div class="info-row">
-                        <div class="field-content">
-                            <span class="info-label">התמחות:</span>
-                            <span class="info-value" runat="server" id="specializationValue"></span>
-                            <input type="text" runat="server" class="edit-input" id="specializationInput">
-                        </div>
-                    </div>--%>
-    <%-- <div class="info-row">
-                        <div class="field-content">
-                            <span class="info-label">מייל:</span>
-                            <span class="info-value" runat="server" id="EmailValue"></span>
-                            <input type="text" runat="server" class="edit-input" id="EmailInpot">
-                        </div>
-                    </div>
-
-                </div>
-            </div>--%>
-    <%--   <div class="details-card availability-management">
-                <h2>ניהול זמינות</h2>
-                <div class="availability-container">
-                    <!-- שעות פעילות -->
-                    <div class="working-hours">
-                        <h3>שעות פעילות</h3>
-                        <div class="days-grid">
-                            <div class="day-row">
-                                <div class="day-label">ראשון</div>
-                                <div class="hours-input">
-                                    <input type="time" class="time-input" id="SundayStart">
-                                    <span>עד</span>
-                                    <input type="time" class="time-input" id="SundayEnd">
-                                    <label class="day-toggle">
-                                        <input type="checkbox" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="day-row">
-                                <div class="day-label">שני</div>
-                                <div class="hours-input">
-                                    <input type="time" class="time-input" id="MondayStart">
-                                    <span>עד</span>
-                                    <input type="time" class="time-input" id="MondayEnd">
-                                    <label class="day-toggle">
-                                        <input type="checkbox" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="day-row">
-                                <div class="day-label">שלישי</div>
-                                <div class="hours-input">
-                                    <input type="time" class="time-input" id="TuesdayStart">
-                                    <span>עד</span>
-                                    <input type="time" class="time-input" id="TuesdayEnd">
-                                    <label class="day-toggle">
-                                        <input type="checkbox" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="day-row">
-                                <div class="day-label">רביעי</div>
-                                <div class="hours-input">
-                                    <input type="time" class="time-input" id="WednesdayStart">
-                                    <span>עד</span>
-                                    <input type="time" class="time-input" id="WednesdayEnd">
-                                    <label class="day-toggle">
-                                        <input type="checkbox" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="day-row">
-                                <div class="day-label">חמישי</div>
-                                <div class="hours-input">
-                                    <input type="time" class="time-input" id="ThursdayStart">
-                                    <span>עד</span>
-                                    <input type="time" class="time-input" id="ThursdayEnd">
-                                    <label class="day-toggle">
-                                        <input type="checkbox" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="day-row">
-                                <div class="day-label">שישי</div>
-                                <div class="hours-input">
-                                    <input type="time" class="time-input" id="FridayStart">
-                                    <span>עד</span>
-                                    <input type="time" class="time-input" id="FridayEnd">
-                                    <label class="day-toggle">
-                                        <input type="checkbox" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="day-row">
-                                <div class="day-label">שבת</div>
-                                <div class="hours-input">
-                                    <input type="time" class="time-input" id="SaturdayStart">
-                                    <span>עד</span>
-                                    <input type="time" class="time-input" id="SaturdayEnd">
-                                    <label class="day-toggle">
-                                        <input type="checkbox" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <!-- שאר הימים באותו פורמט -->
-                        </div>
-                    </div>
-
-                    <!-- הפסקות -->
-                    <div class="breaks-section">
-                        <h3>הפסקות קבועות</h3>
-                        <div class="breaks-container">
-                            <button class="add-break-btn">
-                                <i class="fas fa-plus"></i>
-                                הוסף הפסקה
-                            </button>
-                            <div class="break-item">
-                                <input type="time" class="break-time-input">
-                                <span>למשך</span>
-                                <select class="break-duration">
-                                    <option value="30">30 דקות</option>
-                                    <option value="60">שעה</option>
-                                    <option value="90">שעה וחצי</option>
-                                </select>
-                                <button class="remove-break">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>--%>
-    <!-- היסטוריית עבודות -->
-    <%-- <div class="details-card work-history">
-                <h2>היסטוריית קריאות</h2>--%>
-
-    <!-- סיכום חודשי -->
-    <%--   <div class="monthly-summary">
-        <div class="summary-header">
-            <h3>סיכום חודשי - מרץ 2024</h3>
-            <div class="summary-controls">
-                <button class="month-nav prev-month">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-                <button class="month-nav next-month">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-            </div>
-        </div>--%>
-    <%--  <div class="summary-stats">
-            <div class="summary-stat">
-                <span class="stat-label">סה"כ עבודות</span>
-                <span class="stat-value">24</span>
-            </div>
-            <div class="summary-stat">
-                <span class="stat-label">הכנסות</span>
-                <span class="stat-value">₪4,850</span>
-            </div>
-            <div class="summary-stat">
-                <span class="stat-label">דירוג ממוצע</span>
-                <span class="stat-value">4.8 <i class="fas fa-star"></i></span>
-            </div>
-        </div>--%>
-    <%--  </div>--%>
-
-    <!-- רשימת העבודות -->
-    <%--   <div class="work-list">
-                    <div class="list-filters">--%>
-    <%-- <div class="filter-group">
-                            <label>סינון לפי:</label>
-                            <select class="filter-select">
-                                <option value="all">הכל</option>
-                                <option value="completed">הושלמו</option>
-                                <option value="pending">בתהליך</option>
-                                <option value="cancelled">בוטלו</option>
-                            </select>
-                            <select class="filter-select">
-                                <option value="all">כל הסוגים</option>
-                                <option value="ac">מזגנים</option>
-                                <option value="plumbing">אינסטלציה</option>
-                                <option value="electricity">חשמל</option>
-                            </select>
-                        </div>--%>
-    <%--<div class="search-group">
-                            <input type="search" placeholder="חיפוש..." class="search-input">
-                        </div>
-                    </div>--%>
-
-    <%--  <div class="work-items">
-                        <div class="work-item">
-                            <div class="work-header">
-                                <div class="work-title">
-                                    <h4>תיקון מזגן תדיראן</h4>
-                                    <span class="work-date">15.03.2024</span>
-                                </div>
-                                <span class="work-status completed">הושלם</span>
-                            </div>
-                            <div class="work-details">
-                                <div class="work-info">
-                                    <p class="work-description">החלפת קבל והשלמת גז</p>
-                                    <span class="work-location">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        תל אביב, דיזנגוף 123
-                                    </span>
-                                </div>
-                                <div class="work-meta">
-                                    <div class="price-rating">
-                                        <span class="work-price">₪450</span>
-                                        <span class="work-rating">
-                                            <i class="fas fa-star"></i>
-                                            4.8
-                                        </span>
-                                    </div>
-                                    <button class="view-details-btn">פרטים נוספים</button>
-                                </div>
-                            </div>
-                        </div>--%>
-
-    <%--<div class="work-item">
-                            <div class="work-header">
-                                <div class="work-title">
-                                    <h4>התקנת מזגן אלקטרה</h4>
-                                    <span class="work-date">10.03.2024</span>
-                                </div>
-                                <span class="work-status completed">הושלם</span>
-                            </div>
-                            <div class="work-details">
-                                <div class="work-info">
-                                    <p class="work-description">התקנה מלאה כולל תשתיות</p>
-                                    <span class="work-location">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        רמת גן, ביאליק 45
-                                    </span>
-                                </div>
-                                <div class="work-meta">
-                                    <div class="price-rating">
-                                        <span class="work-price">₪1,200</span>
-                                        <span class="work-rating">
-                                            <i class="fas fa-star"></i>
-                                            5.0
-                                        </span>
-                                    </div>
-                                    <button class="view-details-btn">פרטים נוספים</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pagination">
-                        <button class="page-nav prev-page">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <div class="page-numbers">
-                            <span class="page-number active">1</span>
-                            <span class="page-number">2</span>
-                            <span class="page-number">3</span>
-                        </div>
-                        <button class="page-nav next-page">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>--%>
-
 
     <!-- Profile Modal HTML -->
     <div id="profileModal" class="modal" dir="rtl">
         <div class="modal-content">
-                 <asp:HiddenField ID="customerHiddenId" runat="server" /> 
+            <asp:HiddenField ID="customerHiddenId" runat="server" />
             <!-- Header -->
             <div class="modal-header">
                 <div class="header-title">
-                    <h1 class="profile-title">פרופיל לקוח</h1>
-                    <span class="version-label">גרסה 1</span>
+                    <h1 class="profile-title">הפרופיל שלי</h1>
+                  <%--  <span class="version-label"></span>--%>
                 </div>
                 <div class="header-controls">
 
-                
-<a href="CustomerProfile.aspx" class="edit-mode-btn" runat="server" id="editProfileLink">
-    <i class="fas fa-edit"></i>
-    <span class="btn-text">עריכת פרופיל</span>
-</a>
+
+                    <a href="CustomerProfile.aspx" class="edit-mode-btn" runat="server" id="editProfileLink">
+                        <i class="fas fa-edit"></i>
+                        <span class="btn-text">עריכת פרופיל</span>
+                    </a>
                     <button class="save-changes-btn" style="display: none;">
                         <i class="fas fa-save"></i>
                         <span class="btn-text">שמור שינויים</span>
@@ -1134,7 +312,7 @@ body, html {
             </div>
 
             <!-- Stats Grid -->
-            <div class="stats-container">
+         <%--   <div class="stats-container">
                 <div class="stat-card">
                     <div class="stat-content">
                         <div>
@@ -1179,7 +357,7 @@ body, html {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>--%>
 
             <!-- Personal Details -->
             <div class="details-card">
@@ -1220,7 +398,7 @@ body, html {
 
     <style>
         /* Modal Styles */
-        .modal {
+        /*.modal {
             display: none;
             position: fixed;
             top: 0;
@@ -1239,10 +417,10 @@ body, html {
             max-width: 1000px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+        }*/
 
         /* Header Styles */
-        .modal-header {
+        /*.modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1274,10 +452,10 @@ body, html {
         .header-controls {
             display: flex;
             gap: 10px;
-        }
+        }*/
 
         /* Button Styles */
-        .edit-mode-btn, .save-changes-btn {
+        /*.edit-mode-btn, .save-changes-btn {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1295,10 +473,10 @@ body, html {
             font-size: 24px;
             cursor: pointer;
             padding: 0 8px;
-        }
+        }*/
 
         /* Stats Grid */
-        .stats-container {
+        /*.stats-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
@@ -1326,10 +504,10 @@ body, html {
         .stat-icon {
             font-size: 24px;
             color: #6b46c1;
-        }
+        }*/
 
         /* Details Card */
-        .details-card {
+        /*.details-card {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
@@ -1368,7 +546,239 @@ body, html {
             border: 1px solid #ddd;
             border-radius: 4px;
             width: 100%;
-        }
+        }*/
+        /* RTL Support and Base Styles */
+:root {
+    --primary-color: #6b46c1;
+    --primary-light: #f3f0ff;
+    --background-light: #f8fafc;
+    --border-color: #eee;
+    --text-dark: #1a202c;
+    --text-light: #4a5568;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+}
+
+body {
+    direction: rtl;
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+/* Modal Styles with Animation */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity var(--transition-speed);
+}
+
+.modal.show {
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 2% auto;
+    padding: 24px;
+    width: 90%;
+    max-width: 1000px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all var(--transition-speed);
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Header Styles */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-dark);
+}
+
+.version-label {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color var(--transition-speed);
+}
+
+/* Button Styles with Hover Effects */
+.edit-mode-btn, 
+.save-changes-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all var(--transition-speed);
+}
+
+.edit-mode-btn:hover, 
+.save-changes-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 70, 193, 0.2);
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px;
+    color: var(--text-light);
+    transition: all var(--transition-speed);
+    border-radius: 50%;
+}
+
+.close-button:hover {
+    background-color: var(--background-light);
+    color: var(--text-dark);
+}
+
+/* Details Card with Hover Effects */
+.details-card {
+    background-color: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 24px;
+    transition: all var(--transition-speed);
+}
+
+.details-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.details-card h2 {
+    margin-bottom: 24px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Form Fields with Animation */
+.personal-details {
+    display: grid;
+    gap: 20px;
+}
+
+.info-row {
+    padding: 12px 0;
+    transition: background-color var(--transition-speed);
+}
+
+.info-row:hover {
+    background-color: var(--background-light);
+}
+
+.field-content {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.info-label {
+    font-weight: 600;
+    min-width: 120px;
+    color: var(--text-light);
+}
+
+.edit-input {
+    padding: 10px 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    width: 100%;
+    transition: all var(--transition-speed);
+}
+
+.edit-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
+    outline: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+    
+    .personal-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .field-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .info-label {
+        margin-bottom: 4px;
+    }
+}
+
+/* Loading State Animation */
+@keyframes shimmer {
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+.loading {
+    background: linear-gradient(
+        to right,
+        var(--background-light) 8%,
+        #f0f0f0 18%,
+        var(--background-light) 33%
+    );
+    background-size: 800px 104px;
+    animation: shimmer 1.5s linear infinite;
+}
     </style>
 
 </asp:Content>
@@ -1377,35 +787,61 @@ body, html {
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">
 
     <script>
-        const backgroundImages = [
-            '/assets/images/photo-long-2.jpg',
-            '/assets/images/photo-long-2.jpg ',
-            '/assets/images/photo-long-2.jpg '
+        //const backgroundImages = [
+        //    '/assets/images/photo-long-2.jpg',
+        //    '/assets/images/photo-long-2.jpg ',
+        //    '/assets/images/photo-long-2.jpg '
 
-        ];
+        //];
 
-        let currentImageIndex = 0;
-        const backgroundElement = document.querySelector('.background-slideshow');
+        //let currentImageIndex = 0;
+        //const backgroundElement = document.querySelector('.background-slideshow');
 
-        // הגדרת התמונה הראשונה
-        if (backgroundElement) {
-            // בחירת תמונה רנדומלית בטעינה הראשונית
-            currentImageIndex = Math.floor(Math.random() * backgroundImages.length);
-            backgroundElement.style.backgroundImage = `url(${backgroundImages[currentImageIndex]})`;
-        }
+        //// הגדרת התמונה הראשונה
+        //if (backgroundElement) {
+        //    // בחירת תמונה רנדומלית בטעינה הראשונית
+        //    currentImageIndex = Math.floor(Math.random() * backgroundImages.length);
+        //    backgroundElement.style.backgroundImage = `url(${backgroundImages[currentImageIndex]})`;
+        //}
 
-        // פונקציה להחלפת התמונות
-        function changeBackground() {
-            currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
-            backgroundElement.style.backgroundImage = `url(${backgroundImages[currentImageIndex]})`;
-        }
+        //// פונקציה להחלפת התמונות
+        //function changeBackground() {
+        //    currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
+        //    backgroundElement.style.backgroundImage = `url(${backgroundImages[currentImageIndex]})`;
+        //}
 
-        // החלפת התמונה בכל טעינת דף
-        window.addEventListener('load', () => {
-            if (backgroundElement) {
-                backgroundElement.style.backgroundImage = `url(${backgroundImages[currentImageIndex]})`;
-            }
-        });
+        //// החלפת התמונה בכל טעינת דף
+        //window.addEventListener('load', () => {
+        //    if (backgroundElement) {
+        //        backgroundElement.style.backgroundImage = `url(${backgroundImages[currentImageIndex]})`;
+        //    }
+        //});
+
+        fetch('<%= ResolveUrl("~/MainMobileExpress.aspx/GetImagesList") %>', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({})
+        })
+            .then(response => response.json())
+            .then(data => {
+                // התוצאה תחזור בפורמט ASP.NET AJAX, כלומר data.d הוא המערך שמוחזר
+                const images = data.d;
+
+                const backgroundElement = document.querySelector('.background-slideshow');
+                if (!backgroundElement || images.length === 0) return;
+
+                let currentImageIndex = Math.floor(Math.random() * images.length);
+                backgroundElement.style.backgroundImage = `url('/assets/images/imagebackground/${images[currentImageIndex]}')`;
+
+                function changeBackground() {
+                    currentImageIndex = (currentImageIndex + 1) % images.length;
+                    backgroundElement.style.backgroundImage = `url('/assets/images/imagebackground/${images[currentImageIndex]}')`;
+                }
+
+                // החלפת תמונה כל 5 שניות
+                setInterval(changeBackground, 5000);
+            })
+            .catch(err => console.error('Error fetching images:', err));
 
         // פונקציה לפתיחת המודאל
         function openModal() {
@@ -1466,135 +902,6 @@ body, html {
             }
         }
 
-        // פונקציית העריכה
-      <%--  function toggleEditMode() {
-            isEditMode = !isEditMode;
-            const modalContent = document.querySelector('.modal-content');
-            const editBtn = document.querySelector('.edit-mode-btn');
-            const saveBtn = document.querySelector('.save-changes-btn');
-
-            if (isEditMode) {
-                // עובר למצב עריכה
-                modalContent.classList.add('edit-mode');
-                editBtn.style.display = 'none';
-                saveBtn.style.display = 'flex';
-
-                // מציג את שדות הקלט ומעתיק אליהם את הערכים הנוכחיים
-                const infoRows = document.querySelectorAll('.info-row');
-                infoRows.forEach(row => {
-                    const value = row.querySelector('.info-value')?.textContent || '';
-                    const input = row.querySelector('.edit-input');
-                    if (input) {
-                        input.value = value.trim();
-                        input.style.display = 'block';
-                    }
-                });
-            } else {
-                // חוזר למצב תצוגה
-                modalContent.classList.remove('edit-mode');
-                editBtn.style.display = 'flex';
-                saveBtn.style.display = 'none';
-
-                // מסתיר את שדות הקלט
-                document.querySelectorAll('.edit-input').forEach(input => {
-                    input.style.display = 'none';
-                });
-            }
-        }
-
-        // הוספת פונקציה לטעינת נתוני הטכנאי
-        function loadTechnicianData() {
-            if (typeof customersData !== 'undefined') {
-                // טעינת הנתונים לשדות הקלט
-                document.querySelector('#fullNameInput').value = customersData.fullName;
-                document.querySelector('#phoneInput').value = customersData.phone;
-                document.querySelector('#addressInput').value = customersData.address;
-                /*document.querySelector('#specializationInput').value = technicianData.type;*/
-                document.querySelector('#EmailInput').value = customersData.email;
-
-                // עדכון ערכי התצוגה
-                document.querySelectorAll('.info-value').forEach(element => {
-                    const input = element.nextElementSibling;
-                    if (input && input.value) {
-                        element.textContent = input.value;
-                    }
-                });
-            }
-        }
-
-        // עדכון פונקציית השמירה
-        async function saveAllChanges() {
-            const saveBtn = document.querySelector('.save-changes-btn');
-            try {
-                saveBtn.disabled = true;
-                saveBtn.innerHTML = 'שומר...';
-
-                var data = {
-                    customersData: {
-                        CusId: parseInt(document.getElementById('<%= hdnCusId.ClientID %>').value),
-                        FullName: document.getElementById('<%= fullNameInput.ClientID %>').value,
-                        Phone: document.getElementById('<%= phoneInput.ClientID %>').value,
-                        Address: document.getElementById('<%= addressInput.ClientID %>').value,
-                        <%--Type: document.getElementById('<%= specializationInput.ClientID %>').value,
-                        Email: document.getElementById('<%= EmailInput.ClientID %>').value
-                    }
-                };
-
-                const response = await fetch('Main.aspx/UpdateProfile', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-
-                if (result.d && result.d.success) {
-                    // עדכון ממשק המשתמש
-                    document.querySelectorAll('.info-row').forEach(row => {
-                        const input = row.querySelector('.edit-input');
-                        const valueSpan = row.querySelector('.info-value');
-                        if (input && valueSpan) {
-                            valueSpan.textContent = input.value;
-                        }
-                    });
-
-                    toggleEditMode();
-                    alert('הפרטים נשמרו בהצלחה!');
-                    location.reload();
-                } else {
-                    throw new Error(result.d.message || 'שגיאה בעדכון הפרטים');
-                }
-            } catch (error) {
-                console.error('שגיאה:', error);
-                alert('שגיאה בשמירת הנתונים: ' + error.message);
-            } finally {
-                saveBtn.disabled = false;
-                saveBtn.innerHTML = '<i class="fas fa-save"></i><span class="btn-text">שמור שינויים</span>';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            // טעינת נתוני הטכנאי
-            loadCustomersData();
-
-            // אתחול מאזיני אירועים לכפתורים
-            document.querySelector('.edit-mode-btn').addEventListener('click', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-
-
-
-                toggleEditMode();
-
-            });
-
-            document.querySelector('.save-changes-btn').addEventListener('click', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                saveAllChanges();
-            });
-        });--%>
+   
     </script>
 </asp:Content>

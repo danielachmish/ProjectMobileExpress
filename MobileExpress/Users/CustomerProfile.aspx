@@ -367,7 +367,7 @@ textarea.edit-input::-webkit-scrollbar-thumb:hover {
 
         // פונקציה לטעינת פרטי הלקוח
     
-        function loadCustomerDetails() {
+       <%-- function loadCustomerDetails() {
             const customerId = '<%= Session["CusId"] %>';
             if (!customerId) {
                 showError("לא נמצא מזהה לקוח");
@@ -377,7 +377,7 @@ textarea.edit-input::-webkit-scrollbar-thumb:hover {
             fetch(`api/customers/${customerId}`)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('שגיאה בטעינת פרטי לקוח');
+                        /*throw new Error('שגיאה בטעינת פרטי לקוח');*/
                     }
                     return response.json();
                 })
@@ -397,6 +397,64 @@ textarea.edit-input::-webkit-scrollbar-thumb:hover {
                     console.error('Error:', error);
                     showError(error.message);
                 });
+        }--%>
+        function loadCustomerDetails() {
+            const customerId = '<%= Session["CusId"] %>';
+
+            // בדיקת קיום מזהה לקוח
+            if (!customerId) {
+                console.log('לא נמצא מזהה לקוח במערכת');
+                return;
+            }
+
+            console.log('טוען פרטי לקוח עבור ID:', customerId);
+
+            fetch(`api/customers/${customerId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        console.log('שגיאה בטעינת פרטי לקוח:', response.status);
+                        return null;
+                    }
+                    return response.json();
+                })
+                .then(customer => {
+                    if (!customer) {
+                        console.log('לא נמצאו פרטי לקוח');
+                        return;
+                    }
+
+                    try {
+                        // מילוי פרטי הלקוח בטופס
+                        updateFormFields({
+                            "CusId": customer.CusId || '',
+                            "FullName": customer.FullName || '',
+                            "Phone": customer.Phone || '',
+                            "Addres": customer.Addres || '',
+                            "Email": customer.Email || '',
+                            "Pass": customer.Pass || '',
+                            "Nots": customer.Nots || ''
+                        });
+                    } catch (err) {
+                        console.log('שגיאה במילוי פרטי הטופס:', err);
+                    }
+                })
+                .catch(error => {
+                    console.log('שגיאה בתהליך טעינת פרטי לקוח:', error);
+                });
+        }
+
+        // פונקציית עזר למילוי שדות הטופס
+        function updateFormFields(fields) {
+            for (const [key, value] of Object.entries(fields)) {
+                try {
+                    const element = document.querySelector(`[id$="${key}"]`);
+                    if (element) {
+                        element.value = value;
+                    }
+                } catch (err) {
+                    console.log(`שגיאה במילוי שדה ${key}:`, err);
+                }
+            }
         }
         // קריאה לפונקציה כשהדף נטען
         document.addEventListener('DOMContentLoaded', loadCustomerDetails);

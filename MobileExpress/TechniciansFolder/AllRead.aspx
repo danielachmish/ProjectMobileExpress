@@ -37,7 +37,8 @@
                                         </div>
                                         <div class="id-wrapper">
                                             <span id="call-<%# Eval("ReadId") %>" class="call-id">קריאה #<%# Eval("ReadId") %></span><%-- <span id="call-<%# Eval("ReadId") %> class="call-id="call-<%# Eval("ReadId") %></span>    
-                                            <span class="id-label">מספר קריאה</span>--%></div>
+                                            <span class="id-label">מספר קריאה</span>--%>
+                                        </div>
                                     </div>
 
                                     <div class="details-section">
@@ -79,17 +80,17 @@
                                                 <span class="detail-label">דחיפות</span>
                                                 <span class="detail-value urgent"><%# Eval("Urgency") %></span>
                                             </div>
-                                             <div class="detail-item">
+                                            <div class="detail-item">
                                                 <span class="detail-label">סטטוס</span>
                                                 <span class="detail-value status"><%# (bool)Eval("Status") ? "סגורה" : "פתוחה" %></span>
                                             </div>
-                                          <%-- <div class="detail-item">
+                                            <%-- <div class="detail-item">
     <span class="detail-label">סטטוס</span>
     <span class="detail-value status">
         <%# GetStatusText((CallStatus)Eval("CallStatus")) %>
     </span>
 </div>--%>
-                                             
+
 
                                             <div class="detail-item">
                                                 <span class="detail-label"></span>
@@ -124,21 +125,16 @@
                                         CssClass="btn btn-primary"
                                         Text="הצעת מחיר"
                                         OnClick="RedirectToPriceQuote"
+                                        CommandArgument='<%# Eval("ReadId") %>' />
+                                    <asp:Button runat="server"
+                                        CssClass="btn btn-accept-call"
+                                        Text="התחל טיפול"
+                                        OnClick="AcceptCall"
                                         CommandArgument='<%# Eval("ReadId") %>'
-                                        Enabled='<%# !(bool)Eval("Status") %>' />
-                                    <div class="call-status">
-                                        <%# Eval("AssignedTechnicianId") != null ? 
-               "<div class=\"status-badge approved\">הקריאה אושרה</div>" : 
-               "" %>
-                                        <asp:Button runat="server"
-                                            CssClass="btn btn-accept-call"
-                                            Text="התחל טיפול"
-                                            OnClick="AcceptCall"
-                                            CommandArgument='<%# Eval("ReadId") %>'
-                                            Visible='<%# !Convert.ToBoolean(Eval("Status")) %>' />
-                                    </div>
+                                        Visible='<%# !Convert.ToBoolean(Eval("Status")) %>' />
                                 </div>
                             </div>
+                           
                         </ItemTemplate>
                     </asp:Repeater>
                 </div>
@@ -798,7 +794,7 @@
 
 
 
-       
+
 
     </script>
 </asp:Content>

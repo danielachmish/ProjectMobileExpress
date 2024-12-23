@@ -110,68 +110,15 @@ namespace MobileExpress.TechniciansFolder
 		{
 			LoadServiceCalls();
 		}
-		//[WebMethod]
-		//public static List<object> GetServiceCalls()
-		//{
-		//	try
-		//	{
-		//		List<Readability> serviceCalls = Readability.GetAll();
-
-		//		// המרה של הנתונים לפורמט המתאים למפה
-		//		var result = serviceCalls.Select(call => new
-		//		{
-		//			call.ReadId,
-		//			call.DateRead,
-		//			call.Desc,
-		//			call.FullName,
-		//			call.Phone,
-		//			call.Nots,
-		//			call.Status,
-		//			call.Urgency,
-
-		//		}).ToList<object>();
-
-		//		return result;
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		System.Diagnostics.Debug.WriteLine($"Error in GetServiceCalls: {ex.Message}");
-		//		throw;
-		//	}
-		//}
-
-
-
-
 		[WebMethod]
-		public static List<object> GetServiceCalls(double currentLat, double currentLng, double radius)
+		public static List<object> GetServiceCalls()
 		{
 			try
 			{
-				List<Readability> allCalls = Readability.GetAll();
-				var filteredCalls = new List<Readability>();
+				List<Readability> serviceCalls = Readability.GetAll();
 
-				foreach (var call in allCalls)
-				{
-					if (string.IsNullOrEmpty(call.Nots)) continue;
-
-					// פיצול המיקום לקואורדינטות
-					var coordinates = call.Nots.Split(',');
-					if (coordinates.Length != 2) continue;
-
-					if (double.TryParse(coordinates[0], out double callLat) &&
-						double.TryParse(coordinates[1], out double callLng))
-					{
-						// חישוב מרחק
-						double distance = CalculateDistance(currentLat, currentLng, callLat, callLng);
-						if (distance <= radius)
-						{
-							filteredCalls.Add(call);
-						}
-					}
-				}
-
-				return filteredCalls.Select(call => new
+				// המרה של הנתונים לפורמט המתאים למפה
+				var result = serviceCalls.Select(call => new
 				{
 					call.ReadId,
 					call.DateRead,
@@ -180,8 +127,11 @@ namespace MobileExpress.TechniciansFolder
 					call.Phone,
 					call.Nots,
 					call.Status,
-					call.Urgency
+					call.Urgency,
+
 				}).ToList<object>();
+
+				return result;
 			}
 			catch (Exception ex)
 			{
@@ -190,27 +140,77 @@ namespace MobileExpress.TechniciansFolder
 			}
 		}
 
-		private static double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
-		{
-			var R = 6371; // רדיוס כדור הארץ בק"מ
-			var dLat = ToRad(lat2 - lat1);
-			var dLon = ToRad(lon2 - lon1);
-			var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-					Math.Cos(ToRad(lat1)) * Math.Cos(ToRad(lat2)) *
-					Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
-			var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-			var d = R * c;
-			return d;
-		}
 
-		private static double ToRad(double degrees)
-		{
-			return degrees * (Math.PI / 180);
-		}
-		protected string GetFullAddress(object street, object houseNumber, object city)
-		{
-			return $"{street} {houseNumber}, {city}, ישראל";
-		}
+
+		//להציג קריאות רק ברדיוס מסויים
+		//[WebMethod]
+		//public static List<object> GetServiceCalls(double currentLat, double currentLng, double radius)
+		//{
+		//	try
+		//	{
+		//		List<Readability> allCalls = Readability.GetAll();
+		//		var filteredCalls = new List<Readability>();
+
+		//		foreach (var call in allCalls)
+		//		{
+		//			if (string.IsNullOrEmpty(call.Nots)) continue;
+
+		//			// פיצול המיקום לקואורדינטות
+		//			var coordinates = call.Nots.Split(',');
+		//			if (coordinates.Length != 2) continue;
+
+		//			if (double.TryParse(coordinates[0], out double callLat) &&
+		//				double.TryParse(coordinates[1], out double callLng))
+		//			{
+		//				// חישוב מרחק
+		//				double distance = CalculateDistance(currentLat, currentLng, callLat, callLng);
+		//				if (distance <= radius)
+		//				{
+		//					filteredCalls.Add(call);
+		//				}
+		//			}
+		//		}
+
+		//		return filteredCalls.Select(call => new
+		//		{
+		//			call.ReadId,
+		//			call.DateRead,
+		//			call.Desc,
+		//			call.FullName,
+		//			call.Phone,
+		//			call.Nots,
+		//			call.Status,
+		//			call.Urgency
+		//		}).ToList<object>();
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		System.Diagnostics.Debug.WriteLine($"Error in GetServiceCalls: {ex.Message}");
+		//		throw;
+		//	}
+		//}
+
+		//private static double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
+		//{
+		//	var R = 6371; // רדיוס כדור הארץ בק"מ
+		//	var dLat = ToRad(lat2 - lat1);
+		//	var dLon = ToRad(lon2 - lon1);
+		//	var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+		//			Math.Cos(ToRad(lat1)) * Math.Cos(ToRad(lat2)) *
+		//			Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+		//	var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+		//	var d = R * c;
+		//	return d;
+		//}
+
+		//private static double ToRad(double degrees)
+		//{
+		//	return degrees * (Math.PI / 180);
+		//}
+		//protected string GetFullAddress(object street, object houseNumber, object city)
+		//{
+		//	return $"{street} {houseNumber}, {city}, ישראל";
+		//}
 
 
 
