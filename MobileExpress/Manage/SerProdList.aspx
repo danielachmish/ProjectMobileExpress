@@ -15,7 +15,7 @@
      <!-- כותרת העמוד ופירורי לחם -->
 
     <div class="breadcrumb" style="direction: rtl;">
-        <h1>רשימת מנהלים</h1>
+        <h1>רשימת מוצרי שירות</h1>
     </div>
     <div class="separator-breadcrumb border-top"></div>
 

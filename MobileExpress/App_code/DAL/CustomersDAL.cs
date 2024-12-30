@@ -14,52 +14,7 @@ namespace DAL
 	public class CustomersDAL
 	{
 
-		//public static Customers GetByEmail(string email)
-		//{
-		//	Debug.WriteLine($"מחפש לקוח לפי אימייל: {email}");
-
-		//	Customers customer = null;
-		//	string sql = "SELECT * FROM T_Customers WHERE Email = @Email";
-		//	DbContext db = new DbContext();
-
-		//	try
-		//	{
-		//		var parameters = DbContext.CreateParameters(new { Email = email });
-		//		DataTable dt = db.Execute(sql, parameters);
-
-		//		if (dt.Rows.Count > 0)
-		//		{
-		//			customer = new Customers
-		//			{
-		//				CusId = int.Parse(dt.Rows[0]["CusId"].ToString()),
-		//				FullName = dt.Rows[0]["FullName"].ToString(),
-		//				Email = dt.Rows[0]["Email"].ToString(),
-		//				Phone = dt.Rows[0]["Phone"].ToString(),
-		//				Addres = dt.Rows[0]["Addres"].ToString(),
-		//				Email = dt.Rows[0]["Email"].ToString(),
-		//				Pass = dt.Rows[0]["Pass"].ToString(),
-		//				DateAdd = DateTime.Parse(dt.Rows[0]["DateAdd"].ToString()),
-		//				Status = Convert.ToBoolean(dt.Rows[0]["Status"]),
-		//				History = dt.Rows[0]["History"].ToString(),
-		//				Nots = dt.Rows[0]["Nots"].ToString(),
-		//				CityId = int.Parse(dt.Rows[0]["CityId"].ToString()),
-		//				GoogleId = dt.Rows[0]["GoogleId"].ToString()
-		//			};
-
-		//			Debug.WriteLine($"נמצא לקוח: {customer.FullName}");
-		//		}
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		Debug.WriteLine($"שגיאה בחיפוש לקוח לפי אימייל: {ex.Message}");
-		//		throw;
-		//	}
-		//	finally
-		//	{
-		//		db.Close();
-		//	}
-
-		//	return customer;
+		
 		//}
 		public static Customers GetByEmail(string Email)
 		{
@@ -109,45 +64,7 @@ namespace DAL
 			return customer;
 		}
 
-		//// עדכן את הפונקציות הקיימות כך שיתמכו בשדות החדשים
-		//public static void SaveNewCustomers(Customers Tmp)
-		//{
-		//	string sql = "INSERT INTO T_Customers(FullName,Phone,Addres,Email,Pass,DateAdd,Status,Nots,CityId,Email,GoogleId) " +
-		//			  "VALUES(@FullName,@Phone,@Addres,@Email,@Pass,@DateAdd,@Status,@Nots,@CityId,@Email,@GoogleId)";
-
-		//	// שאר הקוד נשאר אותו דבר, רק צריך להוסיף את הפרמטרים החדשים
-		//	DbContext Db = new DbContext();
-		//	try
-		//	{
-		//		var Obj = new
-		//		{
-		//			Tmp.CusId,
-		//			Tmp.FullName,
-		//			Tmp.Phone,
-		//			Tmp.Addres,
-		//			Tmp.Email,
-		//			Tmp.Pass,
-		//			Tmp.DateAdd,
-		//			Tmp.Status,
-		//			Tmp.Nots,
-		//			Tmp.CityId,
-		//			Tmp.Email,
-		//			Tmp.GoogleId
-		//		};
-
-		//		var LstParma = DbContext.CreateParameters(Obj);
-		//		Db.ExecuteNonQuery(sql, LstParma);
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		Debug.WriteLine($"שגיאה בשמירת לקוח חדש: {ex.Message}");
-		//		throw;
-		//	}
-		//	finally
-		//	{
-		//		Db.Close();
-		//	}
-		//}
+		
 		public static void SaveNewCustomers(Customers Tmp)
 		{
 			Debug.WriteLine("נכנס לפונקציית SaveNewCustomers");
@@ -280,62 +197,6 @@ namespace DAL
 			}
 		}
 
-		// אחזור כל הלקוחות
-		//public static List<Customers> GetAll()
-		//{
-		//	List<Customers> CustomersList = new List<Customers>();
-		//	string sql = "Select * from T_Customers";
-		//	DbContext Db = new DbContext();
-		//	DataTable Dt = Db.Execute(sql);
-
-		//	try
-		//	{
-		//		for (int i = 0; i < Dt.Rows.Count; i++)
-		//		{
-		//			Customers Tmp = new Customers()
-		//			{
-		//				CusId = int.Parse(Dt.Rows[i]["CusId"].ToString()),
-		//				FullName = Dt.Rows[i]["FullName"].ToString(),
-		//				Phone = Dt.Rows[i]["Phone"].ToString(),
-		//				Addres = Dt.Rows[i]["Addres"].ToString(),
-		//				Email = Dt.Rows[i]["Email"].ToString(),
-		//				Pass = Dt.Rows[i]["Pass"].ToString(),
-		//				DateAdd = DateTime.Parse(Dt.Rows[i]["DateAdd"].ToString()),
-		//				History = Dt.Rows[i]["History"].ToString(),
-		//				Nots = Dt.Rows[i]["Nots"].ToString(),
-		//				CityId = int.Parse(Dt.Rows[i]["CityId"].ToString()),
-		//				Status = false, // המרה בשלושה חלקים
-
-		//				GoogleId = Dt.Rows[i]["GoogleId"].ToString(),
-		//			};
-
-		//			// המרת ערך ה-Status לבוליאני
-		//			bool status;
-		//			if (bool.TryParse(Dt.Rows[i]["Status"].ToString(), out status))
-		//			{
-		//				Tmp.Status = status;
-		//			}
-		//			else
-		//			{
-		//				// טיפול בכשל בהמרה - הגדרת ערך ברירת מחדל או תיעוד הבעיה
-		//				// Tmp.Status = false; // הגדרת ערך ברירת מחדל או טיפול בהתאם לצורך
-		//			}
-
-		//			CustomersList.Add(Tmp);
-		//		}
-
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		// תיעוד של השגיאה לצורך ניפוי
-		//		Console.WriteLine("Exception: " + ex.Message);
-		//	}
-		//	finally
-		//	{
-		//		Db.Close();
-		//	}
-
-		//	return CustomersList;
 		//}
 		public static List<Customers> GetAll()
 		{
@@ -394,36 +255,7 @@ namespace DAL
 			System.Diagnostics.Debug.WriteLine($"סה״כ נקראו {CustomersList.Count} לקוחות");
 			return CustomersList;
 		}
-		// אחזור לפי זיהוי
-		//public static Customers GetById(int Id)
-		//{
-		//	Customers Tmp = null;
-
-		//	string sql = $"Select * from T_Customers Where CusId ={Id}";
-		//	DbContext Db = new DbContext();
-		//	DataTable Dt = Db.Execute(sql);
-		//	if (Dt.Rows.Count > 0)
-		//	{
-		//		Tmp = new Customers()
-		//		{
-		//			CusId = int.Parse(Dt.Rows[0]["CusId"].ToString()),
-		//			FullName = Dt.Rows[0]["FullName"].ToString(),
-		//			Phone = Dt.Rows[0]["Phone"].ToString(),
-		//			Addres = Dt.Rows[0]["Addres"].ToString(),
-		//			Email = Dt.Rows[0]["Email"].ToString(),
-		//			Pass = Dt.Rows[0]["Pass"].ToString(),
-		//			DateAdd = DateTime.Parse(Dt.Rows[0]["DateAdd"].ToString()),
-		//			History = Dt.Rows[0]["History"].ToString(),
-		//			Nots = Dt.Rows[0]["Nots"].ToString(),
-		//			CityId = int.Parse(Dt.Rows[0]["CityId"].ToString()),
-		//			Status = Convert.ToBoolean(Dt.Rows[0]["Status"]),
-		//			//GoogleId = Dt.Rows[0]["GoogleId"].ToString(),
-
-		//		};
-		//	}
-		//	Db.Close();
-		//	return Tmp;
-		//}
+		
 		public static Customers GetById(int Id)
 		{
 			Customers Tmp = null;
@@ -489,6 +321,29 @@ namespace DAL
 			else
 			{
 				return -1;
+			}
+		}
+		public static int GetTotalCustomers()
+		{
+			string sql = "SELECT COUNT(*) FROM T_Customers";
+			DbContext Db = new DbContext();
+
+			try
+			{
+			
+				var LstParma = DbContext.CreateParameters(new { });
+
+				object result = Db.ExecuteScalar(sql, LstParma);
+				return Convert.ToInt32(result);
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Error in GetTotalCustomers: {ex.Message}");
+				throw;
+			}
+			finally
+			{
+				Db.Close();
 			}
 		}
 	}

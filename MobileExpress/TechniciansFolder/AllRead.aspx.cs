@@ -190,6 +190,8 @@ namespace MobileExpress.TechniciansFolder
 					call.Status = true;
 					call.UpdateReadability();
 
+
+
 					// רענון הדף
 					LoadCalls();
 					//LoadApprovedCalls();
@@ -210,6 +212,7 @@ namespace MobileExpress.TechniciansFolder
 						"Swal.fire('שגיאה', 'לא נמצאה הקריאה או שהמשתמש לא מחובר', 'error');", true);
 				}
 			}
+		
 			catch (Exception ex)
 			{
 				System.Diagnostics.Debug.WriteLine($"Error in AcceptCall: {ex.Message}");

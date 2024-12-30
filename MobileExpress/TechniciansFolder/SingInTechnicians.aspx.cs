@@ -4,8 +4,7 @@ using BLL;
 using System.Linq;
 using System.Web.Services;
 using System.Web;
-
-
+using Services;
 
 namespace MobileExpress.TechniciansFolder
 {
@@ -64,7 +63,7 @@ namespace MobileExpress.TechniciansFolder
 
                 if (technician != null)
                 {
-                    string hashedTechPassword = Technicians.HashPassword(password);
+                    string hashedTechPassword = EncryptionUtils.HashPassword(password);
                     if (hashedTechPassword == technician.Pass)
                     {
                         // התחברות טכנאי מוצלחת

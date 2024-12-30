@@ -15,7 +15,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:ScriptManager runat="server" EnablePageMethods="true"></asp:ScriptManager>
-   
+
 
     <div class="container" dir="rtl">
         <h2 class="mt-4 mb-4">ניהול הצעות מחיר</h2>
@@ -83,16 +83,16 @@
                                         <%# Convert.ToBoolean(Eval("Status")) ? "disabled" : "" %>>
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                   <div class="btn-group">
-             <asp:Button runat="server" 
-                CommandName="AcceptCall"
-                CommandArgument='<%# Eval("ReadId") %>'
-                CssClass="btn btn-success btn-sm"
-                Text="קח קריאה"
-                Visible='<%# (bool)Eval("Status") %>'
-                OnClientClick="return confirm('האם אתה בטוח שברצונך לקחת את הקריאה?');" />
+                                    <div class="btn-group">
+                                        <asp:Button runat="server"
+                                            CommandName="AcceptCall"
+                                            CommandArgument='<%# Eval("ReadId") %>'
+                                            CssClass="btn btn-success btn-sm"
+                                            Text="קח קריאה"
+                                            Visible='<%# (bool)Eval("Status") %>'
+                                            OnClientClick="return confirm('האם אתה בטוח שברצונך לקחת את הקריאה?');" />
 
-                                </div>
+                                    </div>
                             </ItemTemplate>
                         </asp:TemplateField>
 
@@ -108,10 +108,11 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close me-auto" data-dismiss="modal">
-                        <span>&times;</span>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 1.5rem;">
+                        &times;
                     </button>
-                    <h5 class="modal-title">פרטי הצעת מחיר</h5>
+                    <h5 class="modal-title me-2">פרטי הצעת מחיר</h5>
                 </div>
                 <div class="modal-body" id="bidDetails">
                     <!-- תוכן דינמי -->
@@ -125,9 +126,17 @@
             </div>
         </div>
     </div>
-   
+
 
     <style>
+        .modal-header {
+            flex-direction: row-reverse;
+        }
+
+            .modal-header .close {
+                margin: -1rem auto -1rem -1rem;
+            }
+
         :root {
             --purple-50: rgba(124, 58, 237, 0.05);
             --purple-100: rgba(124, 58, 237, 0.1);

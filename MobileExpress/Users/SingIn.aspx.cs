@@ -1,6 +1,7 @@
 ﻿    using BLL;
-    //using Google.Apis.Auth;
-    using System;
+using Services;
+//using Google.Apis.Auth;
+using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
@@ -157,19 +158,29 @@
                     System.Diagnostics.Debug.WriteLine($"נמצא לקוח - ID: {customer.CusId}, Email: {customer.Email}");
                     System.Diagnostics.Debug.WriteLine($"נמצא לקוח עם ID: {customer.CusId}");
                     System.Diagnostics.Debug.WriteLine($"סיסמה שמורה: {customer.Pass}");
-                    string hashedPassword = Customers.HashPassword(password);
+                    string hashedPassword = EncryptionUtils.HashPassword(password);
                     System.Diagnostics.Debug.WriteLine($"סיסמה שהוזנה (מוצפנת): {hashedPassword}");
 
-                    if (Customers.VerifyPassword(password, customer.Pass))
+                    //if (Customers.VerifyPassword(password, customer.Pass))
+                    //{
+                    //    System.Diagnostics.Debug.WriteLine("אימות לקוח הצליח - מתחבר...");
+                    //    LoginCustomers(customer);
+                    //    return;
+                    //}
+                    //else
+                    //{
+                    //    System.Diagnostics.Debug.WriteLine("אימות סיסמה נכשל");
+                    //    System.Diagnostics.Debug.WriteLine($"השוואה: הוזן={hashedPassword}, שמור={customer.Pass}");
+                    //}
+                    if (customer != null)
                     {
-                        System.Diagnostics.Debug.WriteLine("אימות לקוח הצליח - מתחבר...");
-                        LoginCustomers(customer);
-                        return;
-                    }
-                    else
-                    {
-                        System.Diagnostics.Debug.WriteLine("אימות סיסמה נכשל");
-                        System.Diagnostics.Debug.WriteLine($"השוואה: הוזן={hashedPassword}, שמור={customer.Pass}");
+                        string hashedTechPassword = EncryptionUtils.HashPassword(password);
+                        if (hashedTechPassword == customer.Pass)
+                        {
+                            // התחברות טכנאי מוצלחת
+                            LoginCustomers(customer);
+                            return;
+                        }
                     }
                 }
                 else

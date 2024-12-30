@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Account/MainAccount.Master" AutoEventWireup="true" CodeBehind="ForgotPassword.aspx.cs" Inherits="MobileExpress.Account.ForgotPassword" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Account/MainAccount.Master" AutoEventWireup="true" Async="true" CodeBehind="ForgotPassword.aspx.cs" Inherits="MobileExpress.Account.ForgotPassword" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
      <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">

@@ -1,20 +1,22 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Manage/MainMaster.Master" AutoEventWireup="true" CodeBehind="ReadList.aspx.cs" Inherits="MobileExpress.Manage.ReadList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
-    <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <!-- קישורים נוספים כמו Bootstrap ו-Font Awesome -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+
+    <link rel="stylesheet" href="assets/css/styles.css">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <!-- כותרת העמוד ופירורי לחם -->
 
     <div class="breadcrumb" style="direction: rtl;">
-        <h1>רשימת לקוחות</h1>
+        <h1>רשימת קריאות</h1>
     </div>
     <div class="separator-breadcrumb border-top"></div>
 
@@ -179,10 +181,10 @@
                                             <input type="checkbox" class="selectRow" value='<%# Eval("ReadId") %>'></td>
                                         <td><%# Eval("ReadId") %></td>
                                         <td><%# Eval("DateRead") %></td>
-                                        <td><%# Eval("Desc") %></td>
-                                        <td><%# Eval("FullName") %></td>
-                                         <td><%# Server.HtmlEncode(Eval("Phone").ToString()) %></td>
-                                        <td><%# Eval("Nots") %></td>
+                                        <td><%# Server.HtmlEncode(Eval("Phone").ToString()) %></td>
+                                        <td><%# Server.HtmlEncode(Eval("FullName").ToString()) %></td>
+                                        <td><%# Server.HtmlEncode(Eval("Desc").ToString()) %></td>
+                                        <td><%# Server.HtmlEncode(Eval("Nots").ToString()) %></td>
                                         <td><%# Eval("CusId") %></td>
                                         <td><%# Eval("ModelId") %></td>
                                         <td><%# Eval("NameImage") %></td>
@@ -1006,81 +1008,12 @@
             console.log('סיום פונקציית editRead');
         }
 
-        //function deleteCustomer(customerId) {
-        //    if (confirm("האם אתה בטוח שברצונך למחוק לקוח זה?")) {
-        //        $.ajax({
-        //            type: "DELETE",
-        //            url: "/api/Customers/" + customerId,
-        //            success: function (response) {
-        //                alert("הלקוח נמחק בהצלחה");
-        //                refreshCustomersTable();
-        //            },
-        //            error: function (error) {
-        //                console.log(error);
-        //                alert("אירעה שגיאה במחיקת הלקוח");
-        //            }
-        //        });
-        //    }
-        //}
-
-       <%--// פונקציה לפתיחת מודאל הוספת לקוח
-        function openModalAdd() {
-            var modal = document.getElementById('customersModal');
-            var title = document.getElementById('modalTitle');
-            var btnSave = document.getElementById('<%= btnSave.ClientID %>');
-
-            title.innerText = 'הוספת טכנאי';
-            btnSave.value = 'הוסף טכנאי';
-
-            // clear form fields
-            document.getElementById('<%= hfCusId.ClientID %>').value = '';
-            document.getElementById('<%= txtFullName.ClientID %>').value = '';
-            document.getElementById('<%= txtPhone.ClientID %>').value = '';
-            document.getElementById('<%= txtAddres.ClientID %>').value = '';
-            document.getElementById('<%= txtUname.ClientID %>').value = '';
-            document.getElementById('<%= txtPassword.ClientID %>').value = '';            
-            document.getElementById('<%= txtDateAdd.ClientID %>').value = '';
-            document.getElementById('<%= txtStatus.ClientID %>').value = '';          
-            document.getElementById('<%= txtNots.ClientID %>').value = '';
-            document.getElementById('<%= txtCityId.ClientID %>').value = '';     
-            modal.style.display = 'block';
-        }
-
-      // פונקציה לפתיחת מודאל עריכת לקוח
-          function openModalEdit(Customers) {
-            var modal = document.getElementById('customersModal');
-            var title = document.getElementById('modalTitle');
-            var btnSave = document.getElementById('<%= btnSave.ClientID %>');
-
-            title.innerText = 'עריכת לקוח';
-            btnSave.value = 'שמור שינויים';
-
-            // populate form fields with customers data
-            document.getElementById('<%= hfCusId.ClientID %>').value = customers.Id;
-            document.getElementById('<%= txtFullName.ClientID %>').value = customers.FullName;
-              document.getElementById('<%= txtPhone.ClientID %>').value = customers.Phone;
-              document.getElementById('<%= txtAddres.ClientID %>').value = customers.Addres;
-              document.getElementById('<%= txtUname.ClientID %>').value = customers.Uname;         
-              document.getElementById('<%= txtPassword.ClientID %>').value = customers.Password;
-              document.getElementById('<%= txtDateAdd.ClientID %>').value = customers.DateAdd;
-              document.getElementById('<%= txtStatus.ClientID %>').value = customers.Status;
-              document.getElementById('<%= txtNots.ClientID %>').value = customers.Nots;
-              document.getElementById('<%= txtCityId.ClientID %>').value = customers.CityId;
-
-            modal.style.display = 'block';
-        }
-
-        function closeModal() {
-            var modal = document.getElementById('customersModal');
-            modal.style.display = 'none';
-        }--%>
-
 
         // פונקציית מחיקה
         function deletereadability(ReadId) {
             if (confirm('Are you sure you want to delete this readability?')) {
                 // קריאה לשרת למחיקת הלקוח (AJAX או POSTBACK)
-                console.log('Deleting customers with ID:', readId);
+                console.log('Deleting customers with ID:', ReadId);
             }
         }
 

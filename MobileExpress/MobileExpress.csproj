@@ -358,6 +358,7 @@
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -733,6 +734,7 @@
     <Content Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </Content>
+    <Content Include="Manage\VatRateManagement.aspx" />
     <Content Include="Master.Master" />
     <Content Include="Account\MainAccount.Master" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
@@ -805,6 +807,7 @@
     <Compile Include="App_code\BLL\SystemInfoService.cs" />
     <Compile Include="App_code\BLL\TechnicianLocation.cs" />
     <Compile Include="App_code\BLL\Technicians.cs" />
+    <Compile Include="App_code\BLL\VatRate.cs" />
     <Compile Include="App_code\DAL\AdministratorsDAL.cs" />
     <Compile Include="App_code\DAL\BidDAL.cs" />
     <Compile Include="App_code\DAL\CategoriesDAL.cs" />
@@ -819,6 +822,7 @@
     <Compile Include="App_code\DAL\SerProdDAL.cs" />
     <Compile Include="App_code\DAL\TechnicianLocationDAL.cs" />
     <Compile Include="App_code\DAL\TechniciansDAL.cs" />
+    <Compile Include="App_code\DAL\VatRateDAL.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -936,6 +940,13 @@
     <Compile Include="Manage\TecList.aspx.designer.cs">
       <DependentUpon>TecList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Manage\VatRateManagement.aspx.cs">
+      <DependentUpon>VatRateManagement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\VatRateManagement.aspx.designer.cs">
+      <DependentUpon>VatRateManagement.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Master.Master.cs">
       <DependentUpon>Master.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -945,6 +956,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\EncryptionUtils.cs" />
     <Compile Include="TechniciansFolder\AllBids.aspx.cs">
       <DependentUpon>AllBids.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

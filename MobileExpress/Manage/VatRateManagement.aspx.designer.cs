@@ -11,43 +11,52 @@ namespace MobileExpress.Manage
 {
 
 
-	public partial class Default
+	public partial class VatRateManagement
 	{
 
 		/// <summary>
-		/// lblTotalTechnicians control.
+		/// form1 control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.Label lblTotalTechnicians;
+		protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
 		/// <summary>
-		/// lblTotalCustomers control.
+		/// lblCurrentVat control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.Label lblTotalCustomers;
+		protected global::System.Web.UI.WebControls.Label lblCurrentVat;
 
 		/// <summary>
-		/// lblTotalReadability control.
+		/// txtNewVatRate control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.Label lblTotalReadability;
+		protected global::System.Web.UI.WebControls.TextBox txtNewVatRate;
 
 		/// <summary>
-		/// lblTotalBids control.
+		/// btnUpdateVat control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.Label lblTotalBids;
+		protected global::System.Web.UI.WebControls.Button btnUpdateVat;
+
+		/// <summary>
+		/// ScriptManager1 control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.ScriptManager ScriptManager1;
 	}
 }

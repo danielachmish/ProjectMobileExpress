@@ -23,6 +23,16 @@ namespace BLL
         public decimal ItemUnitPrice { get; set; }
         public decimal ItemTotal => ItemQuantity * ItemUnitPrice;
 
+        public decimal VatAmount
+        {
+            get => Math.Round(Price * VatRate.GetCurrentRate(), 2);
+        }
+
+        public decimal TotalWithVat
+        {
+            get => Math.Round(Price * (1 + VatRate.GetCurrentRate()), 2);
+        }
+
         public void SaveNewBid()
         {
             try
@@ -92,7 +102,19 @@ namespace BLL
 
         public void CalculateTotalPrice()
         {
-            Price = ItemTotal;  // במקרה זה המחיר הכולל הוא פשוט סכום הפריט
+            /*Price = ItemTotal;*/  // במקרה זה המחיר הכולל הוא פשוט סכום הפריט
+        }
+        public static decimal GetTotalBids()
+        {
+            try
+            {
+                return BidDAL.GetTotalBids();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in GetTotalBids: {ex.Message}");
+                throw;
+            }
         }
     }
 }

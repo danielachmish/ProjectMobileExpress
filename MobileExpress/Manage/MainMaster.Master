@@ -45,8 +45,8 @@
                             <li class="Ul_li--hover"><a href="Default.aspx"><i class="i-Bar-Chart text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">ראשי</span></a></li>
 
 
-                            <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-Library text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">טכנאים </span></a>
-                                <ul class="mm-collapse">
+                           <li class="Ul_li--hover"><a href="TecList.aspx"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">טכנאים</span></a></li>
+                              <%--  <ul class="mm-collapse">
                                     <li class="item-name"><a href="TecList.aspx"><i class="nav-icon i-Bell1"></i><span class="item-name">כל הטכנאים</span></a></li>
                                     <li class="item-name"></li>
 
@@ -68,9 +68,9 @@
                                     <li class="item-name"><a href="modals.html"><i class="nav-icon i-Duplicate-Window"></i><span class="item-name">Modals</span></a></li>
                                     <li class="item-name"><a href="nouislider.html"><i class="nav-icon i-Width-Window"></i><span class="item-name">Sliders</span></a></li>
                                 </ul>
-                            </li>
-                            <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-Suitcase text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">לקוחות</span></a>
-                                <ul class="mm-collapse">
+                            </li>--%>
+                           <li class="Ul_li--hover"><a href="CusList.aspx"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">לקוחות</span></a></li>
+                             <%--   <ul class="mm-collapse">
                                     <li class="item-name"><a href="CusList.aspx"><i class="nav-icon i-Crop-2"></i><span class="item-name">כל הלקוחות</span></a></li>
                                     <li class="item-name"><a href="loaders.html"><i class="nav-icon i-Loading-3"></i><span class="item-name">Loaders</span></a></li>
                                     <li class="item-name"><a href="ladda.button.html"><i class="nav-icon i-Loading-2"></i><span class="item-name">Ladda Buttons</span></a></li>
@@ -79,40 +79,40 @@
                                     <li class="item-name"><a href="tour.html"><i class="nav-icon i-Plane"></i><span class="item-name">User Tour</span></a></li>
                                     <li class="item-name"><a href="upload.html"><i class="nav-icon i-Data-Upload"></i><span class="item-name">Upload</span></a></li>
                                 </ul>
-                            </li>
+                            </li>--%>
 
 
 
 
 
                             <!--  <p class="main-menu-title text-muted ml-3 font-weight-700 text-13 mt-4 mb-2">UI Elements</p> -->
-                            <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-Computer-Secure text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">קריאות</span></a>
-                                <ul class="mm-collapse">
+                           <li class="Ul_li--hover"><a href="ReadList.aspx"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">קריאות</span></a></li>
+                               <%-- <ul class="mm-collapse">
                                     <li class="item-name"><a href="ReadList.aspx"><i class="nav-icon i-Receipt-4"></i><span class="item-name">כל הקריאות</span></a></li>
                                      </ul>
-                            </li>
-                             <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-Computer-Secure text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">הצעות מחיר</span></a>
-                                <ul class="mm-collapse">
+                            </li>--%>
+                             <li class="Ul_li--hover"><a href="BidList.aspx"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">הצעות מחיר</span></a></li>
+                               <%-- <ul class="mm-collapse">
                                     <li class="item-name"><a href="BidList.aspx"><i class="nav-icon i-Receipt-4"></i><span class="item-name">כל הצעות מחיר</span></a></li>
                                      </ul>
-                            </li>
-                             <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-Computer-Secure text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">יצרנים</span></a>
-                                <ul class="mm-collapse">
+                            </li>--%>
+                             <li class="Ul_li--hover"><a href="ManuList.aspx"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">יצרנים</span></a></li>
+                               <%-- <ul class="mm-collapse">
                                     <li class="item-name"><a href="ManuList.aspx"><i class="nav-icon i-Receipt-4"></i><span class="item-name">כל היצרנים</span></a></li>
                                      </ul>
-                            </li>
-                             <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-Computer-Secure text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">רייטינג</span></a>
-                                <ul class="mm-collapse">
+                            </li>--%>
+                           <li class="Ul_li--hover"><a href="RatingList.aspx"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">רייטינג</span></a></li>
+                              <%--  <ul class="mm-collapse">
                                     <li class="item-name"><a href="RatingList.aspx"><i class="nav-icon i-Receipt-4"></i><span class="item-name">כל הרייטינג</span></a></li>
                                      </ul>
-                            </li>
-                             <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-Computer-Secure text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">מוצרי שירות</span></a>
-                                <ul class="mm-collapse">
+                            </li>--%>
+                             <li class="Ul_li--hover"><a href="SerProdList.aspx"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">מוצרי שירות</span></a></li>
+                               <%-- <ul class="mm-collapse">
                                     <li class="item-name"><a href="SerProdList.aspx"><i class="nav-icon i-Receipt-4"></i><span class="item-name">כל המוצרי שירות</span></a></li>
                                      </ul>
-                            </li>
-                            <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-File-Clipboard-File--Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">מנהלים</span></a>
-                                <ul class="mm-collapse">
+                            </li>--%>
+                           <li class="Ul_li--hover"><a href="AdminiList.aspx"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">מנהלים</span></a></li>
+                              <%--  <ul class="mm-collapse">
                                     <li class="item-name"><a href="AdminiList.aspx"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">כל המנהלים</span></a></li>
                                     <li class="item-name"><a href="charts.chartsjs.html"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">ChartJs</span></a></li>
                                     <li class="item-name"><a class="has-arrow cursor-pointer"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Apex Charts</span></a>
@@ -133,9 +133,9 @@
                                         </ul>
                                     </li>
                                 </ul>
-                            </li>
-                            <li class="Ul_li--hover"><a class="has-arrow" href="#"><i class="i-File-Clipboard-File--Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">קטגוריות</span></a>
-                                <ul class="mm-collapse">
+                            </li>--%>
+                           <li class="Ul_li--hover"><a href="CategList.aspx"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">קטגוריות</span></a></li>
+                               <%-- <ul class="mm-collapse">
                                     <li class="item-name"><a href="CategList.aspx"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">כל הקטגוריות</span></a></li>
                                     <li class="item-name"><a href="basic-action-bar.html"><i class="nav-icon i-File-Clipboard-Text--Image"></i><span class="item-name">Basic action bar </span></a></li>
                                     <li class="item-name"><a href="form.layouts.html"><i class="nav-icon i-Split-Vertical"></i><span class="item-name">Form Layouts</span></a></li>
@@ -146,9 +146,9 @@
                                     <li class="item-name"><a href="tag.input.html"><i class="nav-icon i-Tag-2"></i><span class="item-name">Tag Input</span></a></li>
                                     <li class="item-name"><a href="editor.html"><i class="nav-icon i-Pen-2"></i><span class="item-name">Rich Editor</span></a></li>
                                 </ul>
-                            </li>
+                            </li>--%>
                             <li class="Ul_li--hover"><a href="CityList.aspx"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">ערים</span></a></li>
-                            <li class="Ul_li--hover"><a class="has-arrow"><i class="i-Administrator text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">Sessions</span></a>
+                           <%-- <li class="Ul_li--hover"><a class="has-arrow"><i class="i-Administrator text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">Sessions</span></a>
                                 <ul class="mm-collapse">
                                     <li class="item-name"><a href="../sessions/signUp.html"><i class="nav-icon i-Checked-User"></i><span class="item-name">Sign in</span></a></li>
                                     <li class="item-name"><a href="../sessions/signup.html"><i class="nav-icon i-Add-User"></i><span class="item-name">Sign up</span></a></li>
@@ -161,8 +161,9 @@
                                     <li class="item-name"><a href="user.profile.html"><i class="nav-icon i-Male"></i><span class="item-name">User Profile</span></a></li>
                                     <li class="item-name"><a class="open" href="blank.html"><i class="nav-icon i-File-Horizontal"></i><span class="item-name">Blank Page</span></a></li>
                                 </ul>
-                            </li>
-                            <li class="Ul_li--hover"><a href="http://demos.ui-lib.com/gull-html-doc/"><i class="i-Safe-Box1 text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">Doc</span></a></li>
+                            </li>--%>
+                          <%--  <li class="Ul_li--hover"><a href="http://demos.ui-lib.com/gull-html-doc/"><i class="i-Safe-Box1 text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">Doc</span></a></li>--%>
+                               <li class="Ul_li--hover"><a href="VatRateManagement.aspx"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">מע"מ</span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -214,7 +215,7 @@
             <div class="sidebar-overlay open"></div>
             <!-- Footer Start -->
             <div class="flex-grow-1"></div>
-            <div class="app-footer">
+          <%--  <div class="app-footer">
 
                 <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
                     <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
@@ -227,7 +228,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>--%>
             <!-- fotter end -->
         </div>
     </div>

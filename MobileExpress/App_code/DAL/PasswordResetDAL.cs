@@ -20,6 +20,68 @@ namespace DAL
             public string Email { get; set; }
         }
 
+        //public static UserInfo FindUserByEmail(string email)
+        //{
+        //    if (string.IsNullOrEmpty(email))
+        //        throw new ArgumentNullException(nameof(email));
+
+        //    using (var db = new DbContext())
+        //    {
+        //        try
+        //        {
+        //            // בדיקה במנהלים
+        //            string adminSql = "SELECT AdminId, Email FROM T_Administrators WHERE Email = @Email";
+        //            var parameters = DbContext.CreateParameters(new { Email = email });
+        //            var adminResult = db.Execute(adminSql, parameters);
+
+        //            if (adminResult.Rows.Count > 0)
+        //            {
+        //                return new UserInfo
+        //                {
+        //                    Type = UserType.Admin,
+        //                    UserId = Convert.ToInt32(adminResult.Rows[0]["AdminId"]),
+        //                    Email = email
+        //                };
+        //            }
+
+        //            // בדיקה בטכנאים
+        //            string techSql = "SELECT TecId, Email FROM T_Technicians WHERE Email = @Email";
+        //            var techResult = db.Execute(techSql, parameters);
+
+        //            if (techResult.Rows.Count > 0)
+        //            {
+        //                return new UserInfo
+        //                {
+        //                    Type = UserType.Technician,
+        //                    UserId = Convert.ToInt32(techResult.Rows[0]["TecId"]),
+        //                    Email = email
+        //                };
+        //            }
+
+        //            // בדיקה בלקוחות
+        //            string customerSql = "SELECT CusId, Email FROM T_Customers WHERE Email = @Email";
+        //            var customerResult = db.Execute(customerSql, parameters);
+
+        //            if (customerResult.Rows.Count > 0)
+        //            {
+        //                return new UserInfo
+        //                {
+        //                    Type = UserType.Customer,
+        //                    UserId = Convert.ToInt32(customerResult.Rows[0]["CusId"]),
+        //                    Email = email
+        //                };
+        //            }
+
+        //            return null;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            System.Diagnostics.Debug.WriteLine($"שגיאה בחיפוש משתמש: {ex.Message}");
+        //            throw new Exception("אירעה שגיאה בחיפוש המשתמש");
+        //        }
+        //    }
+        //}
+
         public static UserInfo FindUserByEmail(string email)
         {
             if (string.IsNullOrEmpty(email))
@@ -29,22 +91,29 @@ namespace DAL
             {
                 try
                 {
-                    // בדיקה במנהלים
-                    string adminSql = "SELECT AdminId, Email FROM T_Administrators WHERE Email = @Email";
+                    // בדיקה בלקוחות
+                    string customerSql = "SELECT CusId, Email FROM T_Customers WHERE Email = @Email";
                     var parameters = DbContext.CreateParameters(new { Email = email });
-                    var adminResult = db.Execute(adminSql, parameters);
+                    var customerResult = db.Execute(customerSql, parameters);
 
-                    if (adminResult.Rows.Count > 0)
+                    System.Diagnostics.Debug.WriteLine($"[DEBUG] Customer search SQL: {customerSql}");
+                    System.Diagnostics.Debug.WriteLine($"[DEBUG] Customer search email param: {email}");
+                    System.Diagnostics.Debug.WriteLine($"[DEBUG] Customer search results count: {customerResult.Rows.Count}");
+
+                    if (customerResult.Rows.Count > 0)
                     {
+                        var cusId = customerResult.Rows[0]["CusId"];
+                        System.Diagnostics.Debug.WriteLine($"[DEBUG] Found customer with CusId: {cusId}");
+
                         return new UserInfo
                         {
-                            Type = UserType.Admin,
-                            UserId = Convert.ToInt32(adminResult.Rows[0]["AdminId"]),
+                            Type = UserType.Customer,
+                            UserId = Convert.ToInt32(cusId),
                             Email = email
                         };
                     }
 
-                    // בדיקה בטכנאים
+                    // אם לא נמצא כלקוח, בדוק כטכנאי
                     string techSql = "SELECT TecId, Email FROM T_Technicians WHERE Email = @Email";
                     var techResult = db.Execute(techSql, parameters);
 
@@ -58,16 +127,16 @@ namespace DAL
                         };
                     }
 
-                    // בדיקה בלקוחות
-                    string customerSql = "SELECT CustomerId, Email FROM T_Customers WHERE Email = @Email";
-                    var customerResult = db.Execute(customerSql, parameters);
+                    // בדיקה במנהלים אם לא נמצא כטכנאי
+                    string adminSql = "SELECT AdminId, Email FROM T_Administrators WHERE Email = @Email";
+                    var adminResult = db.Execute(adminSql, parameters);
 
-                    if (customerResult.Rows.Count > 0)
+                    if (adminResult.Rows.Count > 0)
                     {
                         return new UserInfo
                         {
-                            Type = UserType.Customer,
-                            UserId = Convert.ToInt32(customerResult.Rows[0]["CustomerId"]),
+                            Type = UserType.Admin,
+                            UserId = Convert.ToInt32(adminResult.Rows[0]["AdminId"]),
                             Email = email
                         };
                     }
@@ -76,12 +145,46 @@ namespace DAL
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"שגיאה בחיפוש משתמש: {ex.Message}");
+                    System.Diagnostics.Debug.WriteLine($"[ERROR] Error in FindUserByEmail: {ex.Message}");
+                    System.Diagnostics.Debug.WriteLine($"[ERROR] Stack trace: {ex.StackTrace}");
                     throw new Exception("אירעה שגיאה בחיפוש המשתמש");
                 }
             }
         }
 
+
+        //public static void UpdatePassword(UserInfo user, string hashedPassword)
+        //{
+        //    if (user == null)
+        //        throw new ArgumentNullException(nameof(user));
+        //    if (string.IsNullOrEmpty(hashedPassword))
+        //        throw new ArgumentNullException(nameof(hashedPassword));
+
+        //    string sql = GetUpdatePasswordSql(user.Type);
+
+        //    using (var db = new DbContext())
+        //    {
+        //        try
+        //        {
+        //            var parameters = DbContext.CreateParameters(new
+        //            {
+        //                Pass = hashedPassword,
+        //                UserId = user.UserId
+        //            });
+
+        //            int rowsAffected = db.ExecuteNonQuery(sql, parameters);
+        //            if (rowsAffected == 0)
+        //            {
+        //                throw new Exception("לא נמצא משתמש לעדכון");
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            System.Diagnostics.Debug.WriteLine($"שגיאה בעדכון סיסמה: {ex.Message}");
+        //            throw new Exception("אירעה שגיאה בעדכון הסיסמה");
+        //        }
+        //    }
+        //}
         public static void UpdatePassword(UserInfo user, string hashedPassword)
         {
             if (user == null)
@@ -90,6 +193,9 @@ namespace DAL
                 throw new ArgumentNullException(nameof(hashedPassword));
 
             string sql = GetUpdatePasswordSql(user.Type);
+            System.Diagnostics.Debug.WriteLine($"[DEBUG] UpdatePassword SQL: {sql}");
+            System.Diagnostics.Debug.WriteLine($"[DEBUG] User type: {user.Type}");
+            System.Diagnostics.Debug.WriteLine($"[DEBUG] User ID: {user.UserId}");
 
             using (var db = new DbContext())
             {
@@ -102,6 +208,8 @@ namespace DAL
                     });
 
                     int rowsAffected = db.ExecuteNonQuery(sql, parameters);
+                    System.Diagnostics.Debug.WriteLine($"[DEBUG] Rows affected by update: {rowsAffected}");
+
                     if (rowsAffected == 0)
                     {
                         throw new Exception("לא נמצא משתמש לעדכון");
@@ -109,11 +217,27 @@ namespace DAL
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"שגיאה בעדכון סיסמה: {ex.Message}");
+                    System.Diagnostics.Debug.WriteLine($"[ERROR] Error in UpdatePassword: {ex.Message}");
+                    System.Diagnostics.Debug.WriteLine($"[ERROR] Stack trace: {ex.StackTrace}");
                     throw new Exception("אירעה שגיאה בעדכון הסיסמה");
                 }
             }
         }
+
+        //private static string GetUpdatePasswordSql(UserType userType)
+        //{
+        //    switch (userType)
+        //    {
+        //        case UserType.Admin:
+        //            return "UPDATE T_Administrators SET Pass = @Pass WHERE AdminId = @UserId";
+        //        case UserType.Technician:
+        //            return "UPDATE T_Technicians SET Pass = @Pass WHERE TecId = @UserId";
+        //        case UserType.Customer:
+        //            return "UPDATE T_Customers SET Pass = @Pass WHERE CusId = @UserId";
+        //        default:
+        //            throw new ArgumentException("סוג משתמש לא חוקי");
+        //    }
+        //}
 
         private static string GetUpdatePasswordSql(UserType userType)
         {
@@ -124,7 +248,7 @@ namespace DAL
                 case UserType.Technician:
                     return "UPDATE T_Technicians SET Pass = @Pass WHERE TecId = @UserId";
                 case UserType.Customer:
-                    return "UPDATE T_Customers SET Pass = @Pass WHERE CustomerId = @UserId";
+                    return "UPDATE T_Customers SET Pass = @Pass WHERE CusId = @UserId";
                 default:
                     throw new ArgumentException("סוג משתמש לא חוקי");
             }
