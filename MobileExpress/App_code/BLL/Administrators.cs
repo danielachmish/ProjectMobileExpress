@@ -1,4 +1,5 @@
 ﻿using DAL;
+using Services;
 using System;
 using System.Collections.Generic;
 
@@ -82,12 +83,16 @@ namespace BLL
 			return AdministratorsDAL.DeleteById(Id);
 		}
 
+        public void SetPassword(string password)
+        {
+            Pass = EncryptionUtils.HashPassword(password);
+        }
 
-
-
-
-
-	}
+        public bool VerifyPassword(string inputPassword)
+        {
+            return EncryptionUtils.VerifyPassword(inputPassword, Pass);
+        }
+    }
 
 
 }

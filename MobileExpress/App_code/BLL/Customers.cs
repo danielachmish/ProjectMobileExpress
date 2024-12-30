@@ -1,7 +1,10 @@
 ﻿using DAL;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 
 namespace BLL
@@ -82,36 +85,7 @@ namespace BLL
 		{
 			return CustomersDAL.GetByEmail(email);
 		}
-		//public static string HashPassword(string password)
-		//{
-		//	System.Diagnostics.Debug.WriteLine("מתחיל תהליך הצפנת סיסמה");
-		//	var hashedPassword = Convert.ToBase64String(
-		//		System.Security.Cryptography.SHA256.Create()
-		//		.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
-		//	System.Diagnostics.Debug.WriteLine("סיסמה הוצפנה בהצלחה");
-		//	return hashedPassword;
-		//}
-		public static string HashPassword(string password)
-		{
-			using (var sha256 = System.Security.Cryptography.SHA256.Create())
-			{
-				var hashedBytes = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-				var hashedPassword = Convert.ToBase64String(hashedBytes);
-				System.Diagnostics.Debug.WriteLine($"הצפנת סיסמה: {hashedPassword}");
-				return hashedPassword;
-			}
-		}
 
-		public static bool VerifyPassword(string inputPassword, string storedHash)
-		{
-			using (var sha256 = System.Security.Cryptography.SHA256.Create())
-			{
-				string hashedInput = HashPassword(inputPassword);
-				System.Diagnostics.Debug.WriteLine($"Input password hash: {hashedInput}");
-				System.Diagnostics.Debug.WriteLine($"Stored password hash: {storedHash}");
-				return hashedInput.Equals(storedHash, StringComparison.Ordinal);
-			}
-		}
 		public static bool IsEmailExists(string Email)
 		{
 			return  CustomersDAL.IsEmailExists(Email);
@@ -122,11 +96,32 @@ namespace BLL
 			{
 				FullName = fullName,
 				Email = email,
-				Pass = HashPassword(Guid.NewGuid().ToString()),
+				Pass = EncryptionUtils.HashPassword(Guid.NewGuid().ToString()),
 				DateAdd = DateTime.Now,
 				Status = true,
 				GoogleId = idToken
 			};
+		}
+		public void SetPassword(string password)
+		{
+			Pass = EncryptionUtils.HashPassword(password);
+		}
+
+		public bool VerifyPassword(string inputPassword)
+		{
+			return EncryptionUtils.VerifyPassword(inputPassword, Pass);
+		}
+		public static int GetTotalCustomers()
+		{
+			try
+			{
+				return CustomersDAL.GetTotalCustomers();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Exception: " + ex.Message);
+				throw;
+			}
 		}
 	}
 }

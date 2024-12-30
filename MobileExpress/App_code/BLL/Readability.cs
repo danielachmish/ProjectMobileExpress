@@ -31,6 +31,19 @@ namespace BLL
 		public CallStatus CallStatus { get; set; }
 		public string ModelCode { get; set; }
 
+		public DateTime? TreatmentStartTime { get; set; }
+		public string TechnicianNotes { get; set; }
+
+		public void StartTreatment(int technicianId)
+		{
+			CallStatus = CallStatus.InProgress;
+			Status = true;  // מסמן שהקריאה בטיפול
+			AssignedTechnicianId = technicianId;
+			TreatmentStartTime = DateTime.Now;
+			TechnicianNotes = string.Empty; // או ערך התחלתי אחר אם נדרש
+			UpdateReadability();
+		}
+
 		// מתודה עזר לבדיקת סטטוס
 		public bool IsOpen() => CallStatus == CallStatus.Open;
 		public bool IsInProgress() => CallStatus == CallStatus.InProgress;
@@ -100,7 +113,18 @@ namespace BLL
 		{
 			return ReadabilityDAL.GetAllByCustomerId(cusId);
 		}
-
+		public static int GetTotalReadability()
+		{
+			try
+			{
+				return ReadabilityDAL.GetTotalReadability();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Exception: " + ex.Message);
+				throw;
+			}
+		}
 	}
 	public class ReadabilityStats
 	{
@@ -121,4 +145,5 @@ namespace BLL
 
 		
 	}
+
 }

@@ -111,7 +111,7 @@
                         <tbody id="ManuList">
                             <asp:Repeater ID="Repeater2" runat="server">
                                 <ItemTemplate>
-                               
+                               <tr>
                                     <td>
                                         <input type="checkbox" class="selectRow" value='<%# Eval("ManuId") %>'></td>
                                     <td><%# Eval("ManuId") %></td>
@@ -119,9 +119,7 @@
                                     <td><%# Eval("Desc") %></td>
                                     <td><%# Eval("NameImage") %></td>
                                     <td><%# Eval("Date") %></td>
-                                    <td>
-                                     
-                                    </td>
+                                 
 
                                     <td class="action-buttons">
                                         <button type="button" class="edit-button edit-contact" onclick="openModalEdit({
@@ -138,7 +136,7 @@
                                                 <i class="fas fa-trash-alt"></i>
                                         </asp:LinkButton>
                                     </td>
-                                    
+                                   </tr> 
                                 </ItemTemplate>
                             </asp:Repeater>
                         </tbody>

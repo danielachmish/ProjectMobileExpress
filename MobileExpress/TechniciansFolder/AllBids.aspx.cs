@@ -23,7 +23,7 @@ namespace MobileExpress.TechniciansFolder
 		{
 			if (!IsPostBack)
 			{
-				
+
 				string readId = Request.QueryString["readId"];
 				if (!string.IsNullOrEmpty(readId))
 				{
@@ -48,7 +48,7 @@ namespace MobileExpress.TechniciansFolder
 			return Session["TecId"] != null;
 		}
 
-	
+
 		[WebMethod]
 		public static string GetCallInfoJson(int readId)
 		{
@@ -121,7 +121,7 @@ namespace MobileExpress.TechniciansFolder
 				}
 
 				// קבלת הנתונים מהטופס
-				
+
 				string description = txtDesc.Text?.Trim() ?? "הצעת מחיר";
 				decimal totalPrice;
 				if (!decimal.TryParse(txtTotalPrice.Text, out totalPrice))
@@ -156,8 +156,21 @@ namespace MobileExpress.TechniciansFolder
 					ItemDescription = itemDesc,
 					ItemQuantity = itemQuantity,
 					ItemUnitPrice = itemUnitPrice
-					
+
 				};
+				// חישוב המחירים
+				decimal vatAmount = bid.VatAmount;      // מע"מ
+				decimal totalWithVat = bid.TotalWithVat; // סה"כ כולל מע"מ
+
+				// עדכון ה-JavaScript עם הערכים החדשים
+				string updateScript = $@"
+            document.getElementById('subtotal').innerText = '₪{bid.Price:N2}';
+            document.getElementById('vat').innerText = '₪{vatAmount:N2}';
+            document.getElementById('total').innerText = '₪{totalWithVat:N2}';
+        ";
+				ScriptManager.RegisterStartupScript(this, GetType(), "UpdateTotals", updateScript, true);
+
+
 
 				// חישוב המחיר הכולל לפי הכמות והמחיר ליחידה
 				bid.CalculateTotalPrice();
@@ -208,7 +221,7 @@ namespace MobileExpress.TechniciansFolder
 					TecId = technician.TecId,
 					FulName = technician.FulName,
 					Phone = technician.Phone
-					
+
 				});
 			}
 			catch (Exception ex)

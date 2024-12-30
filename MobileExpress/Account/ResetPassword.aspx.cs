@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace MobileExpress.Account
 {
-	public partial class ResetPassword : System.Web.UI.Page
+	public partial class CreatePasswordReset : System.Web.UI.Page
 	{
 		
         private string Email
@@ -43,7 +43,8 @@ namespace MobileExpress.Account
                 }
 
                 // איפוס הסיסמה
-                PasswordReset.ResetPassword(email, code, newPassword);
+                //BLL.PasswordResetService.ResetPassword(email, code, newPassword);
+                BLL.PasswordResetService.ResetPassword(email, code, newPassword);
 
                 // הצגת הודעת הצלחה
                 ShowMessage("הסיסמה אופסה בהצלחה", true);
@@ -78,7 +79,7 @@ namespace MobileExpress.Account
                 string url = Request.QueryString["returnUrl"];
                 // וידוא שמדובר בURL פנימי למניעת Open Redirect
                 if (string.IsNullOrEmpty(url) || url.Contains("://"))
-                    return "~/Default.aspx";
+                    return "~/MainMobileExpress.aspx";
                 return "~/" + url;
             }
         }

@@ -62,14 +62,14 @@
         </div>
 
         <!-- טופס פרטים -->
-       <%-- <div class="form-group">
+        <%-- <div class="form-group">
             <label for="txtCustomerName">שם לקוח:</label>
             <asp:TextBox ID="txtCustomerName" runat="server" CssClass="form-control" ReadOnly="true" />
         </div>--%>
         <div class="form-group">
-    <label for="txtCustomerName">שם לקוח:</label>
-    <asp:TextBox ID="txtCustomerName" runat="server" CssClass="form-control" ReadOnly="false" />
-</div>
+            <label for="txtCustomerName">שם לקוח:</label>
+            <asp:TextBox ID="txtCustomerName" runat="server" CssClass="form-control" ReadOnly="false" />
+        </div>
         <div class="form-group">
             <label for="txtPhone">טלפון:</label>
             <asp:TextBox ID="txtPhone" runat="server" CssClass="form-control" ReadOnly="true" />
@@ -94,7 +94,8 @@
             <label for="txtTotalPrice">סכום כולל:</label>
             <asp:TextBox ID="txtTotalPrice" runat="server" CssClass="form-control" step="0.01" min="0" />
         </div>
-
+        <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control" 
+             onchange="calculateTotals()" onkeyup="calculateTotals()"></asp:TextBox>
         <!-- טבלת פריטים -->
         <table class="items-table">
             <thead>
@@ -129,6 +130,7 @@
                     <td class="no-print"></td>
                 </tr>
             </tfoot>
+           
         </table>
 
         <!-- כפתורים להוספת פריטים ושמירה -->
@@ -480,7 +482,7 @@
             const items = [];
             document.querySelectorAll("#itemsTableBody tr").forEach(row => {
                 const description = row.querySelector(".item-description").value.trim();
-               
+
                 const quantity = parseInt(row.querySelector(".item-quantity").value, 10);
                 const unitPrice = parseFloat(row.querySelector(".item-price").value);
                 if (description && quantity > 0 && unitPrice >= 0) {
@@ -834,8 +836,21 @@
             __doPostBack('<%= btnSave.UniqueID %>', '');
         });
 
-    
 
+        function calculateTotals() {
+            var price = parseFloat(document.getElementById('txtTotalPrice').value) || 0;
+            var vatRate = 0.17; // 17% מע"מ
+
+            var vatAmount = price * vatRate;
+            var total = price + vatAmount;
+
+            document.getElementById('subtotal').innerText = '₪' + price.toFixed(2);
+            document.getElementById('vat').innerText = '₪' + vatAmount.toFixed(2);
+            document.getElementById('total').innerText = '₪' + total.toFixed(2);
+        }
+
+        // קישור הפונקציה לאירוע שינוי במחיר
+        document.getElementById('txtTotalPrice').addEventListener('input', calculateTotals);
 
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

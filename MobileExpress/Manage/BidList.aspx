@@ -139,12 +139,12 @@
                                         <td><%# Eval("ReadId") %></td>
                                         <td><%# Eval("Date") %></td>
 
-                                        <td>
+                                         <td class="action-buttons">
                                             <button class="status-button"><%# Convert.ToBoolean(Eval("Status")) ? "פעיל" : "לא פעיל" %></button>
-                                        </td>
 
-                                        <td class="action-buttons">
-                                            <button type="button" class="edit-button edit-contact" onclick="openModalEdit({
+
+                                           
+                                                <button type="button" class="edit-button edit-contact" onclick="openModalEdit({
                                                                 BidId: '<%# Eval("BidId") %>',
                                                                 Desc: '<%# Eval("Desc") %>',
                                                                 Price: '<%# Eval("Price") %>',
@@ -155,12 +155,13 @@
                                                                
                                                              
                                                             })">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("BidId") %>' OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this item?');">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("BidId") %>' OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this item?');">
                                                 <i class="fas fa-trash-alt"></i>
-                                            </asp:LinkButton>
-                                        </td>
+                                                </asp:LinkButton>
+                                            </td>
+                                        
                                     </tr>
                                 </ItemTemplate>
                             </asp:Repeater>
@@ -259,12 +260,25 @@
         }
 
         /* כפתורי פעולה */
-        .action-buttons {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 25px;
-        }
+       .action-buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 25px;
+}
+
+/* סגנון לתאי הטבלה */
+td {
+    text-align: center;  /* יישור טקסט במרכז */
+    vertical-align: middle;  /* יישור אנכי במרכז */
+}
+
+/* סגנון ספציפי לתא שמכיל את הכפתורים */
+td.action-buttons {
+    text-align: center;  /* יישור טקסט במרכז */
+}
+
+
 
             .delete-button, .edit-button, .status-button, .action-buttons a.delete-button {
                 border: none;

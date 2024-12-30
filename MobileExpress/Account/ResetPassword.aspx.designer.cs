@@ -11,7 +11,7 @@ namespace MobileExpress.Account
 {
 
 
-	public partial class ResetPassword
+	public partial class CreatePasswordReset
 	{
 
 		/// <summary>

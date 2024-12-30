@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Account/MainAccount.Master" AutoEventWireup="true" CodeBehind="ResetPassword.aspx.cs" Inherits="MobileExpress.Account.ResetPassword" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Account/MainAccount.Master" AutoEventWireup="true" CodeBehind="ResetPassword.aspx.cs" Inherits="MobileExpress.Account.CreatePasswordReset" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -75,31 +75,137 @@
     </div>
 
     <style>
-        .message {
-            text-align: center;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-        }
+      /* סגנונות בסיסיים */
+/* סגנונות בסיסיים */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('your-image-url.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
 
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
+/* מיכל עיקרי */
+.login-container {
+    width: 100%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
 
-        .error-message {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
+/* כותרות */
+.login-title {
+    font-size: 30px;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: bold;
+}
 
-        .field-error {
-            color: #dc3545;
-            font-size: 80%;
-            margin-top: 4px;
-        }
+.login-subtitle {
+    font-size: 18px;
+    margin-bottom: 25px;
+    color: #666;
+}
+
+/* תיבת טופס */
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) inset;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #6a11cb;
+    outline: none;
+}
+
+/* הודעות */
+.message {
+    font-size: 14px;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.field-error {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* כפתורים */
+.btn-login {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 18px;
+    background-color: #6a11cb;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-login:hover {
+    background-color: #2575fc;
+    transform: scale(1.02);
+}
+
+.btn-login:active {
+    transform: scale(0.98);
+}
+
+/* קישורים */
+.login-link a {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+
+
     </style>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+      
 </asp:Content>

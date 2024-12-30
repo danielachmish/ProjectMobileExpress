@@ -48,7 +48,7 @@ namespace DAL
 					Phone = Tmp.Phone,
 					Nots = Tmp.Nots,
 					CusId = Tmp.CusId,
-					ModelId = 0,
+					ModelId = string.IsNullOrEmpty(Tmp.ModelId) ? DBNull.Value : (object)Tmp.ModelId,
 					Status = Tmp.Status,
 					//NameImage = Tmp.NameImage,
 					CallStatus = (int)Tmp.CallStatus,
@@ -98,14 +98,15 @@ namespace DAL
 					Tmp.Phone,
 					Tmp.Nots,
 					Tmp.CusId,
-					Tmp.ModelId,
+					ModelId = string.IsNullOrEmpty(Tmp.ModelId) ? DBNull.Value : (object)Tmp.ModelId,
 					Tmp.Status,
 				//	Tmp.NameImage,
 					Tmp.CallStatus,
 					Tmp.Urgency,
 					Tmp.SerProdId,
-					Tmp.ModelCode
-
+					Tmp.ModelCode,
+					TreatmentStartTime = Tmp.TreatmentStartTime.HasValue ? (object)Tmp.TreatmentStartTime.Value : DBNull.Value,
+					TechnicianNotes = string.IsNullOrEmpty(Tmp.TechnicianNotes) ? string.Empty : Tmp.TechnicianNotes
 				};
 
 				var LstParma = DbContext.CreateParameters(Obj);
@@ -280,6 +281,29 @@ namespace DAL
 			else
 			{
 				return -1;
+			}
+		}
+		public static int GetTotalReadability()
+		{
+			string sql = "SELECT COUNT(*) FROM T_Readability";
+			DbContext Db = new DbContext();
+
+			try
+			{
+				// השתמש ב-CreateParameters עם אובייקט ריק
+				var LstParma = DbContext.CreateParameters(new { });
+
+				object result = Db.ExecuteScalar(sql, LstParma);
+				return Convert.ToInt32(result);
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Error in GetTotalReadability: {ex.Message}");
+				throw;
+			}
+			finally
+			{
+				Db.Close();
 			}
 		}
 	}

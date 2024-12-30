@@ -67,6 +67,71 @@ namespace MobileExpress.Manage
 		}
 
 
+		//protected void Savebid(object sender, EventArgs e)
+		//{
+		//	try
+		//	{
+		//		System.Diagnostics.Debug.WriteLine("------------- התחלת תהליך שמירת מנהל -------------");
+
+		//		// קריאת הנתונים מהטופס
+		//		string Desc = txtDesc.Text;
+		//		int Price = int.Parse(txtPrice.Text);
+		//		int TecId = int.Parse(txtTecId.Text);
+		//		int ReadId = int.Parse(txtReadId.Text);
+
+		//		// אתחול Status לברירת מחדל true
+		//		bool Status = true;  // או false, תלוי בלוגיקה העסקית שלך
+
+		//		// בדיקת תקינות השדות
+		//		ValidateFields(Desc, Price.ToString(), TecId.ToString(), ReadId.ToString());
+
+		//		HiddenField hfBidId= (HiddenField)form1.FindControl("hfBidId");
+
+		//		var bid = new Bid
+		//		{
+		//			BidId = hfBidId!= null && !string.IsNullOrEmpty(hfBidId.Value) &&
+		//					 int.TryParse(hfBidId.Value, out int BidId) ? BidId : 0,
+		//			Desc = Desc,
+		//			Price = Price,
+		//			TecId = TecId,
+		//			ReadId = ReadId,
+
+		//			Date = DateTime.Now,
+		//			Status = Status  // הוספת השדה Status
+
+		//		};
+
+		//		if (bid.BidId == 0)
+		//		{
+		//			bid.SaveNewBid();
+		//			System.Diagnostics.Debug.WriteLine("מנהל חדש נוסף בהצלחה");
+		//		}
+		//		else
+		//		{
+		//			bid.UpdateBid();
+		//			System.Diagnostics.Debug.WriteLine("נתוני המנהל עודכנו בהצלחה");
+		//		}
+
+		//		// רענון הטבלה
+		//		Bindbid();
+
+		//		// סגירת המודל ורענון העמוד
+		//		ScriptManager.RegisterStartupScript(this, GetType(), "closeModalScript",
+		//			"closeModal(); console.log('Modal closed after save');", true);
+
+		//		if (!Response.IsRequestBeingRedirected)
+		//		{
+		//			Response.Redirect(Request.RawUrl, false);
+		//			Context.ApplicationInstance.CompleteRequest();
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת מנהל: {ex.Message}");
+		//		System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
+		//		throw;  // חשוב לזרוק את השגיאה כדי שנוכל לראות אותה
+		//	}
+		//}
 		protected void Savebid(object sender, EventArgs e)
 		{
 			try
@@ -75,30 +140,45 @@ namespace MobileExpress.Manage
 
 				// קריאת הנתונים מהטופס
 				string Desc = txtDesc.Text;
-				int Price = int.Parse(txtPrice.Text);
-				int TecId = int.Parse(txtTecId.Text);
-				int ReadId = int.Parse(txtReadId.Text);
-				
+
+				// בדיקת תקינות המספרים
+				if (!int.TryParse(txtPrice.Text, out int Price))
+				{
+					throw new Exception("מחיר חייב להיות מספר תקין");
+				}
+
+				if (!int.TryParse(txtTecId.Text, out int TecId))
+				{
+					throw new Exception("מזהה טכנאי חייב להיות מספר תקין");
+				}
+
+				if (!int.TryParse(txtReadId.Text, out int ReadId))
+				{
+					throw new Exception("מזהה קריאה חייב להיות מספר תקין");
+				}
+
 				// אתחול Status לברירת מחדל true
-				bool Status = true;  // או false, תלוי בלוגיקה העסקית שלך
+				bool Status = true;
 
 				// בדיקת תקינות השדות
 				ValidateFields(Desc, Price.ToString(), TecId.ToString(), ReadId.ToString());
 
-				HiddenField hfBidId= (HiddenField)form1.FindControl("hfBidId");
+				HiddenField hfBidId = (HiddenField)form1.FindControl("hfBidId");
+				int bidId = 0;
+				if (hfBidId != null && !string.IsNullOrEmpty(hfBidId.Value))
+				{
+					int.TryParse(hfBidId.Value, out bidId);
+				}
 
 				var bid = new Bid
 				{
-					BidId = hfBidId!= null && !string.IsNullOrEmpty(hfBidId.Value) &&
-							 int.TryParse(hfBidId.Value, out int BidId) ? BidId : 0,
+					BidId = bidId,
 					Desc = Desc,
 					Price = Price,
 					TecId = TecId,
 					ReadId = ReadId,
-				
 					Date = DateTime.Now,
-					Status = Status  // הוספת השדה Status
-				
+					Status = Status
 				};
 
 				if (bid.BidId == 0)
@@ -129,7 +209,13 @@ namespace MobileExpress.Manage
 			{
 				System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת מנהל: {ex.Message}");
 				System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
-				throw;  // חשוב לזרוק את השגיאה כדי שנוכל לראות אותה
+
+				// הצגת הודעת שגיאה למשתמש
+				ScriptManager.RegisterStartupScript(this, GetType(), "showError",
+					$"alert('שגיאה בשמירת הנתונים: {ex.Message}');", true);
+
+				// לא זורקים את השגיאה כדי שהמשתמש יוכל להמשיך
+				// throw;
 			}
 		}
 

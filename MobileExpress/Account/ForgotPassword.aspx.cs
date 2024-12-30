@@ -1,47 +1,32 @@
 ﻿using BLL;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace MobileExpress.Account
 {
     public partial class ForgotPassword : System.Web.UI.Page
     {
-        //private EmailService _emailService;
-
-        //public ForgotPassword()
-        //{
-        //    _emailService = new EmailService();
-        //}
-
-        protected void Page_Load(object sender, EventArgs e)
-        {
-        }
-
-        protected void btnSendCode_Click(object sender, EventArgs e)
+        protected async void btnSendCode_Click(object sender, EventArgs e)
         {
             try
             {
                 string email = txtEmail.Text.Trim();
 
-                // קורא לפונקציה מה-BLL
-                BLL.PasswordReset.CreatePasswordReset(email);
+                if (string.IsNullOrEmpty(email))
+                {
+                    ShowMessage("נא להזין כתובת אימייל", false);
+                    return;
+                }
 
-                // הצגת הודעת הצלחה למשתמש
+                await BLL.PasswordResetService.SendResetCodeEmail(email);
+
                 ShowMessage("קוד אימות נשלח לכתובת המייל שלך", true);
-
-                // הפניה לדף הבא עם המייל בתור פרמטר
                 Response.Redirect($"ResetPassword.aspx?email={Server.UrlEncode(email)}");
             }
             catch (Exception ex)
             {
-                // הצגת שגיאה למשתמש
                 ShowMessage(ex.Message, false);
-
-                // רישום השגיאה ללוג
                 System.Diagnostics.Debug.WriteLine($"שגיאה בשליחת קוד אימות: {ex.Message}");
             }
         }

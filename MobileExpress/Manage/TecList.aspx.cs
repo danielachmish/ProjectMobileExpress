@@ -7,7 +7,7 @@ using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BLL;
-
+using Services;
 
 namespace MobileExpress.Manage
 {
@@ -94,7 +94,7 @@ namespace MobileExpress.Manage
                     Email = Email,
                     UserName = UserName,
                     Pass = Pass != "****" && !string.IsNullOrEmpty(Pass) ?
-                  Technicians.HashPassword(Pass) : null,
+                  EncryptionUtils.HashPassword(Pass) : null,
                     TecNum = TecNum,
                     Type = Type,
                     History = History,

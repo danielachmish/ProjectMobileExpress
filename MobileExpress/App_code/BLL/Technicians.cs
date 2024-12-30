@@ -1,4 +1,5 @@
 ﻿using DAL;
+using Services;
 using System;
 using System.Collections.Generic;
 
@@ -35,15 +36,7 @@ namespace BLL
                 throw;
             }
         }
-        public static string HashPassword(string password)
-        {
-            System.Diagnostics.Debug.WriteLine("מתחיל תהליך הצפנת סיסמה");
-            var hashedPassword = Convert.ToBase64String(
-                System.Security.Cryptography.SHA256.Create()
-                .ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
-            System.Diagnostics.Debug.WriteLine("סיסמה הוצפנה בהצלחה");
-            return hashedPassword;
-        }
+   
 
         public static Technicians CreateFromGoogle(string idToken, string email, string fullName)
         {
@@ -53,7 +46,7 @@ namespace BLL
                 FulName = fullName,
                 Phone = "",
                 Address = "",
-                Pass = HashPassword(Guid.NewGuid().ToString()), // השתמש בפונקציית ההצפנה הקיימת שלך
+                Pass = EncryptionUtils.HashPassword(Guid.NewGuid().ToString()), // השתמש בפונקציית ההצפנה הקיימת שלך
                 UserName = email.Split('@')[0],
                 Type = "",
                 Email = email,
@@ -116,6 +109,29 @@ namespace BLL
         {
             return TechniciansDAL.DeleteById(Id);
         }
+        public void SetPassword(string password)
+        {
+            Pass = EncryptionUtils.HashPassword(password);
+        }
+
+        public bool VerifyPassword(string inputPassword)
+        {
+            return EncryptionUtils.VerifyPassword(inputPassword, Pass);
+        }
+
+        public static int GetTotalTechnicians()
+        {
+            try
+            {
+                return TechniciansDAL.GetTotalTechnicians();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: " + ex.Message);
+                throw;
+            }
+        }
     }
+
     
 }
