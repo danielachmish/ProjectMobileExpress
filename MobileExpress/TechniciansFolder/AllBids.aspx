@@ -53,19 +53,13 @@
                 </div>
             </div>
 
-            <%-- <div class="invoice-actions">
-                <asp:Button ID="btnPrint" runat="server" CssClass="btn btn-primary" Text="הדפס הצעת מחיר" OnClientClick="window.print(); return false;" />
-            </div>--%>
+
             <div class="invoice-actions">
                 <asp:Button ID="btnPrint" runat="server" CssClass="btn btn-primary" Text="הדפס הצעת מחיר" OnClientClick="window.print(); return false;" />
             </div>
         </div>
 
-        <!-- טופס פרטים -->
-        <%-- <div class="form-group">
-            <label for="txtCustomerName">שם לקוח:</label>
-            <asp:TextBox ID="txtCustomerName" runat="server" CssClass="form-control" ReadOnly="true" />
-        </div>--%>
+
         <div class="form-group">
             <label for="txtCustomerName">שם לקוח:</label>
             <asp:TextBox ID="txtCustomerName" runat="server" CssClass="form-control" ReadOnly="false" />
@@ -86,16 +80,13 @@
             <span class="text-danger" id="errorTxtDesc" style="display: none;">השדה חובה</span>
         </div>
 
-        <%--  <div class="form-group">
-            <label for="txtTotalPrice">סכום כולל:</label>
-            <asp:TextBox ID="txtTotalPrice" runat="server" CssClass="form-control" step="0.01" min="0" />
-        </div>--%>
+
         <div class="form-group d-none">
             <label for="txtTotalPrice">סכום כולל:</label>
             <asp:TextBox ID="txtTotalPrice" runat="server" CssClass="form-control" step="0.01" min="0" />
         </div>
-        <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control" 
-             onchange="calculateTotals()" onkeyup="calculateTotals()"></asp:TextBox>
+        <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control"
+            onchange="calculateTotals()" onkeyup="calculateTotals()"></asp:TextBox>
         <!-- טבלת פריטים -->
         <table class="items-table">
             <thead>
@@ -120,7 +111,7 @@
                     <td class="no-print"></td>
                 </tr>
                 <tr class="summary-row">
-                    <td colspan="3" class="text-left">מע"מ (17%):</td>
+                    <td colspan="3" class="text-left">מע"מ:</td>
                     <td id="vat">₪0.00</td>
                     <td class="no-print"></td>
                 </tr>
@@ -130,7 +121,7 @@
                     <td class="no-print"></td>
                 </tr>
             </tfoot>
-           
+
         </table>
 
         <!-- כפתורים להוספת פריטים ושמירה -->
@@ -155,6 +146,7 @@
             </td>
         </tr>
     </template>
+
 
 
     <style>
@@ -423,11 +415,11 @@
         }
 
         @media screen and (max-width: 768px) {
-            .invoice-container {
+            /* .invoice-container {
                 margin: 0.5rem;
                 padding: 1rem;
                 border-radius: 12px;
-            }
+            }*/
 
             .invoice-header {
                 flex-direction: column;
@@ -442,8 +434,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.js"></script>
+
     <script src="/dist-assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="/dist-assets/js/scripts/tooltip.script.min.js"></script>
     <script src="/dist-assets/js/scripts/script.min.js"></script>
@@ -454,6 +445,7 @@
     <script src="/dist-assets/js/scripts/datatables.script.min.js"></script>
     <script>
 
+
         // הגדר משתנים גלובליים לשימוש בקוד JavaScript
         var formControls = {
             customerName: '<%= txtCustomerName.ClientID %>',
@@ -462,6 +454,19 @@
             hiddenReadId: '<%= hiddenReadId.ClientID %>',
             modelcode: '<%= txtmodelcode.ClientID %>'
         };
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const readId = urlParams.get('readId');
+
+            if (readId) {
+                console.log('Found readId in URL:', readId);
+                setTimeout(() => {
+                    loadQuoteFromRead(readId);
+                }, 100);
+            } else {
+                console.warn('No readId found in URL');
+            }
+        });
 
         document.getElementById('<%= btnSave.ClientID %>').addEventListener('click', function (e) {
             const txtDesc = document.getElementById('<%= txtDesc.ClientID %>');
@@ -478,6 +483,34 @@
 
 
 
+        // טעינת ערך המעמ בתחילת הדף
+        $(document).ready(function () {
+            loadCurrentVatRate().then(rate => {
+                currentVatRate = parseFloat(rate);
+                updateTotals(); // עדכון החישובים עם הערך החדש
+            });
+        });
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const readId = urlParams.get('readId');
+
+            if (readId) {
+                loadQuoteFromRead(readId);
+            }
+        });
+        $(document).ready(function () {
+            const techId = $('#hiddenTechnicianId').val();
+            console.log('TechnicianId:', techId);
+
+            const readId = new URLSearchParams(window.location.search).get('readId');
+            console.log('ReadId:', readId);
+
+            if (readId && techId) {
+                loadQuoteFromRead(readId);
+            } else {
+                console.error('Missing required IDs:', { readId, techId });
+            }
+        });
         function collectItems() {
             const items = [];
             document.querySelectorAll("#itemsTableBody tr").forEach(row => {
@@ -565,8 +598,8 @@
             });
 
             // חישובי המע"מ והסה"כ
-            const vat = subtotalBeforeVat * 0.17;  // 17% מע"מ
-            const totalWithVat = subtotalBeforeVat + vat;  // סה"כ כולל מע"מ
+            const vat = subtotalBeforeVat * currentVatRate;
+            const totalWithVat = subtotalBeforeVat + vat;
 
             // עדכון התצוגה עם שתי ספרות אחרי הנקודה
             document.getElementById('subtotal').textContent = `₪${subtotalBeforeVat.toFixed(2)}`;  // לפני מע"מ
@@ -610,105 +643,200 @@
 
 
 
-        $(document).ready(function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const readId = urlParams.get('readId');
-
-            if (readId) {
-                loadQuoteFromRead(readId);
-            }
-        });
-
-        function loadQuoteFromRead(readId) {
-            console.log('Loading quote for readId:', readId);
-
+       <%-- function loadQuoteFromRead(readId) {
             if (!readId) {
-                console.error('readId is required');
+                console.error('ReadId is required');
                 return;
             }
 
-            // טעינת פרטי הטכנאי
-            loadTechnicianInfo();
-
-            $.ajax({
-                type: "POST",
-                url: "AllBids.aspx/GetCallInfoJson",
-                data: JSON.stringify({ readId: readId }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    try {
-                        const data = JSON.parse(response.d);
-                        console.log('Raw response:', response);
-                        console.log('Parsed data:', data);
-                        console.log('ModelCode:', data.ModelCode);
-                        console.log('formControls:', formControls);
-
-                        // מילוי השדות בטופס
-                        $('#' + txtCustomerName.clientID).val(data.FullName);
-                        $('#' + txtPhone.clientID).val(data.Phone);
-                        $('#' + txtDesc.clientID).val(data.Desc);
-                        $('#' + hiddenReadId.clientID).val(data.ReadId);
-                        $('#' + formControls.modelcode).val(data.ModelCode);
-
-                        // עדכון כותרות
-                        $('#quoteNumber').text(`Q-${data.ReadId}-${new Date().getTime().toString().slice(-4)}`);
-                        $('#currentDate').text(new Date().toLocaleDateString('he-IL'));
-                        $('#serviceCallId').text(data.ReadId);
-
-                        const tbody = document.getElementById('itemsTableBody');
-                        if (tbody.children.length === 0) {
-                            addNewItem();
-                        }
-                        console.log('Form populated successfully');
-                    } catch (error) {
-                        console.error('Error parsing or filling form:', error);
-                        alert('אירעה שגיאה בטעינת הנתונים');
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Ajax Error:', error);
-                    alert('אירעה שגיאה בטעינת הנתונים');
-                }
-            });
-        }
-        function loadTechnicianInfo() {
-            $.ajax({
-                type: "POST",
-                url: "AllBids.aspx/GetTechnicianInfoJson",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    if (!response || !response.d) {
-                        console.error('Invalid response:', response);
-                        alert('שגיאה בטעינת פרטי טכנאי');
-                        return;
-                    }
-
-                    try {
-                        const data = JSON.parse(response.d);
-
-                        if (data.error) {
-                            console.error('Server error:', data.error);
-                            alert('שגיאה: ' + data.error);
+            console.log('Loading quote for readId:', readId);
+            // קודם טען את המע"מ
+            loadCurrentVatRate().then(() => {
+                // קודם טען את פרטי הקריאה
+                $.ajax({
+                    type: "POST",
+                    url: "AllBids.aspx/GetCallInfoJson",
+                    data: JSON.stringify({ readId: parseInt(readId) }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log('Server response:', response);
+                        if (!response.d) {
+                            console.error('No data received');
                             return;
                         }
 
-                        // עדכון פרטי הטכנאי בטופס
-                        document.getElementById('techNumber').textContent = data.TecId;
-                        document.getElementById('techName').textContent = data.FulName;
-                        document.getElementById('techPhone').textContent = data.Phone;
+                        try {
+                            const data = JSON.parse(response.d);
+                            console.log('Parsed data:', data);
 
-                    } catch (error) {
-                        console.error('Error parsing technician data:', error);
-                        alert('שגיאה בעיבוד פרטי הטכנאי');
+                            // מילוי הטופס
+                            $('#<%= txtCustomerName.ClientID %>').val(data.FullName || '');
+                            $('#<%= txtPhone.ClientID %>').val(data.Phone || '');
+                            $('#<%= txtDesc.ClientID %>').val(data.Desc || '');
+                            $('#<%= hiddenReadId.ClientID %>').val(data.ReadId);
+                            $('#<%= txtmodelcode.ClientID %>').val(data.ModelCode || '');
+
+                            // עדכון כותרות
+                            $('#quoteNumber').text(`Q-${data.ReadId}-${new Date().getTime().toString().slice(-4)}`);
+                            $('#currentDate').text(new Date().toLocaleDateString('he-IL'));
+                            $('#serviceCallId').text(data.ReadId);
+                            // בדוק אם אין פריטים בטבלה
+                            const itemsTable = document.getElementById('itemsTableBody');
+                            if (!itemsTable.children.length) {
+                                // הוסף פריט ראשון
+                                addNewItem();
+                            }
+                            // אחרי שפרטי הקריאה נטענו, טען את שאר הדברים
+                            Promise.all([
+                                loadCurrentVatRate(),
+                                loadTechnicianInfo()
+                            ]).then(() => {
+                                updateTotals();
+                            });
+
+                        } catch (error) {
+                            console.error('Error parsing or filling form:', error);
+                            alert('שגיאה בטעינת נתוני הקריאה');
+                        }
+                    
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Ajax error:', error);
+                        console.error('Status:', status);
+                        console.error('Response:', xhr.responseText);
+                        alert('שגיאה בטעינת נתוני הקריאה');
                     }
-                },
-                error: function (xhr, status, error) {
-                    console.error('AJAX error:', error);
-                    alert('שגיאה בטעינת פרטי הטכנאי');
-                }
+                });
+            }
+        }--%>
+        function loadQuoteFromRead(readId) {
+            if (!readId) {
+                console.error('ReadId is required');
+                return;
+            }
+            console.log('Loading quote for readId:', readId);
+
+            // קודם טען את המע"מ
+            loadCurrentVatRate().then(() => {
+                // קודם טען את פרטי הקריאה
+                $.ajax({
+                    type: "POST",
+                    url: "AllBids.aspx/GetCallInfoJson",
+                    data: JSON.stringify({ readId: parseInt(readId) }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log('Server response:', response);
+                        if (!response.d) {
+                            console.error('No data received');
+                            return;
+                        }
+                        try {
+                            const data = JSON.parse(response.d);
+                            console.log('Parsed data:', data);
+
+                            // מילוי הטופס
+                            $('#<%= txtCustomerName.ClientID %>').val(data.FullName || '');
+                            $('#<%= txtPhone.ClientID %>').val(data.Phone || '');
+                            $('#<%= txtDesc.ClientID %>').val(data.Desc || '');
+                            $('#<%= hiddenReadId.ClientID %>').val(data.ReadId);
+                            $('#<%= txtmodelcode.ClientID %>').val(data.ModelCode || '');
+
+                            // עדכון כותרות
+                            $('#quoteNumber').text(`Q-${data.ReadId}-${new Date().getTime().toString().slice(-4)}`);
+                            $('#currentDate').text(new Date().toLocaleDateString('he-IL'));
+                            $('#serviceCallId').text(data.ReadId);
+
+                            // בדוק אם אין פריטים בטבלה
+                            const itemsTable = document.getElementById('itemsTableBody');
+                            if (!itemsTable.children.length) {
+                                // הוסף פריט ראשון
+                                addNewItem();
+                            }
+
+                            // אחרי שפרטי הקריאה נטענו, טען את שאר הדברים
+                            Promise.all([
+                                loadCurrentVatRate(),
+                                loadTechnicianInfo()
+                            ]).then(() => {
+                                updateTotals();
+                            });
+                        } catch (error) {
+                            console.error('Error parsing or filling form:', error);
+                            alert('שגיאה בטעינת נתוני הקריאה');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Ajax error:', error);
+                        console.error('Status:', status);
+                        console.error('Response:', xhr.responseText);
+                        alert('שגיאה בטעינת נתוני הקריאה');
+                    }
+                });
             });
+        }
+
+
+
+        function updateTechnicianInfo(data) {
+            const techNumber = document.getElementById('techNumber');
+            const techName = document.getElementById('techName');
+            const techPhone = document.getElementById('techPhone');
+
+            if (techNumber) techNumber.textContent = data.TecId;
+            if (techName) techName.textContent = data.FulName;
+            if (techPhone) techPhone.textContent = data.Phone;
+        }
+
+        function fillFormData(data) {
+            if (!data) {
+                console.error('No data received');
+                return;
+            }
+
+            try {
+                $('#' + txtCustomerName.clientID).val(data.FullName || '');
+                $('#' + txtPhone.clientID).val(data.Phone || '');
+                $('#' + txtDesc.clientID).val(data.Desc || '');
+                $('#' + hiddenReadId.clientID).val(data.ReadId);
+                $('#' + formControls.modelcode).val(data.ModelCode || '');
+
+                $('#quoteNumber').text(`Q-${data.ReadId}-${new Date().getTime().toString().slice(-4)}`);
+                $('#currentDate').text(new Date().toLocaleDateString('he-IL'));
+                $('#serviceCallId').text(data.ReadId);
+
+                console.log('Form filled successfully with:', data);
+            } catch (error) {
+                console.error('Error filling form:', error);
+            }
+        }
+
+
+        function loadTechnicianInfo() {
+            console.log('Loading technician info...');
+            return $.ajax({
+                type: "POST",
+                url: "AllBids.aspx/GetTechnicianInfoJson",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            })
+                .then(response => {
+                    console.log('Technician response:', response);
+                    if (!response || !response.d) {
+                        throw new Error('Invalid response');
+                    }
+                    const data = JSON.parse(response.d);
+                    if (data.error) {
+                        throw new Error(data.error);
+                    }
+                    updateTechnicianInfo(data);
+                    return data;
+                })
+                .catch(error => {
+                    console.error('Error loading technician:', error);
+                    alert('שגיאה בטעינת פרטי טכנאי: ' + error.message);
+                });
         }
 
 
@@ -794,12 +922,12 @@
 
         function validateForm() {
             const desc = document.getElementById('<%= txtDesc.ClientID %>').value.trim();
-            if (!desc) {
-                alert('נא להזין תיאור');
-                return false;
-            }
+                if (!desc) {
+                    alert('נא להזין תיאור');
+                    return false;
+                }
 
-            const totalPrice = parseFloat(document.getElementById('<%= txtTotalPrice.ClientID %>').value);
+                const totalPrice = parseFloat(document.getElementById('<%= txtTotalPrice.ClientID %>').value);
             if (isNaN(totalPrice) || totalPrice <= 0) {
                 alert('נא להזין סכום כולל תקין');
                 return false;
@@ -812,36 +940,34 @@
         document.getElementById('<%= btnSave.ClientID %>').addEventListener('click', function (e) {
             // בדיקת תיאור
             const txtDesc = document.getElementById('<%= txtDesc.ClientID %>');
-            const errorSpan = document.getElementById('errorTxtDesc');
+                const errorSpan = document.getElementById('errorTxtDesc');
 
-            if (!txtDesc.value.trim()) {
-                e.preventDefault();
-                errorSpan.style.display = 'block';
-                return;
-            }
-            errorSpan.style.display = 'none';
+                if (!txtDesc.value.trim()) {
+                    e.preventDefault();
+                    errorSpan.style.display = 'block';
+                    return;
+                }
+                errorSpan.style.display = 'none';
 
-            // בדיקת תקינות הטופס
-            if (!validateForm()) {
-                e.preventDefault();
-                return;
-            }
+                // בדיקת תקינות הטופס
+                if (!validateForm()) {
+                    e.preventDefault();
+                    return;
+                }
 
-            // איסוף הפריטים
-            if (!collectBidItem()) {
-                e.preventDefault();
-                return;
-            }
+                // איסוף הפריטים
+                if (!collectBidItem()) {
+                    e.preventDefault();
+                    return;
+                }
 
-            __doPostBack('<%= btnSave.UniqueID %>', '');
-        });
+                __doPostBack('<%= btnSave.UniqueID %>', '');
+            });
 
 
         function calculateTotals() {
             var price = parseFloat(document.getElementById('txtTotalPrice').value) || 0;
-            var vatRate = 0.17; // 17% מע"מ
-
-            var vatAmount = price * vatRate;
+            var vatAmount = price * currentVatRate;
             var total = price + vatAmount;
 
             document.getElementById('subtotal').innerText = '₪' + price.toFixed(2);
@@ -852,8 +978,208 @@
         // קישור הפונקציה לאירוע שינוי במחיר
         document.getElementById('txtTotalPrice').addEventListener('input', calculateTotals);
 
+        // גלובלי משתנה להחזקת שיעור המע"מ הנוכחי
+        let currentVatRate = 0.17; // ברירת מחדל עד לטעינת הערך מהשרת
+
+
+
+        //async function loadCurrentVatRate() {
+        //    try {
+        //        const response = await $.ajax({
+        //            type: "POST",
+        //            url: "AllBids.aspx/GetCurrentVatRate",
+        //            contentType: "application/json; charset=utf-8",
+        //            dataType: "json"
+        //        });
+
+        //        if (response && response.d) {
+        //            currentVatRate = parseFloat(response.d) / 100;
+        //            console.log('Current VAT rate:', currentVatRate);
+        //            return currentVatRate;
+        //        }
+        //        throw new Error('Invalid VAT rate response');
+        //    } catch (error) {
+        //        console.error('Error loading VAT rate:', error);
+        //        return 0.17; // ערך ברירת מחדל
+        //    }
+        //}
+        //function loadCurrentVatRate() {
+        //    console.log('Starting to load VAT rate...');
+        //    return new Promise((resolve, reject) => {
+        //        $.ajax({
+        //            type: "POST",
+        //            url: "AllBids.aspx/GetCurrentVatRate",
+        //            contentType: "application/json; charset=utf-8",
+        //            dataType: "json",
+        //            success: function (response) {
+        //                console.log('Raw VAT response:', response);
+        //                try {
+        //                    if (response && response.d) {
+        //                        const rawRate = response.d;
+        //                        console.log('Raw VAT rate from server:', rawRate);
+        //                        window.currentVatRate = parseFloat(rawRate) / 100;
+        //                        console.log('Processed VAT rate:', window.currentVatRate);
+        //                        resolve(window.currentVatRate);
+        //                    } else {
+        //                        console.warn('No VAT rate received from server');
+        //                        window.currentVatRate = 0.18;
+        //                        resolve(window.currentVatRate);
+        //                    }
+        //                } catch (error) {
+        //                    console.error('Error parsing VAT rate:', error);
+        //                    window.currentVatRate = 0.18;
+        //                    resolve(window.currentVatRate);
+        //                }
+        //            },
+        //            error: function (xhr, status, error) {
+        //                console.error('Error loading VAT rate:', error);
+        //                console.error('Status:', status);
+        //                console.error('Response:', xhr.responseText);
+        //                window.currentVatRate = 0.18;
+        //                resolve(window.currentVatRate);
+        //            }
+        //        });
+        //    });
+        //}
+
+
+        // עדכון פונקציית updateTotals
+      <%--  function updateTotals() {
+            const rows = document.querySelectorAll('#itemsTableBody tr');
+            let subtotalBeforeVat = 0;
+
+            rows.forEach(row => {
+                subtotalBeforeVat += calculateRowTotal(row);
+            });
+
+            const vat = subtotalBeforeVat * currentVatRate;
+            const totalWithVat = subtotalBeforeVat + vat;
+
+            document.getElementById('subtotal').textContent = `₪${subtotalBeforeVat.toFixed(2)}`;
+            document.getElementById('vat').textContent = `₪${vat.toFixed(2)}`;
+            document.getElementById('total').textContent = `₪${totalWithVat.toFixed(2)}`;
+
+            $(`#<%= txtTotalPrice.ClientID %>`).val(Math.round(totalWithVat));
+
+            console.log('Price details:', {
+                subtotalBeforeVat: subtotalBeforeVat.toFixed(2),
+                vatRate: (currentVatRate * 100).toFixed(1) + '%',
+                vat: vat.toFixed(2),
+                totalWithVat: totalWithVat.toFixed(2)
+            });
+        }--%>
+      <%--  function updateTotals() {
+            try {
+                const rows = document.querySelectorAll('#itemsTableBody tr');
+                let subtotalBeforeVat = 0;
+
+                // חישוב סה"כ לפני מע"מ
+                rows.forEach(row => {
+                    subtotalBeforeVat += calculateRowTotal(row);
+                });
+
+                // שימוש במע"מ מהמשתנה הגלובלי או ערך ברירת מחדל
+                const vatRate = window.currentVatRate || 0.17;
+
+                // חישובי המע"מ והסה"כ
+                const vat = subtotalBeforeVat * vatRate;
+                const totalWithVat = subtotalBeforeVat + vat;
+
+                // עדכון התצוגה
+                document.getElementById('subtotal').textContent = `₪${subtotalBeforeVat.toFixed(2)}`;
+                document.getElementById('vat').textContent = `₪${vat.toFixed(2)}`;
+                document.getElementById('total').textContent = `₪${totalWithVat.toFixed(2)}`;
+
+                // עדכון שדה המחיר המוסתר
+                $(`#<%= txtTotalPrice.ClientID %>`).val(totalWithVat.toFixed(2));
+
+                console.log('Totals updated:', {
+                    subtotal: subtotalBeforeVat.toFixed(2),
+                    vatRate: (vatRate * 100).toFixed(0) + '%',
+                    vat: vat.toFixed(2),
+                    total: totalWithVat.toFixed(2)
+                });
+            } catch (error) {
+                console.error('Error updating totals:', error);
+            }
+        }--%>
+
+        function updateTotals() {
+            console.log('Updating totals with VAT rate:', window.currentVatRate);  // לוג לדיבוג
+
+            const rows = document.querySelectorAll('#itemsTableBody tr');
+            let subtotalBeforeVat = 0;
+
+            // חישוב סה"כ לפני מע"מ
+            rows.forEach(row => {
+                subtotalBeforeVat += calculateRowTotal(row);
+            });
+
+            // וודא שיש ערך תקין למע"מ
+            if (!window.currentVatRate || isNaN(window.currentVatRate)) {
+                window.currentVatRate = 0.18;  // ערך ברירת מחדל
+                console.warn('Using default VAT rate:', window.currentVatRate);
+            }
+
+            const vat = subtotalBeforeVat * window.currentVatRate;
+            const totalWithVat = subtotalBeforeVat + vat;
+
+            // עדכון התצוגה עם 2 ספרות אחרי הנקודה
+            document.getElementById('subtotal').textContent = `₪${subtotalBeforeVat.toFixed(2)}`;
+            document.getElementById('vat').textContent = `₪${vat.toFixed(2)}`;
+            document.getElementById('total').textContent = `₪${totalWithVat.toFixed(2)}`;
+
+            // עדכון שדה המחיר הכולל
+            $(`#<%= txtTotalPrice.ClientID %>`).val(totalWithVat.toFixed(2));
+
+            console.log('Totals updated:', {
+                subtotal: subtotalBeforeVat,
+                vatRate: window.currentVatRate,
+                vat: vat,
+                total: totalWithVat
+            });
+        }
+
+        function loadCurrentVatRate() {
+            return new Promise((resolve, reject) => {
+                console.log('Loading VAT rate...');
+                $.ajax({
+                    type: "POST",
+                    url: "AllBids.aspx/GetCurrentVatRate",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response && response.d) {
+                            const vatRate = parseFloat(response.d);
+                            window.currentVatRate = vatRate;  // שמור את הערך המקורי
+                            console.log('VAT rate loaded:', window.currentVatRate);
+                            updateTotals();  // עדכן מיד את הסכומים
+                            resolve(window.currentVatRate);
+                        } else {
+                            window.currentVatRate = 0.18;
+                            console.warn('No VAT rate received, using default:', window.currentVatRate);
+                            resolve(window.currentVatRate);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error loading VAT rate:', error);
+                        window.currentVatRate = 0.18;
+                        resolve(window.currentVatRate);
+                    }
+                });
+            });
+        }
+
+        // הוסף טעינה ראשונית כשהדף נטען
+        $(document).ready(function () {
+            loadCurrentVatRate().then(() => {
+                console.log('Initial VAT rate loaded:', window.currentVatRate);
+                updateTotals();
+            });
+        });
+
     </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">

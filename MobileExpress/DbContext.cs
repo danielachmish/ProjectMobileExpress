@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
 using System.Reflection;
+using MongoDB.Driver.Core.Configuration;
 
 namespace Data
 {
@@ -16,7 +17,7 @@ namespace Data
         public SqlConnection Conn { get; set; }
         public SqlCommand Cmd { get; set; }
 
-
+       
         public DbContext()
         {
 

@@ -214,6 +214,15 @@
     <Reference Include="Monads, Version=1.1.5.0, Culture=neutral, PublicKeyToken=c45ad03d718dd7fa, processorArchitecture=MSIL">
       <HintPath>..\packages\Monads.1.1.5.0\lib\net40\Monads.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.30.0.0, Culture=neutral, PublicKeyToken=94992a530f44e321, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.30.0\lib\net472\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.30.0.0, Culture=neutral, PublicKeyToken=94992a530f44e321, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.30.0\lib\net472\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Libmongocrypt, Version=1.12.0.0, Culture=neutral, PublicKeyToken=94992a530f44e321, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Libmongocrypt.1.12.0\lib\net472\MongoDB.Libmongocrypt.dll</HintPath>
+    </Reference>
     <Reference Include="Mvc.JQuery.DataTables, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Mvc.JQuery.DataTables.1.5.56\lib\net451\Mvc.JQuery.DataTables.dll</HintPath>
     </Reference>
@@ -409,6 +418,9 @@
     </Reference>
     <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="ZstdSharp, Version=0.7.3.0, Culture=neutral, PublicKeyToken=8d151af33a4ad5cf, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZstdSharp.Port.0.7.3\lib\net461\ZstdSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -737,7 +749,10 @@
     <Content Include="Manage\VatRateManagement.aspx" />
     <Content Include="Master.Master" />
     <Content Include="Account\MainAccount.Master" />
+    <Content Include="libmongocrypt.so" />
+    <Content Include="libmongocrypt.dylib" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
+    <Content Include="mongocrypt.dll" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.js" />
@@ -1432,10 +1447,12 @@
     <Error Condition="!Exists('..\packages\PropertyChanged.Fody.4.1.0\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.4.1.0\build\PropertyChanged.Fody.props'))" />
     <Error Condition="!Exists('..\packages\Fody.6.6.4\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.6.4\build\Fody.targets'))" />
     <Error Condition="!Exists('..\packages\Grpc.Core.2.46.6\build\net45\Grpc.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Grpc.Core.2.46.6\build\net45\Grpc.Core.targets'))" />
+    <Error Condition="!Exists('..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets'))" />
   </Target>
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
   <Import Project="..\packages\Fody.6.6.4\build\Fody.targets" Condition="Exists('..\packages\Fody.6.6.4\build\Fody.targets')" />
   <Import Project="..\packages\Grpc.Core.2.46.6\build\net45\Grpc.Core.targets" Condition="Exists('..\packages\Grpc.Core.2.46.6\build\net45\Grpc.Core.targets')" />
+  <Import Project="..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets" Condition="Exists('..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -33,6 +33,15 @@ namespace MobileExpress.TechniciansFolder
 		protected global::System.Web.UI.WebControls.Label lblTechnicianName;
 
 		/// <summary>
+		/// lblTotalBids control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.Label lblTotalBids;
+
+		/// <summary>
 		/// fullNameValue control.
 		/// </summary>
 		/// <remarks>

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
@@ -198,37 +199,49 @@ namespace MobileExpress.TechniciansFolder
 			}
 		}
 		[WebMethod]
+		
 		public static string GetTechnicianInfoJson()
 		{
 			try
 			{
-				int techId = Convert.ToInt32(HttpContext.Current.Session["TecId"]);
-
-				// בדיקה שה-ID תקין
-				if (techId <= 0)
+				if (HttpContext.Current.Session["TecId"] == null)
 				{
-					throw new Exception("מזהה טכנאי לא תקין");
+					return JsonConvert.SerializeObject(new { error = "משתמש לא מחובר" });
 				}
 
+				int techId = Convert.ToInt32(HttpContext.Current.Session["TecId"]);
 				var technician = TechniciansDAL.GetById(techId);
+
 				if (technician == null)
 				{
-					throw new Exception("לא נמצא טכנאי במערכת");
+					return JsonConvert.SerializeObject(new { error = "לא נמצא טכנאי" });
 				}
 
 				return JsonConvert.SerializeObject(new
 				{
+					success = true,
 					TecId = technician.TecId,
 					FulName = technician.FulName,
 					Phone = technician.Phone
-
 				});
 			}
 			catch (Exception ex)
 			{
-				// לוגינג של השגיאה
-				System.Diagnostics.Debug.WriteLine($"שגיאה בקבלת פרטי טכנאי: {ex.Message}");
 				return JsonConvert.SerializeObject(new { error = ex.Message });
+			}
+		}
+		[WebMethod]
+		public static string GetCurrentVatRate()
+		{
+			try
+			{
+				decimal rate = BLL.VatRate.GetCurrentRate();
+				return rate.ToString(CultureInfo.InvariantCulture);
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"שגיאה בקבלת שיעור מע\"מ: {ex.Message}");
+				return "18"; // ערך ברירת מחדל קבוע
 			}
 		}
 
