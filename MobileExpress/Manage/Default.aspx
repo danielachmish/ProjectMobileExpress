@@ -20,10 +20,10 @@
                     <i class="i-Add-User"></i>
                     <div class="content">
                         <p class="text-muted mt-2 mb-0">טכנאים רשומים</p>
-                       <%-- <p class="text-primary text-24 line-height-1 mb-2">205</p>--%>
+                        <%-- <p class="text-primary text-24 line-height-1 mb-2">205</p>--%>
                         <p class="text-primary text-24 line-height-1 mb-2">
-    <asp:Label ID="lblTotalTechnicians" runat="server"></asp:Label>
-</p>
+                            <asp:Label ID="lblTotalTechnicians" runat="server"></asp:Label>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -34,9 +34,9 @@
                     <i class="i-Financial"></i>
                     <div class="content">
                         <p class="text-muted mt-2 mb-0">לקוחות רשומים</p>
-                       <p class="text-primary text-24 line-height-1 mb-2">
-    <asp:Label ID="lblTotalCustomers" runat="server"></asp:Label>
-</p>
+                        <p class="text-primary text-24 line-height-1 mb-2">
+                            <asp:Label ID="lblTotalCustomers" runat="server"></asp:Label>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -48,8 +48,8 @@
                     <div class="content">
                         <p class="text-muted mt-2 mb-0">קריאות</p>
                         <p class="text-primary text-24 line-height-1 mb-2">
-    <asp:Label ID="lblTotalReadability" runat="server"></asp:Label>
-</p>
+                            <asp:Label ID="lblTotalReadability" runat="server"></asp:Label>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -60,9 +60,9 @@
                     <i class="i-Money-2"></i>
                     <div class="content">
                         <p class="text-muted mt-2 mb-0">הצעות מחיר</p>
-                         <p class="text-primary text-24 line-height-1 mb-2">
-    <asp:Label ID="lblTotalBids" runat="server"></asp:Label>
-</p>
+                        <p class="text-primary text-24 line-height-1 mb-2">
+                            <asp:Label ID="lblTotalBids" runat="server"></asp:Label>
+                        </p>
                     </div>
                 </div>
             </div>

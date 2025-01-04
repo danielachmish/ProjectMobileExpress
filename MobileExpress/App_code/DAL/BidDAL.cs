@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using BLL;
 using System.Diagnostics;
 using Data;
-
+using System.Configuration;
 
 namespace DAL
 {
@@ -266,6 +266,24 @@ namespace DAL
 			try
 			{
 				var parameters = new List<SqlParameter>();
+				object result = db.ExecuteScalar(sql, parameters);
+				return result != DBNull.Value ? Convert.ToDecimal(result) : 0;
+			}
+			finally
+			{
+				db.Close();
+			}
+		}
+		public static decimal GetTechnicianTotalBids(int technicianId)
+		{
+			string sql = "SELECT SUM(Price) FROM T_Bid WHERE TecId = @TecId";
+			DbContext db = new DbContext();
+			try
+			{
+				var parameters = new List<SqlParameter>
+		{
+			new SqlParameter("@TecId", SqlDbType.Int) { Value = technicianId }
+		};
 				object result = db.ExecuteScalar(sql, parameters);
 				return result != DBNull.Value ? Convert.ToDecimal(result) : 0;
 			}

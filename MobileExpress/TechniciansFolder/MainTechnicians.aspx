@@ -982,6 +982,77 @@
             direction: rtl;
             text-align: right;
         }
+
+        .stats-container {
+            direction: rtl;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        .stat-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .stat-content > div:first-child {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+        h3 {
+            color: #6B7280;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .stat-value {
+            color: #6B46C1;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .stat-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: rgba(107, 70, 193, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .stat-icon svg {
+                width: 1.5rem;
+                height: 1.5rem;
+                stroke: #6B46C1;
+                fill: none;
+                stroke-width: 2;
+            }
+
+        /* מחיקת סגנונות מיותרים */
+        .card, .card-body, .card-icon-bg, .text-center, .content {
+            all: unset;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 
 
@@ -1067,64 +1138,69 @@
             </div>--%>
             <!-- Stats Grid -->
             <div class="stats-container">
-                <div class="stat-card">
-                    <div class="stat-content">
-                        <div>
-                            <h3>קריאות שירות</h3>
-                            <p class="stat-value"><%# CurrentStats.TotalCalls %></p>
-                            <small class="stat-subtitle"><%# $"{CurrentStats.AcceptedCalls} בטיפול | {CurrentStats.PendingCalls} בהמתנה" %></small>
-                        </div>
-                        <div class="stat-icon">
-                            <i class="fas fa-ticket-alt"></i>
-                        </div>
-                    </div>
-                    <div class="stat-progress">
-                        <div class="progress-bar" style="width: <%# CurrentStats.CompletionRate %>%"></div>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-content">
-                        <div>
-                            <h3>הכנסה חודשית</h3>
-                            <p class="stat-value">₪4,021</p>
-                        </div>
-                        <div class="stat-icon money-icon">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-content">
-                        <div>
-                            <h3>דירוג</h3>
-                            <p class="stat-value">4.8</p>
-                        </div>
-                        <div class="stat-icon rating-icon">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-content">
-                        <div>
-                            <h3>זמינות</h3>
-                            <p class="stat-value available">זמין</p>
-                        </div>
-                        <div class="stat-icon available-icon">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <path d="M5 13l4 4L19 7"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
+    <!-- הצעות מחיר -->
+    <div class="stat-card">
+        <div class="stat-content">
+            <div>
+                <h3>הצעות מחיר</h3>
+                <p class="stat-value">
+                    <asp:Label ID="lblTotalBids" runat="server"></asp:Label>
+                </p>
             </div>
+            <div class="stat-icon money-icon">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.39-2.1 1.39-1.6 0-2.23-.72-2.32-1.64H8.04c.1 1.7 1.36 2.66 2.86 2.97V19h2.34v-1.67c1.52-.29 2.72-1.16 2.73-2.77-.01-2.2-1.9-2.96-3.66-3.42z"></path>
+                </svg>
+            </div>
+        </div>
+        <div class="stat-progress">
+            <div class="progress-bar" style="width: <%# CurrentStats.CompletionRate %>%"></div>
+        </div>
+    </div>
+
+    <!-- שאר הקארדים נשארים ללא שינוי -->
+    <div class="stat-card">
+        <div class="stat-content">
+            <div>
+                <h3>הכנסה חודשית</h3>
+                <p class="stat-value">₪4,021</p>
+            </div>
+            <div class="stat-icon money-icon">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-content">
+            <div>
+                <h3>דירוג</h3>
+                <p class="stat-value">4.8</p>
+            </div>
+            <div class="stat-icon rating-icon">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+   <%-- <div class="stat-card">
+        <div class="stat-content">
+            <div>
+                <h3>זמינות</h3>
+                <p class="stat-value available">זמין</p>
+            </div>
+            <div class="stat-icon available-icon">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+        </div>
+    </div>--%>
+</div>
 
 
             <div class="details-card">
@@ -1460,7 +1536,7 @@
             }
         });
 
-      
+
 
 
 

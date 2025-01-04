@@ -57,10 +57,32 @@ namespace MobileExpress.TechniciansFolder
 					lblTechnicianName.Text = $"{greeting} {technicianName}";
 				}
 				LoadStats();
-
+				LoadDashboardData( tecId);
 			}
 
 		}
+		private void LoadDashboardData(int tecId)
+		{
+			try
+			{
+				//int totalTechnicians = Technicians.GetTotalTechnicians();
+				//lblTotalTechnicians.Text = totalTechnicians.ToString();
+
+				//int totalCustomers = Customers.GetTotalCustomers();
+				//lblTotalCustomers.Text = totalCustomers.ToString();
+
+				//int totalReadability = Readability.GetTotalReadability();
+				//lblTotalReadability.Text = totalReadability.ToString();
+
+				decimal technicianBids = Bid.GetTechnicianTotalBids(tecId);
+				lblTotalBids.Text = string.Format("{0:C}", technicianBids);
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Error loading dashboard data: {ex.Message}");
+			}
+		}
+		
 		private void LoadStats()
 		{
 			// בהנחה שאתה שומר את ID הטכנאי בסשן

@@ -12,13 +12,29 @@ namespace BLL
         private static DateTime _lastUpdate = DateTime.MinValue;
         private const int CACHE_MINUTES = 60;
 
+      
+
         public static decimal GetCurrentRate()
         {
-            // בדיקה אם צריך לרענן את המטמון
-            if (!_currentRate.HasValue || DateTime.Now.Subtract(_lastUpdate).TotalMinutes > CACHE_MINUTES)
+            var now = DateTime.Now;
+            System.Diagnostics.Debug.WriteLine($"Getting VAT rate. Current cached rate: {_currentRate}, Last update: {_lastUpdate}");
+
+            if (!_currentRate.HasValue || now.Subtract(_lastUpdate).TotalMinutes > CACHE_MINUTES || _currentRate.Value <= 0)
             {
-                _currentRate = VatRateDAL.GetCurrentVatRate();
-                _lastUpdate = DateTime.Now;
+                try
+                {
+                    _currentRate = VatRateDAL.GetCurrentVatRate();
+                    _lastUpdate = now;
+                    System.Diagnostics.Debug.WriteLine($"Updated VAT rate from DB: {_currentRate}");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error getting VAT rate: {ex.Message}");
+                    if (!_currentRate.HasValue)
+                    {
+                        _currentRate = 0.18m;
+                    }
+                }
             }
             return _currentRate.Value;
         }

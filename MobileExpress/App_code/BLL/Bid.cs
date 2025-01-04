@@ -116,5 +116,18 @@ namespace BLL
                 throw;
             }
         }
+
+        public static decimal GetTechnicianTotalBids(int tecId)
+        {
+            try
+            {
+                return BidDAL.GetTechnicianTotalBids( tecId);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in GetTotalBids: {ex.Message}");
+                throw;
+            }
+        }
     }
 }
