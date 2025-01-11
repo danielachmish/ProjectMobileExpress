@@ -2,137 +2,297 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Web;
+using System.Data.SqlClient;
 using BLL;
 using System.Diagnostics;
 using Data;
+using System.Configuration;
 
 namespace DAL
 {
-    public class BidDAL
-    {
-        // שמירת ביד חדש או עדכון ביד קיים
-        public static void Save(Bid Tmp)
-        {
-            string Sql;
-            if (Tmp.BidId == -1) // במקרה של יצירת ביד חדש
-            {
-                // שאילתת INSERT עם סוגריים מרובעים סביב השדות
-                Sql = "INSERT INTO T_Bid ([Desc], [Price], [Status], [TecId], [ReadId], [Date])" +
-                      " VALUES (@Desc, @Price, @Status, @TecId, @ReadId, @Date)";
-            }
-            else // במקרה של עדכון ביד קיים
-            {
-                // שאילתת UPDATE עם סוגריים מרובעים סביב השדות
-                Sql = "UPDATE T_Bid SET [Desc]=@Desc, [Price]=@Price, [Status]=@Status, [TecId]=@TecId, [ReadId]=@ReadId, [Date]=@Date WHERE [BidId]=@BidId";
-            }
 
-            // יצירת אובייקט DbContext לביצוע פעולות על בסיס הנתונים
-            DbContext Db = new DbContext();
 
-            // יצירת אובייקט עם הפרמטרים לשאילתה
-            var Obj = new
-            {
-                BidId = Tmp.BidId,
-                Desc = Tmp.Desc,
-                Price = Tmp.Price,
-                Status = Tmp.Status,
-                TecId = Tmp.TecId,
-                ReadId = Tmp.ReadId,
-                Date = Tmp.Date
-            };
 
-            // יצירת פרמטרים לשאילתה
-            var LstParma = DbContext.CreateParameters(Obj);
 
-            // ביצוע השאילתה
-            Db.ExecuteNonQuery(Sql, LstParma);
 
-            // סגירת חיבור לבסיס הנתונים
-            Db.Close();
-        }
+	public class BidDAL
+	{
+		public static int Save(Bid bid)
+		{
+			DbContext db = new DbContext();
+			try
+			{
+				string sql;
+				var parameters = new List<SqlParameter>
+		{       new SqlParameter("@Desc", SqlDbType.NVarChar){Value = string.IsNullOrWhiteSpace(bid.Desc) ? "תיאור ברירת מחדל" : (object)bid.Desc},
 
-        // אחזור כל הבידים
-        public static List<Bid> GetAll()
-        {
-            List<Bid> BidList = new List<Bid>();
-            string sql = "SELECT * FROM T_Bid"; // שאילתת SELECT
-            DbContext Db = new DbContext();
-            DataTable Dt = Db.Execute(sql);
+			//new SqlParameter("@Desc", SqlDbType.NVarChar) { Value = string.IsNullOrEmpty(bid.Desc) ? DBNull.Value : (object)bid.Desc },
+			new SqlParameter("@Price", SqlDbType.Decimal) { Value = bid.Price, Precision = 18, Scale = 2 },
+			new SqlParameter("@Status", SqlDbType.Bit) { Value = bid.Status },
+			new SqlParameter("@TecId", SqlDbType.Int) { Value = bid.TecId },
+			new SqlParameter("@ReadId", SqlDbType.Int) { Value = bid.ReadId },
+				new SqlParameter("@FullName", SqlDbType.NVarChar) { Value = string.IsNullOrEmpty(bid.FullName) ? DBNull.Value : (object)bid.FullName },
+			new SqlParameter("@Date", SqlDbType.DateTime) { Value = bid.Date },
+			new SqlParameter("@ItemDescription", SqlDbType.NVarChar) { Value = string.IsNullOrEmpty(bid.ItemDescription) ? DBNull.Value : (object)bid.ItemDescription },
+			new SqlParameter("@ItemQuantity", SqlDbType.Int) { Value = bid.ItemQuantity },
+			new SqlParameter("@ItemUnitPrice", SqlDbType.Decimal) { Value = bid.ItemUnitPrice, Precision = 18, Scale = 2 }
+		};
 
-            try
-            {
-                // לולאה לעבור על כל השורות שהוחזרו מהשאילתה וליצור אובייקטים של Bid
-                for (int i = 0; i < Dt.Rows.Count; i++)
-                {
-                    Bid Tmp = new Bid()
-                    {
-                        BidId = int.Parse(Dt.Rows[i]["BidId"].ToString()),
-                        Desc = Dt.Rows[i]["Desc"].ToString(),
-                        Price = int.Parse(Dt.Rows[i]["Price"].ToString()),
-                        TecId = int.Parse(Dt.Rows[i]["TecId"].ToString()),
-                        ReadId = int.Parse(Dt.Rows[i]["ReadId"].ToString()),
-                        Date = DateTime.Parse(Dt.Rows[i]["Date"].ToString()),
-                        Status = Convert.ToBoolean(Dt.Rows[i]["Status"])
-                    };
+				if (bid.BidId <= 0)
+				{
+					sql = @"INSERT INTO T_Bid (
+                    [Desc], Price, Status, TecId, ReadId, Date,FullName,
+                    ItemDescription, ItemQuantity, ItemUnitPrice)
+                OUTPUT INSERTED.BidId
+                VALUES (
+                    @Desc, @Price, @Status, @TecId, @ReadId, @Date,@FullName,
+                    @ItemDescription, @ItemQuantity, @ItemUnitPrice)";
+				}
+				else
+				{
+					sql = @"UPDATE T_Bid 
+                    SET [Desc]=@Desc, Price=@Price, Status=@Status,
+                        TecId=@TecId, ReadId=@ReadId, Date=@Date,FullName=@FullName,
+                        ItemDescription=@ItemDescription, 
+                        ItemQuantity=@ItemQuantity,
+                        ItemUnitPrice=@ItemUnitPrice
+                    WHERE BidId=@BidId;
+                    SELECT @BidId";
+					parameters.Add(new SqlParameter("@BidId", SqlDbType.Int) { Value = bid.BidId });
+				}
+				System.Diagnostics.Debug.WriteLine($"FullName value before save: {bid.FullName}");
+				return Convert.ToInt32(db.ExecuteScalar(sql, parameters));
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת הצעת מחיר: {ex.Message}");
+				throw;
+			}
+			finally
+			{
+				db.Close();
+			}
+		}
 
-                    // הוספת האובייקט לרשימה
-                    BidList.Add(Tmp);
-                }
-            }
-            catch (Exception ex)
-            {
-                // טיפול בשגיאה - רישום השגיאה לקונסול
-                Console.WriteLine("Exception: " + ex.Message);
-            }
-            finally
-            {
-                // סגירת חיבור לבסיס הנתונים
-                Db.Close();
-            }
+		public static Bid GetById(int id)
+		{
+			DbContext db = new DbContext();
+			try
+			{
+				//string sql = "SELECT * FROM T_Bid WHERE BidId = @BidId";
+				string sql = @"SELECT b.*, r.FullName 
+                      FROM T_Bid b 
+                      LEFT JOIN T_Readability r ON b.ReadId = r.ReadId 
+                      WHERE b.BidId = @BidId";
+				var parameters = new List<SqlParameter>
+		{
+			new SqlParameter("@BidId", id)
+		};
 
-            // החזרת הרשימה
-            return BidList;
-        }
+				DataTable dt = db.Execute(sql, parameters.ToArray());
 
-        // אחזור ביד לפי מזהה
-        public static Bid GetById(int Id)
-        {
-            Bid Tmp = null;
-            string sql = $"SELECT * FROM T_Bid WHERE [BidId] = {Id}"; // שאילתת SELECT עם תנאי
-            DbContext Db = new DbContext();
-            DataTable Dt = Db.Execute(sql);
+				if (dt.Rows.Count > 0)
+				{
+					var row = dt.Rows[0];
+					return new Bid
+					{
+						BidId = Convert.ToInt32(row["BidId"]),
+						Desc = row["Desc"]?.ToString(),
+						Price = row["Price"] != DBNull.Value ? Convert.ToDecimal(row["Price"]) : 0m,
+						Status = row["Status"] != DBNull.Value ? Convert.ToBoolean(row["Status"]) : false,
+						TecId = Convert.ToInt32(row["TecId"]),
+						ReadId = Convert.ToInt32(row["ReadId"]),
+						Date = Convert.ToDateTime(row["Date"]),
+						FullName = row["FullName"]?.ToString() ?? "לא צוין",
 
-            if (Dt.Rows.Count > 0)
-            {
-                // יצירת אובייקט Bid מהשורה הראשונה שהוחזרה
-                Tmp = new Bid()
-                {
-                    BidId = int.Parse(Dt.Rows[0]["BidId"].ToString()),
-                    Desc = Dt.Rows[0]["Desc"].ToString(),
-                    Price = int.Parse(Dt.Rows[0]["Price"].ToString()),
-                    TecId = int.Parse(Dt.Rows[0]["TecId"].ToString()),
-                    ReadId = int.Parse(Dt.Rows[0]["ReadId"].ToString()),
-                    Date = DateTime.Parse(Dt.Rows[0]["Date"].ToString()),
-                    Status = Convert.ToBoolean(Dt.Rows[0]["Status"])
-                };
-            }
+						// בדיקת NULL לשדות החדשים
+						ItemDescription = row["ItemDescription"] != DBNull.Value ? row["ItemDescription"].ToString() : null,
+						ItemQuantity = row["ItemQuantity"] != DBNull.Value ? Convert.ToInt32(row["ItemQuantity"]) : 0,
+						ItemUnitPrice = row["ItemUnitPrice"] != DBNull.Value ? Convert.ToDecimal(row["ItemUnitPrice"]) : 0m
+					};
+				}
+				return null;
+			}
+			finally
+			{
+				db.Close();
+			}
 
-            // סגירת חיבור לבסיס הנתונים
-            Db.Close();
-            return Tmp;
-        }
+		}
 
-        // מחיקת ביד לפי מזהה
-        public static int DeleteById(int Id)
-        {
-            string Sql = $"DELETE FROM T_Bid WHERE [BidId] = {Id}"; // שאילתת DELETE
-            DbContext Db = new DbContext();
-            int Total = Db.ExecuteNonQuery(Sql);
-            Db.Close();
+		public static List<Bid> GetAll()
+		{
+			DbContext db = new DbContext();
+			try
+			{
+				//string sql = "SELECT * FROM T_Bid";
+				string sql = @"SELECT b.*, r.FullName, r.AssignedTechnicianId 
+   FROM T_Bid b 
+   LEFT JOIN T_Readability r ON b.ReadId = r.ReadId";
+				DataTable dt = db.Execute(sql);
+				List<Bid> bids = new List<Bid>();
 
-            // החזרת תוצאה בהתאם למספר השורות שנמחקו
-            return Total > 0 ? 1 : -1;
-        }
-    }
+				foreach (DataRow row in dt.Rows)
+				{
+					try
+					{
+						var bid = new Bid
+						{
+							BidId = Convert.ToInt32(row["BidId"]),
+							Desc = row["Desc"]?.ToString(),
+							Price = row["Price"] != DBNull.Value ? Convert.ToDecimal(row["Price"]) : 0m,
+							Status = row["Status"] != DBNull.Value ? Convert.ToBoolean(row["Status"]) : false,
+							TecId = Convert.ToInt32(row["TecId"]),
+							ReadId = Convert.ToInt32(row["ReadId"]),
+							FullName = row["FullName"]?.ToString() ?? "לא צוין",
+							Date = Convert.ToDateTime(row["Date"]),
+								AssignedTechnicianId = row["AssignedTechnicianId"] != DBNull.Value ?
+		Convert.ToInt32(row["AssignedTechnicianId"]) : (int?)null,
+
+						};
+
+						// בדיקת קיום העמודות החדשות
+						if (dt.Columns.Contains("ItemDescription"))
+						{
+							bid.ItemDescription = row["ItemDescription"] != DBNull.Value ?
+								row["ItemDescription"].ToString() : null;
+						}
+
+						if (dt.Columns.Contains("ItemQuantity"))
+						{
+							bid.ItemQuantity = row["ItemQuantity"] != DBNull.Value ?
+								Convert.ToInt32(row["ItemQuantity"]) : 0;
+						}
+
+						if (dt.Columns.Contains("ItemUnitPrice"))
+						{
+							bid.ItemUnitPrice = row["ItemUnitPrice"] != DBNull.Value ?
+								Convert.ToDecimal(row["ItemUnitPrice"]) : 0m;
+						}
+
+						bids.Add(bid);
+					}
+					catch (Exception ex)
+					{
+						System.Diagnostics.Debug.WriteLine($"Error processing bid: {ex.Message}");
+						// ממשיך לרשומה הבאה במקרה של שגיאה
+						continue;
+					}
+				}
+				return bids;
+			}
+			finally
+			{
+				db.Close();
+			}
+		}
+		public static List<Bid> GetByReadId(int readId)
+		{
+			DbContext db = new DbContext();
+			try
+			{
+				string sql = @"SELECT b.*, r.FullName, r.AssignedTechnicianId 
+   FROM T_Bid b 
+   LEFT JOIN T_Readability r ON b.ReadId = r.ReadId";
+
+				var parameters = new List<SqlParameter>
+		{
+			new SqlParameter("@ReadId", readId)
+		};
+
+				DataTable dt = db.Execute(sql, parameters.ToArray());
+				List<Bid> bids = new List<Bid>();
+
+				foreach (DataRow row in dt.Rows)
+				{
+					try
+					{
+						var bid = new Bid
+						{
+							BidId = Convert.ToInt32(row["BidId"]),
+							Desc = row["Desc"]?.ToString(),
+							Price = row["Price"] != DBNull.Value ? Convert.ToDecimal(row["Price"]) : 0m,
+							Status = row["Status"] != DBNull.Value ? Convert.ToBoolean(row["Status"]) : false,
+							TecId = Convert.ToInt32(row["TecId"]),
+							ReadId = Convert.ToInt32(row["ReadId"]),
+							FullName = row["FullName"]?.ToString() ?? "לא צוין",
+							Date = Convert.ToDateTime(row["Date"]),
+							AssignedTechnicianId = row["AssignedTechnicianId"] != DBNull.Value ?
+		Convert.ToInt32(row["AssignedTechnicianId"]) : (int?)null,
+							// שדות חדשים
+							ItemDescription = row["ItemDescription"] != DBNull.Value ? row["ItemDescription"].ToString() : null,
+							ItemQuantity = row["ItemQuantity"] != DBNull.Value ? Convert.ToInt32(row["ItemQuantity"]) : 0,
+							ItemUnitPrice = row["ItemUnitPrice"] != DBNull.Value ? Convert.ToDecimal(row["ItemUnitPrice"]) : 0m
+						};
+
+						bids.Add(bid);
+					}
+					catch (Exception ex)
+					{
+						System.Diagnostics.Debug.WriteLine($"Error processing bid: {ex.Message}");
+						continue;
+					}
+				}
+
+				return bids;
+			}
+			finally
+			{
+				db.Close();
+			}
+		}
+
+
+		public static int DeleteById(int id)
+		{
+			DbContext db = new DbContext();
+			try
+			{
+				string sql = "DELETE FROM T_Bid WHERE BidId = @BidId";
+				var parameters = new List<SqlParameter>
+			{
+				new SqlParameter("@BidId", id)
+			};
+				return db.ExecuteNonQuery(sql, parameters);
+			}
+			finally
+			{
+				db.Close();
+			}
+		}
+		public static decimal GetTotalBids()
+		{
+			string sql = "SELECT SUM(Price) FROM T_Bid";
+			DbContext db = new DbContext();
+
+			try
+			{
+				var parameters = new List<SqlParameter>();
+				object result = db.ExecuteScalar(sql, parameters);
+				return result != DBNull.Value ? Convert.ToDecimal(result) : 0;
+			}
+			finally
+			{
+				db.Close();
+			}
+		}
+		public static decimal GetTechnicianTotalBids(int technicianId)
+		{
+			string sql = "SELECT SUM(Price) FROM T_Bid WHERE TecId = @TecId";
+			DbContext db = new DbContext();
+			try
+			{
+				var parameters = new List<SqlParameter>
+		{
+			new SqlParameter("@TecId", SqlDbType.Int) { Value = technicianId }
+		};
+				object result = db.ExecuteScalar(sql, parameters);
+				return result != DBNull.Value ? Convert.ToDecimal(result) : 0;
+			}
+			finally
+			{
+				db.Close();
+			}
+		}
+	}
 }

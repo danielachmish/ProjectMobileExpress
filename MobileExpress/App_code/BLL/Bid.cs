@@ -8,36 +8,127 @@ namespace BLL
 {
     public class Bid
     {
-        public int BidId { get; set; } // מזהה הביד
-        public string Desc { get; set; } // תיאור הביד
-        public int Price { get; set; } // מחיר הביד (כ- string כדי להתאים ל-NVARCHAR)
-        public bool Status { get; set; } // סטטוס הביד
-        public int TecId { get; set; } // מזהה הטכנאי
-        public int ReadId { get; set; } // מזהה הקורא
-        public DateTime Date { get; set; } // תאריך הביד
+        public string FullName { get; set; } 
+        public int BidId { get; set; }
+        public string Desc { get; set; }
+        public decimal Price { get; set; }
+        public bool Status { get; set; }
+        public int TecId { get; set; }
+        public int ReadId { get; set; }
+        public DateTime Date { get; set; }
+      
+        public int? AssignedTechnicianId { get; set; }  // מהטבלה T_Readability
+        // השדות החדשים מהטבלה המאוחדת
+        public string ItemDescription { get; set; }
+        public int ItemQuantity { get; set; }
+        public decimal ItemUnitPrice { get; set; }
+        public decimal ItemTotal => ItemQuantity * ItemUnitPrice;
 
-        // שמירת הביד
-        public void Save()
+        public decimal VatAmount
         {
-            BidDAL.Save(this);
+            get => Math.Round(Price * VatRate.GetCurrentRate(), 2);
         }
 
-        // אחזור כל הבידים
+        public decimal TotalWithVat
+        {
+            get => Math.Round(Price * (1 + VatRate.GetCurrentRate()), 2);
+        }
+
+        public void SaveNewBid()
+        {
+            try
+            {
+                BidId = BidDAL.Save(this);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת הצעת מחיר חדשה: {ex.Message}");
+                throw;
+            }
+        }
+
+        public void UpdateBid()
+        {
+            try
+            {
+                BidDAL.Save(this);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"שגיאה בעדכון הצעת מחיר: {ex.Message}");
+                throw;
+            }
+        }
+
+        public void Save()
+        {
+            if (BidId <= 0)
+            {
+                SaveNewBid();
+            }
+            else
+            {
+                UpdateBid();
+            }
+        }
+
         public static List<Bid> GetAll()
         {
             return BidDAL.GetAll();
         }
 
-        // אחזור ביד לפי מזהה
-        public static Bid GetById(int Id)
+        public static Bid GetById(int id)
         {
-            return BidDAL.GetById(Id);
+            return BidDAL.GetById(id);
+        }
+        public static List<Bid> GetByReadId(int readId)
+        {
+            try
+            {
+                return BidDAL.GetByReadId(readId);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in GetByReadId: {ex.Message}");
+                throw;
+            }
         }
 
-        // מחיקת ביד לפי מזהה
-        public static int DeleteById(int Id)
+
+
+        public static int DeleteById(int id)
         {
-            return BidDAL.DeleteById(Id);
+            return BidDAL.DeleteById(id);
+        }
+
+        public void CalculateTotalPrice()
+        {
+            /*Price = ItemTotal;*/  // במקרה זה המחיר הכולל הוא פשוט סכום הפריט
+        }
+        public static decimal GetTotalBids()
+        {
+            try
+            {
+                return BidDAL.GetTotalBids();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in GetTotalBids: {ex.Message}");
+                throw;
+            }
+        }
+
+        public static decimal GetTechnicianTotalBids(int tecId)
+        {
+            try
+            {
+                return BidDAL.GetTechnicianTotalBids( tecId);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in GetTotalBids: {ex.Message}");
+                throw;
+            }
         }
     }
 }

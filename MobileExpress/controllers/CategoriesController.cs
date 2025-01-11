@@ -19,7 +19,7 @@ namespace MobileExpress.controllers
                 // הגדרת מזהה חדש
                 Tmp.CatId = -1;
                 // שמירה
-                Tmp.Save();
+                Tmp.SaveNewCategories();
             }
             else
             {
@@ -35,7 +35,7 @@ namespace MobileExpress.controllers
             // הגדרת מזהה קטגוריה לפי הקלט
             Tmp.CatId = Id;
             // שמירת הקטגוריה
-            Tmp.Save();
+            Tmp.SaveNewCategories();
         }
 
         // אחזור רשימת כל הקטגוריות

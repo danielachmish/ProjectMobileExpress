@@ -1,10 +1,7 @@
-﻿using System;
+﻿using DAL;
+using Services;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using DAL;
-using Data;
-using System.Data;
 
 
 namespace BLL
@@ -22,13 +19,56 @@ namespace BLL
 		public bool Status { get; set; }
 		public string Email { get; set; }
 
-		// בדיקה אם המשתמש קיים - עדכון, אחרת הוספת משתמש חדש
-		public void Save()
-		{
-			AdministratorsDAL.Save(this);
-		}
-		// אחזור כל המשתמשים
-		public static List<Administrators> GetAll()
+        // בדיקה אם המשתמש קיים - עדכון, אחרת הוספת משתמש חדש
+        public void SaveNewAdministrators()
+        {
+            try
+            {
+                AdministratorsDAL.Save(this);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"שגיאה בשמירת מנהל חדש: {ex.Message}");
+                throw;
+            }
+        }
+        public static string HashPassword(string password)
+        {
+            System.Diagnostics.Debug.WriteLine("מתחיל תהליך הצפנת סיסמה");
+            var hashedPassword = Convert.ToBase64String(
+                System.Security.Cryptography.SHA256.Create()
+                .ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
+            System.Diagnostics.Debug.WriteLine("סיסמה הוצפנה בהצלחה");
+            return hashedPassword;
+        }
+
+        public void UpdateAdministrators()
+        {
+            try
+            {
+                AdministratorsDAL.UpdateAdministrators(this);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"שגיאה בעדכון מנהל: {ex.Message}");
+                throw;
+            }
+        }
+
+        public void Save()
+        {
+            if (this.AdminId <= 0)
+            {
+                SaveNewAdministrators();
+            }
+            else
+            {
+                UpdateAdministrators();
+            }
+        }
+
+        // אחזור כל המשתמשים
+        public static List<Administrators> GetAll()
 		{
 			return AdministratorsDAL.GetAll();
 		}
@@ -43,12 +83,16 @@ namespace BLL
 			return AdministratorsDAL.DeleteById(Id);
 		}
 
+        public void SetPassword(string password)
+        {
+            Pass = EncryptionUtils.HashPassword(password);
+        }
+
+        public bool VerifyPassword(string inputPassword)
+        {
+            return EncryptionUtils.VerifyPassword(inputPassword, Pass);
+        }
+    }
 
 
-
-
-
-	}
-
-	
 }

@@ -13,9 +13,35 @@ namespace BLL
 		public DateTime DateAdd { get; set; }
 		public bool Status { get; set; }
 
-		public void Save()
+		public void SaveNewCategories()
 		{
 			CategoriesDAL.Save(this);
+		}
+		// פונקציה לעדכון קטגוריה קיימת
+		public void UpdateCategories()
+		{
+			try
+			{
+				CategoriesDAL.UpdateCategories(this); // העברת האובייקט הנוכחי ל-DAL
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Exception: " + ex.Message);
+				throw;
+			}
+		}
+
+		// פונקציה כללית לשמירת לקוח חדש או קיים
+		public void Save()
+		{
+			if (this.CatId == -1)
+			{
+				SaveNewCategories();
+			}
+			else
+			{
+				UpdateCategories();
+			}
 		}
 		// אחזור כל המשתמשים
 		public static List<Categories> GetAll()

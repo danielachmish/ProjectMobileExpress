@@ -12,20 +12,20 @@ namespace MobileExpress.controllers
     public class ManufacturersController : ApiController
     {
         [HttpPost]
-        public void Post(Manufacturers Tmp)
+        public IHttpActionResult Post([FromBody] Manufacturers manufacturer)
         {
-            // בדוק ש-`Tmp` אינו `null` לפני גישה לפרופרטים שלו
-            if (Tmp != null)
+            try
             {
-                // הגדרת מזהה חדש
-                Tmp.ManuId = -1;
-                // שמירה
-                Tmp.Save();
+                if (manufacturer == null)
+                    return BadRequest("אובייקט ריק");
+
+                manufacturer.ManuId = -1;
+                manufacturer.Save();
+                return Ok(manufacturer);
             }
-            else
+            catch (Exception ex)
             {
-                // טיפול במקרה בו `Tmp` הוא `null`
-                throw new ArgumentNullException("Tmp", "אובייקט Tmp הוא null");
+                return InternalServerError(ex);
             }
         }
 

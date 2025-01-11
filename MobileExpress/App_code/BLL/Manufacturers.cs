@@ -14,9 +14,35 @@ namespace BLL
         public string NameImage { get; set; }
         public DateTime Date { get; set; }
 
-        public void Save()
+        public void SaveNewManufacturers()
         {
             ManufacturersDAL.Save(this);
+        }
+        // פונקציה לעדכון מנהל קיים
+        public void UpdateManufacturers()
+        {
+            try
+            {
+                ManufacturersDAL.UpdateManufacturers(this); // העברת האובייקט הנוכחי ל-DAL
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: " + ex.Message);
+                throw;
+            }
+        }
+
+        // פונקציה כללית לשמירת לקוח חדש או קיים
+        public void Save()
+        {
+            if (this.ManuId == -1||this.ManuId == 0)
+            {
+                SaveNewManufacturers();
+            }
+            else
+            {
+                UpdateManufacturers();
+            }
         }
 
         // אחזור כל המשתמשים

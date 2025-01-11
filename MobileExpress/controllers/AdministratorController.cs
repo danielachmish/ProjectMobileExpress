@@ -17,7 +17,7 @@ namespace MobileExpress.controllers
             if (Tmp != null)
             {
                 // הגדרת מזהה משתמש חדש
-                Tmp.AdminId = -1;
+                Tmp.AdminId = 0;
                 // שמירת המשתמש
                 Tmp.Save();
             }
