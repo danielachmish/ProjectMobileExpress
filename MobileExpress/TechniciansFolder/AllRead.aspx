@@ -82,14 +82,9 @@
                                             </div>
                                             <div class="detail-item">
                                                 <span class="detail-label">סטטוס</span>
-                                                <span class="detail-value status"><%# (bool)Eval("Status") ? "סגורה" : "פתוחה" %></span>
+                                                <span class="detail-value status"><%# (bool)Eval("Status") ? "פתוחה" : "סגורה" %></span>
                                             </div>
-                                            <%-- <div class="detail-item">
-    <span class="detail-label">סטטוס</span>
-    <span class="detail-value status">
-        <%# GetStatusText((CallStatus)Eval("CallStatus")) %>
-    </span>
-</div>--%>
+                                         
 
 
                                             <div class="detail-item">
@@ -103,22 +98,13 @@
                                         </div>
                                     </div>
 
-                                    <!-- תמונה ותיאור -->
-                                    <%-- <div class="media-section">
-                                        <div class="image-container">
-                                            <%# Eval("NameImage").ToString() != "" ? 
-                                           "<img src='Images/" + Eval("NameImage") + "' alt='תמונת קריאה' class='service-image' />" : 
-                                           "<div class='no-image'>אין תמונה</div>" %>
-                                        </div>--%>
-
+                                 
                                     <div class="description-container">
                                         <span class="detail-label">תיאור התקלה</span>
                                         <p class="description-text"><%# Eval("Desc") %></p>
                                     </div>
                                 </div>
                                 <!-- כפתורי פעולה -->
-
-
 
                                 <div class="action-buttons">
                                     <asp:Button runat="server"
@@ -134,7 +120,7 @@
                                         Visible='<%# !Convert.ToBoolean(Eval("Status")) %>' />
                                 </div>
                             </div>
-                           
+
                         </ItemTemplate>
                     </asp:Repeater>
                 </div>

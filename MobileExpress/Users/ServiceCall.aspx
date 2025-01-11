@@ -45,17 +45,7 @@
                 </asp:RequiredFieldValidator>
             </div>
 
-            <%-- <div class="form-group">
-                <asp:Label AssociatedControlID="ddlmodelcode" runat="server">דגם המכשיר</asp:Label>
-                <asp:DropDownList ID="ddlmodelcode" runat="server" CssClass="form-control">
-                </asp:DropDownList>
-                <asp:RequiredFieldValidator ID="rfvmodelcode" runat="server" 
-                    ControlToValidate="ddlmodelcode" 
-                    ErrorMessage="שדה חובה" 
-                    Display="Dynamic" 
-                    CssClass="field-error">
-                </asp:RequiredFieldValidator>
-            </div>--%>
+           
 
             <div class="form-group">
                 <asp:Label AssociatedControlID="txtmodelcode" runat="server">דגם המכשיר</asp:Label>

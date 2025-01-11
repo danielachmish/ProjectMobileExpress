@@ -200,8 +200,8 @@ namespace MobileExpress.Users
                     var readability = Readability.GetById(bid.ReadId);
                     if (readability != null)
                     {
-                        readability.AssignedTechnicianId = bid.TecId;
-                        readability.Status = false; // מסמן שהקריאה סגורה/נבחרה הצעה
+                        //readability.AssignedTechnicianId = bid.TecId;
+                        readability.CallStatus = CallStatus.InProgress; // מסמן שהקריאה סגורה/נבחרה הצעה
                         readability.UpdateReadability();
                     }
 

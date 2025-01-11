@@ -164,6 +164,7 @@
                             </li>--%>
                           <%--  <li class="Ul_li--hover"><a href="http://demos.ui-lib.com/gull-html-doc/"><i class="i-Safe-Box1 text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">Doc</span></a></li>--%>
                                <li class="Ul_li--hover"><a href="VatRateManagement.aspx"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">מע"מ</span></a></li>
+                               <li class="Ul_li--hover"><a href="PageContentList.aspx"><i class="i-File-Horizontal-Text text-20 mr-2 text-muted"></i><span class="item-name text-15 text-muted">תוכן העמוד</span></a></li>
                         </ul>
                     </div>
                 </div>

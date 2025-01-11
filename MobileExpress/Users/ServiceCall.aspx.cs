@@ -97,7 +97,7 @@ namespace MobileExpress.Users
 					Status = true, // קריאה חדשה
 					//NameImage = fileName,
 					Urgency = ddlUrgency.SelectedValue,
-					SerProdId = 1 // ברירת מחדל או לפי הצורך
+					SerProdId = 4 // ברירת מחדל או לפי הצורך
 				};
 				if (chkManualLocation.Checked && !string.IsNullOrEmpty(hdnSelectedLat.Value))
 				{

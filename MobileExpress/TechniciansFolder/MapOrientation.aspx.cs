@@ -15,19 +15,43 @@ namespace MobileExpress.TechniciansFolder
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			if (!IsPostBack && Request.QueryString["readId"] != null)
+			
+			if (!IsPostBack)
 			{
-				int readId = Convert.ToInt32(Request.QueryString["readId"]);
-				Readability read = ReadabilityDAL.GetById(readId);
+				// קביעת ברירת המחדל של הפילטר לקריאות פתוחות
+				StatusFilter.SelectedValue = "true";
 
-				if (read?.Nots != null)
+				// אם יש מזהה קריאה בפרמטרים של הדף
+				if (Request.QueryString["readId"] != null)
 				{
-					ClientScript.RegisterStartupScript(GetType(), "ShowLocation",
-						$"findLocationByAddress('{read.Nots}');", true);
+					int readId = Convert.ToInt32(Request.QueryString["readId"]);
+					Readability read = ReadabilityDAL.GetById(readId);
+
+					if (read?.Nots != null)
+					{
+						ClientScript.RegisterStartupScript(GetType(), "ShowLocation",
+							$"findLocationByAddress('{read.Nots}');", true);
+					}
 				}
+
+				// טעינת הקריאות הפתוחות
 				LoadServiceCalls();
 				LoadTechnicianPreferences();
 			}
+
+			//if (!IsPostBack && Request.QueryString["readId"] != null)
+			//{
+			//	int readId = Convert.ToInt32(Request.QueryString["readId"]);
+			//	Readability read = ReadabilityDAL.GetById(readId);
+
+			//	if (read?.Nots != null)
+			//	{
+			//		ClientScript.RegisterStartupScript(GetType(), "ShowLocation",
+			//			$"findLocationByAddress('{read.Nots}');", true);
+			//	}
+			//	LoadServiceCalls();
+			//	LoadTechnicianPreferences();
+			//}
 		}
 		protected CheckBox locationToggle;
 		private void LoadTechnicianPreferences()
@@ -42,19 +66,54 @@ namespace MobileExpress.TechniciansFolder
 				}
 			}
 		}
+		//private void LoadServiceCalls()
+		//{
+		//	try
+		//	{
+		//		List<Readability> serviceCalls = Readability.GetAll();
+
+		//		// אם יש פילטר סטטוס
+		//		string statusFilter = StatusFilter.SelectedValue;
+		//		if (!string.IsNullOrEmpty(statusFilter))
+		//		{
+		//			bool statusValue = Convert.ToBoolean(statusFilter);
+		//			serviceCalls = serviceCalls.Where(call => call.Status == statusValue).ToList();
+		//		}
+
+		//		// מיון לפי תאריך - מהחדש לישן
+		//		serviceCalls = serviceCalls.OrderByDescending(call => call.DateRead).ToList();
+
+		//		ServiceCallsRepeater.DataSource = serviceCalls;
+		//		ServiceCallsRepeater.DataBind();
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		// Log the error
+		//		System.Diagnostics.Debug.WriteLine($"Error loading service calls: {ex.Message}");
+		//		// You might want to show an error message to the user
+		//		ScriptManager.RegisterStartupScript(this, GetType(), "alert",
+		//			"alert('אירעה שגיאה בטעינת הנתונים. אנא נסה שנית מאוחר יותר.');", true);
+		//	}
+		//}
+
 		private void LoadServiceCalls()
 		{
 			try
 			{
 				List<Readability> serviceCalls = Readability.GetAll();
 
-				// אם יש פילטר סטטוס
+				// תמיד נבדוק את ערך הפילטר
 				string statusFilter = StatusFilter.SelectedValue;
+				bool statusValue = true; // ברירת מחדל לקריאות פתוחות
+
+				// אם נבחר ערך בפילטר, נשתמש בו
 				if (!string.IsNullOrEmpty(statusFilter))
 				{
-					bool statusValue = Convert.ToBoolean(statusFilter);
-					serviceCalls = serviceCalls.Where(call => call.Status == statusValue).ToList();
+					statusValue = Convert.ToBoolean(statusFilter);
 				}
+
+				// סינון הקריאות לפי הסטטוס
+				serviceCalls = serviceCalls.Where(call => call.Status == statusValue).ToList();
 
 				// מיון לפי תאריך - מהחדש לישן
 				serviceCalls = serviceCalls.OrderByDescending(call => call.DateRead).ToList();
@@ -64,9 +123,7 @@ namespace MobileExpress.TechniciansFolder
 			}
 			catch (Exception ex)
 			{
-				// Log the error
 				System.Diagnostics.Debug.WriteLine($"Error loading service calls: {ex.Message}");
-				// You might want to show an error message to the user
 				ScriptManager.RegisterStartupScript(this, GetType(), "alert",
 					"alert('אירעה שגיאה בטעינת הנתונים. אנא נסה שנית מאוחר יותר.');", true);
 			}
@@ -74,7 +131,7 @@ namespace MobileExpress.TechniciansFolder
 
 		protected string GetStatusText(bool Status)
 		{
-			return Status ? "קריאה סגורה" : "קריאה פתוחה";
+			return Status ? "קריאה פתוחה" : "קריאה סגורה"; 
 		}
 
 		protected string GetUrgencyClass(string urgency)
@@ -139,88 +196,6 @@ namespace MobileExpress.TechniciansFolder
 				throw;
 			}
 		}
-
-
-
-		//להציג קריאות רק ברדיוס מסויים
-		//[WebMethod]
-		//public static List<object> GetServiceCalls(double currentLat, double currentLng, double radius)
-		//{
-		//	try
-		//	{
-		//		List<Readability> allCalls = Readability.GetAll();
-		//		var filteredCalls = new List<Readability>();
-
-		//		foreach (var call in allCalls)
-		//		{
-		//			if (string.IsNullOrEmpty(call.Nots)) continue;
-
-		//			// פיצול המיקום לקואורדינטות
-		//			var coordinates = call.Nots.Split(',');
-		//			if (coordinates.Length != 2) continue;
-
-		//			if (double.TryParse(coordinates[0], out double callLat) &&
-		//				double.TryParse(coordinates[1], out double callLng))
-		//			{
-		//				// חישוב מרחק
-		//				double distance = CalculateDistance(currentLat, currentLng, callLat, callLng);
-		//				if (distance <= radius)
-		//				{
-		//					filteredCalls.Add(call);
-		//				}
-		//			}
-		//		}
-
-		//		return filteredCalls.Select(call => new
-		//		{
-		//			call.ReadId,
-		//			call.DateRead,
-		//			call.Desc,
-		//			call.FullName,
-		//			call.Phone,
-		//			call.Nots,
-		//			call.Status,
-		//			call.Urgency
-		//		}).ToList<object>();
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		System.Diagnostics.Debug.WriteLine($"Error in GetServiceCalls: {ex.Message}");
-		//		throw;
-		//	}
-		//}
-
-		//private static double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
-		//{
-		//	var R = 6371; // רדיוס כדור הארץ בק"מ
-		//	var dLat = ToRad(lat2 - lat1);
-		//	var dLon = ToRad(lon2 - lon1);
-		//	var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-		//			Math.Cos(ToRad(lat1)) * Math.Cos(ToRad(lat2)) *
-		//			Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
-		//	var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-		//	var d = R * c;
-		//	return d;
-		//}
-
-		//private static double ToRad(double degrees)
-		//{
-		//	return degrees * (Math.PI / 180);
-		//}
-		//protected string GetFullAddress(object street, object houseNumber, object city)
-		//{
-		//	return $"{street} {houseNumber}, {city}, ישראל";
-		//}
-
-
-
-
-
-
-
-
-
-
 
 		[WebMethod]
 		public static object UpdateLocationTracking(bool showLocation)

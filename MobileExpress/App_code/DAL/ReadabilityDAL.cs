@@ -55,6 +55,7 @@ namespace DAL
 					Urgency = Tmp.Urgency,
 					SerProdId = Tmp.SerProdId,
 					ModelCode=Tmp.ModelCode
+					
 				};
 
 				var LstParma = DbContext.CreateParameters(Obj);
@@ -78,15 +79,15 @@ namespace DAL
 			Debug.WriteLine("סיום פונקציית SaveNewCustomers");
 		}
 
+	
+
 		public static void UpdateReadability(Readability Tmp)
 		{
 			try
 			{
 				string sql = "UPDATE T_Readability SET DateRead=@DateRead,[Desc]=@Desc,FullName=@FullName,Phone=@Phone,Nots=@Nots," +
-					  "CusId=@CusId,ModelId=@ModelId,Status=@Status,Urgency=@Urgency,SerProdId=@SerProdId,ModelCode=@ModelCode WHERE ReadId=@ReadId";
-
-				// הדפסת השאילתה לשם בדיקה
-				System.Diagnostics.Debug.WriteLine("SQL Query (Update): " + sql);
+						  "CusId=@CusId,ModelId=@ModelId,Status=@Status,Urgency=@Urgency,SerProdId=@SerProdId,ModelCode=@ModelCode," +
+						  "AssignedTechnicianId=@AssignedTechnicianId,CallStatus=@CallStatus WHERE ReadId=@ReadId";
 
 				DbContext Db = new DbContext();
 				var Obj = new
@@ -100,35 +101,22 @@ namespace DAL
 					Tmp.CusId,
 					ModelId = string.IsNullOrEmpty(Tmp.ModelId) ? DBNull.Value : (object)Tmp.ModelId,
 					Tmp.Status,
-				//	Tmp.NameImage,
 					Tmp.CallStatus,
 					Tmp.Urgency,
 					Tmp.SerProdId,
 					Tmp.ModelCode,
-					TreatmentStartTime = Tmp.TreatmentStartTime.HasValue ? (object)Tmp.TreatmentStartTime.Value : DBNull.Value,
-					TechnicianNotes = string.IsNullOrEmpty(Tmp.TechnicianNotes) ? string.Empty : Tmp.TechnicianNotes
+					AssignedTechnicianId = Tmp.AssignedTechnicianId.HasValue ? (object)Tmp.AssignedTechnicianId.Value : DBNull.Value
+				
 				};
 
 				var LstParma = DbContext.CreateParameters(Obj);
-
-				// ביצוע השאילתה והכנסת הנתונים לבסיס הנתונים
-				int rowsAffected = Db.ExecuteNonQuery(sql, LstParma);
-				System.Diagnostics.Debug.WriteLine($"Rows affected (Update): {rowsAffected}");
-
-				if (rowsAffected > 0)
-				{
-					System.Diagnostics.Debug.WriteLine("Readability updated successfully.");
-				}
-				else
-				{
-					System.Diagnostics.Debug.WriteLine("No rows were affected. Check your update query and parameters.");
-				}
-
+				Db.ExecuteNonQuery(sql, LstParma);
 				Db.Close();
 			}
 			catch (Exception ex)
 			{
 				System.Diagnostics.Debug.WriteLine($"Error in UpdateReadability method: {ex.Message}");
+				throw;
 			}
 		}
 		// אחזור כל הלקוחות
@@ -216,9 +204,11 @@ namespace DAL
 					Urgency = Dt.Rows[0]["Urgency"].ToString(),
 					SerProdId = int.Parse(Dt.Rows[0]["SerProdId"].ToString()),
 					Status = Convert.ToBoolean(Dt.Rows[0]["Status"]),
-					ModelCode= Dt.Rows[0]["ModelCode"].ToString()
+					ModelCode= Dt.Rows[0]["ModelCode"].ToString(),
+ AssignedTechnicianId = string.IsNullOrEmpty(Dt.Rows[0]["AssignedTechnicianId"].ToString()) ?
+				null :
+				(int?)Convert.ToInt32(Dt.Rows[0]["AssignedTechnicianId"])
 				};
-
 			}
 			Db.Close();
 			return Tmp;
@@ -249,7 +239,8 @@ namespace DAL
 						CallStatus = (CallStatus)Convert.ToInt32(Dt.Rows[i]["CallStatus"]),
 						Urgency = Dt.Rows[i]["Urgency"].ToString(),
 						SerProdId = int.Parse(Dt.Rows[i]["SerProdId"].ToString()),
-						ModelCode = Dt.Rows[i]["ModelCode"].ToString()
+						ModelCode = Dt.Rows[i]["ModelCode"].ToString(),
+
 					};
 					ReadabilityList.Add(Tmp);
 				}
