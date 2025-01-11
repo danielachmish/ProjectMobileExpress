@@ -1,0 +1,48 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MainMaster.master.cs" Inherits="MobileExpress.Users.MainMaster" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+   <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Dashboard v1 | Gull admin template</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" />
+    <link href="/dist-assets/css/themes/lite-purple.css" rel="stylesheet" />
+    <link href="/dist-assets/css/plugins/perfect-scrollbar.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/dist-assets/css/plugins/fontawesome-5.css" />
+    <link href="/dist-assets/css/plugins/metisMenu.min.css" rel="stylesheet" />
+
+
+     <style>
+        /* סגנון לאזור התוכן הראשי */
+        .main-content {
+            background-image: url('/api/placeholder/1920/1080'); /* תחליף את זה עם הנתיב לתמונה שלך */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            width: 100%;
+        }
+    </style>
+
+    <asp:ContentPlaceHolder ID="HeadContent1" runat="server">
+        <!-- תוכן ראשי-->
+
+    </asp:ContentPlaceHolder>
+
+</head>
+<body>
+      <form id="form1" runat="server">
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+ 
+     <asp:ContentPlaceHolder ID="ContentPlaceHolder3" runat="server">
+            </asp:ContentPlaceHolder> <asp:ContentPlaceHolder ID="ContentPlaceHolder4" runat="server">
+            </asp:ContentPlaceHolder>
+    </form>
+</body>
+</html>

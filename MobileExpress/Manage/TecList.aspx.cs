@@ -7,7 +7,7 @@ using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BLL;
-
+using Services;
 
 namespace MobileExpress.Manage
 {
@@ -93,7 +93,8 @@ namespace MobileExpress.Manage
                     Address = Address,
                     Email = Email,
                     UserName = UserName,
-                    Pass = Pass != "****" && !string.IsNullOrEmpty(Pass) ? HashPassword(Pass) : null,
+                    Pass = Pass != "****" && !string.IsNullOrEmpty(Pass) ?
+                  EncryptionUtils.HashPassword(Pass) : null,
                     TecNum = TecNum,
                     Type = Type,
                     History = History,
@@ -137,10 +138,10 @@ namespace MobileExpress.Manage
             }
         }
 
-        private string HashPassword(string password)
-        {
-            return Convert.ToBase64String(System.Security.Cryptography.SHA256.Create().ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
-        }
+        //private string HashPassword(string password)
+        //{
+        //    return Convert.ToBase64String(System.Security.Cryptography.SHA256.Create().ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
+        //}
 
 
         //private void LogError(Exception ex)

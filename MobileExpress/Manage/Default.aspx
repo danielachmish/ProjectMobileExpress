@@ -19,8 +19,11 @@
                 <div class="card-body text-center">
                     <i class="i-Add-User"></i>
                     <div class="content">
-                        <p class="text-muted mt-2 mb-0">New Leads</p>
-                        <p class="text-primary text-24 line-height-1 mb-2">205</p>
+                        <p class="text-muted mt-2 mb-0">טכנאים רשומים</p>
+                        <%-- <p class="text-primary text-24 line-height-1 mb-2">205</p>--%>
+                        <p class="text-primary text-24 line-height-1 mb-2">
+                            <asp:Label ID="lblTotalTechnicians" runat="server"></asp:Label>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -30,8 +33,10 @@
                 <div class="card-body text-center">
                     <i class="i-Financial"></i>
                     <div class="content">
-                        <p class="text-muted mt-2 mb-0">Sales</p>
-                        <p class="text-primary text-24 line-height-1 mb-2">$4021</p>
+                        <p class="text-muted mt-2 mb-0">לקוחות רשומים</p>
+                        <p class="text-primary text-24 line-height-1 mb-2">
+                            <asp:Label ID="lblTotalCustomers" runat="server"></asp:Label>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -41,8 +46,10 @@
                 <div class="card-body text-center">
                     <i class="i-Checkout-Basket"></i>
                     <div class="content">
-                        <p class="text-muted mt-2 mb-0">Orders</p>
-                        <p class="text-primary text-24 line-height-1 mb-2">80</p>
+                        <p class="text-muted mt-2 mb-0">קריאות</p>
+                        <p class="text-primary text-24 line-height-1 mb-2">
+                            <asp:Label ID="lblTotalReadability" runat="server"></asp:Label>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -52,8 +59,10 @@
                 <div class="card-body text-center">
                     <i class="i-Money-2"></i>
                     <div class="content">
-                        <p class="text-muted mt-2 mb-0">Expense</p>
-                        <p class="text-primary text-24 line-height-1 mb-2">$1200</p>
+                        <p class="text-muted mt-2 mb-0">הצעות מחיר</p>
+                        <p class="text-primary text-24 line-height-1 mb-2">
+                            <asp:Label ID="lblTotalBids" runat="server"></asp:Label>
+                        </p>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 ﻿using DAL;
+using Services;
 using System;
 using System.Collections.Generic;
 
@@ -20,6 +21,7 @@ namespace BLL
         public bool Status { get; set; }
         public int SerProdId { get; set; }
         public DateTime DateAddition { get; set; }
+        public bool ShowLocation { get; set; }
 
         // פונקציה לשמירת טכנאי חדש
         public void SaveNewTechnician()
@@ -33,6 +35,31 @@ namespace BLL
                 Console.WriteLine("Exception: " + ex.Message);
                 throw;
             }
+        }
+   
+
+        public static Technicians CreateFromGoogle(string idToken, string email, string fullName)
+        {
+            var technician = new Technicians
+            {
+                TecNum = "",
+                FulName = fullName,
+                Phone = "",
+                Address = "",
+                Pass = EncryptionUtils.HashPassword(Guid.NewGuid().ToString()), // השתמש בפונקציית ההצפנה הקיימת שלך
+                UserName = email.Split('@')[0],
+                Type = "",
+                Email = email,
+                DateAddition = DateTime.Now,
+
+            };
+
+            return technician;
+        }
+
+        public static bool IsEmailExists(string email)
+        {
+            return TechniciansDAL.IsEmailExists(email);
         }
 
         // פונקציה לעדכון טכנאי קיים
@@ -52,7 +79,7 @@ namespace BLL
         // פונקציה כללית לשמירת טכנאי חדש או קיים
         public void Save()
         {
-            if (this.TecId == -1)
+            if (this.TecId <=0)
             {
                 SaveNewTechnician();
             }
@@ -82,5 +109,29 @@ namespace BLL
         {
             return TechniciansDAL.DeleteById(Id);
         }
+        public void SetPassword(string password)
+        {
+            Pass = EncryptionUtils.HashPassword(password);
+        }
+
+        public bool VerifyPassword(string inputPassword)
+        {
+            return EncryptionUtils.VerifyPassword(inputPassword, Pass);
+        }
+
+        public static int GetTotalTechnicians()
+        {
+            try
+            {
+                return TechniciansDAL.GetTotalTechnicians();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: " + ex.Message);
+                throw;
+            }
+        }
     }
+
+    
 }

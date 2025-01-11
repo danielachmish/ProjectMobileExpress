@@ -214,21 +214,21 @@
                                         </td>
                                         <td class="action-buttons">
                                             <button type="button" class="edit-button edit-contact" onclick="openModalEdit({
-        Id: '<%# Eval("TecId") %>',
-        FullName: '<%# Eval("FulName") %>',
-        Phone: '<%# Eval("Phone") %>',
-        Address: '<%# Eval("Address") %>',
-        Email: '<%# Eval("Email") %>',
-        Username: '<%# Eval("UserName") %>',
-        Password: '<%# Eval("Pass") %>',
-        TecNum: '<%# Eval("TecNum") %>',
-        Type: '<%# Eval("Type") %>'
-    })">
+                                                                Id: '<%# Eval("TecId") %>',
+                                                                FullName: '<%# Eval("FulName") %>',
+                                                                Phone: '<%# Eval("Phone") %>',
+                                                                Address: '<%# Eval("Address") %>',
+                                                                Email: '<%# Eval("Email") %>',
+                                                                Username: '<%# Eval("UserName") %>',
+                                                                Password: '<%# Eval("Pass") %>',
+                                                                TecNum: '<%# Eval("TecNum") %>',
+                                                                Type: '<%# Eval("Type") %>'
+                                                            })">
                                                 <i class="fas fa-edit"></i>
                                             </button>
                                             <asp:LinkButton class="delete-button" ID="LinkButton1" runat="server" CommandArgument='<%# Eval("TecId") %>' OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete this item?');">
-        <i class="fas fa-trash-alt"></i>
-    </asp:LinkButton>
+                                                <i class="fas fa-trash-alt"></i>
+                                            </asp:LinkButton>
                                         </td>
                                     </tr>
                                 </ItemTemplate>
