@@ -551,9 +551,16 @@ body, html {
                         AutoPostBack="true"
                         OnSelectedIndexChanged="StatusFilter_SelectedIndexChanged">
                         <asp:ListItem Text="כל הקריאות" Value="" />
-                        <asp:ListItem Text="קריאות סגורות" Value="true" />
-                        <asp:ListItem Text="קריאות פתוחות" Value="false" />
+                        <asp:ListItem Text="קריאות פתוחות" Value="true" />
+                        <asp:ListItem Text="קריאות סגורות" Value="false" />
                     </asp:DropDownList>
+                 <%--   <asp:DropDownList ID="StatusFilter" runat="server"
+    CssClass="filter-select"
+    AutoPostBack="true" 
+    OnSelectedIndexChanged="StatusFilter_SelectedIndexChanged">
+    <asp:ListItem Text="קריאות פתוחות" Value="true" Selected="True" />
+    <asp:ListItem Text="קריאות סגורות" Value="false" />
+</asp:DropDownList>--%>
                 </div>
             </div>
 
@@ -564,6 +571,7 @@ body, html {
                         <div class="location-header">
                             <div class="location-info">
 
+
                                 <div id="call-<%# Eval("ReadId") %>">
                                     <a href='AllRead.aspx?readId=<%# Eval("ReadId") %>' class="location-name">קריאת שירות #<%# Eval("ReadId") %>
                                     </a>
@@ -572,12 +580,22 @@ body, html {
                                 <div class="location-type <%# Convert.ToBoolean(Eval("Status")) ? "status-open" : "status-closed" %>">
                                     <%# GetStatusText(Convert.ToBoolean(Eval("Status"))) %>
                                 </div>
+
                             </div>
+
                             <div class="rating">
                                 <i class="fas fa-exclamation-circle <%# GetUrgencyClass(Eval("Urgency").ToString()) %>"></i>
                                 <span><%# GetUrgencyText(Eval("Urgency").ToString()) %></span>
                             </div>
+                               <div class="detail-item">
+                            <span class="detail-label"></span>
+                            <a href='MapOrientation.aspx?readId=<%# Eval("ReadId") %>' class="location-link">
+                                <i class="fas fa-map-marker-alt"></i>
+                                הצג מיקום
+                                                                 </a>
                         </div>
+                        </div>
+
                         <div class="location-meta">
                             <span class="meta-item">
                                 <i class="fas fa-user"></i>
@@ -592,13 +610,7 @@ body, html {
                                 <%# Eval("Phone") %>
                             </span>
                         </div>
-                        <div class="detail-item">
-                            <span class="detail-label"></span>
-                            <a href='MapOrientation.aspx?readId=<%# Eval("ReadId") %>' class="location-link">
-                                <i class="fas fa-map-marker-alt"></i>
-                                הצג מיקום
-                                                                 </a>
-                        </div>
+                     
                         <div class="review-section">
                             <div class="review-header">
 

@@ -31,27 +31,12 @@ namespace MobileExpress.TechniciansFolder
 			}
 
 		}
-		
-		//private void LoadApprovedCalls()
-		//{
-		//	if (Session["TechnicianId"] != null)
-		//	{
-		//		int techId = Convert.ToInt32(Session["TechnicianId"]);
-		//		var calls = Readability.GetAll()
-		//			.Where(c => c.AssignedTechnicianId == techId)
-		//			.ToList();
 
-				
-		//		CallsRepeater.DataSource = calls;
-		//		CallsRepeater.DataBind();
-		//	}
-		//}
+		
 		[WebMethod]
 		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
 		public static string GetCallInfoJson(string readId)
 		{
-			System.Diagnostics.Debug.WriteLine($"GetCallInfoJson called with readId: {readId}");
-
 			try
 			{
 				int id = Convert.ToInt32(readId);
@@ -59,8 +44,7 @@ namespace MobileExpress.TechniciansFolder
 
 				if (readability == null)
 				{
-					System.Diagnostics.Debug.WriteLine("No readability found");
-					return null;
+					return JsonConvert.SerializeObject(new { success = false, message = "הקריאה לא נמצאה." });
 				}
 
 				var callInfo = new
@@ -74,19 +58,21 @@ namespace MobileExpress.TechniciansFolder
 					ModelCode = readability.ModelCode,
 					SerProdId = readability.SerProdId,
 					Status = readability.Status,
-					CallStatus = readability.CallStatus
+					CallStatus = readability.CallStatus,
+					AssignedTechnician = readability.AssignedTechnicianId.HasValue
+						? $"הקריאה נלקחה על ידי טכנאי {readability.AssignedTechnicianId.Value}"
+						: "הקריאה זמינה"
 				};
 
-				var json = JsonConvert.SerializeObject(callInfo);
-				System.Diagnostics.Debug.WriteLine($"Returning JSON: {json}");
-				return json;
+				return JsonConvert.SerializeObject(new { success = true, callInfo });
 			}
 			catch (Exception ex)
 			{
 				System.Diagnostics.Debug.WriteLine($"Error in GetCallInfoJson: {ex.Message}");
-				return null;
+				return JsonConvert.SerializeObject(new { success = false, message = "אירעה שגיאה." });
 			}
 		}
+
 		protected void PriceQuote_Command(object sender, CommandEventArgs e)
 		{
 			if (e.CommandName == "PriceQuote")
@@ -97,37 +83,7 @@ namespace MobileExpress.TechniciansFolder
 			}
 		}
 
-		//private void LoadCalls()
-		//{
-		//	try
-		//	{
-
-		//		if (CallsRepeater != null)
-		//		{
-		//			var calls = Readability.GetAll().FindAll(c => !c.Status);
-		//			if (calls != null && calls.Count > 0)
-		//			{
-		//				CallsRepeater.DataSource = calls;
-		//				CallsRepeater.DataBind();
-		//			}
-		//			else
-		//			{
-		//				// אין קריאות - אפשר להציג הודעה
-		//				callsContainer.InnerHtml = "<div class='no-calls'>אין קריאות שירות פתוחות</div>";
-		//			}
-		//		}
-		//		else
-		//		{
-		//			// לוג או הודעת שגיאה
-		//			System.Diagnostics.Debug.WriteLine("CallsRepeater is null");
-		//		}
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		// טיפול בשגיאות
-		//		System.Diagnostics.Debug.WriteLine($"Error in LoadCalls: {ex.Message}");
-		//	}
-		//}
+		
 		private void LoadCalls()
 		{
 			try
@@ -175,6 +131,7 @@ namespace MobileExpress.TechniciansFolder
 			
 		}
 
+		
 		protected void AcceptCall(object sender, EventArgs e)
 		{
 			try
@@ -183,28 +140,33 @@ namespace MobileExpress.TechniciansFolder
 				int readId = Convert.ToInt32(btn.CommandArgument);
 				var call = Readability.GetById(readId);
 
-				if (call != null && Session["TechnicianId"] != null)
+				if (call != null && Session["TecId"] != null)
 				{
+					// בדיקה אם הקריאה כבר נלקחה
+					if (call.AssignedTechnicianId != null)
+					{
+						ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+							"Swal.fire('שגיאה', 'הקריאה כבר נלקחה על ידי טכנאי אחר', 'error');", true);
+						return;
+					}
+
 					// עדכון הקריאה
-					call.AssignedTechnicianId = Convert.ToInt32(Session["TechnicianId"]);
-					call.Status = true;
+					call.AssignedTechnicianId = Convert.ToInt32(Session["TecId"]);
+					call.Status = true; // הקריאה נלקחה/בטיפול
 					call.UpdateReadability();
 
-
-
-					// רענון הדף
-					LoadCalls();
-					//LoadApprovedCalls();
-
-					// הודעת הצלחה
+					// עדכון בממשק ללקוח שהקריאה נלקחה
 					ScriptManager.RegisterStartupScript(this, GetType(), "ShowSuccess",
 						"Swal.fire({" +
-						"  title: 'הקריאה נקלטה'," +
-						"  text: 'הקריאה התקבלה בהצלחה'," +
+						"  title: 'הקריאה התקבלה'," +
+						"  text: 'הקריאה הוקצתה לך בהצלחה'," +
 						"  icon: 'success'," +
 						"  timer: 2000," +
 						"  showConfirmButton: false" +
 						"});", true);
+
+					// רענון הקריאות
+					LoadCalls();
 				}
 				else
 				{
@@ -212,7 +174,6 @@ namespace MobileExpress.TechniciansFolder
 						"Swal.fire('שגיאה', 'לא נמצאה הקריאה או שהמשתמש לא מחובר', 'error');", true);
 				}
 			}
-		
 			catch (Exception ex)
 			{
 				System.Diagnostics.Debug.WriteLine($"Error in AcceptCall: {ex.Message}");
@@ -222,16 +183,17 @@ namespace MobileExpress.TechniciansFolder
 		}
 
 
+
 		protected string GetStatusText(CallStatus status)
 		{
 			switch (status)
 			{
 				case CallStatus.Open:
-					return "קריאה פתוחה";
+					return "קריאה טסט";
 				case CallStatus.InProgress:
-					return "בטיפול";
+					return "טסט";
 				case CallStatus.Closed:
-					return "קריאה סגורה";
+					return "קריאה טסט";
 				default:
 					return "";
 			}

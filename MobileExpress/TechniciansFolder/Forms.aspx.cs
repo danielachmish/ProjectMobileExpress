@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Services;
 using System.Web.UI;
@@ -18,7 +20,13 @@ namespace MobileExpress.TechniciansFolder
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-
+			// בדיקה האם הטכנאי מחובר
+			if (Session["TecId"] == null)
+			{
+				// אם הטכנאי לא מחובר, מעבירים לדף התחברות
+				Response.Redirect("~/SingInTechnicians.aspx");
+				return;
+			}
 			if (!IsPostBack)
 			{
 				LoadBids();
@@ -26,7 +34,7 @@ namespace MobileExpress.TechniciansFolder
 				txtDateFrom.Text = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
 				txtDateTo.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
-				
+
 			}
 		}
 		protected void btnSearch_Click(object sender, EventArgs e)
@@ -39,25 +47,53 @@ namespace MobileExpress.TechniciansFolder
 			LoadBids();
 		}
 
-		//private void LoadBids()
-		//{
-		//	var bids = BLL.Bid.GetAll();
-		//	gvBids.DataSource = bids;
-		//	gvBids.DataBind();
-		//}
+		
+
 		private void LoadBids()
 		{
 			try
 			{
-				// השגת כל ההצעות מהדאטאבייס
+				System.Diagnostics.Debug.WriteLine("=== התחלת טעינת הצעות מחיר ===");
+
 				var query = BLL.Bid.GetAll().AsQueryable();
 
-				if (Session["TechnicianId"] != null)
+				if (Session["TecId"] != null)
 				{
-					int techId = Convert.ToInt32(Session["TechnicianId"]);
-					query = query.Where(b => b.TecId == techId); // מציג רק הצעות של הטכנאי המחובר
-				}
+					int techId = Convert.ToInt32(Session["TecId"]);
+					System.Diagnostics.Debug.WriteLine($"TechId מהסשן: {techId}");
 
+					// קבלת הצעות המחיר של הטכנאי
+					var bids = query.Where(b => b.TecId == techId).ToList();
+					System.Diagnostics.Debug.WriteLine($"נמצאו {bids.Count} הצעות מחיר לטכנאי");
+
+					// סינון רק הצעות שהקריאות שלהן לא משוייכות לטכנאי
+					var filteredBids = bids
+						.Select(b =>
+						{
+							var read = Readability.GetById(b.ReadId);
+							// הוספת לוג שמראה את כל הערכים
+							System.Diagnostics.Debug.WriteLine($"הצעה {b.BidId}:");
+							System.Diagnostics.Debug.WriteLine($"  ReadId: {b.ReadId}");
+							System.Diagnostics.Debug.WriteLine($"  AssignedTechnicianId value: '{read?.AssignedTechnicianId}'");
+							System.Diagnostics.Debug.WriteLine($"  AssignedTechnicianId type: {(read?.AssignedTechnicianId == null ? "null" : read.AssignedTechnicianId.GetType().ToString())}");
+							System.Diagnostics.Debug.WriteLine($"  Status: {read?.Status}");
+
+							return new { Bid = b, Read = read };
+						})
+						.Where(x =>
+						{
+							var isValid = x.Read != null &&
+										 //x.Read.AssignedTechnicianId == null &&
+										 x.Read.CallStatus == CallStatus.InProgress;
+							System.Diagnostics.Debug.WriteLine($"הצעה {x.Bid.BidId} - isValid: {isValid}");
+							return isValid;
+						})
+						.Select(x => x.Bid)
+						.ToList();
+
+					System.Diagnostics.Debug.WriteLine($"נשארו {filteredBids.Count} הצעות אחרי סינון ראשוני");
+					query = filteredBids.AsQueryable();
+				}
 				// בדיקת טקסט חיפוש
 				if (!string.IsNullOrEmpty(txtSearch?.Value))
 				{
@@ -76,51 +112,49 @@ namespace MobileExpress.TechniciansFolder
 				}
 
 				// סינון לפי תאריכים
-				DateTime? dateFrom = null;
-				DateTime? dateTo = null;
-
 				if (!string.IsNullOrEmpty(txtDateFrom.Text))
 				{
-					dateFrom = Convert.ToDateTime(txtDateFrom.Text);
+					var dateFrom = Convert.ToDateTime(txtDateFrom.Text);
 					query = query.Where(b => b.Date >= dateFrom);
 				}
 
 				if (!string.IsNullOrEmpty(txtDateTo.Text))
 				{
-					dateTo = Convert.ToDateTime(txtDateTo.Text).AddDays(1).AddSeconds(-1);
+					var dateTo = Convert.ToDateTime(txtDateTo.Text).AddDays(1).AddSeconds(-1);
 					query = query.Where(b => b.Date <= dateTo);
 				}
 
-				// ביצוע השאילתה והצגת התוצאות
-				var filteredBids = query?.ToList().Select(b =>
+				// הכנת המידע לתצוגה
+				var displayData = query.ToList().Select(b =>
 				{
 					var read = Readability.GetById(b.ReadId);
 					return new
 					{
 						b.BidId,
 						b.ReadId,
-						b.Status,          // סטטוס ההצעה (האם אושרה)
+						b.Status,
 						b.Date,
 						b.Price,
 						b.ItemDescription,
 						b.FullName,
-						ReadStatus = read?.Status ?? false,  // סטטוס הקריאה
-						IsCallTaken = read?.Status ?? false, // האם הקריאה נלקחה
-						ShowTakeButton = b.Status && !(read?.Status ?? false) // להציג כפתור רק אם ההצעה אושרה והקריאה לא נלקחה
+						AssignedTechnicianId = read?.AssignedTechnicianId,
+						ReadStatus = read?.Status ?? false,
+						IsCallTaken = read?.Status ?? false,
+						ShowTakeButton = b.Status && read?.Status == true 
 					};
-				});
+				}).ToList();
 
-				if (filteredBids != null)
+				System.Diagnostics.Debug.WriteLine($"נשלחים להצגה {displayData.Count} רשומות");
+
+				if (displayData.Any())
 				{
-					gvBids.DataSource = filteredBids;
+					gvBids.DataSource = displayData;
 					gvBids.DataBind();
 				}
 				else
 				{
-					// במקרה שאין תוצאות
 					gvBids.DataSource = new List<BLL.Bid>();
 					gvBids.DataBind();
-
 					ScriptManager.RegisterStartupScript(this, GetType(), "ShowNoResults",
 						"Swal.fire({" +
 						"  title: 'לא נמצאו תוצאות'," +
@@ -129,6 +163,8 @@ namespace MobileExpress.TechniciansFolder
 						"  showConfirmButton: false" +
 						"});", true);
 				}
+
+				System.Diagnostics.Debug.WriteLine("=== סיום טעינת הצעות מחיר ===");
 			}
 			catch (Exception ex)
 			{
@@ -142,55 +178,83 @@ namespace MobileExpress.TechniciansFolder
 			}
 		}
 
-
-
-		
 		protected void gvBids_RowCommand(object sender, GridViewCommandEventArgs e)
 		{
+			System.Diagnostics.Debug.WriteLine("=== התחלת gvBids_RowCommand ===");
+			System.Diagnostics.Debug.WriteLine($"CommandName: {e.CommandName}");
+
 			if (e.CommandName == "AcceptCall")
 			{
 				try
 				{
 					int readId = Convert.ToInt32(e.CommandArgument);
+					System.Diagnostics.Debug.WriteLine($"readId: {readId}");
+
 					var call = Readability.GetById(readId);
 
-					if (call != null && Session["TechnicianId"] != null)
+					if (call != null)
 					{
-						// בדיקה שהקריאה לא סגורה
-						if (call.Status == true)
+						System.Diagnostics.Debug.WriteLine($"CustomerId from call: {call.CusId}");
+						System.Diagnostics.Debug.WriteLine($"TecId from Session: {Session["TecId"]}");
+
+						// בדיקה אם יש טכנאי וגם לקוח
+						if (Session["TecId"] != null)
+						{
+							// בדיקה אם הקריאה כבר נלקחה
+							if (call.AssignedTechnicianId != null)
+							{
+								ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+									"Swal.fire('שגיאה', 'הקריאה כבר נלקחה על ידי טכנאי אחר', 'error');", true);
+								return;
+							}
+
+							// עדכון הקריאה
+							int techId = Convert.ToInt32(Session["TecId"]);
+							call.AssignedTechnicianId = techId;
+							call.Status = true;  // מעדכן את סטטוס הקריאה לסגור
+
+							// שמירת ID של הלקוח אם צריך
+							if (call.CusId != null)
+							{
+								call.CusId = call.CusId;  // או כל לוגיקה אחרת שצריך
+							}
+
+							call.UpdateReadability();
+
+							ScriptManager.RegisterStartupScript(this, GetType(), "ShowSuccess",
+								"Swal.fire({" +
+								"  title: 'הקריאה התקבלה'," +
+								"  text: 'הקריאה הוקצתה לך בהצלחה'," +
+								"  icon: 'success'," +
+								"  timer: 2000," +
+								"  showConfirmButton: false" +
+								"});", true);
+
+							LoadBids();
+						}
+						else
 						{
 							ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
-								"Swal.fire('שגיאה', 'הקריאה כבר סגורה', 'error');", true);
-							return;
+								"Swal.fire('שגיאה', 'המשתמש לא מחובר', 'error');", true);
 						}
-
-						// עדכון הקריאה
-						call.Status = true; // true = סגור/בטיפול
-						call.AssignedTechnicianId = Convert.ToInt32(Session["TechnicianId"]);
-						call.UpdateReadability();
-
-						// רענון הטבלה
-						LoadBids();
-
-						ScriptManager.RegisterStartupScript(this, GetType(), "ShowSuccess",
-							"Swal.fire({" +
-							"  title: 'הקריאה נקלטה'," +
-							"  text: 'הקריאה התקבלה בהצלחה והועברה לטיפול'," +
-							"  icon: 'success'," +
-							"  timer: 2000," +
-							"  showConfirmButton: false" +
-							"});", true);
+					}
+					else
+					{
+						ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+							"Swal.fire('שגיאה', 'לא נמצאה הקריאה', 'error');", true);
 					}
 				}
 				catch (Exception ex)
 				{
-					System.Diagnostics.Debug.WriteLine($"Error in AcceptCall: {ex.Message}");
+					System.Diagnostics.Debug.WriteLine($"שגיאה: {ex.Message}");
 					ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
 						"Swal.fire('שגיאה', 'אירעה שגיאה בקבלת הקריאה', 'error');", true);
 				}
 			}
 		}
-		
+
+
+
 		protected string GetStatusClass(bool status)
 		{
 			return status ? "badge badge-success" : "badge badge-danger";
@@ -202,7 +266,7 @@ namespace MobileExpress.TechniciansFolder
 		}
 
 
-		
+
 
 		[WebMethod]
 		public static string GetBidDetails(int bidId)
@@ -303,7 +367,7 @@ namespace MobileExpress.TechniciansFolder
 			public string Phone { get; set; }
 			public string Description { get; set; }
 		}
-		
+
 	}
 }
 

@@ -126,9 +126,9 @@ namespace DAL
 			try
 			{
 				//string sql = "SELECT * FROM T_Bid";
-				string sql = @"SELECT b.*, r.FullName 
-               FROM T_Bid b 
-               LEFT JOIN T_Readability r ON b.ReadId = r.ReadId";
+				string sql = @"SELECT b.*, r.FullName, r.AssignedTechnicianId 
+   FROM T_Bid b 
+   LEFT JOIN T_Readability r ON b.ReadId = r.ReadId";
 				DataTable dt = db.Execute(sql);
 				List<Bid> bids = new List<Bid>();
 
@@ -145,7 +145,9 @@ namespace DAL
 							TecId = Convert.ToInt32(row["TecId"]),
 							ReadId = Convert.ToInt32(row["ReadId"]),
 							FullName = row["FullName"]?.ToString() ?? "לא צוין",
-							Date = Convert.ToDateTime(row["Date"])
+							Date = Convert.ToDateTime(row["Date"]),
+								AssignedTechnicianId = row["AssignedTechnicianId"] != DBNull.Value ?
+		Convert.ToInt32(row["AssignedTechnicianId"]) : (int?)null,
 
 						};
 
@@ -189,10 +191,9 @@ namespace DAL
 			DbContext db = new DbContext();
 			try
 			{
-				string sql = @"SELECT b.*, r.FullName 
-                       FROM T_Bid b
-                       LEFT JOIN T_Readability r ON b.ReadId = r.ReadId
-                       WHERE b.ReadId = @ReadId";
+				string sql = @"SELECT b.*, r.FullName, r.AssignedTechnicianId 
+   FROM T_Bid b 
+   LEFT JOIN T_Readability r ON b.ReadId = r.ReadId";
 
 				var parameters = new List<SqlParameter>
 		{
@@ -216,7 +217,8 @@ namespace DAL
 							ReadId = Convert.ToInt32(row["ReadId"]),
 							FullName = row["FullName"]?.ToString() ?? "לא צוין",
 							Date = Convert.ToDateTime(row["Date"]),
-
+							AssignedTechnicianId = row["AssignedTechnicianId"] != DBNull.Value ?
+		Convert.ToInt32(row["AssignedTechnicianId"]) : (int?)null,
 							// שדות חדשים
 							ItemDescription = row["ItemDescription"] != DBNull.Value ? row["ItemDescription"].ToString() : null,
 							ItemQuantity = row["ItemQuantity"] != DBNull.Value ? Convert.ToInt32(row["ItemQuantity"]) : 0,

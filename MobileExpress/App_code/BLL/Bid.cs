@@ -16,7 +16,8 @@ namespace BLL
         public int TecId { get; set; }
         public int ReadId { get; set; }
         public DateTime Date { get; set; }
-        
+      
+        public int? AssignedTechnicianId { get; set; }  // מהטבלה T_Readability
         // השדות החדשים מהטבלה המאוחדת
         public string ItemDescription { get; set; }
         public int ItemQuantity { get; set; }

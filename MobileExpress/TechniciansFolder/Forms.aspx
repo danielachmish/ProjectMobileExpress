@@ -65,36 +65,28 @@
                                 </span>
                             </ItemTemplate>
                         </asp:TemplateField>
+                   
                         <asp:TemplateField HeaderText="פעולות">
-                            <ItemTemplate>
-                                <div class="btn-group">
-
-                                    <button type="button" class="btn btn-info btn-sm ms-1 view-bid-btn"
-                                        data-bid-id='<%# Eval("BidId") %>'
-                                        onclick="viewBid(<%# Eval("BidId") %>)">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <%--  <button type="button" class="btn btn-primary btn-sm"
-                                        onclick="editBid(<%# Eval("BidId") %>)">
-                                        <i class="fas fa-edit"></i>
-                                    </button>--%>
-                                    <button type="button" class="btn btn-primary btn-sm"
-                                        onclick="editBid(<%# Eval("BidId") %>, <%# Eval("Status").ToString().ToLower() %>)"
-                                        <%# Convert.ToBoolean(Eval("Status")) ? "disabled" : "" %>>
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <div class="btn-group">
-                                        <asp:Button runat="server"
-                                            CommandName="AcceptCall"
-                                            CommandArgument='<%# Eval("ReadId") %>'
-                                            CssClass="btn btn-success btn-sm"
-                                            Text="קח קריאה"
-                                            Visible='<%# (bool)Eval("Status") %>'
-                                            OnClientClick="return confirm('האם אתה בטוח שברצונך לקחת את הקריאה?');" />
-
-                                    </div>
-                            </ItemTemplate>
-                        </asp:TemplateField>
+    <ItemTemplate>
+        <button type="button" class="btn btn-info btn-sm ms-1 view-bid-btn"
+            data-bid-id='<%# Eval("BidId") %>'
+            onclick="viewBid(<%# Eval("BidId") %>)">
+            <i class="fas fa-eye"></i>
+        </button>
+        <button type="button" class="btn btn-primary btn-sm"
+            onclick="editBid(<%# Eval("BidId") %>, <%# Eval("Status").ToString().ToLower() %>)"
+            <%# Convert.ToBoolean(Eval("Status")) ? "disabled" : "" %>>
+            <i class="fas fa-edit"></i>
+        </button>
+        <asp:Button runat="server"
+            CommandName="AcceptCall"
+            CommandArgument='<%# Eval("ReadId") %>'
+            CssClass="btn btn-success btn-sm"
+            Text="קח קריאה"
+            Visible='<%# Convert.ToBoolean(Eval("Status")) == true && (Eval("AssignedTechnicianId") == null || Eval("AssignedTechnicianId") == DBNull.Value) %>'
+            OnClientClick="return confirm('האם אתה בטוח שברצונך לקחת את הקריאה?');" />
+    </ItemTemplate>
+</asp:TemplateField>
 
                     </Columns>
                 </asp:GridView>
