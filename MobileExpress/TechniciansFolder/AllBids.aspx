@@ -150,6 +150,12 @@
 
 
     <style>
+            .container-fluid {
+    position: relative;
+    z-index: 1;
+    padding-top: 100px; /* מרווח מהסרגל */
+    margin-top: 0;
+}
         :root {
             --purple-50: rgba(124, 58, 237, 0.05);
             --purple-100: rgba(124, 58, 237, 0.1);
@@ -162,18 +168,36 @@
 
 
         /* הוספת כיווניות RTL לכל הקונטיינר */
-        .invoice-container {
+        /*.invoice-container {
             background: white;
             padding: 2rem;
-            margin: 1.5rem auto;
-            max-width: 1000px;
+              margin-top: 100px;*/ /* הוספת מרווח מהסרגל העליון */
+         
+            /*max-width: 1000px;
             box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08);
             border-radius: 16px;
             direction: rtl;
             text-align: right;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             transition: all 0.3s ease;
-        }
+              position: relative;*/ /* הוספנו */
+    /*z-index: 1;*/ /* הוספנו */
+        /*}*/
+        .invoice-container {
+    background: white;
+    padding: 2rem;
+    margin-top: 20px;
+    margin-bottom: 1.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1000px;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08);
+    border-radius: 16px;
+    direction: rtl;
+    text-align: right;
+    position: relative;
+    z-index: 1;
+}
 
         /* עדכון טבלת פריטים */
         .items-table th {

@@ -33,6 +33,7 @@ namespace BLL
 
 		public DateTime? TreatmentStartTime { get; set; }
 		public string TechnicianNotes { get; set; }
+		
 
 		public void StartTreatment(int technicianId)
 		{
@@ -125,6 +126,18 @@ namespace BLL
 				throw;
 			}
 		}
+
+		public static List<Readability> GetAllByTechnicianId(int technicianId)
+		{
+			return ReadabilityDAL.GetAllByTechnicianId(technicianId);
+		}
+
+		public static int CountCallsByTechnicianIdAndStatus(int technicianId, CallStatus status)
+		{
+			return ReadabilityDAL.CountCallsByTechnicianIdAndStatus(technicianId, status);
+		}
+
+
 	}
 	public class ReadabilityStats
 	{
@@ -144,6 +157,7 @@ namespace BLL
 		}
 
 		
+
 	}
 
 }

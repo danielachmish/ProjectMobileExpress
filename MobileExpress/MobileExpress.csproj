@@ -428,6 +428,12 @@
     <Content Include="Account\ForgotPassword.aspx" />
     <Content Include="Account\ResetPassword.aspx" />
     <Content Include="assets\css\Styles.css" />
+    <Content Include="Auth\Default.aspx" />
+    <Content Include="Auth\Login\AdminLogin.aspx" />
+    <Content Include="Auth\Login\CustomersLogin.aspx" />
+    <Content Include="Auth\Login\TechniciansLogin.aspx" />
+    <Content Include="Auth\Register\CustomersRegister.aspx" />
+    <Content Include="Auth\Register\TechniciansRegister.aspx" />
     <Content Include="FodyWeavers.XML" />
     <Content Include="MainMobileExpress.aspx" />
     <Content Include="Manage\AdminiList.aspx" />
@@ -752,6 +758,7 @@
     <Content Include="Account\MainAccount.Master" />
     <Content Include="libmongocrypt.so" />
     <Content Include="libmongocrypt.dylib" />
+    <Content Include="Auth\AuthMaster.Master" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="mongocrypt.dll" />
     <Content Include="Scripts\jquery-3.7.1.js" />
@@ -810,6 +817,7 @@
     </Compile>
     <Compile Include="App_code\BLL\PageContent.cs" />
     <Compile Include="App_code\BLL\PasswordReset.cs" />
+    <Compile Include="App_code\BLL\TechnicianAvailability.cs" />
     <Compile Include="App_code\BLL\TechnicianNotifications.cs" />
     <Compile Include="App_code\BLL\Readability.cs" />
     <Compile Include="App_code\BLL\Rating.cs" />
@@ -834,6 +842,7 @@
     <Compile Include="App_code\DAL\ModelsDAL.cs" />
     <Compile Include="App_code\DAL\PageContentDAL.cs" />
     <Compile Include="App_code\DAL\PasswordResetDAL.cs" />
+    <Compile Include="App_code\DAL\TechnicianAvailabilityDAL.cs" />
     <Compile Include="App_code\DAL\TechnicianNotificationsDAL.cs" />
     <Compile Include="App_code\DAL\RatingDAL.cs" />
     <Compile Include="App_code\DAL\ReadabilityDAL.cs" />
@@ -844,6 +853,55 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Auth\AuthMaster.Master.cs">
+      <DependentUpon>AuthMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Auth\AuthMaster.Master.designer.cs">
+      <DependentUpon>AuthMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Auth\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Auth\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Auth\Login\AdminLogin.aspx.cs">
+      <DependentUpon>AdminLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Auth\Login\AdminLogin.aspx.designer.cs">
+      <DependentUpon>AdminLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Auth\Login\CustomersLogin.aspx.cs">
+      <DependentUpon>CustomersLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Auth\Login\CustomersLogin.aspx.designer.cs">
+      <DependentUpon>CustomersLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Auth\Login\TechniciansLogin.aspx.cs">
+      <DependentUpon>TechniciansLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Auth\Login\TechniciansLogin.aspx.designer.cs">
+      <DependentUpon>TechniciansLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Auth\Register\CustomersRegister.aspx.cs">
+      <DependentUpon>CustomersRegister.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Auth\Register\CustomersRegister.aspx.designer.cs">
+      <DependentUpon>CustomersRegister.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Auth\Register\TechniciansRegister.aspx.cs">
+      <DependentUpon>TechniciansRegister.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Auth\Register\TechniciansRegister.aspx.designer.cs">
+      <DependentUpon>TechniciansRegister.aspx</DependentUpon>
+    </Compile>
     <Compile Include="controllers\PageContentController.cs" />
     <Compile Include="controllers\PriceQuoteController.cs" />
     <Compile Include="MainMobileExpress.aspx.cs">
@@ -1041,7 +1099,6 @@
     </Compile>
     <Compile Include="TechniciansFolder\SingUpTechnicians.aspx.cs">
       <DependentUpon>SingUpTechnicians.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TechniciansFolder\SingUpTechnicians.aspx.designer.cs">
       <DependentUpon>SingUpTechnicians.aspx</DependentUpon>
@@ -1117,14 +1174,12 @@
     </Compile>
     <Compile Include="Users\SingIn.aspx.cs">
       <DependentUpon>SingIn.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Users\SingIn.aspx.designer.cs">
       <DependentUpon>SingIn.aspx</DependentUpon>
     </Compile>
     <Compile Include="Users\SingUp.aspx.cs">
       <DependentUpon>SingUp.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Users\SingUp.aspx.designer.cs">
       <DependentUpon>SingUp.aspx</DependentUpon>

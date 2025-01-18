@@ -7,83 +7,83 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MobileExpress.TechniciansFolder
+namespace MobileExpress.Auth.Register
 {
 
 
-	public partial class MainMaster
+	public partial class CustomersRegister
 	{
 
 		/// <summary>
-		/// head control.
+		/// hfCusId control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+		protected global::System.Web.UI.WebControls.HiddenField hfCusId;
 
 		/// <summary>
-		/// form1 control.
+		/// txtFullName control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+		protected global::System.Web.UI.WebControls.TextBox txtFullName;
 
 		/// <summary>
-		/// btnLogout control.
+		/// txtPhone control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.LinkButton btnLogout;
+		protected global::System.Web.UI.WebControls.TextBox txtPhone;
 
 		/// <summary>
-		/// ContentPlaceHolder1 control.
+		/// txtAddres control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+		protected global::System.Web.UI.WebControls.TextBox txtAddres;
 
 		/// <summary>
-		/// ContentPlaceHolder2 control.
+		/// txtPass control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder2;
+		protected global::System.Web.UI.WebControls.TextBox txtPass;
 
 		/// <summary>
-		/// ContentPlaceHolder3 control.
+		/// txtEmail control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder3;
+		protected global::System.Web.UI.WebControls.TextBox txtEmail;
 
 		/// <summary>
-		/// ContentPlaceHolder4 control.
+		/// btnSave control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder4;
+		protected global::System.Web.UI.WebControls.Button btnSave;
 
 		/// <summary>
-		/// ContentPlaceHolder5 control.
+		/// googleButton control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder5;
+		protected global::System.Web.UI.WebControls.LinkButton googleButton;
 	}
 }

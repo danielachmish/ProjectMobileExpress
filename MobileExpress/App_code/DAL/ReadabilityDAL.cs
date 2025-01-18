@@ -3,6 +3,7 @@ using Data;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IdentityModel.Protocols.WSTrust;
 using System.Linq;
@@ -297,6 +298,83 @@ namespace DAL
 				Db.Close();
 			}
 		}
+		public static List<Readability> GetAllByTechnicianId(int technicianId)
+		{
+			string sql = @"
+    SELECT * 
+    FROM T_Readability 
+    WHERE AssignedTechnicianId = @TechnicianId";
+
+			using (var db = new DbContext())
+			{
+				var parameters = new List<SqlParameter>
+		{
+			new SqlParameter("@TechnicianId", technicianId)
+		};
+
+				Console.WriteLine($"Executing query: {sql} with TechnicianId={technicianId}");
+				DataTable dt = db.Execute(sql, parameters);
+				Console.WriteLine($"Rows returned: {dt.Rows.Count}");
+
+				return ConvertToList(dt);
+			}
+		}
+
+
+		// המרה מטבלה לאובייקטים
+		private static List<Readability> ConvertToList(DataTable dt)
+		{
+			var list = new List<Readability>();
+			foreach (DataRow row in dt.Rows)
+			{
+				list.Add(new Readability
+				{
+					ReadId = Convert.ToInt32(row["ReadId"]),
+					DateRead = Convert.ToDateTime(row["DateRead"]),
+					Desc = row["Desc"].ToString(),
+					FullName = row["FullName"].ToString(),
+					Phone = row["Phone"].ToString(),
+					Nots = row["Nots"].ToString(),
+					CusId = Convert.ToInt32(row["CusId"]),
+					ModelId = row["ModelId"].ToString(),
+					Status = Convert.ToBoolean(row["Status"]),
+					NameImage = row["NameImage"].ToString(),
+					Urgency = row["Urgency"].ToString(),
+					SerProdId = Convert.ToInt32(row["SerProdId"]),
+					AssignedTechnicianId = row["AssignedTechnicianId"] == DBNull.Value ? (int?)null : Convert.ToInt32(row["AssignedTechnicianId"]),
+					CallStatus = (CallStatus)Convert.ToInt32(row["CallStatus"]),
+					ModelCode = row["ModelCode"].ToString(),
+					TreatmentStartTime = row["TreatmentStartTime"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(row["TreatmentStartTime"]),
+					TechnicianNotes = row["TechnicianNotes"].ToString()
+				});
+			}
+			return list;
+		}
+
+		public static int CountCallsByTechnicianIdAndStatus(int technicianId, CallStatus status)
+		{
+			string sql = @"
+    SELECT COUNT(*) 
+    FROM T_Readability 
+    WHERE AssignedTechnicianId = @TechnicianId 
+      AND CallStatus = @CallStatus";
+
+			using (var db = new DbContext())
+			{
+				var parameters = new List<SqlParameter>
+		{
+			new SqlParameter("@TechnicianId", technicianId),
+			new SqlParameter("@CallStatus", (int)status)
+		};
+
+				Console.WriteLine($"Executing query: {sql} with TechnicianId={technicianId} and CallStatus={(int)status}");
+				int count = Convert.ToInt32(db.ExecuteScalar(sql, parameters));
+				Console.WriteLine($"Count returned: {count}");
+				return count;
+			}
+		}
+
+
 	}
 	public static class ReadabilityStatsDAL
 	{
@@ -327,6 +405,8 @@ namespace DAL
 			}
 		}
 		
+
+
 	}
 
 }

@@ -24,7 +24,7 @@ namespace MobileExpress.TechniciansFolder
 			if (Session["TecId"] == null)
 			{
 				// אם הטכנאי לא מחובר, מעבירים לדף התחברות
-				Response.Redirect("~/SingInTechnicians.aspx");
+				Response.Redirect("~/TechniciansLogin.aspx");
 				return;
 			}
 			if (!IsPostBack)

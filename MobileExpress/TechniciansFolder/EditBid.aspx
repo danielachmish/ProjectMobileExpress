@@ -302,7 +302,7 @@ body {
 
 .invoice-container {
     max-width: 1000px;
-    margin: 40px auto;
+    margin: 20px auto;
     padding: 30px;
     background: rgba(255, 255, 255, 0.95);
     border-radius: 24px;

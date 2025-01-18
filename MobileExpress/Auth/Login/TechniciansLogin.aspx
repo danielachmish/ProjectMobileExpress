@@ -1,8 +1,6 @@
-﻿<%--<%@ Page Title="" Language="C#" MasterPageFile="~/TechniciansFolder/MainMaster.Master" AutoEventWireup="true" CodeBehind="SingInTechnicians.aspx.cs" Inherits="MobileExpress.TechniciansFolder.SingInTechnicians" %>
-
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Auth/AuthMaster.Master" AutoEventWireup="true" CodeBehind="TechniciansLogin.aspx.cs" Inherits="MobileExpress.Auth.Login.TechniciansLogin" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <link rel="stylesheet" href="assets/css/styles.css">
+     <link rel="stylesheet" href="assets/css/styles.css">
     <!-- קישורים נוספים כמו Bootstrap ו-Font Awesome -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
@@ -12,10 +10,10 @@
     <!-- Google Sign In API -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
   <%--  <meta name="google-signin-client_id" content="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com">--%>
-<%--</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">--%>
- --%>
-    <%--<style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+     <style>
        
         .login-container {
             display: flex;
@@ -180,9 +178,9 @@
     <div class="login-container">
         <div class="login-card">
             <h1 class="login-title">התחברות</h1>
-            <h2 class="login-subtitle"><%--התחבר למערכת באמצעות המייל או חשבון Google--%>
+            <h2 class="login-subtitle"><%--התחבר למערכת באמצעות המייל או חשבון Google--%></h2>
 
-            <%--<div class="form-group">
+            <div class="form-group">
                 <asp:Label AssociatedControlID="txtEmail" runat="server">כתובת מייל</asp:Label>
                 <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="your@email.com"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="rfvEmail" runat="server"
@@ -196,7 +194,7 @@
                 <asp:Label AssociatedControlID="txtPassword" runat="server">סיסמה</asp:Label>
                 <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"
                     CssClass="form-control" placeholder="הזן סיסמה"></asp:TextBox>
-                 <a href="../Account/ForgotPassword.aspx?returnUrl=TechniciansFolder/SingInTechnicians.aspx" style="color: #666; text-decoration: none;">שכחת סיסמה?</a>
+                 <a href="../../Account/ForgotPassword.aspx?returnUrl=Login/TechniciansLogin.aspx" style="color: #666; text-decoration: none;">שכחת סיסמה?</a>
                 <asp:RequiredFieldValidator ID="rfvPassword" runat="server"
                     ControlToValidate="txtPassword"
                     ErrorMessage="שדה חובה"
@@ -212,26 +210,23 @@
                 OnClick="btnLogin_Click" CssClass="btn-login" />
 
             <div class="login-link" style="text-align: center; margin-top: 15px;">
-                    <a href="SingUpTechnicians.aspx" style="color: #666; text-decoration: none;">אין לך חשבון? הירשם</a>
+                    <a href="../Register/TechniciansRegister.aspx" style="color: #666; text-decoration: none;">אין לך חשבון? הירשם</a>
                 </div>
 
-            <div class="google-container">--%>
+            <div class="google-container">
                 <%--<asp:LinkButton ID="googleButton" runat="server" CssClass="btn-google">
                     <i class="fab fa-google"></i>
                     התחבר עם Google
                 </asp:LinkButton>--%>
-               <%-- <div class="g-signin2" data-onsuccess="onGoogleSignIn"></div>
+                <div class="g-signin2" data-onsuccess="onGoogleSignIn"></div>
             </div>
         </div>
     </div>
-
-
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
-
-    <script>
+     <script>
         function onGoogleSignIn(googleUser) {
             console.log('Google Sign-In successful');
             var id_token = googleUser.getAuthResponse().id_token;
@@ -261,6 +256,7 @@
                     alert('שגיאה בהתחברות: ' + error.message);
                 });
         }
-    </script>
-</asp:Content>--%>
-
+     </script>
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">
+</asp:Content>

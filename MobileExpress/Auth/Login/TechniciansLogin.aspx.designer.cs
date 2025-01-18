@@ -7,83 +7,65 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MobileExpress.TechniciansFolder
+namespace MobileExpress.Auth.Login
 {
 
 
-	public partial class MainMaster
+	public partial class TechniciansLogin
 	{
 
 		/// <summary>
-		/// head control.
+		/// txtEmail control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+		protected global::System.Web.UI.WebControls.TextBox txtEmail;
 
 		/// <summary>
-		/// form1 control.
+		/// rfvEmail control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+		protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvEmail;
 
 		/// <summary>
-		/// btnLogout control.
+		/// txtPassword control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.LinkButton btnLogout;
+		protected global::System.Web.UI.WebControls.TextBox txtPassword;
 
 		/// <summary>
-		/// ContentPlaceHolder1 control.
+		/// rfvPassword control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+		protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvPassword;
 
 		/// <summary>
-		/// ContentPlaceHolder2 control.
+		/// lblError control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder2;
+		protected global::System.Web.UI.WebControls.Label lblError;
 
 		/// <summary>
-		/// ContentPlaceHolder3 control.
+		/// btnLogin control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder3;
-
-		/// <summary>
-		/// ContentPlaceHolder4 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder4;
-
-		/// <summary>
-		/// ContentPlaceHolder5 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder5;
+		protected global::System.Web.UI.WebControls.Button btnLogin;
 	}
 }

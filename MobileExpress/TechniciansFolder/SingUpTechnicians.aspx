@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/TechniciansFolder/MainMaster.Master" AutoEventWireup="true" CodeBehind="SingUpTechnicians.aspx.cs" Inherits="MobileExpress.TechniciansFolder.SingUpTechnicians" %>
+﻿<%--<%@ Page Title="" Language="C#" MasterPageFile="~/TechniciansFolder/MainMaster.Master" AutoEventWireup="true" CodeBehind="SingUpTechnicians.aspx.cs" Inherits="MobileExpress.TechniciansFolder.SingUpTechnicians" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="assets/css/styles.css">
@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+</asp:Content>--%>
+<%--<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
         * {
             margin: 0;
@@ -306,12 +306,12 @@
                 <asp:Label AssociatedControlID="txtEmail" runat="server"></asp:Label>
                 <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control form-control-rounded" placeholder="כתובת מייל"></asp:TextBox>
             </div>
-            <asp:Button ID="btnSave" runat="server" OnClick="SaveTechnicians" Text="שמירה" CssClass="btn btn-primary" />
+            <asp:Button ID="btnSave" runat="server" OnClick="SaveTechnicians" Text="שמירה" CssClass="btn btn-primary" />--%>
 
 
 
             <!-- כפתורי ההתחברות החברתית -->
-            <div class="social-buttons">
+         <%--   <div class="social-buttons">
 
                 <div class="google-container">
                     <!-- הכפתור המעוצב -->
@@ -363,7 +363,7 @@
     <%-- <!-- Facebook SDK -->
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>--%>
 
-    <script>
+   <%-- <script>
         function SaveTechnicians() {
             console.log("פונקציית SaveTechnicians התחילה");
             var data = {
@@ -468,4 +468,4 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">
-</asp:Content>
+</asp:Content>--%>

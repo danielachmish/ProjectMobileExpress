@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MobileExpress.TechniciansFolder
+namespace MobileExpress.Auth
 {
 
 
-	public partial class MainMaster
+	public partial class AuthMaster
 	{
 
 		/// <summary>
@@ -31,15 +31,6 @@ namespace MobileExpress.TechniciansFolder
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
 		protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-
-		/// <summary>
-		/// btnLogout control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.LinkButton btnLogout;
 
 		/// <summary>
 		/// ContentPlaceHolder1 control.
@@ -76,14 +67,5 @@ namespace MobileExpress.TechniciansFolder
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder4;
-
-		/// <summary>
-		/// ContentPlaceHolder5 control.
-		/// </summary>
-		/// <remarks>
-		/// Auto-generated field.
-		/// To modify move field declaration from designer file to code-behind file.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder5;
 	}
 }

@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace BLL
 {
+    /// <summary>
+    /// התוכנית הראשית להדגמת השימוש במחלקת Administrators
+    /// </summary>
 	public class Administrators
 	{
 

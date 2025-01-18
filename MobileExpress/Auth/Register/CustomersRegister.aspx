@@ -1,8 +1,6 @@
-﻿<%--<%@ Page Title="" Language="C#" MasterPageFile="~/Users/MainMaster.Master" AutoEventWireup="true" CodeBehind="SingUp.aspx.cs" Inherits="MobileExpress.Users.SingUp" %>
-
-
-<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent1" runat="server">
-    <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Auth/AuthMaster.Master" AutoEventWireup="true" CodeBehind="CustomersRegister.aspx.cs" Inherits="MobileExpress.Auth.Register.CustomersRegister" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+     <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
     <link rel="stylesheet" href="assets/css/styles.css">
     <!-- קישורים נוספים כמו Bootstrap ו-Font Awesome -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -11,13 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
 </asp:Content>
-
-
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
-
-
-
-    <style>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+      <style>
         * {
             margin: 0;
             padding: 0;
@@ -286,7 +279,7 @@
                     <asp:TextBox ID="txtTecNum" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="ח.פ/ת.ז"></asp:TextBox>
                 </div>--%>
 
-           <%-- <div class="form-group">
+            <div class="form-group">
                 <asp:Label AssociatedControlID="txtPhone" runat="server"></asp:Label>
                 <asp:TextBox ID="txtPhone" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="טלפון"></asp:TextBox>
             </div>
@@ -304,7 +297,7 @@
             <div class="form-group">
                 <asp:Label AssociatedControlID="txtEmail" runat="server"></asp:Label>
                 <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control form-control-rounded" placeholder="מייל"></asp:TextBox>
-            </div>--%>
+            </div>
             <%--<div class="form-group">
                     <asp:Label AssociatedControlID="txtType" runat="server"></asp:Label>
                     <asp:TextBox ID="txtType" runat="server" CssClass="form-control form-control-rounded" placeholder="סוג טכנאי"></asp:TextBox>
@@ -313,18 +306,18 @@
                     <asp:Label AssociatedControlID="txtEmail" runat="server"></asp:Label>
                     <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control form-control-rounded" placeholder="כתובת מייל"></asp:TextBox>
                 </div>--%>
-    <%--        <asp:Button ID="btnSave" runat="server" OnClick="SaveCustomers" Text="שמירה" CssClass="btn btn-primary" />--%>
+            <asp:Button ID="btnSave" runat="server" OnClick="SaveCustomers" Text="שמירה" CssClass="btn btn-primary" />
 
 
 
             <!-- כפתורי ההתחברות החברתית -->
-<%--            <div class="social-buttons">--%>
+            <div class="social-buttons">
                 <%-- <asp:LinkButton ID="emailButton" runat="server" CssClass="social-button email" OnClick="EmailSignUp">
                             <i class="fas fa-envelope"></i>
                             התחברות באמצעות אימייל
                     </asp:LinkButton>--%>
 
-         <%--       <div class="google-container">
+                <div class="google-container">
                     <!-- הכפתור המעוצב -->
                     <asp:LinkButton ID="googleButton" runat="server" CssClass="social-button google">
             <i class="fab fa-google"></i>
@@ -332,26 +325,26 @@
         </asp:LinkButton>
                     <!-- הכפתור המקורי של Google מעל הכפתור המעוצב -->
                     <div class="g-signin2 google-overlay" data-onsuccess="onGoogleSignUp"></div>
-                </div>--%>
+                </div>
 
                 <%-- <asp:LinkButton ID="facebookButton" runat="server" CssClass="social-button facebook" OnClick="FacebookSignUp">
                             <i class="fab fa-facebook"></i>
                             התחברות באמצעות Facebook
                         </asp:LinkButton>--%>
-             <%--   <div class="login-link" style="text-align: center; margin-top: 15px;">
-                    <a href="SingIn.aspx" style="color: #666; text-decoration: none;">יש לך חשבון? היכנס</a>
+                <div class="login-link" style="text-align: center; margin-top: 15px;">
+                    <a href="../Login/CustomersLogin.aspx" style="color: #666; text-decoration: none;">יש לך חשבון? היכנס</a>
                 </div>
             </div>
         </div>
-    </div>--%>
+    </div>
 
 
-<%--
+
 </asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 </asp:Content>
-<asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">
-    <!-- סקריפטים שנדרשים לעמוד -->
+<asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+        <!-- סקריפטים שנדרשים לעמוד -->
     <!-- טעינת סקריפטים חיצוניים -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -383,15 +376,15 @@
             console.log("פונקציית SaveCustomers התחילה");
             var data = {
                 CusId: $('#<%= hfCusId.ClientID %>').val(),
-               FullName: $('#<%= txtFullName.ClientID %>').val(),
+                FullName: $('#<%= txtFullName.ClientID %>').val(),
                 <%--TecNum: $('#<%= txtTecNum.ClientID %>').val(),--%>
-         <%--      Phone: $('#<%= txtPhone.ClientID %>').val(),
-               Addres: $('#<%= txtAddres.ClientID %>').val(),
-               Email: $('#<%= txtEmail.ClientID %>').val()
+                Phone: $('#<%= txtPhone.ClientID %>').val(),
+                Addres: $('#<%= txtAddres.ClientID %>').val(),
+                Email: $('#<%= txtEmail.ClientID %>').val()
                <%-- Type: $('#<%= txtType.ClientID %>').val(),
                 Email: $('#<%= txtEmail.ClientID %>').val(),--%>
 
-         <%--   };
+            };
 
             console.log("נתונים שנאספו:", JSON.stringify(data));
 
@@ -413,8 +406,8 @@
                 },
                 error: function (xhr, status, error) {
                     console.error("שגיאה בשמירת הלקוח:", status, error);
-                    console.log("תגובת השרת:", xhr.responseText);--%>
-<%--                    alert("אירעה שגיאה בשמירת הלקוח: " + error);
+                    console.log("תגובת השרת:", xhr.responseText);
+                    alert("אירעה שגיאה בשמירת הלקוח: " + error);
                 }
             });
 
@@ -424,34 +417,34 @@
             var profile = googleUser.getBasicProfile();
 
             const googleContainer = document.querySelector('.google-container');
-            googleContainer.classList.add('success');--%>
+            googleContainer.classList.add('success');
 
 
-      <%--     // מילוי השדות המידיים מ-Google--%>--%>
+           // מילוי השדות המידיים מ-Google
            <%--$('#<%= txtEmail.ClientID %>').val(profile.getEmail());--%>
-         <%--  $('#<%= txtFullName.ClientID %>').val(profile.getName());
-           $('#<%= txtEmail.ClientID %>').val(profile.getEmail().split('@')[0]);
+            $('#<%= txtFullName.ClientID %>').val(profile.getName());
+            $('#<%= txtEmail.ClientID %>').val(profile.getEmail().split('@')[0]);
 
-           // קבלת הטוקן
-           var id_token = googleUser.getAuthResponse().id_token;
+            // קבלת הטוקן
+            var id_token = googleUser.getAuthResponse().id_token;
 
-           // שליחה לשרת
-           fetch('/api/Customers/google-signup', {
-               method: 'POST',
-               headers: {
-                   'Content-Type': 'application/json'
-               },
-               body: JSON.stringify({
-                   idToken: id_token,
-                   CusId: $('#<%= hfCusId.ClientID %>').val(),
-                    FullName: profile.getName(),
-                    /* Email: profile.getEmail(),*/
-                    Email: profile.getEmail().split('@')[0],
-                    Phone: $('#<%= txtPhone.ClientID %>').val(),
+            // שליחה לשרת
+            fetch('/api/Customers/google-signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    idToken: id_token,
+                    CusId: $('#<%= hfCusId.ClientID %>').val(),
+                   FullName: profile.getName(),
+                   /* Email: profile.getEmail(),*/
+                   Email: profile.getEmail().split('@')[0],
+                   Phone: $('#<%= txtPhone.ClientID %>').val(),
                     Addres: $('#<%= txtAddres.ClientID %>').val()
                     <%--TecNum: $('#<%= txtTecNum.ClientID %>').val(),--%>
                     <%--Type: $('#<%= txtType.ClientID %>').val()--%>
-         <%--       })
+                })
             })
                 .then(response => {
                     if (!response.ok) {
@@ -467,7 +460,7 @@
                             $('#<%= txtAddres.ClientID %>').val(data.technician.Address || '');
                           <%--  $('#<%= txtType.ClientID %>').val(data.technician.Type || '');--%>
                             <%--     $('#<%= txtTecNum.ClientID %>').val(data.technician.TecNum || '');--%>
-                        <%--    $('#<%= hfCusId.ClientID %>').val(data.customers.CusId || '');
+                            $('#<%= hfCusId.ClientID %>').val(data.customers.CusId || '');
                         }
 
                         alert('הפרטים נטענו בהצלחה!');
@@ -484,4 +477,9 @@
 
 
     </script>
-</asp:Content>--%>
+
+
+
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">
+</asp:Content>

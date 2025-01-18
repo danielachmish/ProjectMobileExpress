@@ -1,15 +1,17 @@
-﻿using System;
-using System.Web.Security;
-using BLL;
-using System.Linq;
-using System.Web.Services;
-using System.Web;
+﻿using BLL;
 using Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
-namespace MobileExpress.TechniciansFolder
+namespace MobileExpress.Auth.Login
 {
-	public partial class SingInTechnicians : System.Web.UI.Page
-    {
+	public partial class TechniciansLogin : System.Web.UI.Page
+	{
         private const string ADMIN_TYPE = "admin";
         private const string TECHNICIAN_TYPE = "technician";
 
@@ -113,7 +115,7 @@ namespace MobileExpress.TechniciansFolder
             lblError.Visible = true;
         }
 
-        
+
         private void RedirectBasedOnUserType()
         {
             try

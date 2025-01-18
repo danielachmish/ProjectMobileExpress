@@ -12,116 +12,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:ScriptManager runat="server" EnablePageMethods="true"></asp:ScriptManager>
-
-
-    <div class="container" dir="rtl">
-        <h2 class="mt-4 mb-4">ניהול הצעות מחיר</h2>
-
-        <div class="card">
-            <div class="card-header bg-white">
-                <!-- חיפוש וסינון -->
-                <div class="row g-3 align-items-center p-2">
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <input type="text" id="txtSearch" runat="server" class="form-control" placeholder="חיפוש חופשי..." />
-                            <div class="input-group-append">
-                                <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" Text="חפש" OnClick="btnSearch_Click" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <asp:DropDownList ID="ddlStatus" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="ddlStatus_SelectedIndexChanged">
-                            <asp:ListItem Text="כל הסטטוסים" Value="" />
-                            <asp:ListItem Text="מאושר" Value="true" />
-                            <asp:ListItem Text="ממתין לאישור" Value="false" />
-                        </asp:DropDownList>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <asp:TextBox ID="txtDateFrom" runat="server" CssClass="form-control" TextMode="Date" />
-                            <span class="input-group-text">עד</span>
-                            <asp:TextBox ID="txtDateTo" runat="server" CssClass="form-control" TextMode="Date" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-body p-0">
-                <asp:GridView ID="gvBids" runat="server" CssClass="table table-hover"
-                    AutoGenerateColumns="False" OnRowCommand="gvBids_RowCommand" DataKeyNames="BidId">
-                    <Columns>
-                        <asp:BoundField DataField="BidId" HeaderText="מספר הצעה" />
-                        <asp:BoundField DataField="FullName" HeaderText="שם לקוח" />
-                        <asp:BoundField DataField="Date" HeaderText="תאריך" DataFormatString="{0:dd/MM/yyyy}" />
-                        <asp:BoundField DataField="Price" HeaderText="סכום" DataFormatString="{0:C}" />
-                        <asp:BoundField DataField="ItemDescription" HeaderText="תיאור" />
-                        <asp:TemplateField HeaderText="סטטוס">
-                            <ItemTemplate>
-                                <span class='<%# GetStatusClass(Convert.ToBoolean(Eval("Status"))) %>'>
-                                    <%# GetStatusText(Convert.ToBoolean(Eval("Status"))) %>
-                                </span>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                   
-                        <asp:TemplateField HeaderText="פעולות">
-    <ItemTemplate>
-        <button type="button" class="btn btn-info btn-sm ms-1 view-bid-btn"
-            data-bid-id='<%# Eval("BidId") %>'
-            onclick="viewBid(<%# Eval("BidId") %>)">
-            <i class="fas fa-eye"></i>
-        </button>
-        <button type="button" class="btn btn-primary btn-sm"
-            onclick="editBid(<%# Eval("BidId") %>, <%# Eval("Status").ToString().ToLower() %>)"
-            <%# Convert.ToBoolean(Eval("Status")) ? "disabled" : "" %>>
-            <i class="fas fa-edit"></i>
-        </button>
-        <asp:Button runat="server"
-            CommandName="AcceptCall"
-            CommandArgument='<%# Eval("ReadId") %>'
-            CssClass="btn btn-success btn-sm"
-            Text="קח קריאה"
-            Visible='<%# Convert.ToBoolean(Eval("Status")) == true && (Eval("AssignedTechnicianId") == null || Eval("AssignedTechnicianId") == DBNull.Value) %>'
-            OnClientClick="return confirm('האם אתה בטוח שברצונך לקחת את הקריאה?');" />
-    </ItemTemplate>
-</asp:TemplateField>
-
-                    </Columns>
-                </asp:GridView>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- מודל פרטי הצעת מחיר -->
-    <div class="modal fade" id="bidModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 1.5rem;">
-                        &times;
-                    </button>
-                    <h5 class="modal-title me-2">פרטי הצעת מחיר</h5>
-                </div>
-                <div class="modal-body" id="bidDetails">
-                    <!-- תוכן דינמי -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="printCurrentBid()">
-                        <i class="fas fa-print"></i>הדפס
-                    </button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">סגור</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
     <style>
-        .modal-header {
+        /* CSS Variables */
+        /* Reset & Base Styles */
+        .container {
+            max-width: 1400px;
+            padding: 2rem;
+            margin: 0 auto;
+        }
+
+        /* כללי */
+        body {
+            direction: rtl;
+            text-align: right;
+            color: var(--text-dark);
+        }
+         .modal-header {
             flex-direction: row-reverse;
         }
 
@@ -137,18 +45,7 @@
             --purple-700: #5b21b6;
         }
 
-        .container {
-            max-width: 1400px;
-            padding: 2rem;
-            margin: 0 auto;
-        }
-
-        /* כללי */
-        body {
-            direction: rtl;
-            text-align: right;
-            color: var(--text-dark);
-        }
+        
 
         /* כרטיס ראשי */
         .card {
@@ -519,7 +416,411 @@
             opacity: 0.6;
             cursor: not-allowed;
         }
+
+
+
+
+
+
+
+
+
+
+
+        /*body {
+            direction: rtl;
+            text-align: right;
+            color: var(--text-dark);
+        }
+
+            body .container {
+                margin: 0 !important;
+                padding-top: 70px !important;*/ /* גובה הנאבבר */
+            /*}
+
+        :root {
+            --purple-50: rgba(124, 58, 237, 0.05);
+            --purple-100: rgba(124, 58, 237, 0.1);
+            --purple-500: #7c3aed;
+            --purple-600: #6d28d9;
+            --purple-700: #5b21b6;
+            --border-light: #e5e7eb;
+            --success-bg: #dcfce7;
+            --success-text: #15803d;
+            --danger-bg: #fee2e2;
+            --text-dark: #1f2937;
+        }*/
+
+
+
+
+        /* Layout & Container */
+        /*.container {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 0 !important;
+            margin-top: -70px !important;
+            position: relative !important;
+        }*/
+
+        /* וגם */
+
+        /* Typography */
+        /*h2 {
+            font-size: 1.75rem;
+            margin: 1rem !important;
+            color: var(--purple-700);
+        }*/
+
+        /* Card Styles */
+        /*.card {
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            background: white;
+            border-radius: 0 !important;
+            margin: 0 !important;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--purple-50);
+            background: white;
+        }*/
+
+        /* Form Elements */
+        /*.form-control,
+        .form-select {
+            font-size: 1rem;
+            padding: 1rem 1.5rem;
+            min-height: 50px;
+            border-radius: 9999px !important;
+            border: 2px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus,
+            .form-select:focus {
+                border-color: var(--purple-500);
+                box-shadow: 0 0 0 3px var(--purple-50);
+            }
+
+            .form-control:hover {
+                border-color: var(--purple-100);
+            }*/
+
+        /* Input Groups */
+        /*.input-group {
+            gap: 0.5rem;
+            min-height: 50px;
+        }
+
+        .input-group-text {
+            font-size: 1rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px !important;
+            background-color: #f8fafc;
+            border: 1px solid var(--border-light);
+            color: var(--purple-700);
+        }*/
+
+        /* Buttons */
+        /*.btn {
+            font-size: 1rem;
+            padding: 1rem 1.5rem;
+            min-height: 50px;
+            border-radius: 9999px !important;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--purple-500);
+            color: white;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background-color: var(--purple-600);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+            }
+
+        .btn-info {
+            background-color: var(--purple-50);
+            color: var(--purple-500);
+            border: none;
+        }
+
+            .btn-info:hover {
+                background-color: var(--purple-500);
+                color: white;
+            }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        button[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }*/
+
+        /* Badge Styles */
+        /*.badge {
+            font-size: 0.95rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            white-space: nowrap;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .badge-success {
+            background: var(--success-bg);
+            color: var(--success-text);
+        }
+
+        .badge-danger {
+            background: var(--danger-bg);
+            color: var(--danger);
+        }*/
+
+        /* Table Styles */
+        /*.table {
+            width: 100%;
+            font-size: 1rem;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            overflow: hidden;
+        }
+
+            .table th {
+                background: var(--purple-50);
+                color: var(--purple-700);
+                font-size: 1.1rem;
+                font-weight: 600;
+                padding: 1.2rem 1rem;
+                border: none;
+                white-space: nowrap;
+            }
+
+            .table td {
+                padding: 1.2rem 1rem;
+                border-color: var(--purple-50);
+                vertical-align: middle;
+                min-width: 120px;
+            }
+
+            .table tbody tr {
+                transition: background-color 0.3s ease;
+            }
+
+                .table tbody tr:hover {
+                    background: var(--purple-50);
+                }
+
+                .table tbody tr:active {
+                    background: var(--purple-100);
+                    transform: scale(0.99);
+                }*/
+
+        /* Description Cell */
+        /*.description-cell {
+            min-width: 250px;
+            max-width: 400px;
+            white-space: normal;
+            line-height: 1.5;
+        }*/
+
+        /* Modal Styles */
+        /*.modal-content {
+            border-radius: 24px;
+            border: none;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-header {
+            flex-direction: row-reverse;
+            background: var(--purple-500);
+            color: white;
+            border-radius: 24px 24px 0 0;
+            padding: 1.5rem;
+        }
+
+            .modal-header .close {
+                margin: -1rem auto -1rem -1rem;
+            }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--purple-50);
+            padding: 1.5rem;
+        }*/
+
+        /* Search and Filter Section */
+        /*.filters-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }*/
+
+        /* Special Inputs */
+        /*input[type="date"].form-control {
+            min-width: 150px;
+        }
+
+        select.form-select {
+            min-width: 200px;
+        }*/
+
+        /* Animation Utilities */
+        /*.btn,
+        .badge,
+        .form-control {
+            will-change: transform;
+        }*/
+
+        /* Responsive Design */
+        /*@media (max-width: 1200px) {
+            .table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .input-group {
+                flex-direction: column;
+            }
+
+            .btn,
+            .form-control,
+            .input-group-text {
+                width: 100%;
+                margin: 0.25rem 0;
+            }
+
+            .card-header {
+                padding: 1rem !important;
+            }
+        }*/
     </style>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <asp:ScriptManager runat="server" EnablePageMethods="true"></asp:ScriptManager>
+
+    <div class="container" dir="rtl">
+        <h2 class="mt-4 mb-4">ניהול הצעות מחיר</h2>
+
+        <div class="card">
+            <div class="card-header bg-white">
+                <!-- חיפוש וסינון -->
+                <div class="row g-3 align-items-center p-2">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" id="txtSearch" runat="server" class="form-control" placeholder="חיפוש חופשי..." />
+                            <div class="input-group-append">
+                                <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary" Text="חפש" OnClick="btnSearch_Click" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <asp:DropDownList ID="ddlStatus" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="ddlStatus_SelectedIndexChanged">
+                            <asp:ListItem Text="כל הסטטוסים" Value="" />
+                            <asp:ListItem Text="מאושר" Value="true" />
+                            <asp:ListItem Text="ממתין לאישור" Value="false" />
+                        </asp:DropDownList>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <asp:TextBox ID="txtDateFrom" runat="server" CssClass="form-control" TextMode="Date" />
+                            <span class="input-group-text">עד</span>
+                            <asp:TextBox ID="txtDateTo" runat="server" CssClass="form-control" TextMode="Date" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body p-0">
+                <asp:GridView ID="gvBids" runat="server" CssClass="table table-hover"
+                    AutoGenerateColumns="False" OnRowCommand="gvBids_RowCommand" DataKeyNames="BidId">
+                    <Columns>
+                        <asp:BoundField DataField="BidId" HeaderText="מספר הצעה" />
+                        <asp:BoundField DataField="FullName" HeaderText="שם לקוח" />
+                        <asp:BoundField DataField="Date" HeaderText="תאריך" DataFormatString="{0:dd/MM/yyyy}" />
+                        <asp:BoundField DataField="Price" HeaderText="סכום" DataFormatString="{0:C}" />
+                        <asp:BoundField DataField="ItemDescription" HeaderText="תיאור" />
+                        <asp:TemplateField HeaderText="סטטוס">
+                            <ItemTemplate>
+                                <span class='<%# GetStatusClass(Convert.ToBoolean(Eval("Status"))) %>'>
+                                    <%# GetStatusText(Convert.ToBoolean(Eval("Status"))) %>
+                                </span>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+
+                        <asp:TemplateField HeaderText="פעולות">
+                            <ItemTemplate>
+                                <button type="button" class="btn btn-info btn-sm ms-1 view-bid-btn"
+                                    data-bid-id='<%# Eval("BidId") %>'
+                                    onclick="viewBid(<%# Eval("BidId") %>)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button type="button" class="btn btn-primary btn-sm"
+                                    onclick="editBid(<%# Eval("BidId") %>, <%# Eval("Status").ToString().ToLower() %>)"
+                                    <%# Convert.ToBoolean(Eval("Status")) ? "disabled" : "" %>>
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <asp:Button runat="server"
+                                    CommandName="AcceptCall"
+                                    CommandArgument='<%# Eval("ReadId") %>'
+                                    CssClass="btn btn-success btn-sm"
+                                    Text="קח קריאה"
+                                    Visible='<%# Convert.ToBoolean(Eval("Status")) == true && (Eval("AssignedTechnicianId") == null || Eval("AssignedTechnicianId") == DBNull.Value) %>'
+                                    OnClientClick="return confirm('האם אתה בטוח שברצונך לקחת את הקריאה?');" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+
+                    </Columns>
+                </asp:GridView>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- מודל פרטי הצעת מחיר -->
+    <div class="modal fade" id="bidModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 1.5rem;">
+                        &times;
+                    </button>
+                    <h5 class="modal-title me-2">פרטי הצעת מחיר</h5>
+                </div>
+                <div class="modal-body" id="bidDetails">
+                    <!-- תוכן דינמי -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="printCurrentBid()">
+                        <i class="fas fa-print"></i>הדפס
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">סגור</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 </asp:Content>
@@ -816,7 +1117,16 @@
             }, 250);
         }
 
-
+        $(document).ready(function () {
+            const container = $('.container');
+            console.log('Container computed style:', window.getComputedStyle(container[0]));
+            console.log('Container margins:', {
+                marginTop: container.css('margin-top'),
+                marginRight: container.css('margin-right'),
+                marginBottom: container.css('margin-bottom'),
+                marginLeft: container.css('margin-left')
+            });
+        });
 
     </script>
 </asp:Content>
