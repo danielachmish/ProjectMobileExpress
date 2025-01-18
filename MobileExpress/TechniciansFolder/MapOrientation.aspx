@@ -26,11 +26,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <header class="main-header">
+    <%--<header class="main-header">
       
 
         <div class="header-border"></div>
-    </header>
+    </header>--%>
 
     <style>
         /* הגדרות בסיס */

@@ -7,110 +7,110 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MobileExpress.TechniciansFolder
+namespace MobileExpress.Auth.Register
 {
 
 
-	public partial class TechnicianProfile1
+	public partial class TechniciansRegister
 	{
 
 		/// <summary>
-		/// hdnTecId control.
+		/// hfTecId control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.HiddenField hdnTecId;
+		protected global::System.Web.UI.WebControls.HiddenField hfTecId;
 
 		/// <summary>
-		/// fullNameValue control.
+		/// txtFulName control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl fullNameValue;
+		protected global::System.Web.UI.WebControls.TextBox txtFulName;
 
 		/// <summary>
-		/// fullNameInput control.
+		/// txtTecNum control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlInputText fullNameInput;
+		protected global::System.Web.UI.WebControls.TextBox txtTecNum;
 
 		/// <summary>
-		/// phoneValue control.
+		/// txtPhone control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl phoneValue;
+		protected global::System.Web.UI.WebControls.TextBox txtPhone;
 
 		/// <summary>
-		/// phoneInput control.
+		/// txtAddress control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl phoneInput;
+		protected global::System.Web.UI.WebControls.TextBox txtAddress;
 
 		/// <summary>
-		/// addressValue control.
+		/// txtPass control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl addressValue;
+		protected global::System.Web.UI.WebControls.TextBox txtPass;
 
 		/// <summary>
-		/// addressInput control.
+		/// txtUserName control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlInputText addressInput;
+		protected global::System.Web.UI.WebControls.TextBox txtUserName;
 
 		/// <summary>
-		/// specializationValue control.
+		/// txtType control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl specializationValue;
+		protected global::System.Web.UI.WebControls.TextBox txtType;
 
 		/// <summary>
-		/// specializationInput control.
+		/// txtEmail control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlInputText specializationInput;
+		protected global::System.Web.UI.WebControls.TextBox txtEmail;
 
 		/// <summary>
-		/// EmailValue control.
+		/// btnSave control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlGenericControl EmailValue;
+		protected global::System.Web.UI.WebControls.Button btnSave;
 
 		/// <summary>
-		/// EmailInpot control.
+		/// googleButton control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.HtmlControls.HtmlInputText EmailInpot;
+		protected global::System.Web.UI.WebControls.LinkButton googleButton;
 	}
 }

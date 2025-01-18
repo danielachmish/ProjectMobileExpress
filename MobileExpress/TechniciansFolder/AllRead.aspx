@@ -2,6 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="assets/css/styles.css">
+
     <!-- קישורים נוספים כמו Bootstrap ו-Font Awesome -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
@@ -13,132 +14,33 @@
     <!-- הוספת קישורים חיוניים בלבד -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
-    <div class="dashboard-container" dir="rtl">
-        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-            <Triggers>
-                <asp:AsyncPostBackTrigger ControlID="RefreshTimer" />
-            </Triggers>
-            <ContentTemplate>
-                <div id="callsContainer" runat="server" class="cards-list">
-                    <asp:Repeater ID="CallsRepeater" runat="server">
-                        <ItemTemplate>
-                            <div class="card">
-                                <div class="card-content">
-                                    <!-- כותרת וזיהוי -->
-                                    <div class="header-section">
-                                        <div class="title-wrapper">
-                                            <h3 class="card-title">קריאת שירות</h3>
-                                            <span class="subtitle">פרטי הקריאה</span>
-                                        </div>
-                                        <div class="id-wrapper">
-                                            <span id="call-<%# Eval("ReadId") %>" class="call-id">קריאה #<%# Eval("ReadId") %></span><%-- <span id="call-<%# Eval("ReadId") %> class="call-id="call-<%# Eval("ReadId") %></span>    
-                                            <span class="id-label">מספר קריאה</span>--%>
-                                        </div>
-                                    </div>
+  
+      <style>
+    /*  body {
+        margin-top: 70px !important;
+        padding-top:70px !important;
+    }*/
 
-                                    <div class="details-section">
-                                        <div class="detail-group">
-                                            <div class="detail-item">
-                                                <span class="detail-label">שם לקוח</span>
-                                                <span class="detail-value"><%# Eval("FullName") %></span>
-                                            </div>
-                                            <div class="detail-item">
-                                                <span class="detail-label">טלפון</span>
-                                                <span class="detail-value"><%# Eval("Phone") %></span>
-                                            </div>
-                                            <div class="detail-item">
-                                                <span class="detail-label">תאריך קריאה</span>
-                                                <span class="detail-value"><%# ((DateTime)Eval("DateRead")).ToString("dd/MM/yyyy HH:mm") %></span>
-                                            </div>
-                                        </div>
+   .dashboard-container {
+    padding: 1rem;  /* הקטנת הפדינג */
+  
+    background-color: #f9fafb;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
 
+    /* נסיון לאלץ את כל התוכן להיות מתחת לנאבבר */
+    /** {
+        margin-top: inherit;
+    }*/
 
-                                        <div class="detail-group">
-                                            <!-- פרטי מוצר ושירות -->
-                                            <div class="detail-item">
-                                                <span class="detail-label">מזהה לקוח</span>
-                                                <span class="detail-value"><%# Eval("CusId") %></span>
-                                            </div>
-                                            <div class="detail-item">
-                                                <span class="detail-label">דגם</span>
-                                                <span class="detail-value"><%# Eval("modelcode") %></span>
-                                            </div>
-                                            <div class="detail-item">
-                                                <span class="detail-label">מספר סידורי</span>
-                                                <span class="detail-value"><%# Eval("SerProdId") %></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="detail-group">
-                                            <!-- סטטוס וקדימות -->
-                                            <div class="detail-item">
-                                                <span class="detail-label">דחיפות</span>
-                                                <span class="detail-value urgent"><%# Eval("Urgency") %></span>
-                                            </div>
-                                            <div class="detail-item">
-                                                <span class="detail-label">סטטוס</span>
-                                                <span class="detail-value status"><%# (bool)Eval("Status") ? "פתוחה" : "סגורה" %></span>
-                                            </div>
-                                         
-
-
-                                            <div class="detail-item">
-                                                <span class="detail-label"></span>
-                                                <a href='MapOrientation.aspx?readId=<%# Eval("ReadId") %>' class="location-link">
-                                                    <i class="fas fa-map-marker-alt"></i>
-                                                    הצג מיקום
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                 
-                                    <div class="description-container">
-                                        <span class="detail-label">תיאור התקלה</span>
-                                        <p class="description-text"><%# Eval("Desc") %></p>
-                                    </div>
-                                </div>
-                                <!-- כפתורי פעולה -->
-
-                                <div class="action-buttons">
-                                    <asp:Button runat="server"
-                                        CssClass="btn btn-primary"
-                                        Text="הצעת מחיר"
-                                        OnClick="RedirectToPriceQuote"
-                                        CommandArgument='<%# Eval("ReadId") %>' />
-                                    <asp:Button runat="server"
-                                        CssClass="btn btn-accept-call"
-                                        Text="התחל טיפול"
-                                        OnClick="AcceptCall"
-                                        CommandArgument='<%# Eval("ReadId") %>'
-                                        Visible='<%# !Convert.ToBoolean(Eval("Status")) %>' />
-                                </div>
-                            </div>
-
-                        </ItemTemplate>
-                    </asp:Repeater>
-                </div>
-            </ContentTemplate>
-        </asp:UpdatePanel>
-        <asp:Timer ID="RefreshTimer" runat="server" Interval="30000" OnTick="RefreshTimer_Tick" />
-    </div>
-
-
-
-    <!-- שדות מוסתרים לשמירת מזהים -->
-    <input type="hidden" id="hiddenReadId" runat="server" />
-    <input type="hidden" id="hiddenCustomerId" runat="server" />
-    <input type="hidden" id="hiddenTechnicianId" runat="server" />
-    <!-- הוספת סגנונות חדשים -->
-
-
-    <style>
+    /* וידוא שהנאבבר נשאר מעל */
+    /*.navbar {
+        z-index: 9999 !important;
+    }*/
         .status {
             padding: 6px 12px;
             border-radius: 20px;
@@ -223,6 +125,7 @@
             direction: rtl;
             text-align: right;
             padding: 1rem;
+
         }
 
         .description-text {
@@ -283,14 +186,17 @@
             --border-color: rgba(124, 58, 237, 0.15);
             --text-primary: #1f2937;
             --text-secondary: #6b7280;
+              --navbar-height: 70px;
         }
 
-        .dashboard-container {
-            padding: 2rem;
-            background-color: #f9fafb;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+     /* .dashboard-container {
+    padding: 2rem !important;
+    background-color: #f9fafb !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    position: relative !important;
+    z-index: 1 !important;
+}*/
 
         .cards-list {
             display: flex;
@@ -536,6 +442,132 @@
             }
         }
     </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    
+    <asp:ScriptManager ID="ScriptManager1" runat="server" />
+
+    <div class="dashboard-container" dir="rtl">
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="RefreshTimer" />
+            </Triggers>
+            <ContentTemplate>
+                <div id="callsContainer" runat="server" class="cards-list">
+                    <asp:Repeater ID="CallsRepeater" runat="server">
+                        <ItemTemplate>
+                            <div class="card">
+                                <div class="card-content">
+                                    <!-- כותרת וזיהוי -->
+                                    <div class="header-section">
+                                        <div class="title-wrapper">
+                                            <h3 class="card-title">קריאת שירות</h3>
+                                            <span class="subtitle">פרטי הקריאה</span>
+                                        </div>
+                                        <div class="id-wrapper">
+                                            <span id="call-<%# Eval("ReadId") %>" class="call-id">קריאה #<%# Eval("ReadId") %></span><%-- <span id="call-<%# Eval("ReadId") %> class="call-id="call-<%# Eval("ReadId") %></span>    
+                                            <span class="id-label">מספר קריאה</span>--%>
+                                        </div>
+                                    </div>
+
+                                    <div class="details-section">
+                                        <div class="detail-group">
+                                            <div class="detail-item">
+                                                <span class="detail-label">שם לקוח</span>
+                                                <span class="detail-value"><%# Eval("FullName") %></span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">טלפון</span>
+                                                <span class="detail-value"><%# Eval("Phone") %></span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">תאריך קריאה</span>
+                                                <span class="detail-value"><%# ((DateTime)Eval("DateRead")).ToString("dd/MM/yyyy HH:mm") %></span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="detail-group">
+                                            <!-- פרטי מוצר ושירות -->
+                                            <div class="detail-item">
+                                                <span class="detail-label">מזהה לקוח</span>
+                                                <span class="detail-value"><%# Eval("CusId") %></span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">דגם</span>
+                                                <span class="detail-value"><%# Eval("modelcode") %></span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">מספר סידורי</span>
+                                                <span class="detail-value"><%# Eval("SerProdId") %></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="detail-group">
+                                            <!-- סטטוס וקדימות -->
+                                            <div class="detail-item">
+                                                <span class="detail-label">דחיפות</span>
+                                                <span class="detail-value urgent"><%# Eval("Urgency") %></span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="detail-label">סטטוס</span>
+                                                <span class="detail-value status"><%# (bool)Eval("Status") ? "פתוחה" : "סגורה" %></span>
+                                            </div>
+                                         
+
+
+                                            <div class="detail-item">
+                                                <span class="detail-label"></span>
+                                                <a href='MapOrientation.aspx?readId=<%# Eval("ReadId") %>' class="location-link">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    הצג מיקום
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                 
+                                    <div class="description-container">
+                                        <span class="detail-label">תיאור התקלה</span>
+                                        <p class="description-text"><%# Eval("Desc") %></p>
+                                    </div>
+                                </div>
+                                <!-- כפתורי פעולה -->
+
+                                <div class="action-buttons">
+                                    <asp:Button runat="server"
+                                        CssClass="btn btn-primary"
+                                        Text="הצעת מחיר"
+                                        OnClick="RedirectToPriceQuote"
+                                        CommandArgument='<%# Eval("ReadId") %>' />
+                                    <asp:Button runat="server"
+                                        CssClass="btn btn-accept-call"
+                                        Text="התחל טיפול"
+                                        OnClick="AcceptCall"
+                                        CommandArgument='<%# Eval("ReadId") %>'
+                                        Visible='<%# !Convert.ToBoolean(Eval("Status")) %>' />
+                                </div>
+                            </div>
+
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <asp:Timer ID="RefreshTimer" runat="server" Interval="30000" OnTick="RefreshTimer_Tick" />
+    </div>
+
+
+
+    <!-- שדות מוסתרים לשמירת מזהים -->
+    <input type="hidden" id="hiddenReadId" runat="server" />
+    <input type="hidden" id="hiddenCustomerId" runat="server" />
+    <input type="hidden" id="hiddenTechnicianId" runat="server" />
+    <!-- הוספת סגנונות חדשים -->
+
+
+  
 
 
 </asp:Content>
@@ -776,7 +808,11 @@
 
 
 
-
+        $(document).ready(function () {
+            console.log('Navbar height:', $('.navbar').outerHeight());
+            console.log('Dashboard container position:', $('.dashboard-container').offset().top);
+            console.log('Window scroll:', $(window).scrollTop());
+        });
 
 
 

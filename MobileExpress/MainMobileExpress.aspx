@@ -153,11 +153,11 @@
 
             <div class="circles-container">
                 
-                <a href="/TechniciansFolder/SingInTechnicians.aspx" class="circle-button">
+                <a href="/Login/TechniciansLogin.aspx" class="circle-button">
                     <i class="fas fa-bell"></i>
                     <span>כניסת טכנאים</span>
                 </a>
-                <a href="/Users/SingIn.aspx" class="circle-button">
+                <a href="/Login/CustomersLogin.aspx" class="circle-button">
                     <i class="fas fa-bell"></i>
                     <span>כניסת לקוחות</span>
                 </a>

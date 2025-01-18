@@ -1,9 +1,6 @@
-﻿<%--<%@ Page Title="" Language="C#" MasterPageFile="~/Users/MainMaster.Master" AutoEventWireup="true" CodeBehind="SingUp.aspx.cs" Inherits="MobileExpress.Users.SingUp" %>
-
-
-<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent1" runat="server">
-    <!-- קישורים ל-CSS של Bootstrap ול-Font Awesome לצורך עיצוב מתקדם ואייקונים -->
-    <link rel="stylesheet" href="assets/css/styles.css">
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Auth/AuthMaster.Master" AutoEventWireup="true" CodeBehind="TechniciansRegister.aspx.cs" Inherits="MobileExpress.Auth.Register.TechniciansRegister" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+      <link rel="stylesheet" href="assets/css/styles.css">
     <!-- קישורים נוספים כמו Bootstrap ו-Font Awesome -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
@@ -11,13 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.css">
 </asp:Content>
-
-
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
-
-
-
-    <style>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+     <style>
         * {
             margin: 0;
             padding: 0;
@@ -269,31 +261,31 @@
 
 
 
-    <div class="modal-card" id="customersModal">
+    <div class="modal-card" id="techniciansModal">
         <div class="image-side"></div>
         <div class="form-side">
             <h2 id="modalTitle">הרשמה</h2>
 
-            <asp:HiddenField ID="hfCusId" runat="server" />
+            <asp:HiddenField ID="hfTecId" runat="server" />
 
             <div class="form-group">
-                <asp:Label AssociatedControlID="txtFullName" runat="server"></asp:Label>
-                <asp:TextBox ID="txtFullName" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="שם מלא"></asp:TextBox>
+                <asp:Label AssociatedControlID="txtFulName" runat="server"></asp:Label>
+                <asp:TextBox ID="txtFulName" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="שם מלא"></asp:TextBox>
             </div>
 
-            <%--<div class="form-group">
-                    <asp:Label AssociatedControlID="txtTecNum" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtTecNum" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="ח.פ/ת.ז"></asp:TextBox>
-                </div>--%>
+            <div class="form-group">
+                <asp:Label AssociatedControlID="txtTecNum" runat="server"></asp:Label>
+                <asp:TextBox ID="txtTecNum" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="ח.פ/ת.ז"></asp:TextBox>
+            </div>
 
-           <%-- <div class="form-group">
+            <div class="form-group">
                 <asp:Label AssociatedControlID="txtPhone" runat="server"></asp:Label>
                 <asp:TextBox ID="txtPhone" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="טלפון"></asp:TextBox>
             </div>
 
             <div class="form-group">
-                <asp:Label AssociatedControlID="txtAddres" runat="server"></asp:Label>
-                <asp:TextBox ID="txtAddres" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="כתובת"></asp:TextBox>
+                <asp:Label AssociatedControlID="txtAddress" runat="server"></asp:Label>
+                <asp:TextBox ID="txtAddress" runat="server" required="required" CssClass="form-control form-control-rounded" placeholder="כתובת"></asp:TextBox>
             </div>
 
             <div class="form-group">
@@ -302,29 +294,25 @@
             </div>
 
             <div class="form-group">
+                <asp:Label AssociatedControlID="txtUserName" runat="server"></asp:Label>
+                <asp:TextBox ID="txtUserName" runat="server" CssClass="form-control form-control-rounded" placeholder="שם משתמש"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <asp:Label AssociatedControlID="txtType" runat="server"></asp:Label>
+                <asp:TextBox ID="txtType" runat="server" CssClass="form-control form-control-rounded" placeholder="סוג טכנאי"></asp:TextBox>
+            </div>
+            <div class="form-group">
                 <asp:Label AssociatedControlID="txtEmail" runat="server"></asp:Label>
-                <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control form-control-rounded" placeholder="מייל"></asp:TextBox>
-            </div>--%>
-            <%--<div class="form-group">
-                    <asp:Label AssociatedControlID="txtType" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtType" runat="server" CssClass="form-control form-control-rounded" placeholder="סוג טכנאי"></asp:TextBox>
-                </div>--%>
-            <%--<div class="form-group">
-                    <asp:Label AssociatedControlID="txtEmail" runat="server"></asp:Label>
-                    <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control form-control-rounded" placeholder="כתובת מייל"></asp:TextBox>
-                </div>--%>
-    <%--        <asp:Button ID="btnSave" runat="server" OnClick="SaveCustomers" Text="שמירה" CssClass="btn btn-primary" />--%>
+                <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control form-control-rounded" placeholder="כתובת מייל"></asp:TextBox>
+            </div>
+            <asp:Button ID="btnSave" runat="server" OnClick="SaveTechnicians" Text="שמירה" CssClass="btn btn-primary" />
 
 
 
             <!-- כפתורי ההתחברות החברתית -->
-<%--            <div class="social-buttons">--%>
-                <%-- <asp:LinkButton ID="emailButton" runat="server" CssClass="social-button email" OnClick="EmailSignUp">
-                            <i class="fas fa-envelope"></i>
-                            התחברות באמצעות אימייל
-                    </asp:LinkButton>--%>
+            <div class="social-buttons">
 
-         <%--       <div class="google-container">
+                <div class="google-container">
                     <!-- הכפתור המעוצב -->
                     <asp:LinkButton ID="googleButton" runat="server" CssClass="social-button google">
             <i class="fab fa-google"></i>
@@ -332,26 +320,19 @@
         </asp:LinkButton>
                     <!-- הכפתור המקורי של Google מעל הכפתור המעוצב -->
                     <div class="g-signin2 google-overlay" data-onsuccess="onGoogleSignUp"></div>
-                </div>--%>
+                </div>
 
-                <%-- <asp:LinkButton ID="facebookButton" runat="server" CssClass="social-button facebook" OnClick="FacebookSignUp">
-                            <i class="fab fa-facebook"></i>
-                            התחברות באמצעות Facebook
-                        </asp:LinkButton>--%>
-             <%--   <div class="login-link" style="text-align: center; margin-top: 15px;">
-                    <a href="SingIn.aspx" style="color: #666; text-decoration: none;">יש לך חשבון? היכנס</a>
+                <div class="login-link" style="text-align: center; margin-top: 15px;">
+                    <a href="../Login/TechniciansLogin.aspx" style="color: #666; text-decoration: none;">יש לך חשבון? היכנס</a>
                 </div>
             </div>
         </div>
-    </div>--%>
-
-
-<%--
+    </div>
 </asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
 </asp:Content>
-<asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">
-    <!-- סקריפטים שנדרשים לעמוד -->
+<asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder3" runat="server">
+       <!-- סקריפטים שנדרשים לעמוד -->
     <!-- טעינת סקריפטים חיצוניים -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -371,50 +352,50 @@
     <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth.js"></script>
 
     <!-- Google Sign In -->
-    <meta name="google-signUp-client_id" content="AIzaSyAKp-Y7v2FtSV7yOS8ACVQnmag6Z5nAc4U.apps.googleusercontent.com">
+    <meta name="google-signUn-client_id" content="AIzaSyAKp-Y7v2FtSV7yOS8ACVQnmag6Z5nAc4U.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 
-    <!-- Facebook SDK -->
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <%-- <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>--%>
 
     <script>
-        function SaveCustomers() {
-            console.log("פונקציית SaveCustomers התחילה");
+        function SaveTechnicians() {
+            console.log("פונקציית SaveTechnicians התחילה");
             var data = {
-                CusId: $('#<%= hfCusId.ClientID %>').val(),
-               FullName: $('#<%= txtFullName.ClientID %>').val(),
-                <%--TecNum: $('#<%= txtTecNum.ClientID %>').val(),--%>
-         <%--      Phone: $('#<%= txtPhone.ClientID %>').val(),
-               Addres: $('#<%= txtAddres.ClientID %>').val(),
-               Email: $('#<%= txtEmail.ClientID %>').val()
-               <%-- Type: $('#<%= txtType.ClientID %>').val(),
-                Email: $('#<%= txtEmail.ClientID %>').val(),--%>
+                TecId: $('#<%= hfTecId.ClientID %>').val(),
+                FulName: $('#<%= txtFulName.ClientID %>').val(),
+                TecNum: $('#<%= txtTecNum.ClientID %>').val(),
+                Phone: $('#<%= txtPhone.ClientID %>').val(),
+                Address: $('#<%= txtAddress.ClientID %>').val(),
+                UserName: $('#<%= txtUserName.ClientID %>').val(),
+                Type: $('#<%= txtType.ClientID %>').val(),
+                Email: $('#<%= txtEmail.ClientID %>').val(),
 
-         <%--   };
+            };
 
             console.log("נתונים שנאספו:", JSON.stringify(data));
 
-            var method = data.CusId === "" ? "POST" : "PUT";
-            var url = method === "POST" ? "/api/Customers" : "/api/Customers/" + data.CusId;
+            var method = data.TecId === "" ? "POST" : "PUT";
+            var url = method === "POST" ? "/api/Technicians" : "/api/Technicians/" + data.TecId;
 
             console.log(`שולח בקשת ${method} ל-${url}`);
 
             $.ajax({
                 type: "POST",
-                url: "/api/CustomersController/Post",
-                data: JSON.stringify({ customersData: data }),
+                url: "/api/TechniciansController/Post",
+                data: JSON.stringify({ techniciansData: data }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
                     console.log("תגובה התקבלה בהצלחה:", response);
                     alert("ההרשמה בוצעה בהצלחה!");
-                    window.location.href = 'Main.aspx';
+                    window.location.href = 'MainTechnicians.aspx';
                 },
                 error: function (xhr, status, error) {
                     console.error("שגיאה בשמירת הלקוח:", status, error);
-                    console.log("תגובת השרת:", xhr.responseText);--%>
-<%--                    alert("אירעה שגיאה בשמירת הלקוח: " + error);
+                    console.log("תגובת השרת:", xhr.responseText);
+                    alert("אירעה שגיאה בשמירת הלקוח: " + error);
                 }
             });
 
@@ -424,34 +405,34 @@
             var profile = googleUser.getBasicProfile();
 
             const googleContainer = document.querySelector('.google-container');
-            googleContainer.classList.add('success');--%>
+            googleContainer.classList.add('success');
 
 
-      <%--     // מילוי השדות המידיים מ-Google--%>--%>
-           <%--$('#<%= txtEmail.ClientID %>').val(profile.getEmail());--%>
-         <%--  $('#<%= txtFullName.ClientID %>').val(profile.getName());
-           $('#<%= txtEmail.ClientID %>').val(profile.getEmail().split('@')[0]);
+            // מילוי השדות המידיים מ-Google
+            $('#<%= txtEmail.ClientID %>').val(profile.getEmail());
+            $('#<%= txtFulName.ClientID %>').val(profile.getName());
+            $('#<%= txtUserName.ClientID %>').val(profile.getEmail().split('@')[0]);
 
-           // קבלת הטוקן
-           var id_token = googleUser.getAuthResponse().id_token;
+            // קבלת הטוקן
+            var id_token = googleUser.getAuthResponse().id_token;
 
-           // שליחה לשרת
-           fetch('/api/Customers/google-signup', {
-               method: 'POST',
-               headers: {
-                   'Content-Type': 'application/json'
-               },
-               body: JSON.stringify({
-                   idToken: id_token,
-                   CusId: $('#<%= hfCusId.ClientID %>').val(),
-                    FullName: profile.getName(),
-                    /* Email: profile.getEmail(),*/
-                    Email: profile.getEmail().split('@')[0],
+            // שליחה לשרת
+            fetch('/api/Technicians/google-signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    idToken: id_token,
+                    TecId: $('#<%= hfTecId.ClientID %>').val(),
+                    FulName: profile.getName(),
+                    Email: profile.getEmail(),
+                    UserName: profile.getEmail().split('@')[0],
                     Phone: $('#<%= txtPhone.ClientID %>').val(),
-                    Addres: $('#<%= txtAddres.ClientID %>').val()
-                    <%--TecNum: $('#<%= txtTecNum.ClientID %>').val(),--%>
-                    <%--Type: $('#<%= txtType.ClientID %>').val()--%>
-         <%--       })
+                    Address: $('#<%= txtAddress.ClientID %>').val(),
+                    TecNum: $('#<%= txtTecNum.ClientID %>').val(),
+                    Type: $('#<%= txtType.ClientID %>').val()
+                })
             })
                 .then(response => {
                     if (!response.ok) {
@@ -462,12 +443,12 @@
                 .then(data => {
                     if (data.success) {
                         // עדכון שאר השדות אם קיבלנו מידע נוסף מהשרת
-                        if (data.customers) {
+                        if (data.technician) {
                             $('#<%= txtPhone.ClientID %>').val(data.technician.Phone || '');
-                            $('#<%= txtAddres.ClientID %>').val(data.technician.Address || '');
-                          <%--  $('#<%= txtType.ClientID %>').val(data.technician.Type || '');--%>
-                            <%--     $('#<%= txtTecNum.ClientID %>').val(data.technician.TecNum || '');--%>
-                        <%--    $('#<%= hfCusId.ClientID %>').val(data.customers.CusId || '');
+                            $('#<%= txtAddress.ClientID %>').val(data.technician.Address || '');
+                            $('#<%= txtType.ClientID %>').val(data.technician.Type || '');
+                            $('#<%= txtTecNum.ClientID %>').val(data.technician.TecNum || '');
+                            $('#<%= hfTecId.ClientID %>').val(data.technician.TecId || '');
                         }
 
                         alert('הפרטים נטענו בהצלחה!');
@@ -480,8 +461,7 @@
                     alert('שגיאה בטעינת הפרטים: ' + error.message);
                 });
         }
-
-
-
     </script>
-</asp:Content>--%>
+</asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder4" runat="server">
+</asp:Content>
